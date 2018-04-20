@@ -1,0 +1,29 @@
+.btn
+    cursor: pointer
+    justify-content: center
+    padding-left: 0.75em
+    padding-right: 0.75em
+    text-align: center
+    white-space: nowrap
+    &.is-loading
+        //color: transparent !important
+        pointer-events: none
+        padding-left: 35px // Added for Clarimount
+        +rtl
+          padding-right: 35px
+        &:after
+          +loader
+          +center(1em)
+          position: absolute !important
+
+.is-primary
+  background-color: $primary-blue
+  color: white
+  &:hover
+    //background-color: lighten($primary-blue, 10%)
+    background-color: $primary-red
+    color: white
+  &:focus
+    background-color: darken($primary-blue, 10%)
+    border: 2px solid $primary-blue
+    color: white

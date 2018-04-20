@@ -1,0 +1,58 @@
+import Vue from 'vue';
+import Vuex from 'vuex';
+import { createVuexLoader } from 'vuex-loading'
+import helpers from './../helpers';
+
+const VuexLoading = createVuexLoader({
+    // The Vuex module name, 'loading' by default.
+    moduleName: 'loading',
+    // The Vue component name, 'v-loading' by default.
+    componentName: 'v-loading',
+    // Vue component class name, 'v-loading' by default.
+    className: 'v-loading',
+});
+
+Vue.use(Vuex);
+Vue.use(VuexLoading);
+
+import ResourceSidebar from './modules/ResourceSidebar/state';
+import PurchaseOrder from './modules/PurchaseOrder/state';
+import Employee from './modules/Employee/state';
+import Vendor from './modules/Vendor/state';
+import Manufacturer from './modules/Manufacturer/state';
+import FileUpload from './modules/FileUpload/state';
+
+import PurchaseControlRequest from './modules/Request/state';
+
+export const store = new Vuex.Store({
+    plugins: [VuexLoading.Store],
+    modules: {
+        'ResourceSidebar': {
+            namespaced: true,
+            ...ResourceSidebar
+        },
+        'PurchaseOrder': {
+            namespaced: true,
+            ...PurchaseOrder
+        },
+        'Employee': {
+            namespaced: true,
+            ...Employee
+        },
+        'Vendor': {
+            namespaced: true,
+            ...Vendor
+        },
+        'Manufacturer': {
+            namespaced: true,
+            ...Manufacturer
+        },
+        'FileUpload': {
+            namespaced: true,
+            ...FileUpload
+        },
+        'PurchaseControlRequest': {namespaced:true,...PurchaseControlRequest},
+    },
+    getters: helpers,
+});
+

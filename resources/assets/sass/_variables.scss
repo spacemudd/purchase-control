@@ -1,0 +1,33 @@
+
+$body-rtl: true;
+
+$primary:  #078af3;
+
+$primary-red: #ff0001;
+$primary-blue: #2196f3;
+
+
+// fields
+$field-focus-color: #fffde7;
+
+$field-focus-border-color: $primary-blue;
+
+$breadcrumb-item-color: #363636;
+
+// sidebars
+$sidebar-big-bg-color: #0747A6;
+$sidebar-big-text-color: #DEEBFF;
+
+$sidebar-small-bg-color: #0747A6;
+$sidebar-small-text-color: #DEEBFF;
+
+$sidebar-small-item-text-color: #DEEBFF;
+$sidebar-small-item-fill-color: #0747A6;
+
+$tablet: 769px - 100px;
+$desktop: 960px + (2 * $gap) - 500;
+//$widescreen: 1152px + (2 * $gap) + 500px;
+//$fullhd: 1344px + (2 * $gap) - 670px;
+
+//$fa-font-path: "/pd/fonts/font-awesome"
+$fa-font-path: "/fonts/font-awesome";

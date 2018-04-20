@@ -1,0 +1,302 @@
+html
+    overflow-x: auto
+
+body
+    height: 100%
+    margin: 0
+    display: flex
+    box-sizing: border-box
+
+#app
+    box-sizing: border-box
+    display: flex
+    height: 100vh
+    min-width: 1024px
+
+.sidebar-collapsed
+    box-sizing: none
+    width: 100%
+    display: unset !important
+
+#content
+    clear: both
+    position: relative
+    padding: 0
+    .page-panel
+        min-height: 400px
+        border: none
+        margin-top: 0
+        background: #fff
+        border-left-width: 0
+        border-right-width: 0
+        box-sizing: border-box
+        clear: both
+        display: block
+        padding: 0
+        position: relative
+        width: 100%
+        .page-panel-inner
+            min-height: 400px
+            display: table
+            width: 100%
+            table-layout: fixed
+            border-spacing: 0
+            .page-panel-content
+                padding: 0
+                box-sizing: border-box
+                display: table-cell
+                padding: 20px
+                vertical-align: top
+
+.header
+    align-items: center
+    display: flex
+    margin: 20px 20px 0
+    .primary
+        align-items: center
+        display: flex
+        flex: 1 1 auto
+        position: relative
+        max-width: 100%
+        padding-bottom: 5px
+        .context
+            margin-top: 4px
+            width: 100%
+
+.logo-subtitle
+    padding: 10px
+    padding-bottom: 0
+    margin-bottom: 0
+
+.top-mobile-expanded
+    display: block !important
+    height: auto !important
+
+.section
+    padding: 3rem 1.5rem
+
+.form-control
+    border: 1px solid #9c9c9c
+    &:focus
+        border-color: $field-focus-border-color
+        background-color: $field-focus-color
+
+.margin-spaced
+    margin-top: 50px
+    margin-bottom: 50px
+
+.btn-spaced
+    margin: 0 20px
+
+.btn-warning
+    background-color: #ffdd57
+    border-color: transparent
+    color: rgba(0, 0, 0, 0.7)
+    &:hover, &:focus
+        color: rgba(0, 0, 0, 0.7) !important
+
+.btn-danger
+    background-color: #fe1616
+    border-color: #e02020
+    &:hover, &:focus
+        background-color: darken(#fe1616, 10)
+
+.panel
+    .panel-body
+        overflow-x: auto
+
+.table-loading
+    opacity: 0.3
+
+.table-loading-cube
+    position: absolute
+    left: 50%
+    top: 33%
+
+.lineheight-spaced
+    line-height: 5em
+
+.cursor
+    &:hover
+        cursor: pointer
+
+.danger
+    color: $danger
+
+.vdp-datepicker
+    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control
+        background-color: unset
+
+.new-slate
+    max-width: 320px
+
+/**
+ * Helpers
+ */
+.no-padding .no-margin
+    padding: 0
+
+.no-margin-top
+    margin-top: 0
+
+
+/**
+ * Module graphics
+ */
+.empty-slate
+    max-width: 100px
+    margin: 50px auto
+    p
+        margin-top: 15px
+        margin-bottom: 15px
+        font-style: italic
+
+.tag:not(body).tag-draft
+    background-color: $warning
+
+.tag:not(body).tag-committed
+    background-color: $success
+    color: #fff
+
+.tag:not(body).tag-void
+    background-color: $danger
+    color: #fff
+
+.unset-height
+    height: unset
+
+/**
+ * Overriding foundation
+ */
+.table th
+    font-weight: 600
+
+.page-container .sidebar-menu #main-menu li
+    +rtl
+        font-size: 15px
+
+.dataTables_wrapper
+    overflow: auto
+
+// .page-container .sidebar-menu
+    //background: #078af3
+
+// Animations
+.fadeIn
+    -webkit-animation-name: fadeIn
+    animation-name: fadeIn
+    -webkit-animation-duration: 200ms
+    animation-duration: 200ms
+
+.fadeOut
+    -webkit-animation-name: fadeOut
+    animation-name: fadeOut
+    -webkit-animation-duration: 200ms
+    animation-duration: 200ms
+
+/**
+ * Demo bar
+ */
+.demo-bar
+    background-color: $black
+    color: $white
+    padding: 10px
+    p
+      margin-top: 10px
+      margin-bottom: 10px
+
+// Overriding containers
+@media screen and (min-width: 1200px)
+    .container
+        max-width: 960px
+        width: 1552px
+
+// B 0.6.1
+.buttons
+    .button
+        margin-bottom: 0.5rem
+
+.buttons:last-child
+    margin-bottom: -0.5rem
+
+@media print
+    @import "./print"
+
+.sidebar
+    min-width: 16rem
+    margin-right: 3rem
+    padding-right: .5rem
+    position: -webkit-sticky
+    position: sticky
+    top: 1rem
+    overflow: auto
+    max-height: calc(100vh - 2rem)
+
+// Actions navbar.
+.actions-nav
+    min-width: 200px
+
+// Inbox
+.inbox-container
+    top: 50px
+    right: 15px
+    display: block
+    width: 375px
+    max-height: 505px
+    font-family: Arial,"Helvetica Neue",Helvetica,sans-serif !important
+    color: #2f3337
+    font-size: 12px
+    background-color: #FFF
+    box-shadow: 0 2px 2px rgba(12,13,14,0.2)
+    z-index: 999
+    position: absolute
+    text-align: left
+    border-left: 1px solid #e4e6e8
+    border-right: 1px solid #e4e6e8
+    border-bottom: 1px solid #e4e6e8
+    +rtl
+        right: unset
+        left: 15px
+    .modal-content
+        min-height: 390px
+        overflow-y: auto
+        overflow-x: hidden
+        width: 100%
+        box-sizing: border-box
+        padding: 10px 7px
+        max-height: 300px
+        margin: 1px 0 1px 0
+        position: relative
+        li>*
+            padding: 7px 3px
+        .inbox-item
+            border-bottom: 1px solid #eff0f1
+            margin-bottom: 0
+            padding-bottom: 0
+            padding: 10px 0
+            &:hover
+                background-color: $table-row-hover-background-color
+            .item-icon
+                display: inline-block
+                margin-right: 2px
+                width: 16px
+                height: 16px
+                vertical-align: top
+            .item-content
+                display: inline-block
+                width: 270px
+                .item-header
+                    color: $grey-darker
+                .item-summary
+                    color: $black
+                    padding: 10px 0
+
+// Utility.
+.mg-top
+    margin-top: 30px
+
+// Search
+.search-input
+    .dropdown-menu
+        +rtl
+            left: unset

@@ -1,0 +1,39 @@
+<?php
+/**
+ * Copyright (c) 2018 - Clarastars, LLC - All Rights Reserved.
+ *
+ * Unauthorized copying of this file via any medium is strictly prohibited.
+ * This file is a proprietary of Clarastars LLC and is confidential.
+ *
+ * https://clarastars.com - info@clarastars.com
+ *
+ */
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Auditable;
+
+class Vendor extends Model implements AuditableContract
+{
+    use Auditable, SoftDeletes;
+
+	protected $fillable = [
+	    'name',
+        'established_at',
+        'address',
+        'telephone_number',
+        'fax_number',
+        'email',
+        'website',
+    ];
+
+	protected $appends = ['link'];
+
+	public function getLinkAttribute()
+	{
+	    return route('vendors.show', ['id' => $this->id]);
+	}
+}
