@@ -45,7 +45,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
 
         // Vendors.
         Route::resource('vendors', 'VendorController');
-        Route::prefix('vendor/{vendor_id}')->resource('vendor-representatives', 'VendorRepresentativesController', [
+        Route::resource('vendor/{vendor_id}/vendor-representatives', 'VendorRepresentativesController', [
             'except' => ['index'],
         ]);
 

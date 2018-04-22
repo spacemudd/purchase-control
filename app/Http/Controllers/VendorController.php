@@ -64,7 +64,7 @@ class VendorController extends Controller
 	{
 		$vendor = $this->service->store();
 
-		return redirect()->route('vendor.show', ['id' => $vendor->id]);
+		return redirect()->route('vendors.show', ['id' => $vendor->id]);
 	}
 
 	/**

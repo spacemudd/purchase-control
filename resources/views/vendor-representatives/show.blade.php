@@ -94,64 +94,21 @@
 
     <div class="columns">
         <div class="column is-4">
-            <div class="card events-card">
-                <header class="card-header">
-                    <p class="card-header-title">{{ __('words.representatives') }}</p>
-                    <a href="{{ route('vendor-representatives.create', ['vendor_id' => $vendor->id]) }}" class="card-header-icon">
-                        <span class="icon">
-                            <i class="fa fa-plus" aria-hidden="true"></i>
-                        </span>
+            <div class="panel">
+                <p class="panel-heading">
+                    {{ __('words.representatives') }}
+                    <a href="{{ route('vendor-representatives.create', ['vendor_id' => $vendor->id]) }}" class="button is-primary is-small is-pulled-right">
+                        Add
                     </a>
-                </header>
-                <div class="card-table">
-                    <div class="content">
-                        @if($vendor->reps->count())
-                            <table class="table is-fullwidth is-striped">
-                            <tbody>
-                                @foreach($vendor->reps as $rep)
-                                    <tr>
-                                        <td>
-                                            {{ $rep->name }}<br/>
-                                            {{ $rep->number }}</br>
-                                            {{ $rep->email }}<br/>
-                                            {{ $rep->position }}</td>
-                                        </td>
-                                        <td class="has-text-right">
+                </p>
+                @if($vendor->reps->count())
 
-                                            <form method="post" action="{{ route('vendor-representatives.destroy', ['vendor_id' => $vendor->id, 'id' => $rep->id]) }}">
-                                                {{ csrf_field() }}
-                                                <input type="hidden" name="_method" value="delete">
-                                                <button type="submit" class="button has-icon is-small">
-                                                    <span class="icon is-small"><i class="fa fa-trash"></i></span>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        @else
-                            <p class="has-text-centered" style="padding:30px;"><i>No representatives</i></p>
-                        @endif
-                    </div>
-                </div>
+                @else
+                    <p class="panel-block">
+                        <span class="has-text-centered fullwidth"><i>No representatives</i></span>
+                    </p>
+                @endif
             </div>
         </div>
-
-        {{--<div class="column">--}}
-            {{--<div class="card">--}}
-                {{--<header class="card-header">--}}
-                    {{--<p class="card-header-title">{{ __('words.bank-information') }}</p>--}}
-                    {{--<a href="{{ route('vendor-representatives.create', ['vendor_id' => $vendor->id]) }}" class="card-header-icon">--}}
-                        {{--<span class="icon">--}}
-                            {{--<i class="fa fa-plus" aria-hidden="true"></i>--}}
-                        {{--</span>--}}
-                    {{--</a>--}}
-                {{--</header>--}}
-                {{--<div class="card-content">--}}
-                    {{--<p class="has-text-centered"><i>No bank information</i></p>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
     </div>
 @endsection

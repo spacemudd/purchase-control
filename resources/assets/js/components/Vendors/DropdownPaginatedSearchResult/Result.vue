@@ -10,15 +10,15 @@
                     <thead>
                         <tr>
                             <th style="width:105px;">{{ $t('words.code') }}</th>
-                            <th>{{ $t('words.description') }}</th>
-                            <th>{{ $t('words.contact-details') }}</th>
+                            <th>{{ $t('words.name') }}</th>
+                            <th>{{ $t('words.telephone-number') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="record in paginatedRecords.data" class="pointer" @click="recordSelected(record)">
-                            <td>{{ record.code }}</td>
-                            <td>{{ record.description }}</td>
-                            <td>{{ record.contact_details }}</td>
+                            <td>{{ record.id }}</td>
+                            <td>{{ record.name }}</td>
+                            <td>{{ record.telephone_number }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -67,7 +67,7 @@
         methods: {
             recordSelected(record) {
                 if(this.hyperLinked) {
-                    window.document.location = this.baseUrl() + '/settings/vendors/' + record.id;
+                    window.document.location = this.baseUrl() + '/vendors/' + record.id;
                 }
                 this.$emit('recordSelected', record);
             },

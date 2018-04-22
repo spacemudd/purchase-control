@@ -1097,7 +1097,10 @@ export default {
             "archive": "Archive",
             "approve": "Approve",
             "new-item": "New Item",
-            "total": "Total"
+            "total": "Total",
+            "established-at": "Established at",
+            "telephone-number": "Telephone number",
+            "fax-number": "Fax number"
         }
     }
 }

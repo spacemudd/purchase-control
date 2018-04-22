@@ -359,4 +359,11 @@
         'approve' => 'Approve',
         'new-item' => 'New Item',
         'total' => 'Total',
+        'established-at' => 'Established',
+        'telephone-number' => 'Telephone Number',
+        'fax-number' => 'Fax Number',
+        'representatives' => 'Representatives',
+        'representative' => 'Representative',
+        'new-representative' => 'New Representative',
+        'bank-information' => 'Bank Information',
 	];

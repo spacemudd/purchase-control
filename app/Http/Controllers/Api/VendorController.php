@@ -48,9 +48,8 @@ class VendorController extends Controller
     {
         $search = request()->input('q');
 
-        $results = Vendor::where('code', 'LIKE', '%' . $search . '%')
-            ->orWhere('description', 'LIKE', '%' . $search . '%')
-            ->orWhere('contact_details', 'LIKE', '%' . $search . '%')
+        $results = Vendor::where('name', 'LIKE', '%' . $search . '%')
+            ->orWhere('id', 'LIKE', '%' . $search . '%')
             ->paginate(10);
 
         return $results;

@@ -12,37 +12,25 @@
                     <div class="columns is-multiline">
                         <div class="column is-6">
                             <div class="field">
-                                <label class="label">{{ $t('words.code') }} <span class="has-text-danger">*</span></label>
-
-                                <p class="control">
-                                    <input v-model="code" class="input" required>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="column is-6">
-                            <div class="field">
-                                <label class="label">{{ $t('words.description') }}</label>
+                                <label class="label">{{ $t('words.name') }} <span class="has-text-danger">*</span></label>
                                 <div class="control">
-                                    <input type="text" class="input" v-model="description">
+                                    <input type="text" class="input" v-model="name" rquired>
                                 </div>
                             </div>
                         </div>
 
                         <div class="column is-6">
                             <div class="field">
-                                <label class="label">{{ $t('words.contact-person') }}</label>
+                                <label class="label">{{ $t('words.established-at') }}</label>
                                 <div class="control">
-                                    <input type="text" class="input" v-model="contact_person">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="column is-6">
-                            <div class="field">
-                                <label class="label">{{ $t('words.contact-details') }}</label>
-                                <div class="control">
-                                    <input type="text" class="input" v-model="contact_details">
+                                    <b-field>
+                                        <b-datepicker
+                                                icon-pack="fa"
+                                                icon="calendar"
+                                                v-model="established_at"
+                                                :readonly="false">
+                                        </b-datepicker>
+                                    </b-field>
                                 </div>
                             </div>
                         </div>
@@ -52,6 +40,24 @@
                                 <label class="label">{{ $t('words.address') }}</label>
                                 <div class="control">
                                     <input type="text" class="input" v-model="address">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column is-6">
+                            <div class="field">
+                                <label class="label">{{ $t('words.telephone-number') }}</label>
+                                <div class="control">
+                                    <input type="text" class="input" v-model="telephoneNumber">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column is-6">
+                            <div class="field">
+                                <label class="label">{{ $t('words.fax-number') }}</label>
+                                <div class="control">
+                                    <input type="text" class="input" v-model="faxNumber">
                                 </div>
                             </div>
                         </div>
@@ -91,14 +97,16 @@
 </template>
 
 <script>
+    import moment from 'moment';
+
     export default {
         data() {
             return {
-                code: null,
-                description: null,
-                contact_person: null,
-                contact_details: null,
+                name: null,
+                established_at: null,
                 address: null,
+                telephoneNumber: null,
+                faxNumber: null,
                 email: null,
                 website: null,
             }
@@ -121,16 +129,16 @@
                 this.$startLoading('SAVING_VENDOR');
 
                 axios.post(this.apiUrl() + '/vendors/store', {
-                    code: this.code,
-                    description: this.description,
-                    contact_person: this.contact_person,
-                    contact_details: this.contact_details,
+                    name: this.name,
+                    established_at: this.established_at ? moment(this.established_at).format('YYYY-MM-DD') : null,
                     address: this.address,
+                    telephone_number: this.telephoneNumber,
+                    fax_number: this.faxNumber,
                     email: this.email,
                     website: this.website,
                 }).then(response => {
                     window.location.href = response.data.link;
-                    this.$endLoading('SAVING_VENDOR');
+                    // this.$endLoading('SAVING_VENDOR');
                 }).catch(error => {
                     alert(error.response.data.message);
                     this.$endLoading('SAVING_VENDOR');

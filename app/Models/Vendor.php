@@ -36,4 +36,9 @@ class Vendor extends Model implements AuditableContract
 	{
 	    return route('vendors.show', ['id' => $this->id]);
 	}
+
+	public function reps()
+	{
+	    return $this->hasMany(VendorRep::class);
+	}
 }
