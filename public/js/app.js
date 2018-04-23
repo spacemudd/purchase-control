@@ -4631,88 +4631,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
-
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
-
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
-
-	return [content].join('\n');
-}
-
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
-}
-
-
-/***/ }),
+/* 2 */,
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28505,8 +28424,11 @@ Vue.component('create-employee-modal', __webpack_require__(254));
 Vue.component('manufacturers', __webpack_require__(257));
 Vue.component('new-manufacturer', __webpack_require__(259));
 // Vue.component('assets', require('./components/Assets/index/index.vue'));
+
 Vue.component('vendors', __webpack_require__(262));
 Vue.component('new-vendor', __webpack_require__(264));
+Vue.component('vendor-manufacturers-card', __webpack_require__(528));
+
 Vue.component('purchase-orders', __webpack_require__(267));
 Vue.component('purchase-order-show', __webpack_require__(270));
 Vue.component('purchase-order-items', __webpack_require__(276));
@@ -70566,7 +70488,7 @@ if(false) {
 /* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -70995,7 +70917,7 @@ if(false) {
 /* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -71190,7 +71112,7 @@ if(false) {
 /* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -72774,7 +72696,7 @@ if(false) {
 /* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -75746,7 +75668,7 @@ if(false) {
 /* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -76376,7 +76298,7 @@ if(false) {
 /* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -77520,7 +77442,7 @@ if(false) {
 /* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -77729,7 +77651,7 @@ if(false) {
 /* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -77938,7 +77860,7 @@ if(false) {
 /* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -78147,7 +78069,7 @@ if(false) {
 /* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -78466,7 +78388,7 @@ if(false) {
 /* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -78887,7 +78809,7 @@ if(false) {
 /* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -79118,7 +79040,7 @@ if(false) {
 /* 331 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -79353,7 +79275,7 @@ if(false) {
 /* 336 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -79584,7 +79506,7 @@ if(false) {
 /* 341 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -79917,7 +79839,7 @@ if(false) {
 /* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -80142,7 +80064,7 @@ if(false) {
 /* 353 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -80373,7 +80295,7 @@ if(false) {
 /* 358 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -80806,7 +80728,7 @@ if(false) {
 /* 364 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -80990,7 +80912,7 @@ if(false) {
 /* 369 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -81384,7 +81306,7 @@ if(false) {
 /* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -81746,7 +81668,7 @@ if(false) {
 /* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -82328,7 +82250,7 @@ if(false) {
 /* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -85031,7 +84953,7 @@ if(false) {
 /* 422 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -85477,7 +85399,7 @@ if(false) {
 /* 427 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -85706,7 +85628,7 @@ if(false) {
 /* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -86788,7 +86710,7 @@ if(false) {
 /* 452 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -86973,7 +86895,7 @@ if(false) {
 /* 457 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -87420,7 +87342,7 @@ if(false) {
 /* 468 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -87635,7 +87557,7 @@ if(false) {
 /* 473 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -88558,7 +88480,7 @@ if(false) {
 /* 484 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -89316,7 +89238,7 @@ if(false) {
 /* 489 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -89579,7 +89501,7 @@ if(false) {
 /* 494 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(531)(undefined);
 // imports
 
 
@@ -92047,6 +91969,554 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 524 */,
+/* 525 */,
+/* 526 */,
+/* 527 */,
+/* 528 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(529),
+  /* template */
+  __webpack_require__(530),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "c:\\projects\\purchase-control\\resources\\assets\\js\\components\\VendorManufacturersCard\\VendorManufacturersCard.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] VendorManufacturersCard.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4b8d4a90", Component.options)
+  } else {
+    hotAPI.reload("data-v-4b8d4a90", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 529 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _AttachManufacturerToVendorModal = __webpack_require__(532);
+
+var _AttachManufacturerToVendorModal2 = _interopRequireDefault(_AttachManufacturerToVendorModal);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    components: {
+        AttachManufacturerToVendorModal: _AttachManufacturerToVendorModal2.default
+    },
+    props: {
+        vendorId: {
+            type: Number,
+            required: true
+        }
+    },
+    data: function data() {
+        return {
+            showAttachManufacturerModal: false,
+            vendor: null
+        };
+    },
+    mounted: function mounted() {
+        this.getVendor();
+    },
+
+    methods: {
+        getVendor: function getVendor() {
+            var _this = this;
+
+            axios.get(this.apiUrl() + '/vendors/' + this.vendorId).then(function (response) {
+                _this.vendor = response.data;
+            }).catch(function (error) {
+                alert(error.response.data.message);
+            });
+        }
+    }
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/***/ }),
+/* 530 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('b-modal', {
+    attrs: {
+      "active": _vm.showAttachManufacturerModal
+    },
+    on: {
+      "update:active": function($event) {
+        _vm.showAttachManufacturerModal = $event
+      }
+    }
+  }, [(_vm.vendor) ? _c('attach-manufacturer-to-vendor-modal', {
+    attrs: {
+      "vendor-id": _vm.vendorId,
+      "vendor": _vm.vendor
+    },
+    on: {
+      "close": _vm.getVendor
+    }
+  }) : _vm._e()], 1), _vm._v(" "), _c('div', {
+    staticClass: "card"
+  }, [_c('header', {
+    staticClass: "card-header"
+  }, [_c('p', {
+    staticClass: "card-header-title"
+  }, [_vm._v("\n                " + _vm._s(_vm.$t('words.manufacturers')) + "\n                "), _c('b-tooltip', {
+    attrs: {
+      "label": "What the vendor can provide"
+    }
+  }, [_c('span', {
+    staticClass: "has-icon has-text-grey is-small title-text-icon"
+  }, [_c('i', {
+    staticClass: "fa fa-question-circle-o"
+  })])])], 1), _vm._v(" "), _c('a', {
+    staticClass: "card-header-icon",
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        _vm.showAttachManufacturerModal = true
+      }
+    }
+  }, [_vm._m(0)])]), _vm._v(" "), _c('div', {
+    staticClass: "card-content"
+  }, [(_vm.vendor) ? _c('span', [_c('b-table', {
+    staticClass: "is-size-7",
+    attrs: {
+      "data": _vm.vendor.manufacturers,
+      "detail-key": "id"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(props) {
+        return [_c('b-table-column', {
+          attrs: {
+            "field": "name",
+            "label": "Name"
+          }
+        }, [_vm._v("\n                            " + _vm._s(props.row.name) + "\n                        ")])]
+      }
+    }])
+  }, [_c('template', {
+    slot: "empty"
+  }, [_c('section', {
+    staticClass: "section"
+  }, [_c('div', {
+    staticClass: "content has-text-grey has-text-centered"
+  }, [_c('p', [_c('i', [_vm._v("No manufacturers are associated")])])])])])], 2)], 1) : _vm._e()])])], 1)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', {
+    staticClass: "icon"
+  }, [_c('i', {
+    staticClass: "fa fa-plus",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  })])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-4b8d4a90", module.exports)
+  }
+}
+
+/***/ }),
+/* 531 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+/* 532 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(535),
+  /* template */
+  __webpack_require__(536),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "c:\\projects\\purchase-control\\resources\\assets\\js\\components\\VendorManufacturersCard\\AttachManufacturerToVendorModal.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] AttachManufacturerToVendorModal.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-420b50ba", Component.options)
+  } else {
+    hotAPI.reload("data-v-420b50ba", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 533 */,
+/* 534 */,
+/* 535 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        vendorId: {
+            type: Number,
+            required: true
+        },
+        vendor: {
+            type: Object,
+            required: true
+        }
+    },
+    data: function data() {
+        return {
+            availableManufacturers: []
+        };
+    },
+    mounted: function mounted() {
+        this.getManufacturers();
+    },
+
+    methods: {
+        getManufacturers: function getManufacturers() {
+            var _this = this;
+
+            axios.get(this.apiUrl() + '/manufacturers').then(function (response) {
+                _this.availableManufacturers = response.data;
+            }).catch(function (error) {
+                alert(error.response.data.message);
+            });
+        },
+        toggleManufacturer: function toggleManufacturer(manufacturer) {
+            var isRemovingTag = this.isManufacturerAttached(manufacturer);
+            if (isRemovingTag) {
+                this.removeManufacturerFromVendor(manufacturer);
+            } else {
+                this.addManufacturer(manufacturer);
+            }
+        },
+        isManufacturerAttached: function isManufacturerAttached(manufacturer) {
+            var isAttached = false;
+
+            this.vendor.manufacturers.forEach(function (manufacturerAttached) {
+                if (manufacturer.id === manufacturerAttached.id) {
+                    isAttached = true;
+                }
+            });
+
+            return isAttached;
+        },
+        removeManufacturerFromVendor: function removeManufacturerFromVendor(manufacturerToRemove) {
+            var newArray = this.vendor.manufacturers.filter(function (manufacturer) {
+                return manufacturer.id != manufacturerToRemove.id;
+            });
+            this.vendor.manufacturers = newArray;
+        },
+        addManufacturer: function addManufacturer(manufacturer) {
+            this.vendor.manufacturers.push(manufacturer);
+        },
+        save: function save() {
+            var _this2 = this;
+
+            this.$startLoading('SAVING_VENDOR_MANUFACTURERS');
+            axios.post(this.apiUrl() + '/vendors/' + this.vendor.id + '/update-associated-manufacturers', {
+                vendor_id: this.vendor.id,
+                manufacturers: this.vendor.manufacturers
+            }).then(function (response) {
+                _this2.$toast.open({
+                    message: 'Updated manufacturers for ' + _this2.vendor.name,
+                    type: 'is-success'
+                });
+                _this2.$emit('close');
+                _this2.$parent.close();
+            }).catch(function (error) {
+                _this2.$endLoading('SAVING_VENDOR_MANUFACTURERS');
+                alert(error.response.data.message);
+            });
+        },
+        close: function close() {
+            this.$emit('close');
+            this.$parent.close();
+        }
+    }
+};
+
+/***/ }),
+/* 536 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "modal-card",
+    staticStyle: {
+      "width": "auto"
+    }
+  }, [_vm._m(0), _vm._v(" "), _c('section', {
+    staticClass: "modal-card-body"
+  }, [_c('div', {
+    staticClass: "columns is-multiline has-text-left"
+  }, [_c('div', {
+    staticClass: "column is-6"
+  }, [_c('div', {
+    staticClass: "field"
+  }, [_c('div', {
+    staticClass: "buttons"
+  }, _vm._l((_vm.availableManufacturers), function(manufacturer) {
+    return _c('button', {
+      staticClass: "button is-small cursor",
+      class: {
+        'is-success': _vm.isManufacturerAttached(manufacturer),
+      },
+      on: {
+        "click": function($event) {
+          _vm.toggleManufacturer(manufacturer)
+        }
+      }
+    }, [_vm._v("\n                            " + _vm._s(manufacturer.name) + "\n                        ")])
+  }))])])])]), _vm._v(" "), _c('footer', {
+    staticClass: "modal-card-foot"
+  }, [_c('button', {
+    staticClass: "button",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.close()
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.$t('words.close')))]), _vm._v(" "), _c('button', {
+    staticClass: "button is-success",
+    on: {
+      "click": function($event) {
+        _vm.save()
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.$t('words.save')))])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('header', {
+    staticClass: "modal-card-head"
+  }, [_c('p', {
+    staticClass: "modal-card-title"
+  }, [_vm._v("\n            Associate manufacturer to vendor\n        ")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-420b50ba", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

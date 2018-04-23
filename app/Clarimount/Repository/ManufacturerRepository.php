@@ -12,7 +12,6 @@
 namespace App\Clarimount\Repository;
 
 use App\Models\Manufacturer;
-use App\Models\UserActivity;
 
 class ManufacturerRepository
 {
@@ -26,7 +25,7 @@ class ManufacturerRepository
 
 	public function all()
 	{
-		return $this->model->latest()->get();
+		return $this->model->orderBy('name', 'asc')->get();
 	}
 
 	public function paginatedIndex($per_page)
@@ -36,15 +35,6 @@ class ManufacturerRepository
 
 	public function destroy($id)
 	{
-        $oldJson = Manufacturer::where('id', $id)->first()->toArray();
-
-        $activity = new UserActivity();
-        $activity->user_id = auth()->user()->id;
-        $activity->target_entity = 'MANUFACTURER';
-        $activity->action_type = 'MANUFACTURER_DELETE';
-        $activity->before_changes_json = json_encode($oldJson);
-        $activity->save();
-
 		return $this->model->where('id', $id)->delete();
 	}
 

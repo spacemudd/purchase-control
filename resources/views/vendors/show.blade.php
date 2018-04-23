@@ -94,6 +94,10 @@
 
     <div class="columns">
         <div class="column is-4">
+            <vendor-manufacturers-card :vendor-id.number="{{ $vendor->id }}"></vendor-manufacturers-card>
+        </div>
+
+        <div class="column is-4">
             <div class="card events-card">
                 <header class="card-header">
                     <p class="card-header-title">{{ __('words.representatives') }}</p>
@@ -200,7 +204,7 @@
                             </tbody>
                         </table>
                     @else
-                        <p class="has-text-centered"><i>No bank information</i></p>
+                        <p class="has-text-centered" style="font-size:14px;"><i>No bank information</i></p>
                     @endif
                 </div>
             </div>

@@ -43,7 +43,7 @@
                 <tbody>
                 @foreach($manufacturers as $manufacturer)
                     <tr>
-                        <td>{{ $manufacturer->id }}</td>
+                        <td><a href="{{ route('manufacturers.show', ['id' => $manufacturer->id]) }}">{{ $manufacturer->id }}</a></td>
                         <td>{{ $manufacturer->name }}</td>
                         <td><a target="_blank" rel="noopener noreferrer" href="{{ $manufacturer->website }}">{{ $manufacturer->website }}</a></td>
                         <td><a target="_blank" rel="noopener noreferrer" href="{{ $manufacturer->support_url }}">{{ $manufacturer->support_url }}</a></td>

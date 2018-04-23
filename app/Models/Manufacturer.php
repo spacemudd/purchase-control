@@ -50,4 +50,9 @@ class Manufacturer extends Model implements AuditableContract
     {
         return route('manufacturers.show', ['id' => $this->id]);
     }
+
+    public function vendors()
+    {
+        return $this->belongsToMany(Vendor::class);
+    }
 }

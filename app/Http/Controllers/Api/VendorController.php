@@ -29,6 +29,11 @@ class VendorController extends Controller
         return $this->service->index();
     }
 
+    public function show($id)
+    {
+        return $this->service->show($id);
+    }
+
     public function paginatedIndex($per_page = 10)
     {
         return $this->service->paginatedIndex($per_page);
@@ -39,6 +44,13 @@ class VendorController extends Controller
         $this->authorize('create-vendor');
 
         return $this->service->store();
+    }
+
+    public function updateAssociatedManufacturers()
+    {
+        $this->authorize('update-vendor');
+
+        return $this->service->updateAssociatedManufacturers();
     }
 
     /**

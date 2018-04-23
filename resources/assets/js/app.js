@@ -67,8 +67,11 @@ Vue.component('department-show', require('./components/Departments/Show/Show.vue
 Vue.component('manufacturers', require('./components/Manufacturers/Browse/Browse.vue'));
 Vue.component('new-manufacturer', require('./components/Manufacturers/CreateModal/Modal.vue'));
 // Vue.component('assets', require('./components/Assets/index/index.vue'));
+
 Vue.component('vendors', require('./components/vendors/Browse/Browse.vue'));
 Vue.component('new-vendor', require('./components/vendors/CreateModal/Modal.vue'));
+Vue.component('vendor-manufacturers-card', require('./components/VendorManufacturersCard/VendorManufacturersCard'));
+
 Vue.component('purchase-orders', require('./components/PurchaseOrders/Browse/Browse.vue'));
 Vue.component('purchase-order-show', require('./components/PurchaseOrders/Show/Show.vue'));
 Vue.component('purchase-order-items', require('./components/PurchaseOrders/Items/Browse/Browse.vue'));

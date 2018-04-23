@@ -11,6 +11,7 @@
 
 namespace App\Clarimount\Service;
 
+use App\Models\Manufacturer;
 use Illuminate\Support\Facades\Validator;
 use App\Clarimount\Repository\VendorRepository;
 use Spatie\Permission\Exceptions\UnauthorizedException;
@@ -80,6 +81,21 @@ class VendorService
 	public function show($id)
 	{
 		return $this->repository->find($id);
+	}
+
+	public function updateAssociatedManufacturers()
+	{
+	    $vendor = $this->repository->find(request()->input('vendor_id'));
+
+	    $manufacturersToSync = [];
+	    foreach(request()->get('manufacturers') as $manufacturerToSync) {
+	        $manufacturer = Manufacturer::findOrFail($manufacturerToSync['id']);
+	        $manufacturersToSync[] = $manufacturer->id;
+        }
+
+        $vendor->manufacturers()->sync($manufacturersToSync);
+
+	    return $vendor;
 	}
 
 	public function validate(array $data)

@@ -12419,6 +12419,15 @@ body {
   overflow-y: scroll;
 }
 
+.title-text-icon {
+  margin-left: 5px;
+}
+
+[dir="rtl"] .title-text-icon {
+  margin-left: unset;
+  margin-right: 5px;
+}
+
 .is-clipped {
   overflow: hidden;
 }

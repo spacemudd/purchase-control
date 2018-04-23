@@ -89,4 +89,36 @@
         </div>
     </div>
 
+    <div class="columns">
+        <div class="column is-4">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        Vendors
+                        <b-tooltip label="Vendors who provide this manufacturer">
+                            <span class="has-icon has-text-grey is-small title-text-icon"><i class="fa fa-question-circle-o"></i></span>
+                        </b-tooltip>
+                    </p>
+                </header>
+                <div class="card-content">
+                    <table class="table is-size-7 is-fullwidth">
+                    <thead>
+                    <tr>
+                    	<th>Name</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    	<tbody>
+                            @foreach($manufacturer->vendors as $vendor)
+                    			<tr>
+                    				<td>{{ $vendor->name }}</td>
+                                    <td class="has-text-right"><a href="{{ route('vendors.show', ['id' => $vendor->id]) }}">View</a></td>
+                    			</tr>
+                            @endforeach
+                    	</tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

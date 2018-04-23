@@ -132,6 +132,8 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
 
     // Vendors.
     Route::get('vendors/paginated/{per_page}', 'Api\VendorController@paginatedIndex');
+    Route::get('vendors/{id}', 'Api\VendorController@show');
+    Route::post('vendors/{id}/update-associated-manufacturers', 'Api\VendorController@updateAssociatedManufacturers');
     Route::get('vendors', 'Api\VendorController@index');
     Route::post('vendors/store', 'Api\VendorController@store');
 

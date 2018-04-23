@@ -25,7 +25,7 @@ class VendorRepository
 
 	public function all()
 	{
-		return $this->model->all();
+		return $this->model->with('manufacturers')->all();
 	}
 
 	public function paginatedIndex($per_page)
@@ -45,7 +45,7 @@ class VendorRepository
 
 	public function find($id)
 	{
-		return $this->model->findOrFail($id);
+		return $this->model->with('manufacturers')->findOrFail($id);
 	}
 
 	public function update($id, $model)
