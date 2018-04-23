@@ -37,6 +37,19 @@ class Vendor extends Model implements AuditableContract
 	    return route('vendors.show', ['id' => $this->id]);
 	}
 
+	public function getWebsiteLinkAttribute()
+	{
+	    $url = $this->website;
+        if ($ret = parse_url($url)) {
+            if(!isset($ret["scheme"]) )
+            {
+                $url = 'https://' . $url;
+            }
+        }
+
+        return $url;
+	}
+
 	public function reps()
 	{
 	    return $this->hasMany(VendorRep::class);

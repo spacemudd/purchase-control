@@ -39,11 +39,13 @@
 				<b>{{ trans('words.active') }} {{ trans('words.vendors') }}</b>
 			</p>
 
-			<div class="notification is-success">
-				<p class="subtitle is-7">
-					<b>{{ $activeVendors }}</b>
-				</p>
-			</div>
+			<a href="{{ route('vendors.all') }}">
+				<div class="notification is-success">
+					<p class="subtitle is-7">
+						<b>{{ $activeVendors }}</b>
+					</p>
+				</div>
+			</a>
 		</div>
 	</div>
 

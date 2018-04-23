@@ -44,8 +44,14 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::resource('manufacturers', 'ManufacturerController');
 
         // Vendors.
+        Route::get('vendors/all', 'VendorController@all')->name('vendors.all');
         Route::resource('vendors', 'VendorController');
         Route::resource('vendor/{vendor_id}/vendor-representatives', 'VendorRepresentativesController', [
+            'except' => ['index'],
+        ]);
+
+        // Vendors bank.
+        Route::resource('vendor/{vendor_id}/vendor-banks', 'VendorBanksController', [
             'except' => ['index'],
         ]);
 

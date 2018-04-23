@@ -41,6 +41,15 @@ class VendorController extends Controller
 		return view('vendors.index', compact('activeVendors', 'inactiveVendors'));
 	}
 
+	public function all()
+	{
+        $this->authorize('view-vendor');
+
+        $vendors = Vendor::orderBy('name', 'asc')->get();
+
+        return view('vendors.all', compact('vendors'));
+	}
+
     /**
      * Show the form for creating a new resource.
      *

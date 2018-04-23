@@ -6,7 +6,7 @@ $factory->define(\App\Models\User::class, function (Faker $faker) {
     static $password;
 
     return [
-        'username' => $faker->unique()->randomNumber(),
+        'username' => $faker->unique()->userName(),
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),

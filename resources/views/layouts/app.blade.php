@@ -5,13 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="IT Assets Management - Clarimount">
+    <meta name="description" content="Purchasing management - Clarimount">
     {{-- <meta name="description" content="Always know where your assets are, with complete detailed logs, warranty alerts, service contracts alerts, time tracking, and more."> --}}
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="permissions" content="{{ auth()->user()->permissions }}">
 
-    <title>{{ isset($title) ? $title . ' | ' . config('app.name', 'Clarimount') : config('app.name', 'Clarimount') }}</title>
+    <title>{{ isset($title) ? $title . ' | Purchase Management' : 'Purchase Management' }}</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ url('/favicon.ico') }}" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
