@@ -43,7 +43,7 @@
 				<tbody>
 					@foreach($vendors as $vendor)
 						<tr>
-							<td>{{ $vendor->id }}</td>
+							<td><a href="{{ route('vendors.show', ['id' => $vendor->id]) }}">{{ $vendor->id }}</a></td>
 							<td>{{ $vendor->name }}</td>
 							<td>{{ $vendor->telephone_number }}</td>
 							<td>{{ $vendor->fax_number }}</td>

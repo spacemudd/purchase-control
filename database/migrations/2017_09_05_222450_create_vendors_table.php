@@ -34,6 +34,8 @@ class CreateVendorsTable extends Migration
             $table->timestamps(4);
             $table->softDeletes('deleted_at');
         });
+
+        \DB::statement('ALTER TABLE pur_vendors AUTO_INCREMENT = 1002;');
     }
 
     /**
