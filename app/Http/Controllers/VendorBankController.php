@@ -3,27 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Clarimount\Service\VendorBankService;
+use App\Clarimount\Service\VendorService;
 
-class VendorBanksController extends Controller
+class VendorBankController extends Controller
 {
     protected $service;
+    protected $vendorService;
 
-    public function __construct(VendorBankService $service)
+    public function __construct(VendorBankService $service, VendorService $vendorService)
     {
         $this->service = $service;
+        $this->vendorService = $vendorService;
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param $vendor_id
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function create()
+    public function create($vendor_id)
     {
         $this->authorize('create-vendor-bank');
 
-        return view('vendor-banks.create');
+        $vendor = $this->vendorService->show($vendor_id);
+
+        $currencies = $this->service->currencies();
+
+        if($vendor->bank) return abort('404');
+
+        return view('vendor-bank.create', compact('vendor', 'currencies'));
     }
 
     /**
@@ -36,9 +46,31 @@ class VendorBanksController extends Controller
     {
         $this->authorize('create-vendor-bank');
 
+        $vendor = $this->vendorService->show(request()->input('vendor_id'));
+        if($vendor->bank) return abort(404);
+
         $vendorBank = $this->service->store();
 
         return redirect()->route('vendors.show', ['id' => $vendorBank->vendor_id]);
+    }
+
+    /**
+     * Show the form for updating a new resource.
+     *
+     * @param $vendor_id
+     * @param $id
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function edit($vendor_id, $id)
+    {
+        $this->authorize('update-vendor-bank');
+
+        $vendorBank = $this->service->show($id);
+
+        $currencies = $this->service->currencies();
+
+        return view('vendor-bank.edit', compact('vendorBank', 'currencies'));
     }
 
     /**
@@ -48,13 +80,13 @@ class VendorBanksController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update($id)
+    public function update($vendor_id, $id)
     {
         $this->authorize('update-vendor-bank');
 
-        $vendorBank = $this->service->update($id);
+        $this->service->update($id);
 
-        return redirect()->route('vendors.show', ['id' => $vendorBank->vendor_id]);
+        return redirect()->route('vendors.show', ['id' => $vendor_id]);
     }
 
     /**

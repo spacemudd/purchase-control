@@ -51,7 +51,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         ]);
 
         // Vendors bank.
-        Route::resource('vendor/{vendor_id}/vendor-banks', 'VendorBanksController', [
+        Route::resource('vendor/{vendor_id}/vendor-bank', 'VendorBankController', [
             'except' => ['index'],
         ]);
 

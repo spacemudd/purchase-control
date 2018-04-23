@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Vendor;
 use Illuminate\Database\Eloquent\Model;
 
 class VendorBank extends Model
@@ -17,4 +18,9 @@ class VendorBank extends Model
         'sort_code',
         'currency',
     ];
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
 }

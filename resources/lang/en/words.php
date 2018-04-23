@@ -366,4 +366,9 @@
         'representative' => 'Representative',
         'new-representative' => 'New Representative',
         'bank-information' => 'Bank Information',
+        'vendor-bank' => 'Vendor bank',
+        'new-vendor-bank' => 'New Vendor Bank',
+        'bank-name' => 'Bank Name',
+        'beneficiary-name' => 'Beneficiary Name',
+        'account-number' => 'Account Number',
 	];

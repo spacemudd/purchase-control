@@ -18,13 +18,13 @@ class CreateVendorBanksTable extends Migration
             $table->integer('vendor_id')->unsigned();
             $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
             $table->string('name');
-            $table->string('address');
-            $table->string('beneficiary_name');
-            $table->string('account_number');
-            $table->string('iban_code');
-            $table->string('swift_code');
-            $table->string('sort_code');
-            $table->char('currency', 3);
+            $table->string('address')->nullable();
+            $table->string('beneficiary_name')->nullable();
+            $table->string('account_number')->nullable();
+            $table->string('iban_code')->nullable();
+            $table->string('swift_code')->nullable();
+            $table->string('sort_code')->nullable();
+            $table->char('currency', 3)->nullable();
             $table->timestamps();
         });
     }

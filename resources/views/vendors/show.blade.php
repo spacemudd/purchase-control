@@ -138,20 +138,72 @@
             </div>
         </div>
 
-        {{--<div class="column">--}}
-            {{--<div class="card">--}}
-                {{--<header class="card-header">--}}
-                    {{--<p class="card-header-title">{{ __('words.bank-information') }}</p>--}}
-                    {{--<a href="{{ route('vendor-representatives.create', ['vendor_id' => $vendor->id]) }}" class="card-header-icon">--}}
-                        {{--<span class="icon">--}}
-                            {{--<i class="fa fa-plus" aria-hidden="true"></i>--}}
-                        {{--</span>--}}
-                    {{--</a>--}}
-                {{--</header>--}}
-                {{--<div class="card-content">--}}
-                    {{--<p class="has-text-centered"><i>No bank information</i></p>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
+        <div class="column is-4">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">{{ __('words.bank-information') }}</p>
+
+                    @if($vendor->bank)
+                        <a href="{{ route('vendor-bank.edit', ['vendor_id' => $vendor->id, 'id' => $vendor->bank->id]) }}" class="card-header-icon">
+                            <span class="icon">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    @else
+                        <a href="{{ route('vendor-bank.create', ['vendor_id' => $vendor->id]) }}" class="card-header-icon">
+                            <span class="icon">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    @endif
+                </header>
+                <div class="card-content">
+                    @if($vendor->bank)
+                        <table class="table is-fullwidth is-size-7 is-striped">
+                            <colgroup>
+                                <col width="50%">
+                                <col width="50%">
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>{{ __('words.bank-name') }}</td>
+                                    <td>{{ $vendor->bank->name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ __('words.address') }}</td>
+                                    <td>{{ $vendor->bank->address }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ __('words.beneficiary-name') }}</td>
+                                    <td>{{ $vendor->bank->beneficiary_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ __('words.account-number') }}</td>
+                                    <td>{{ $vendor->bank->account_number }}</td>
+                                </tr>
+                                <tr>
+                                    <td>IBAN</td>
+                                    <td>{{ $vendor->bank->iban_code }}</td>
+                                </tr>
+                                <tr>
+                                    <td>SWIFT</td>
+                                    <td>{{ $vendor->bank->swift_code }}</td>
+                                </tr>
+                                <tr>
+                                    <td>SORT</td>
+                                    <td>{{ $vendor->bank->sort_code }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Currency</td>
+                                    <td>{{ $vendor->bank->currency }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    @else
+                        <p class="has-text-centered"><i>No bank information</i></p>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

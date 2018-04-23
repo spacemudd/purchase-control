@@ -11,6 +11,7 @@
 
 namespace App\Models;
 
+use App\VendorBank;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Illuminate\Database\Eloquent\Model;
@@ -53,5 +54,10 @@ class Vendor extends Model implements AuditableContract
 	public function reps()
 	{
 	    return $this->hasMany(VendorRep::class);
+	}
+
+	public function bank()
+	{
+	    return $this->hasOne(VendorBank::class);
 	}
 }
