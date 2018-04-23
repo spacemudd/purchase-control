@@ -53,7 +53,14 @@ class ManufacturerService
 
         $this->validate($manufacturer)->validate();
 
-        return $this->repository->create($manufacturer);
+        $manufacturer['created_by_id'] = auth()->user()->id;
+
+        $createdManufacturer = $this->repository->create($manufacturer);
+
+        $createdManufacturer->created_by_id = auth()->user()->id;
+        $createdManufacturer->save();
+
+        return $createdManufacturer;
     }
 
     public function edit($id)
@@ -78,9 +85,11 @@ class ManufacturerService
     public function validate(array $data)
     {
         return Validator::make($data, [
-            'code' => 'required|string|max:20|unique:manufacturers,code',
-            'description' => 'required|string|max:255',
-            'active' => 'required|boolean',
+            'name' => 'required|string|max:255',
+            'website' => 'nullable|string|max:255',
+            'support_url' => 'nullable|string|max:255',
+            'support_phone' => 'nullable|string|max:255',
+            'support_email' => 'nullable|string|max:255',
         ]);
     }
 

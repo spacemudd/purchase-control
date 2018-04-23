@@ -32,10 +32,19 @@ class ManufacturerController extends Controller
      */
     public function index()
     {
-        $activeManufacturers = Manufacturer::where('active', true)->count();
-        $inactiveManufacturers = Manufacturer::where('active', false)->count();
+        $activeManufacturers = Manufacturer::count();
+        $inactiveManufacturers = Manufacturer::onlyTrashed()->count();
 
         return view('manufacturers.index', compact('activeManufacturers', 'inactiveManufacturers'));
+    }
+
+    public function all()
+    {
+        $this->authorize('view-manufacturers');
+
+        $manufacturers = Manufacturer::orderBy('name', 'asc')->get();
+
+        return view('manufacturers.all', compact('manufacturers'));
     }
 
     /**
@@ -91,7 +100,6 @@ class ManufacturerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -99,10 +107,7 @@ class ManufacturerController extends Controller
     {
         $this->service->update($id);
 
-        session()->flash('status', 'success');
-        session()->flash('message', trans('statements.successfully-saved'));
-
-        return redirect()->route('manufacturers.index');
+        return redirect()->route('manufacturers.show', ['id' => $id]);
     }
 
     /**

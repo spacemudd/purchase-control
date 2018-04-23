@@ -1098,9 +1098,21 @@ export default {
             "approve": "Approve",
             "new-item": "New Item",
             "total": "Total",
-            "established-at": "Established at",
-            "telephone-number": "Telephone number",
-            "fax-number": "Fax number"
+            "established-at": "Established",
+            "telephone-number": "Telephone Number",
+            "fax-number": "Fax Number",
+            "representatives": "Representatives",
+            "representative": "Representative",
+            "new-representative": "New Representative",
+            "bank-information": "Bank Information",
+            "vendor-bank": "Vendor bank",
+            "new-vendor-bank": "New Vendor Bank",
+            "bank-name": "Bank Name",
+            "beneficiary-name": "Beneficiary Name",
+            "account-number": "Account Number",
+            "support-url": "Support URL",
+            "support-phone": "Support Phone",
+            "support-email": "Support Email"
         }
     }
 }

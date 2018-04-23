@@ -41,6 +41,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::resource('departments', 'DepartmentController');
 
         // Manufacturers.
+        Route::get('manufacturers/all', 'ManufacturerController@all')->name('manufacturers.all');
         Route::resource('manufacturers', 'ManufacturerController');
 
         // Vendors.

@@ -53,13 +53,13 @@ return [
         'sqlite' => [
             'driver' => 'sqlite',
             'database' => database_path(env('DB_DATABASE', 'database.sqlite')),
-            'prefix' => 'clarimount_',
+            'prefix' => 'pur_',
         ],
 
         'sqlite_testing' => [
             'driver' => 'sqlite',
             'database' => env('DB_DATABASE', database_path('database_testing.sqlite')),
-            'prefix' => 'clarimount_',
+            'prefix' => 'pur_',
         ],
 
         'mysql' => [
@@ -72,7 +72,7 @@ return [
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => 'clarimount_',
+            'prefix' => 'pur_',
             'strict' => true,
             'engine' => null,
         ],
@@ -85,7 +85,7 @@ return [
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
-            'prefix' => 'clarimount_',
+            'prefix' => 'pur_',
             'schema' => 'public',
             'sslmode' => 'prefer',
         ],
@@ -98,7 +98,7 @@ return [
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
-            'prefix' => 'clarimount_',
+            'prefix' => 'pur_',
         ],
 
         'sqlsrv_ps' => [

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => trans('words.edit') . ' ' . trans('words.manufacturers')])
+@extends('layouts.app', ['title' => trans('words.edit') . ' - ' . $manufacturer->id . ' - ' . $manufacturer->name . ' ' . trans('words.manufacturers')])
 
 @section('header')
 	<nav class="breadcrumb" aria-label="breadcrumbs">
@@ -17,7 +17,7 @@
 			</li>
             <li>
                 <a href="{{ route('manufacturers.show', ['id' => $manufacturer->id]) }}">
-                    {{ $manufacturer->code }} - {{ $manufacturer->description }}
+                    {{ $manufacturer->id }} - {{ $manufacturer->name }}
                 </a>
             </li>
 			<li class="is-active">
@@ -29,103 +29,131 @@
 
 @section('content')
 
-    <div class="level">
-        <div class="level-left">
-
-        </div>
-        <div class="level-right">
-            <form method="POST" action="{{ route('manufacturers.destroy', ['id' => $manufacturer->id]) }}">
+    <div class="columns">
+        <div class="column is-8 is-offset-2">
+            <form method="post" action="{{ route('manufacturers.update', ['id' => $manufacturer->id]) }}">
                 {{ csrf_field() }}
-                <input type="hidden" name="_method" value="delete" class="input">
-                <button class="button is-danger is-small">
-                    {{ trans('words.delete') }}
-                </button>
+                <input type="hidden" name="_method" value="put" class="input">
+
+                <div class="columns is-multiline">
+
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="name" class="label">{{ trans('words.name') }}</label>
+
+                            <p class="control">
+                                <input id="name" type="text" class="input {{ $errors->has('name') ? ' is-danger' : '' }}"
+                                       name="name"
+                                       tabindex="1"
+                                       autofocus
+                                       value="{{ $manufacturer->name }}" required>
+
+                                @if ($errors->has('name'))
+                                    <span class="help is-danger">
+                                {{ $errors->first('name') }}
+                            </span>
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="website" class="label">{{ trans('words.website') }}</label>
+
+                            <p class="control">
+                                <input id="website" type="text"
+                                       class="input {{ $errors->has('website') ? ' is-danger' : '' }}"
+                                       name="website"
+                                       tabindex="2"
+                                       value="{{ $manufacturer->website }}">
+
+                                @if ($errors->has('website'))
+                                    <span class="help is-danger">
+                                {{ $errors->first('website') }}
+                            </span>
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="support_url" class="label">{{ trans('words.support-url') }}</label>
+
+                            <p class="control">
+                                <input id="support_url" type="text"
+                                       class="input {{ $errors->has('support_url') ? ' is-danger' : '' }}"
+                                       name="support_url"
+                                       tabindex="3"
+                                       value="{{ $manufacturer->support_url }}">
+
+                                @if ($errors->has('support_url'))
+                                    <span class="help is-danger">
+                                {{ $errors->first('support_url') }}
+                            </span>
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="support_phone" class="label">{{ trans('words.support-phone') }}</label>
+
+                            <p class="control">
+                                <input id="support_phone" type="text"
+                                       class="input {{ $errors->has('support_phone') ? ' is-danger' : '' }}"
+                                       name="support_phone"
+                                       tabindex="4"
+                                       value="{{ $manufacturer->support_phone }}">
+
+                                @if ($errors->has('support_phone'))
+                                    <span class="help is-danger">
+                                {{ $errors->first('support_phone') }}
+                            </span>
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="support_email" class="label">{{ trans('words.support-email') }}</label>
+
+                            <p class="control">
+                                <input id="support_email" type="email"
+                                       class="input {{ $errors->has('support_email') ? ' is-danger' : '' }}"
+                                       name="support_email"
+                                       tabindex="5"
+                                       value="{{ $manufacturer->support_email }}">
+
+                                @if ($errors->has('support_email'))
+                                    <span class="help is-danger">
+                                {{ $errors->first('support_email') }}
+                            </span>
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="column is-6"></div>
+
+                    <div class="column is-6">
+                        {{--<form method="post" action="{{ route('manufacturers.destroy', ['id' => $manufacturer->id]) }}">--}}
+                            {{--{{ csrf_field() }}--}}
+                            {{--<input type="hidden" name="_method" value="delete" class="input">--}}
+                            {{--<button type="submit" class="button is-danger" tabindex="8">--}}
+                                {{--{{ trans('words.delete') }}--}}
+                            {{--</button>--}}
+                        {{--</form>--}}
+                    </div>
+                    <div class="column is-6 has-text-right">
+                        <a class="button is-text" href="{{ route('manufacturers.show', ['id' => $manufacturer->id]) }}" tabindex="7">{{ __('words.cancel') }}</a>
+                        <button type="submit" class="button is-success" tabindex="6">{{ trans('words.save') }}</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
-
-
-    <form method="POST" action="{{ route('manufacturers.update', ['id' => $manufacturer->id]) }}">
-        {{ csrf_field() }}
-        <input type="hidden" name="_method" value="PUT" class="input">
-
-
-        <div class="columns is-multiline">
-
-            <div class="column is-6">
-                <div class="field">
-                    <label for="code" class="label">{{ trans('words.code') }}</label>
-
-                    <p class="control">
-                        <input id="code" type="text" class="input {{ $errors->has('code') ? ' is-danger' : '' }}"
-                               name="code"
-                               value="{{ $manufacturer->code }}" required>
-
-                        @if ($errors->has('code'))
-                            <span class="help is-danger">
-                                {{ $errors->first('code') }}
-                            </span>
-                        @endif
-                    </p>
-                </div>
-            </div>
-
-            <div class="column is-6">
-                <div class="field">
-                    <label for="description" class="label">{{ trans('words.description') }}</label>
-
-                    <p class="control">
-                        <input id="description" type="text"
-                               class="input {{ $errors->has('description') ? ' is-danger' : '' }}"
-                               name="description"
-                               value="{{ $manufacturer->description }}" required>
-
-                        @if ($errors->has('description'))
-                            <span class="help is-danger">
-                                {{ $errors->first('description') }}
-                            </span>
-                        @endif
-                    </p>
-                </div>
-            </div>
-
-            <div class="column is-6">
-                <div class="field">
-                    <label for="active" class="label">{{ trans('words.active') }}</label>
-
-                    <div class="control">
-                        <div class="select">
-                            <select name="active">
-                                <option value="1" {{ $manufacturer->active ? 'selected' : '' }}>
-                                    {{ trans('words.active') }}
-                                </option>
-                                <option value="0" {{ $manufacturer->active  ? '' : 'selected' }}>
-                                    {{ trans('words.disabled') }}
-                                </option>
-                            </select>
-                        </div>
-
-                        @if ($errors->has('active'))
-                            <span class="help is-danger">
-                                {{ $errors->first('active') }}
-                            </span>
-                        @endif
-                    </div>
-                </div>
-            </div>
-
-            <div class="column is-12">
-                <div class="field is-grouped">
-                    <div class="control">
-                        <button type="submit" class="button is-success">{{ trans('words.save') }}</button>
-                    </div>
-                    <div class="control">
-                        <a class="button is-text" href="{{ url('/') }}">Cancel</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-    </form>
 @endsection

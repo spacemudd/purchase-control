@@ -371,4 +371,8 @@
         'bank-name' => 'Bank Name',
         'beneficiary-name' => 'Beneficiary Name',
         'account-number' => 'Account Number',
+        'support-url' => 'Support URL',
+        'support-phone' => 'Support Phone',
+        'support-email' => 'Support Email',
+        'created-by' => 'Created by',
 	];

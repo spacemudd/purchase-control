@@ -37,6 +37,11 @@ class PermissionsTableSeeder extends Seeder
             'create-vendor-bank',
             'update-vendor-bank',
             'delete-vendor-bank',
+
+            'view-manufacturers',
+            'create-manufacturers',
+            'update-manufacturers',
+            'delete-manufacturers',
         ];
 
         // Creating a super admin role.

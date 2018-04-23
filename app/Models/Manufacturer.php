@@ -11,17 +11,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
 
 class Manufacturer extends Model implements AuditableContract
 {
-    use Auditable;
+    use Auditable, SoftDeletes;
 
     public $asYouType = true;
 
-    protected $fillable = ['code', 'description', 'description_slug', 'active'];
+    protected $fillable = ['name', 'website', 'support_url', 'support_phone', 'support_email'];
 
     protected $appends = ['link'];
 
@@ -35,6 +36,11 @@ class Manufacturer extends Model implements AuditableContract
         return $this->hasMany(ItemTemplate::class);
     }
 
+    public function created_by()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function getDisplayNameAttribute()
     {
     	return $this->code . ' - ' . $this->description;
@@ -43,23 +49,5 @@ class Manufacturer extends Model implements AuditableContract
     public function getLinkAttribute()
     {
         return route('manufacturers.show', ['id' => $this->id]);
-    }
-
-    public function scopeActive($q)
-    {
-    	$q->where('active', true);
-    }
-
-    /**
-     * Get the indexable data array for the model.
-     *
-     * @return array
-     */
-    public function toSearchableArray()
-    {
-        return [
-            'id' => $this->id,
-            'code' => $this->code,
-        ];
     }
 }

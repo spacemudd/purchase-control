@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => $manufacturer->code . ' - ' . trans('words.manufacturer')])
+@extends('layouts.app', ['title' => $manufacturer->id . ' - ' . $manufacturer->name . ' - ' . trans('words.manufacturer')])
 
 
 @section('header')
@@ -18,7 +18,7 @@
             </li>
             <li class="is-active">
                 <a href="{{ route('manufacturers.show', ['id' => $manufacturer->id]) }}">
-                    {{ $manufacturer->code }} - {{ $manufacturer->description }}
+                    {{ $manufacturer->id }} - {{ $manufacturer->name }}
                 </a>
             </li>
         </ul>
@@ -30,7 +30,7 @@
     <div class="box">
         <div class="columns">
             <div class="column is-6">
-                <h1 class="title">{{ $manufacturer->code }}</h1>
+                <h1 class="title">{{ $manufacturer->id }}</h1>
                 <p class="subtitle is-6">{{ __('words.manufacturer-code') }}</p>
             </div>
             <div class="column is-6 has-text-right">
@@ -49,11 +49,11 @@
                     <tbody>
                         <tr>
                             <td><strong>{{ __('words.code') }}</strong></td>
-                            <td>{{ $manufacturer->code }}</td>
+                            <td>{{ $manufacturer->id }}</td>
                         </tr>
                         <tr>
-                            <td><strong>{{ __('words.description') }}</strong></td>
-                            <td>{{ $manufacturer->description }}</td>
+                            <td><strong>{{ __('words.name') }}</strong></td>
+                            <td>{{ $manufacturer->name }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -62,21 +62,25 @@
                 <table class="table is-fullwidth is-size-7">
                     <tbody>
                         <tr>
-                            <td><strong>{{ __('words.active') }}</strong></td>
-                            <td>
-                                <span class="tag unset-height{{ $manufacturer->active ? ' is-success' : ' is-danger' }}">
-                                    @if($manufacturer->active)
-                                        {{ __('words.yes') }}
-                                    @else
-                                        {{ __('words.no') }}
-                                    @endif
-                                </span>
-                            </td>
+                            <td><strong>{{ __('words.website') }}</strong></td>
+                            <td>{{ $manufacturer->website }}</td>
                         </tr>
                         <tr>
-                            <td><strong>{{ __('words.created-at') }}</strong></td>
+                            <td><strong>{{ __('words.support-url') }}</strong></td>
+                            <td>{{ $manufacturer->support_url }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>{{ __('words.support-phone') }}</strong></td>
+                            <td>{{ $manufacturer->support_phone }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>{{ __('words.support-email') }}</strong></td>
+                            <td>{{ $manufacturer->support_email }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>{{ __('words.updated-at') }}</strong></td>
                             <td>
-                                {{ $manufacturer->created_at->format('d-m-Y') }}
+                                {{ $manufacturer->updated_at }}
                             </td>
                         </tr>
                     </tbody>

@@ -50,16 +50,6 @@ class ManufacturerRepository
 
 	public function create($model)
 	{
-		$model['description_slug'] = str_slug($model['description']);
-
-        $activity = new UserActivity();
-        $activity->user_id = auth()->user()->id;
-        $activity->target_entity = 'MANUFACTURER';
-        $activity->action_type = 'MANUFACTURER_CREATE';
-        $activity->after_changes_json = json_encode($model);
-        $activity->save();
-
-
 		return $this->model->create($model);
 	}
 
@@ -70,27 +60,7 @@ class ManufacturerRepository
 
 	public function update($id, $model)
 	{
-		$model['description_slug'] = str_slug($model['description']);
-
-        $manufacturer = Manufacturer::where('id', $id)->first()->toArray();
-
-        $activity = new UserActivity();
-        $activity->user_id = auth()->user()->id;
-        $activity->target_id = $id;
-        $activity->target_entity = 'MANUFACTURER';
-        $activity->action_type = 'MANUFACTURER_UPDATE';
-        $activity->before_changes_json = json_encode($manufacturer);
-        $activity->after_changes_json = json_encode($model);
-        $activity->save();
-
-        $updateManufacturer = Manufacturer::where('id', $id)->first();
-        $updateManufacturer->code = $model['code'];
-        $updateManufacturer->description = $model['description'];
-        $updateManufacturer->description_slug = str_slug($model['description']);
-        $updateManufacturer->active = $model['active'];
-        $updateManufacturer->save();
-
-		return $updateManufacturer;
+        return $this->model->where('id', $id)->update($model);
 	}
 
 }

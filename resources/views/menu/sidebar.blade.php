@@ -114,6 +114,13 @@
                                                          title="{{ __('words.vendors') }}">
                                     </sidebar-links-group>
 
+                                    @can('view-manufacturers')
+                                        <sidebar-links-group link="{{ route('manufacturers.index') }}"
+                                                             icon="industry"
+                                                             title="{{ __('words.manufacturers') }}">
+                                        </sidebar-links-group>
+                                    @endcan
+
                                     @can('show-users')
                                         <sidebar-links-group link="{{ route('users.index') }}"
                                                              icon="user"
