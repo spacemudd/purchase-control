@@ -155,6 +155,7 @@
 					</div>
 
 					<div class="column is-6">
+						{{--
 						<form method="post" action="{{ route('vendors.destroy', ['id' => $vendor->id]) }}">
 							{{ csrf_field() }}
 							<input type="hidden" name="_method" value="delete" class="input">
@@ -162,6 +163,7 @@
 								{{ trans('words.delete') }}
 							</button>
 						</form>
+						--}}
 					</div>
 
 					<div class="column is-6 has-text-right">

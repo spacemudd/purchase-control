@@ -74456,14 +74456,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])])])])]), _vm._v(" "), _c('footer', {
     staticClass: "modal-card-foot"
   }, [_c('button', {
-    staticClass: "button is-success",
-    class: {
-      'is-loading': _vm.$isLoading('SAVING_VENDOR')
-    },
-    attrs: {
-      "type": "submit"
-    }
-  }, [_vm._v(_vm._s(_vm.$t('words.save')) + "\n                ")]), _vm._v(" "), _c('button', {
     staticClass: "button",
     attrs: {
       "type": "button"
@@ -74471,7 +74463,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.close
     }
-  }, [_vm._v(_vm._s(_vm.$t('words.cancel')))])])])])])], 1) : _vm._e()
+  }, [_vm._v(_vm._s(_vm.$t('words.cancel')))]), _vm._v(" "), _c('button', {
+    staticClass: "button is-success",
+    class: {
+      'is-loading': _vm.$isLoading('SAVING_VENDOR')
+    },
+    attrs: {
+      "type": "submit"
+    }
+  }, [_vm._v(_vm._s(_vm.$t('words.save')) + "\n                ")])])])])])], 1) : _vm._e()
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

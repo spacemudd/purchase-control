@@ -83,12 +83,12 @@
                     </div>
                 </section>
                 <footer class="modal-card-foot">
+                    <button class="button" type="button" @click="close">{{ $t('words.cancel') }}</button>
                     <button :class="{'is-loading': $isLoading('SAVING_VENDOR')}"
                             class="button is-success"
                             type="submit"
                     >{{ $t('words.save') }}
                     </button>
-                    <button class="button" type="button" @click="close">{{ $t('words.cancel') }}</button>
                 </footer>
             </div>
             </form>
