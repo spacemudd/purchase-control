@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\DB;
 class CopyEmployees extends Command
 {
     /**
+     * @var string sqlsrv_itam | mysql_itam
+     */
+    private $foreignConnection = 'sqlsrv_itam';
+
+    /**
      * The name and signature of the console command.
      *
      * @var string
@@ -41,25 +46,23 @@ class CopyEmployees extends Command
      */
     public function handle()
     {
-        DB::connection('mysql_itam')
+        $counter = 0;
+
+        DB::connection($this->foreignConnection)
             ->table('employees')
             ->orderBy('id')
-            ->chunk(1000, function($employees) {
+            ->chunk(1000, function($employees) use ($counter) {
 
                 $toInsert = [];
                 foreach($employees as $employee) {
 
-                    $foreignDepartment = DB::connection('sqlsrv_itam')
-                        ->table('departments')
-                        ->where('id', $employee->department_id)
-                        ->first();
+                    $this->info('Processed: ' . ++$counter);
+
+                    $foreignDepartment = DB::connection($this->foreignConnection)->table('departments')->where('id', $employee->department_id)->first();
 
                     $localDepartment = Department::where('code', $foreignDepartment->code)->firstOrFail();
 
-                    $foreignStaffType = DB::connection('sqlsrv_itam')
-                        ->table('staff_types')
-                        ->where('id', $employee->staff_type_id)
-                        ->first();
+                    $foreignStaffType = DB::connection($this->foreignConnection)->table('staff_types')->where('id', $employee->staff_type_id)->first();
 
                     $localStaffType = StaffType::firstOrCreate([
                         'name' => $foreignStaffType->title,
@@ -69,15 +72,13 @@ class CopyEmployees extends Command
 
                     $toInsert[] = [
                         'code' => $employee->code,
-                        'department_id' => $foreignDepartment->id,
+                        'department_id' => $localDepartment->id,
                         'staff_type_id' => $localStaffType->id,
                         'name' => $localStaffType->name,
                         'email' => $localStaffType->email,
                         'phone' => $localStaffType->phone,
                     ];
                 }
-
-                $this->info('Inserted 1000');
 
                 Employee::insert($toInsert);
             });

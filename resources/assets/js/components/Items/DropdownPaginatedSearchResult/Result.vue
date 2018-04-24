@@ -10,19 +10,17 @@
                     <thead>
                         <tr>
                             <th style="width:105px;">{{ $t('words.code') }}</th>
+                            <th>{{ $t('words.name') }}</th>
                             <th>{{ $t('words.description') }}</th>
-                            <th>{{ $t('words.region') }}</th>
+                            <th>{{ $t('words.manufacturer') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="record in paginatedRecords.data" class="pointer" @click="recordSelected(record)">
+                            <td>{{ record.id }}</td>
                             <td>{{ record.code }}</td>
                             <td>{{ record.description }}</td>
-                            <td>
-                                <span v-if="record.region">
-                                    {{ record.region.title }}
-                                </span>
-                            </td>
+                            <td><span v-if="record.manufacturer">{{ record.manufacturer.name }}</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -43,7 +41,10 @@
 </template>
 
 <script>
+    import BTooltip from "../../../../../../node_modules/buefy/src/components/tooltip/Tooltip.vue";
+
     export default {
+        components: {BTooltip},
         props: {
             paginatedRecords: {
                 required: true,
@@ -71,7 +72,7 @@
         methods: {
             recordSelected(record) {
                 if(this.hyperLinked) {
-                    window.document.location = this.baseUrl() + '/departments/' + record.id;
+                    window.document.location = this.baseUrl() + '/items/' + record.id;
                 }
                 this.$emit('recordSelected', record);
             },
@@ -88,32 +89,31 @@
     .dropdown-item
         border-bottom: none
 
-        a.dropdown-item:hover, .dropdown .dropdown-menu .has-link a:hover
-            background-color: unset
-            width: 50px
+    a.dropdown-item:hover, .dropdown .dropdown-menu .has-link a:hover
+        background-color: unset
 
-        .tag:not(body)
-            font-size: 12px
+    .tag:not(body)
+        font-size: 12px
 
-        .dropdown-item
-            border-bottom: 1px solid #eeeaea
+    .dropdown-item
+        border-bottom: 1px solid #eeeaea
 
-        a.dropdown-item
-            padding-right: 10px
+    a.dropdown-item
+        padding-right: 10px
 
-        .loading-mask
-            margin: auto
-            position: absolute
-            top: 0
-            bottom: 0
-            left: 0
-            right: 0
-            background-color: rgba(255, 255, 255, 0.8)
-            z-index: 1
-            cursor: default
-            pointer-events: none
+    .loading-mask
+        margin: auto
+        position: absolute
+        top: 0
+        bottom: 0
+        left: 0
+        right: 0
+        background-color: rgba(255, 255, 255, 0.8)
+        z-index: 1
+        cursor: default
+        pointer-events: none
 
-        .pointer
-            cursor: pointer
+    .pointer
+        cursor: pointer
 
 </style>

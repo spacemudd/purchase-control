@@ -35,6 +35,14 @@
 		</div>
 	</div>
 
-	<items></items>
+	<div class="columns">
+		<div class="column is-4">
+			<simple-search
+					:hyper-linked-results="true"
+					placeholder-text="Find items"
+					search-endpoint="items">
+			</simple-search>
+		</div>
+	</div>
 
 @endsection

@@ -178,11 +178,7 @@
             vendorName() {
                 let vendor = this.$store.getters['PurchaseOrder/vendor'];
 
-                if(vendor.description) {
-                    return vendor.code + ' - ' + vendor.description;
-                } else {
-                    return vendor.code;
-                }
+                return vendor.id + ' - ' + vendor.name;
             },
             department: {
                 get() {

@@ -98,6 +98,10 @@
                                     </sidebar-links-group>
                                     --}}
 
+                                    {{--<sidebar-links-group link="{{ route('item-templates') }}"--}}
+                                                         {{--icon="file-text-o" title="{{ __('words.item-templates') }}">--}}
+                                    {{--</sidebar-links-group>--}}
+
 
                                     <sidebar-links-group link="{{ route('employees.index') }}"
                                                          icon="users"

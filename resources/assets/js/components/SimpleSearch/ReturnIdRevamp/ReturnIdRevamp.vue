@@ -74,6 +74,14 @@
                         </assets-results>
                     </template>
 
+                    <template v-if="searchEndpoint === 'items'">
+                        <items-results @recordSelected="recordSelected"
+                                        @changePage="changePage"
+                                        :hyper-linked="hyperLinkedResults"
+                                        :paginated-records="searchResults">
+                        </items-results>
+                    </template>
+
                     <template v-if="searchEndpoint === 'manufacturers'">
                         <manufacturers-results @recordSelected="recordSelected"
                                            @changePage="changePage"
@@ -135,6 +143,7 @@
     import ManufacturersResults from "../../Manufacturers/DropdownPaginatedSearchResult/Result";
     import LocationsResults from "../../Locations/DropdownPaginatedSearchResult/Result.vue";
     import ReturnConfirmationPaginatedResults from "../../ReturnConfirmation/DropdownPaginatedSearchResult/Result";
+    import ItemsResults from '../../Items/DropdownPaginatedSearchResult/Result';
 
     export default {
         components: {
@@ -145,6 +154,7 @@
             ManufacturersResults,
             LocationsResults,
             ReturnConfirmationPaginatedResults,
+            ItemsResults,
         },
         props: {
             searchEndpoint: {

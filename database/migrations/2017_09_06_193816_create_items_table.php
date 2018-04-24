@@ -32,7 +32,12 @@ class CreateItemsTable extends Migration
             $table->foreign('manufacturer_id')->references('id')->on('manufacturers');
             $table->timestamps(4);
             $table->softDeletes('deleted_at', 4);
+
+            $table->index(['name', 'description']);
+            $table->index(['manufacturer_id']);
         });
+
+
     }
 
     /**

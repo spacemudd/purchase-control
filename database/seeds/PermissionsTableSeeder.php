@@ -44,6 +44,11 @@ class PermissionsTableSeeder extends Seeder
             'create-manufacturers',
             'update-manufacturers',
             'delete-manufacturers',
+
+            'view-items',
+            'create-items',
+            'update-items',
+            'delete-items',
         ];
 
         // Creating a super admin role.

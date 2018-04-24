@@ -17,7 +17,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="#">{{ $department->code }}</a>
+				<a href="{{ route('departments.show', ['id' => $department->id]) }}">{{ $department->code }}</a>
 			</li>
 			<li class="is-active">
 				<a href="#">Edit</a>
