@@ -5,6 +5,9 @@ Route::get('/', function() { return redirect()->route('login'); });
 
 Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', 'localizationRedirect', 'localeViewPath'])->group(function() {
 
+    Route::get('accept/{token}', 'InvitesController@accept')->name('invite.accept');
+    Route::post('accept', 'InvitesController@processAccept')->name('invite.process-accept');
+
 	Route::middleware(['auth'])->group(function() {
 
         Route::get('/', 'DashboardController@index')->name('dashboard.index');
@@ -14,6 +17,13 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
                 Route::get('messages/{id}', 'Front\MessagesController@show')->name('messages.show');
             });
         });
+
+        // Invitation System.
+        Route::get('invite', 'InvitesController@index')->name('invite');
+        Route::delete('invite/{id}', 'InvitesController@delete')->name('invite.destroy');
+        Route::post('invite', 'InvitesController@process')->name('invite.process');
+
+        Route::get('users/invite', 'Back\UsersController@invite')->name('users.invite');
 
         // Requests.
         Route::get('requests/by-status/{status_slug}', 'RequestsController@paginatedByStatus')->name('requests.by-status');
@@ -28,7 +38,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::name('purchase-orders.')->prefix('purchase-orders')->group(function() {
             Route::get('draft', 'PurchaseOrderController@draft')->name('draft');
             Route::get('committed', 'PurchaseOrderController@committed')->name('committed');
-            Route::get('void', 'PurchaseOrderController@void')->name('purchase-orders.void');
+            Route::get('void', 'PurchaseOrderController@void')->name('void');
         });
 
         // Purchase Order Sub-PO

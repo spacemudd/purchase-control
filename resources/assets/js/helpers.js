@@ -2,9 +2,9 @@
 const apiVersion = '1';
 
 // if(process.env.NODE_ENV === 'production') {
-//    var envUrl = window.location.origin + '/ITAM';
+    var envUrl = window.location.origin + '/pd';
 // } else {
-     var envUrl = window.location.origin;
+//     var envUrl = window.location.origin;
 // }
 
 export default {

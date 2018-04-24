@@ -50,68 +50,20 @@
             </div>
 
             <b-tabs v-model="activeTab">
-                <b-tab-item :label="'Employees (' + department.employees.length + ')'">
-                    <!--<div class="section">-->
+                <!--
+                <b-tab-item :label="'Employees (' + department.employees.length + ')'" v-if="department">
                         <b-table :data="department.employees"
                                  class="is-size-7"
                                  detail-key="id"
-                                 @details-open="(row, index) => $toast.open(`Expanded ${row.code}`)"
                                  detailed>
                             <template slot-scope="props">
                                 <b-table-column field="code" label="Code" sortable>
-                                    <a :href="props.row.link">{{ props.row.code }}</a>
+                                    {{ props.row }}
                                 </b-table-column>
-                                <b-table-column field="name" label="Name" sortable>
-                                    {{ props.row.name }}
-                                </b-table-column>
-                                <b-table-column field="email" label="Email" sortable>
-                                    {{ props.row.email }}
-                                </b-table-column>
-                                <b-table-column field="assets_in_custody.length" label="Assets in Custody" sortable numeric>
-                                    {{ props.row.assets_in_custody.length }}
-                                </b-table-column>
-                            </template>
-
-                            <template slot="detail" slot-scope="props">
-                                <article class="media">
-                                    <div class="media-content">
-                                        <div class="content">
-                                            <b-table class="is-size-7" :data="props.row.assets_in_custody">
-                                                <template slot-scope="props">
-                                                    <b-table-column field="asset_code" label="Asset Code">
-                                                        {{ props.row.asset_template.code }}
-                                                    </b-table-column>
-                                                    <b-table-column field="description" label="Description">
-                                                        {{ props.row.asset_template.description }}
-                                                    </b-table-column>
-                                                    <b-table-column field="serial_number" label="Serial Number">
-                                                        <a :href="props.row.link">{{ props.row.manufacturer_serial_number }}</a>
-                                                    </b-table-column>
-                                                    <b-table-column field="system_number" label="System Tag Number">
-                                                        <a :href="props.row.link">{{ props.row.system_tag_number }}</a>
-                                                    </b-table-column>
-                                                    <b-table-column field="issuance_number" label="Issuance Number">
-                                                        <a :href="props.row.issuance_item.issuance.link">
-                                                            {{ props.row.issuance_item.issuance.ref_id }}
-                                                        </a>
-                                                    </b-table-column>
-
-                                                    <b-table-column field="reference_number" label="Reference Number">
-                                                        {{ props.row.issuance_item.issuance.reference_number }}
-                                                    </b-table-column>
-
-                                                    <b-table-column field="created_at" label="Created">
-                                                        {{ props.row.issuance_item.issuance.issuance_date_human }}
-                                                    </b-table-column>
-                                                </template>
-                                            </b-table>
-                                        </div>
-                                    </div>
-                                </article>
                             </template>
                         </b-table>
-                    <!--</div>-->
                 </b-tab-item>
+                -->
             </b-tabs>
         </div>
     </div>

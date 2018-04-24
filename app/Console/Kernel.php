@@ -11,6 +11,8 @@
 
 namespace App\Console;
 
+use App\Console\Commands\Copying\CopyDepartments;
+use App\Console\Commands\Copying\CopyEmployees;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -22,7 +24,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        CopyDepartments::class,
+        CopyEmployees::class,
     ];
 
     /**

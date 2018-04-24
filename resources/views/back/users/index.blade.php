@@ -22,10 +22,11 @@
 
 @section('content')
 	<div class="columns is-multiline">
-		{{--@can('new-role')--}}
-			{{--<div class="column is-12 has-text-right">--}}
-				{{--<a href="{{ route('roles.create') }}" class="button is-primary">{{ __('words.new-role') }}</a>--}}
-			{{--</div>--}}
+		{{--@can('invite-users')--}}
+			<div class="column is-6 is-offset-3 has-text-right">
+				<a href="{{ route('users.invite') }}" class="button is-primary">Invite</a>
+				<a href="{{ route('invite') }}" class="button is-primary">Show all invites</a>
+			</div>
 		{{--@endcan--}}
 		<div class="column is-6 is-offset-3">
 			<table class="table is-fullwidth">

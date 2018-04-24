@@ -65,4 +65,9 @@ class UsersController extends Controller
 
         return $user;
     }
+
+    public function invite()
+    {
+        return view('back.users.invite');
+    }
 }

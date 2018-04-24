@@ -27,6 +27,8 @@ class PermissionsTableSeeder extends Seeder
             'show-users',
             'edit-user-roles',
 
+            'invite-users',
+
             'view-vendor',
             'create-vendor',
             'update-vendor',

@@ -101,6 +101,32 @@ return [
             'prefix' => 'pur_',
         ],
 
+        'mysql_itam' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST_ITAM', '127.0.0.1'),
+            'port' => env('DB_PORT_ITAM', '3306'),
+            'database' => env('DB_DATABASE_ITAM', 'forge'),
+            'username' => env('DB_USERNAME_ITAM', 'forge'),
+            'password' => env('DB_PASSWORD_ITAM', ''),
+            'unix_socket' => env('DB_SOCKET_ITAM', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => 'clarimount_',
+            'strict' => true,
+            'engine' => null,
+        ],
+
+        'sqlsrv_itam' => [
+            'driver' => 'sqlsrv',
+            'host' => env('DB_HOST_ITAM', 'localhost'),
+            'port' => env('DB_PORT_ITAM', '1433'),
+            'database' => env('DB_DATABASE_ITAM', 'forge'),
+            'username' => env('DB_USERNAME_ITAM', 'forge'),
+            'password' => env('DB_PASSWORD_ITAM', ''),
+            'charset' => 'utf8',
+            'prefix' => 'clarimount_',
+        ],
+
         'sqlsrv_ps' => [
             'driver' => 'sqlsrv',
             'host' => env('DB_HOST', 'localhost'),

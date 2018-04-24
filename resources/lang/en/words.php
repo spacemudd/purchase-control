@@ -375,4 +375,5 @@
         'support-phone' => 'Support Phone',
         'support-email' => 'Support Email',
         'created-by' => 'Created by',
+        'welcome' => 'Welcome',
 	];
