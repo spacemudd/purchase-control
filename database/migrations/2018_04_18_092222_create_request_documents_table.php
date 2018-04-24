@@ -29,17 +29,32 @@ class CreateRequestDocumentsTable extends Migration
 
             $table->tinyInteger('status');
 
+            $table->string('purpose')->nullable();
+            $table->string('itam_remarks')->nullable();
+            $table->integer('purchase_order_id')->unsigned()->nullable();
+            $table->foreign('purchase_order_id')->references('id')->on('purchase_orders');
+
+            $table->integer('recommended_by_id')->nullable()->unsigned();
+            $table->foreign('recommended_by_id')->references('id')->on('employees');
+
+            $table->integer('f_auth_by_id')->unsigned()->nullable()->comment('Financial authority by ID');
+            $table->foreign('f_auth_by_id')->references('id')->on('employees');
+
+            $table->integer('checked_by_id')->unsigned()->nullable();
+            $table->foreign('checked_by_id')->references('id')->on('employees');
+
+            $table->integer('head_of_itam_id')->unsigned()->nullable();
+            $table->foreign('head_of_itam_id')->references('id')->on('employees');
+
+            $table->integer('po_prepared_by_id')->unsigned()->nullable();
+            $table->foreign('po_prepared_by_id')->references('id')->on('employees');
+
+            $table->integer('purchasing_head_id')->unsigned()->nullable();
+            $table->foreign('purchasing_head_id')->references('id')->on('employees');
+
             $table->integer('created_by_id')->unsigned();
             $table->foreign('created_by_id')->references('id')->on('users');
-
-            $table->integer('approved_by_id')->unsigned()->nullable();
-            $table->foreign('approved_by_id')->references('id')->on('users');
-            $table->timestamps();
-        });
-
-        Schema::table('purchase_orders', function(Blueprint $table) {
-            $table->integer('request_document_id')->unsigned()->nullable();
-            $table->foreign('request_document_id')->references('id')->on('request_documents');
+            $table->timestamps(4);
         });
     }
 
@@ -50,10 +65,6 @@ class CreateRequestDocumentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('purchase_orders', function(Blueprint $table) {
-            $table->dropForeign(['request_document_id']);
-        });
-
         Schema::dropIfExists('request_documents');
     }
 }

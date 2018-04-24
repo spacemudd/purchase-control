@@ -21,6 +21,7 @@ class UsersController extends Controller
 {
     public function index()
     {
+        $this->authorize('show-users');
         $users = User::get();
         return view('back.users.index', compact('users'));
     }

@@ -98,11 +98,6 @@
                                     </sidebar-links-group>
                                     --}}
 
-                                    {{--<sidebar-links-group link="{{ route('item-templates') }}"--}}
-                                                         {{--icon="file-text-o" title="{{ __('words.item-templates') }}">--}}
-                                    {{--</sidebar-links-group>--}}
-
-
                                     <sidebar-links-group link="{{ route('employees.index') }}"
                                                          icon="users"
                                                          title="{{ __('words.employees') }}">
@@ -117,6 +112,12 @@
                                                          icon="truck"
                                                          title="{{ __('words.vendors') }}">
                                     </sidebar-links-group>
+
+                                    @can('view-item-templates')
+                                    <sidebar-links-group link="{{ route('item-templates.index') }}"
+                                                         icon="file-text-o" title="{{ __('words.item-templates') }}">
+                                    </sidebar-links-group>
+                                    @endcan
 
                                     @can('view-manufacturers')
                                         <sidebar-links-group link="{{ route('manufacturers.index') }}"

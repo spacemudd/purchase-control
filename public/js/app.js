@@ -73438,7 +73438,7 @@ if (false) {
 var disposed = false
 var Component = __webpack_require__(1)(
   /* script */
-  null,
+  __webpack_require__(543),
   /* template */
   __webpack_require__(258),
   /* styles */
@@ -73488,14 +73488,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1), _vm._v(" "), _c('div', {
     staticClass: "level-right"
-  }, [_c('a', {
+  }, [(_vm.canCreate == 1) ? _c('a', {
     staticClass: "button is-primary pull-right",
     on: {
       "click": function($event) {
         _vm.$store.commit('Manufacturer/setNewModal', true)
       }
     }
-  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.$t('words.new-manufacturer')) + "\n\t\t")])])])
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.$t('words.new-manufacturer')) + "\n\t\t")]) : _vm._e()])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -93678,6 +93678,60 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-187f547f", module.exports)
   }
 }
+
+/***/ }),
+/* 543 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        canCreate: {
+            type: Number,
+            required: false,
+            default: 0
+        }
+    },
+    data: function data() {
+        return {
+            //
+        };
+    },
+    mounted: function mounted() {
+        //
+    },
+
+    methods: {
+        //
+    }
+};
 
 /***/ })
 /******/ ]);

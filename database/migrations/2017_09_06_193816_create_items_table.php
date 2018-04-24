@@ -24,17 +24,30 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('code')->unique();
-            $table->string('name')->nullable();
-            $table->string('description')->nullable();
-            $table->unsignedBigInteger('default_unit_price')->nullable();
+            $table->integer('item_template_id')->unsigned();
+            $table->foreign('item_template_id')->references('id')->on('item_templates');
+            $table->integer('purchase_order_id')->unsigned()->nullable();
+            $table->foreign('purchase_order_id')->references('id')->on('purchase_orders');
             $table->integer('manufacturer_id')->unsigned()->nullable();
             $table->foreign('manufacturer_id')->references('id')->on('manufacturers');
+            $table->integer('vendor_id')->unsigned()->nullable();
+            $table->foreign('vendor_id')->references('id')->on('vendors');
+
+            $table->unsignedBigInteger('cost_minor');
+            $table->boolean('physical');
+            $table->string('status')->nullable(); // @see \App\Models\Item
+
+            $table->string('manufacturer_serial_number')->nullable();
+            $table->string('finance_tag_number')->nullable();
+            $table->String('system_tag_number')->nullable();
+
             $table->timestamps(4);
             $table->softDeletes('deleted_at', 4);
 
-            $table->index(['name', 'description']);
-            $table->index(['manufacturer_id']);
+            $table->index(['vendor_id']);
+            $table->index(['manufacturer_serial_number']);
+            $table->index(['finance_tag_number']);
+            $table->index(['system_tag_number']);
         });
 
 

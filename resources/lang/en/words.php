@@ -376,4 +376,5 @@
         'support-email' => 'Support Email',
         'created-by' => 'Created by',
         'welcome' => 'Welcome',
+        'item-templates' => 'Item Templates',
 	];

@@ -17,10 +17,11 @@ class CreatePurchaseOrdersItemsTable extends Migration
             $table->increments('id');
             $table->integer('purchase_order_id')->unsigned();
             $table->foreign('purchase_order_id')->references('id')->on('purchase_orders');
+            $table->integer('item_template_id')->unsigned();
+            $table->foreign('item_template_id')->references('id')->on('item_templates');
             $table->integer('item_id')->unsigned()->nullable();
-            $table->foreign('item_id')->references('id')->on('items')->onDelete('SET NULL');
+            $table->foreign('item_id')->references('id')->on('items');
             $table->string('code')->nullable();
-            $table->string('name')->nullable();
             $table->string('description')->nullable();
             $table->integer('manufacturer_id')->unsigned()->nullable();
             $table->foreign('manufacturer_id')->references('id')->on('manufacturers');
@@ -36,6 +37,10 @@ class CreatePurchaseOrdersItemsTable extends Migration
             $table->integer('received_by_id')->unsigned()->nullable();
             $table->foreign('received_by_id')->references('id')->on('users');
             $table->timestamps(4);
+
+            $table->index(['manufacturer_serial_number']);
+            $table->index(['finance_tag_number']);
+            $table->index(['system_tag_number']);
         });
     }
 

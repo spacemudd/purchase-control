@@ -50,6 +50,6 @@
 		</div>
 	</div>
 
-	<manufacturers></manufacturers>
+	<manufacturers :can-create.number="{{ Auth::user()->can('create-manufacturers') ? '1' : '0' }}"></manufacturers>
 
 @endsection

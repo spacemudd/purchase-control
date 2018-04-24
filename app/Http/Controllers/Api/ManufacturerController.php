@@ -26,26 +26,31 @@ class ManufacturerController extends Controller
 
     public function index()
     {
+        $this->authorize('view-manufacturers');
         return $this->service->index();
     }
 
     public function paginatedIndex($per_page = 10)
     {
+        $this->authorize('view-manufacturers');
         return $this->service->paginatedIndex($per_page);
     }
 
     public function create()
 	{
+	    $this->authorize('create-manufacturers');
 		return view('manufacturer.create');
 	}
 
     public function store()
 	{
+	    $this->authorize('create-manufacturers');
 		return $this->service->store();
 	}
 
     public function edit($id)
     {
+        $this->authorize('update-manufacturers');
     	$manufacturer = $this->service->edit($id);
 
     	return view('manufacturers.edit', compact('manufacturer'));
@@ -53,6 +58,7 @@ class ManufacturerController extends Controller
 
     public function update($id)
     {
+        $this->authorize('edit-manufacturers');
     	$this->service->update($id);
 
     	return redirect(route('manufacturers.index'));
@@ -60,6 +66,7 @@ class ManufacturerController extends Controller
 
     public function destroy($id)
 	{
+        $this->authorize('delete-manufacturers');
 		$this->service->destroy($id);
 
 		return redirect(route('manufacturers.index'));

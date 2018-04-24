@@ -23,6 +23,8 @@
 @endsection
 
 @section('content')
+
+    div.columns.is.8.
     <form class="form-horizontal form-groups-bordered" method="POST" action="{{ route('manufacturers.store') }}">
         {{ csrf_field() }}
 

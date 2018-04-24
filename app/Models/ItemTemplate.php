@@ -11,13 +11,23 @@
 
 namespace App\Models;
 
+use Brick\Money\Money;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
 
 class ItemTemplate extends Model implements AuditableContract
 {
-    use Auditable;
+    use Auditable, SoftDeletes;
+
+    protected $fillable = [
+        'code',
+        'model_number',
+        'manufacturer_id',
+        'eol',
+        'default_unit_price_minor',
+    ];
 
     protected $appends = ['link'];
 
@@ -26,44 +36,17 @@ class ItemTemplate extends Model implements AuditableContract
         return $this->belongsTo(Manufacturer::class);
     }
 
-    public function category()
+    public function getUnitPriceAttribute()
     {
-        return $this->belongsTo(ItemCategory::class);
-    }
+        if($this->default_unit_price_minor) {
+            return Money::ofMinor($this->default_unit_price_minor, 'SAR')->getAmount();
+        }
 
-    public function type()
-    {
-        return $this->belongsTo(ItemType::class);
-    }
-
-    public function assets()
-    {
-        return $this->hasMany(Item::class);
-    }
-
-    public function assets_outside()
-    {
-        // Duplicates the assets' relationship to help around the with(); query builder.
-        return $this->hasMany(Item::class);
-    }
-
-    public function in_stock_assets()
-    {
-        return $this->hasMany(Item::class);
-    }
-
-    public function configurations()
-    {
-        return $this->hasMany(AssetConfiguration::class);
+        return null;
     }
 
     public function getLinkAttribute()
     {
         return route('asset-templates.show', ['id' => $this->id]);
-    }
-
-    public function scopeActive($q)
-    {
-        return $q->where('active', true);
     }
 }

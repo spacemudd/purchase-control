@@ -11,47 +11,118 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Item;
-use App\Models\ItemCategory;
+use App\Models\Category;
 use App\Models\ItemTemplate;
 use App\Models\Manufacturer;
-use Illuminate\Http\Request;
+use Brick\Money\Money;
 use DB;
+use Illuminate\Http\Request;
 
 class ItemTemplateController extends Controller
 {
     public function index()
     {
-        $activeAssetTemplatesCounter = ItemTemplate::where('active', true)->count();
-        $disabledAssetTemplatesCounter = ItemTemplate::where('active', false)->count();
+        $this->authorize('view-item-templates');
 
-        $activeAssetsCounter = Item::where('active', true)->count();
-        $disabledAssetsCounter =  Item::where('active', false)->count();
+        $itemTemplatesCounter = ItemTemplate::count();
 
-        return view('settings.asset-templates.index', compact(
-            'activeAssetTemplatesCounter',
-            'disabledAssetTemplatesCounter',
-            'activeAssetsCounter',
-            'disabledAssetsCounter'
+        return view('item-templates.index', compact(
+            'itemTemplatesCounter'
             ));
     }
 
     public function create()
     {
-        $manufacturers = Manufacturer::active()->get();
+        $this->authorize('create-item-templates');
 
-        $categories = ItemCategory::orderBy('left', 'asc')->get();
+        $manufacturers = Manufacturer::get();
+        $categories = Category::get();
 
-        return view('settings.asset-templates.create', compact('manufacturers', 'categories'));
+        return view('item-templates.create', compact('manufacturers', 'categories'));
+    }
+
+    public function edit($id)
+    {
+        $this->authorize('update-item-templates');
+
+        $itemTemplate = ItemTemplate::findOrFail($id);
+        $manufacturers = Manufacturer::get();
+        $categories = Category::get();
+
+        return view('item-templates.edit', compact('manufacturers', 'categories', 'itemTemplate'));
+    }
+
+    /**
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function update(Request $request, $id)
+    {
+        $this->authorize('update-item-templates');
+
+        $request->validate([
+            'code' => 'required|unique:item_templates,code,' . $id,
+            'model_number' => 'nullable|string|max:255',
+            'manufacturer_id' => 'nullable|exists:manufacturers,id',
+            'eol' => 'nullable|numeric',
+            'unit_price' => 'nullable|numeric',
+        ]);
+
+        if($request->unit_price) {
+            $unitPrice = Money::of($request->unit_price, 'SAR')->getAmount()->toInt();
+        } else {
+            $unitPrice = null;
+        }
+
+        $data = $request->except(['_token', '_method']);
+        unset($data['unit_price']);
+        $data['default_unit_price_minor'] = $unitPrice;
+
+        ItemTemplate::where('id', $id)
+            ->update($data);
+
+        return redirect()->route('item-templates.show', ['id' => $id]);
     }
 
     public function show($id)
     {
-        $assetTemplate = ItemTemplate::with('manufacturer')
-            ->with('category')
-            ->with('type')
+        $this->authorize('view-item-templates');
+
+        $itemTemplate = ItemTemplate::with('manufacturer')
             ->findOrFail($id);
 
-        return view('settings.asset-templates.show', compact('assetTemplate'));
+        return view('item-templates.show', compact('itemTemplate'));
+    }
+
+    public function store(Request $request)
+    {
+        $this->authorize('create-item-templates');
+
+        $request->validate([
+           'code' => 'required|unique:item_templates,code',
+           'model_number' => 'nullable|string|max:255',
+           'manufacturer_id' => 'nullable|exists:manufacturers,id',
+           'eol' => 'nullable|numeric',
+           'unit_price' => 'nullable|numeric',
+        ]);
+
+        if($request->unit_price) {
+            $unitPrice = Money::of($request->unit_price, 'SAR')->getAmount()->toInt();
+        } else {
+            $unitPrice = null;
+        }
+
+        $itemTemplate = new ItemTemplate();
+        $itemTemplate->code = $request->code;
+        $itemTemplate->model_number = $request->model_number;
+        $itemTemplate->manufacturer_id = $request->manufacturer_id;
+        $itemTemplate->eol = $request->eol;
+        $itemTemplate->default_unit_price_minor = $unitPrice;
+        $itemTemplate->save();
+
+        return redirect()->route('item-templates.show', ['id' => $itemTemplate->id]);
     }
 }
