@@ -28,9 +28,12 @@ class DepartmentController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        $this->authorize('view-departments');
+
         $activeDepartments = Department::count();
         $inactiveDepartments = Department::onlyTrashed()->count();
 
@@ -41,20 +44,26 @@ class DepartmentController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
+        $this->authorize('create-departments');
+
         return view('departments.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request)
     {
+        $this->authorize('create-departments');
+
         $department = $this->service->store();
         return redirect()->route('departments.show', ['id' => $department->id]);
     }
@@ -62,11 +71,14 @@ class DepartmentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id)
     {
+        $this->authorize('view-departments');
+
         $department = Department::where('id', $id)->firstOrFail();
         return view('departments.show', compact('department'));
     }
@@ -74,11 +86,14 @@ class DepartmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit($id)
     {
+        $this->authorize('update-departments');
+
         $department = $this->service->show($id);
         return view('departments.edit', compact('department'));
     }
@@ -88,9 +103,12 @@ class DepartmentController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update($id)
     {
+        $this->authorize('update-departments');
+
         $this->service->update($id);
 
         return redirect()->route('departments.show', ['id' => $id]);
@@ -99,11 +117,14 @@ class DepartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id)
     {
+        $this->authorize('delete-departments');
+
         $this->service->destroy($id);
 
         session()->flash('status', 'success');

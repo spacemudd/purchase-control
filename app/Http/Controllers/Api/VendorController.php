@@ -31,11 +31,15 @@ class VendorController extends Controller
 
     public function show($id)
     {
+        $this->authorize('view-vendor');
+
         return $this->service->show($id);
     }
 
     public function paginatedIndex($per_page = 10)
     {
+        $this->authorize('view-vendor');
+
         return $this->service->paginatedIndex($per_page);
     }
 

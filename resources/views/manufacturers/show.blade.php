@@ -34,10 +34,12 @@
                 <p class="subtitle is-6">{{ __('words.manufacturer-code') }}</p>
             </div>
             <div class="column is-6 has-text-right">
-                <a href="{{ route('manufacturers.edit', ['id' => $manufacturer->id]) }}" class="button is-small is-warning">
-                    <span class="icon is-small"><i class="fa fa-pencil"></i></span>
-                    <span>{{ __('words.edit') }}</span>
-                </a>
+                @can('update-manufacturers')
+                    <a href="{{ route('manufacturers.edit', ['id' => $manufacturer->id]) }}" class="button is-small is-warning">
+                        <span class="icon is-small"><i class="fa fa-pencil"></i></span>
+                        <span>{{ __('words.edit') }}</span>
+                    </a>
+                @endcan
             </div>
         </div>
 

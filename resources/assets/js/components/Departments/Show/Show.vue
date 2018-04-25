@@ -13,8 +13,8 @@
                     </div>
                     <!-- Options -->
                     <div class="column is-6 has-text-right">
-                        <a :href="department.edit_link" class="button is-warning is-small has-icon">
-                            <span class="icon"><i class="fa fa-pencil"></i></span>
+                        <a v-if="canCreate == 1" :href="department.edit_link" class="button is-warning is-small has-icon">
+                            <span class="icon is-small"><i class="fa fa-pencil"></i></span>
                             <span>{{ $t('words.edit') }}</span>
                         </a>
                     </div>
@@ -74,7 +74,12 @@
         props: {
             departmentId: {
                 required: true,
-            }
+            },
+            canCreate: {
+                type: Number,
+                required: false,
+                default: 0,
+            },
         },
         data() {
             return {

@@ -28,11 +28,15 @@ class DepartmentController extends Controller
 
     public function index()
     {
+        $this->authorize('view-departments');
+
         return $this->service->index();
     }
 
     public function show(Request $request)
     {
+        $this->authorize('view-departments');
+
         $id = $request->get('id');
 
         return $this->service->show($id);
@@ -40,16 +44,21 @@ class DepartmentController extends Controller
 
     public function paginatedIndex($per_page = 10)
     {
+        $this->authorize('view-departments');
+
         return $this->service->paginatedIndex($per_page);
     }
 
     public function create()
 	{
+        $this->authorize('create-departments');
+
 		return view('department.create');
 	}
 
     public function store()
 	{
+        $this->authorize('create-departments');
 
 		$this->service->store(request());
 
@@ -58,6 +67,8 @@ class DepartmentController extends Controller
 
     public function edit($id)
     {
+        $this->authorize('update-departments');
+
     	$department = $this->service->edit($id);
 
     	return view('departments.edit', compact('department'));
@@ -65,6 +76,8 @@ class DepartmentController extends Controller
 
     public function update($id)
     {
+        $this->authorize('update-departments');
+
     	$this->service->update($id);
 
     	return redirect(route('departments.index'));
@@ -72,6 +85,8 @@ class DepartmentController extends Controller
 
     public function destroy($id)
 	{
+        $this->authorize('delete-departments');
+
 		$this->service->destroy($id);
 
 		return redirect(route('departments.index'));

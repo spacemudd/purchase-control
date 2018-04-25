@@ -82,12 +82,13 @@ class InvitesController extends Controller
         }
 
         $user = DB::transaction(function() use ($request, $invite) {
+
             $user = User::create([
                 'username' => $invite->username,
                 'name' => $invite->name,
                 'email' => $invite->email,
                 'phone' => $invite->phone,
-                'password' => Hash::make($request->password),
+                'password' => Hash::make($request['password']),
             ]);
 
             if(Role::findByName($invite->role_name)) {

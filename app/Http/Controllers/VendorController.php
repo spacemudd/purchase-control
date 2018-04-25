@@ -63,14 +63,17 @@ class VendorController extends Controller
 		return view('vendors.create');
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
 	public function store(Request $request)
 	{
+        $this->authorize('create-vendor');
+
 		$vendor = $this->service->store();
 
 		return redirect()->route('vendors.show', ['id' => $vendor->id]);
@@ -84,19 +87,24 @@ class VendorController extends Controller
 	 */
 	public function show($id)
 	{
+        $this->authorize('view-vendor');
+
 	    $vendor = Vendor::findOrFail($id);
 
 		return view('vendors.show', compact('vendor'));
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
 	public function edit($id)
 	{
+        $this->authorize('update-vendor');
+
         $vendor = $this->service->show($id);
 		return view('vendors.edit', compact('vendor'));
 	}

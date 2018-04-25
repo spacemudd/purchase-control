@@ -52,7 +52,7 @@ class User extends Authenticatable implements UserResolver, Auditable
 
     public function getFullNameAttribute()
     {
-        return $this->first_name.' '.$this->last_name;
+        return $this->name;
     }
 
     public function getDisplayNameAttribute()

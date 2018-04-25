@@ -24,6 +24,8 @@
 
 @section('content')
 
-    <department-show :department-id="{{ $department->id }}"></department-show>
+    <department-show :department-id="{{ $department->id }}"
+                     :can-create.number="{{ Auth::user()->can('update-departments') ? '1' : '0' }}"
+    ></department-show>
 
 @endsection

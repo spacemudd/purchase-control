@@ -49,6 +49,6 @@
 		</div>
 	</div>
 
-	<vendors></vendors>
+	<vendors :can-create.number="{{ Auth::user()->can('create-vendor') ? '1' : '0' }}"></vendors>
 
 @endsection

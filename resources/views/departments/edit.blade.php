@@ -29,6 +29,7 @@
 
 @section('content')
 
+	@can('delete-departments')
 	<div class="columns">
 		<div class="column is-8 is-offset-2 has-text-right">
 			<form method="post" action="{{ route('departments.destroy', ['id' => $department->id]) }}">
@@ -42,6 +43,7 @@
 			<hr>
 		</div>
 	</div>
+	@endcan
 
 	<div class="columns">
 		<div class="column is-8 is-offset-2">

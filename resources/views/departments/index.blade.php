@@ -49,9 +49,11 @@
 
 	<departments>
 		<div slot="options">
-			<a class="button is-primary pull-right" href="{{ route('departments.create') }}">
-				{{ __('words.new-department') }}
-			</a>
+			@can('create-departments')
+				<a class="button is-primary pull-right" href="{{ route('departments.create') }}">
+					{{ __('words.new-department') }}
+				</a>
+			@endcan
 		</div>
 	</departments>
 

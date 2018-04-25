@@ -103,20 +103,24 @@
                                                          title="{{ __('words.employees') }}">
                                     </sidebar-links-group>
 
+                                    @can('view-departments')
                                     <sidebar-links-group link="{{ route('departments.index') }}"
                                                          icon="building"
                                                          title="{{ __('words.departments') }}">
                                     </sidebar-links-group>
+                                    @endcan
 
+                                    @can('view-vendor')
                                     <sidebar-links-group link="{{ route('vendors.index') }}"
                                                          icon="truck"
                                                          title="{{ __('words.vendors') }}">
                                     </sidebar-links-group>
+                                    @endcan
 
                                     @can('view-item-templates')
-                                    <sidebar-links-group link="{{ route('item-templates.index') }}"
-                                                         icon="file-text-o" title="{{ __('words.item-templates') }}">
-                                    </sidebar-links-group>
+                                        <sidebar-links-group link="{{ route('item-templates.index') }}"
+                                                             icon="file-text-o" title="{{ __('words.item-templates') }}">
+                                        </sidebar-links-group>
                                     @endcan
 
                                     @can('view-manufacturers')

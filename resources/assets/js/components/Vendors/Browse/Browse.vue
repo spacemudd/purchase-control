@@ -9,10 +9,35 @@
 		</div>
 		<div class="level-right">
 
-			<button class="button is-primary pull-right" @click="$store.commit('Vendor/setNewModal', true)">
+			<button class="button is-primary pull-right"
+					v-if="canCreate == 1"
+					@click="$store.commit('Vendor/setNewModal', true)">
 				{{ $t('words.new-vendor') }}
 			</button>
 
 		</div>
 	</div>
 </template>
+
+<script>
+    export default {
+        props: {
+            canCreate: {
+                type: Number,
+                required: false,
+                default: 0,
+            },
+        },
+        data() {
+            return {
+                //
+            }
+        },
+        mounted() {
+            //
+        },
+        methods: {
+            //
+        }
+    }
+</script>
