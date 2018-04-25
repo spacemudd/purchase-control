@@ -21,28 +21,3 @@
 */
 
 $faker_sa = \Faker\Factory::create('ar_SA');
-
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Models\Department::class, function (Faker\Generator $faker) {
-    static $password;
-
-    return [
-        'code' => $faker->unique()->randomNumber(9),
-        'description' => $faker->company(),
-        'head_department' => $faker->name(),
-    ];
-});
-
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Models\Employee::class, function (Faker\Generator $faker) use ($faker_sa) {
-    static $department_id;
-
-    return [
-        'code' => $faker->unique()->randomNumber(4),
-        'department_id' => $department_id ? $department_id : factory(\App\Models\Department::class)->create()->id,
-        'staff_type_id' => 1,
-        'name' => $faker->name(),
-        'email' => $faker->unique()->email(),
-        'phone' => $faker->e164PhoneNumber(),
-    ];
-});

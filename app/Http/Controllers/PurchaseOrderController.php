@@ -11,13 +11,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PurchaseOrder;
-use Illuminate\Http\Request;
-
 use App\Clarimount\Service\PurchaseOrderService;
-use App\Models\Vendor;
+use App\Models\PurchaseOrder;
 use App\Models\Department;
 use App\Models\Employee;
+use App\Models\Vendor;
 
 class PurchaseOrderController extends Controller
 {
@@ -33,9 +31,12 @@ class PurchaseOrderController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        $this->authorize('view-purchase-orders');
+
         $draftCounter = PurchaseOrder::draft()->count();
         $committedCounter = PurchaseOrder::committed()->count();
         $voidCounter = PurchaseOrder::void()->count();
@@ -45,18 +46,24 @@ class PurchaseOrderController extends Controller
 
     public function draft()
     {
+        $this->authorize('view-purchase-orders');
+
         $purchaseOrders = PurchaseOrder::draft()->latest()->paginate(50);
         return view('purchase-orders.draft', compact('purchaseOrders'));
     }
 
     public function committed()
     {
+        $this->authorize('view-purchase-orders');
+
         $data = PurchaseOrder::committed()->latest()->paginate(50);
         return view('purchase-orders.committed', compact('data'));
     }
 
     public function void()
     {
+        $this->authorize('view-purchase-orders');
+
         $data = PurchaseOrder::void()->latest()->paginate(50);
         return view('purchase-orders.void', compact('data'));
     }
@@ -65,9 +72,11 @@ class PurchaseOrderController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
+        $this->authorize('create-purchase-orders');
 
         $vendors = Vendor::active()->get();
         $departments = Department::active()->get();
@@ -82,6 +91,8 @@ class PurchaseOrderController extends Controller
      */
     public function store()
     {
+        $this->authorize('create-purchase-orders');
+
         $this->service->store();
 
         session()->flash('status', 'success');
@@ -93,11 +104,14 @@ class PurchaseOrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id)
     {
+        $this->authorize('view-purchase-orders');
+
         $purchase_order = $this->service->show($id);
 
         return view('purchase-orders.show', compact('purchase_order'));
@@ -106,11 +120,14 @@ class PurchaseOrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit($id)
     {
+        $this->authorize('update-purchase-orders');
+
         $purchase_order = $this->service->edit($id);
 
         $vendors = Vendor::active()->get();
@@ -123,11 +140,14 @@ class PurchaseOrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update($id)
     {
+        $this->authorize('update-purchase-orders');
+
         $successful = $this->service->update($id);
 
         if($successful) {
@@ -144,11 +164,14 @@ class PurchaseOrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id)
     {
+        $this->authorize('delete-purchase-orders');
+
         $result = $this->service->destroy($id);
         
         if($result) {

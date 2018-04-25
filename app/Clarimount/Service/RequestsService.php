@@ -11,6 +11,7 @@
 
 namespace App\Clarimount\Service;
 
+use App\Models\RequestDocument;
 use Illuminate\Support\Facades\Validator;
 use App\Clarimount\Repository\RequestsRepository;
 
@@ -56,5 +57,23 @@ class RequestsService
     public function approve($id)
     {
         return $this->repository->approve($id);
+    }
+
+    /**
+     *
+     * @param $id Request ID
+     */
+    public function sendToPurchasing($id)
+    {
+        $request = $this->repository->find($id);
+
+        if($request->status != RequestDocument::UNSET) return abort(404);
+
+        $request->status = RequestDocument::DRAFT;
+        $request->save();
+
+        // todo: send a notification.
+
+        return $request;
     }
 }

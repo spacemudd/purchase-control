@@ -59,6 +59,28 @@ class PermissionsTableSeeder extends Seeder
             'create-departments',
             'update-departments',
             'delete-departments',
+
+            'view-employees',
+            'create-employees',
+            'update-employees',
+            'delete-employees',
+
+            'view-purchase-orders',
+            'create-purchase-orders',
+            'update-purchase-orders',
+            'delete-purchase-orders',
+            'approve-purchase-orders',
+            'upload-purchase-orders',
+            'void-purchase-orders',
+
+            'view-requests',
+            'create-requests',
+            'update-requests',
+            'delete-requests',
+            'send-requests-to-purchasing',
+            'approve-requests',
+            'upload-requests',
+            'void-requests',
         ];
 
         // Creating a super admin role.

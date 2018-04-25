@@ -26,7 +26,7 @@
                     <b-table :data="vendor.manufacturers"
                              class="is-size-7"
                              detail-key="id">
-                        <template scope="props">
+                        <template slot-scope="props">
                             <b-table-column field="name" label="Name">
                                 {{ props.row.name }}
                             </b-table-column>

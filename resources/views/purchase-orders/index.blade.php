@@ -68,6 +68,7 @@
 			</div>
 	</div>
 
-	<purchase-orders></purchase-orders>
+	<purchase-orders :can-create.number="{{ Auth::user()->can('create-purchase-orders') ? '1' : '0' }}">
+	</purchase-orders>
 
 @endsection

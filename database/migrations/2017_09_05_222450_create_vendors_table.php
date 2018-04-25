@@ -35,7 +35,9 @@ class CreateVendorsTable extends Migration
             $table->softDeletes('deleted_at');
         });
 
-        \DB::statement('ALTER TABLE pur_vendors AUTO_INCREMENT = 1002;');
+        if(env('DB_CONNECTION') != 'sqlite_testing') {
+            \DB::statement('ALTER TABLE pur_vendors AUTO_INCREMENT = 1002;');
+        }
     }
 
     /**

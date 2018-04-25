@@ -33,7 +33,7 @@ class RequestsRepository
      */
     public function store(array $data)
     {
-        $data['status'] = RequestDocument::DRAFT;
+        $data['status'] = RequestDocument::UNSET;
 
         return $this->model->create($data);
     }

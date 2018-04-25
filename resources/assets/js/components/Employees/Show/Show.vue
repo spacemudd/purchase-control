@@ -11,8 +11,8 @@
                     </div>
                     <!-- Options -->
                     <div class="column is-6 has-text-right">
-                        <a :href="employee.edit_link" class="button is-warning is-small has-icon">
-                            <span class="icon"><i class="fa fa-pencil"></i></span>
+                        <a v-if="canEdit" :href="employee.edit_link" class="button is-warning is-small has-icon">
+                            <span class="icon is-small"><i class="fa fa-pencil"></i></span>
                             <span>{{ $t('words.edit') }}</span>
                         </a>
                     </div>
@@ -70,16 +70,16 @@
 </template>
 
 <script>
-    import AssetsInCustody from "./AssetsInCustody.vue";
-
     export default {
-        components: {
-            AssetsInCustody,
-        },
         props: {
             employeeId: {
                 required: true,
-            }
+            },
+            canEdit: {
+                type: Number,
+                required: false,
+                default: 0,
+            },
         },
         data() {
             return {

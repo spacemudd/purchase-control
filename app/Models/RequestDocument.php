@@ -19,6 +19,7 @@ class RequestDocument extends Model implements AuditableContract
 {
     use Auditable;
 
+    const UNSET = -1;
     const DRAFT = 0;
     const SAVED = 1;
     const VOID = 2;
@@ -30,6 +31,9 @@ class RequestDocument extends Model implements AuditableContract
     public function getStatusNameAttribute()
     {
         switch($this->status) {
+            case self::UNSET:
+                return 'unset';
+                break;
             case self::DRAFT:
                 return 'draft';
                 break;

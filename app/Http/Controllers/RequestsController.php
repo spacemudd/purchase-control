@@ -80,16 +80,6 @@ class RequestsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  Request $request
-     * @return void
-     */
-    public function store(Request $request)
-    {
-    }
-
-    /**
      * Show the specified resource.
      *
      * @param $id

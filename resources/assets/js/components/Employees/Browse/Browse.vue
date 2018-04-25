@@ -9,8 +9,31 @@
 			</simple-search>
 		</div>
 		<div class="column is-6 has-text-right">
-			<create-employee></create-employee>
+			<create-employee v-if="canCreate"></create-employee>
 			<slot name="buttons"></slot>
 		</div>
 	</div>
 </template>
+
+<script>
+    export default {
+        props: {
+            canCreate: {
+                type: Number,
+                required: false,
+                default: 0,
+            },
+        },
+        data() {
+            return {
+                //
+            }
+        },
+        mounted() {
+            //
+        },
+        methods: {
+            //
+        }
+    }
+</script>

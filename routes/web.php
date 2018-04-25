@@ -173,6 +173,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::delete('purchase-orders/service-items/delete', 'Api\PurchaseOrderItemController@deleteServiceLine');
 
     // Requests.
+    Route::post('requests/{id}/send-to-purchasing', 'Api\RequestsController@sendToPurchasing')->name('api-requests.send-to-purchasing');
     Route::post('requests/{id}/approve', 'Api\RequestsController@approve');
     Route::get('requests/{id}', 'Api\RequestsController@show');
     Route::post('requests', 'Api\RequestsController@store')->name('api.requests.store');

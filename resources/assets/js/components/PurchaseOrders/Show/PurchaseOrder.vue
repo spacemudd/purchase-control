@@ -24,7 +24,9 @@
         </b-modal>
 
         <b-modal :active.sync="showEditModal">
-            <edit-purchase-order-modal :purchase-order-id.number="purchaseOrder.id"></edit-purchase-order-modal>
+            <edit-purchase-order-modal v-if="canCreate"
+                                       :purchase-order-id.number="purchaseOrder.id">
+            </edit-purchase-order-modal>
         </b-modal>
         <!-- // Modals -->
         <div class="columns">
@@ -157,7 +159,12 @@
             purchaseOrder: {
                 type: Object,
                 required: true,
-            }
+            },
+            canCreate: {
+                type: Number,
+                required: false,
+                default: 0,
+            },
         },
         computed: {
             purchaseOrderNumber() {

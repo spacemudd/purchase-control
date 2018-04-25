@@ -26,6 +26,6 @@
 
 @section('content')
 
-    <employee-show :employee-id="{{ $employee->id }}"></employee-show>
+    <employee-show :employee-id="{{ $employee->id }}" :can-edit.number="{{ Auth::user()->can('update-employees') ? '1' : '0' }}"></employee-show>
 
 @endsection

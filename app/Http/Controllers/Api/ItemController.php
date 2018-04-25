@@ -45,9 +45,8 @@ class ItemController extends Controller
             'q' => 'nullable|string|max:255|min:0',
         ]);
 
-        $items = Item::where('code', 'LIKE',' %' . $request->q . '%')
-            ->orWhere('name', 'LIKE', $request->q . '%')
-            ->orWhere('description', 'LIKE', $request->q . '%')
+        $items = Item::where('id', 'LIKE',' %' . $request->q . '%')
+            ->orWhere('manufacturer_serial_number', 'LIKE', $request->q . '%')
             ->paginate(10);
 
         return $items;

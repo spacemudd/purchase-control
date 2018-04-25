@@ -1,7 +1,7 @@
 <template>
     <loading-screen v-if="$isLoading('GETTING_PURCHASE_REQUEST')" size="is-large"></loading-screen>
     <span v-else>
-        <request-header></request-header>
+        <request-header :can-send-requests-to-purchasing="canSendRequestsToPurchasing"></request-header>
 
         <b-tabs>
             <b-tab-item label="Items">
@@ -22,7 +22,12 @@
             requestId: {
                 type: Number,
                 required: true,
-            }
+            },
+            canSendRequestsToPurchasing: {
+                type: Number,
+                required: false,
+                default: 0,
+            },
         },
         mounted() {
             this.$store.dispatch('PurchaseControlRequest/getResource', this.requestId);

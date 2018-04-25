@@ -84,11 +84,13 @@
                                                          link="{{ route('requests.index') }}">
                                     </sidebar-links-group>
 
-                                    <sidebar-links-group selected="{{ (request()->route()->getName() === 'purchase-orders.index') }}"
-                                                         icon="shopping-cart"
-                                                         title="{{ __('words.purchase-orders') }}"
-                                                         link="{{ route('purchase-orders.index') }}">
-                                    </sidebar-links-group>
+                                    @can('view-purchase-orders')
+                                        <sidebar-links-group selected="{{ (request()->route()->getName() === 'purchase-orders.index') }}"
+                                                             icon="shopping-cart"
+                                                             title="{{ __('words.purchase-orders') }}"
+                                                             link="{{ route('purchase-orders.index') }}">
+                                        </sidebar-links-group>
+                                    @endcan
 
                                     {{--
                                     <sidebar-links-group selected="{{ (request()->route()->getName() === 'reports.index') }}"
@@ -98,10 +100,12 @@
                                     </sidebar-links-group>
                                     --}}
 
+                                    @can('view-employees')
                                     <sidebar-links-group link="{{ route('employees.index') }}"
                                                          icon="users"
                                                          title="{{ __('words.employees') }}">
                                     </sidebar-links-group>
+                                    @endcan
 
                                     @can('view-departments')
                                     <sidebar-links-group link="{{ route('departments.index') }}"

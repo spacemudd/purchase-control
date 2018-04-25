@@ -28,29 +28,9 @@ class EmployeeController extends Controller
 
     public function index()
     {
+        $this->authorize('view-employees');
+
         return $this->service->index();
-    }
-
-    public function paginatedIndex($per_page = 10)
-    {
-        return $this->service->paginatedIndexWithDepartment($per_page);
-    }
-
-    public function assetsInCustody(Request $request)
-    {
-        $request->validate([
-            'employee_id' => 'required|exists:employees,id',
-        ]);
-
-        return Employee::where('id', $request->employee_id)
-            ->with(['assets_in_custody' => function($q) {
-                $q->with('asset_template')
-                    ->with(['issuance_item' => function($q) {
-                        $q->with('issuance');
-                    }]);
-            }])
-            ->firstOrFail()
-            ->assets_in_custody;
     }
 
     /**
@@ -70,6 +50,8 @@ class EmployeeController extends Controller
 
     public function show(Request $request)
     {
+        $this->authorize('view-employees');
+
         $request->validate([
             'id' => 'required|exists:employees,id'
         ]);
@@ -85,11 +67,14 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request)
     {
+        $this->authorize('create-employees');
+
         return $this->service->store();
     }
 

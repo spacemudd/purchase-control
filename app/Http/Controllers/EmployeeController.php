@@ -31,39 +31,48 @@ class EmployeeController extends Controller
 		$this->departments_service = $departments_service;
 	}
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
 	public function index()
 	{
+	    $this->authorize('view-employees');
+
         $activeEmployees = Employee::count();
         $inactiveEmployees = Employee::onlyTrashed()->count();
 
 		return view('employees.index', compact('activeEmployees', 'inactiveEmployees'));
 	}
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
+    /**
+     * Display the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
 	public function show($id)
 	{
+	    $this->authorize('view-employees');
+
         $employee = Employee::where('id', $id)->firstOrFail();
         return view('employees.show', compact('employee'));
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
 	public function edit($id)
 	{
+	    $this->authorize('update-employees');
+
 		$employee = $this->service->show($id);
 		$departments = $this->departments_service->index();
 		$types = StaffType::get();
@@ -71,28 +80,34 @@ class EmployeeController extends Controller
 		return view('employees.edit', compact('employee', 'departments', 'types'));
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
 	public function update(Request $request, $id)
 	{
+	    $this->authorize('update-employees');
+
 		$this->service->update($id);
 
 		return redirect()->route('employees.show', ['id' => $id]);
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
 	public function destroy($id)
 	{
+	    $this->authorize('delete-employees');
+
 		$this->service->destroy($id);
 
 		session()->flash('status', 'success');
@@ -139,48 +154,5 @@ class EmployeeController extends Controller
 
 
         })->export('csv');
-	}
-
-	public function importForm()
-	{
-	    return view('employees.import');
-	}
-
-	public function import(Request $request)
-	{
-        $this->validate($request, [
-            'file' => 'required|mimes:csv,txt',
-        ]);
-
-        $fileUpload = $request->file('file')->getRealPath();
-
-        $items = [];
-        Excel::load($fileUpload, function($reader) use (&$item) {
-
-            // Set the reader to the first spreadsheet.
-            $reader->first();
-
-            foreach($reader->all() as $row) {
-                // TODO: Validation on Excel values.
-                $items[] = [
-                    'employee_id' => $row->id,
-                    'code' => $row->code,
-                    'name' => $row->name,
-
-                ];
-            }
-        });
-
-        dd($items);
-
-        DB::transaction(function() use ($items) {
-
-            collect($items)->chunk(100)->each(function($itemsToInsert) {
-                DB::table('business_services')->insert($itemsToInsert->toArray());
-            });
-
-        }, 2);
-
-        return redirect()->route('business-services.index', ['business_id' => $business->obfuscated_id]);
 	}
 }

@@ -47,6 +47,6 @@
         </div>
     </div>
 
-    <employees></employees>
+    <employees :can-create.number="{{ Auth::user()->can('create-employees') ? '1' : '0' }}"></employees>
 
 @endsection

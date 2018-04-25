@@ -53,6 +53,11 @@ class RequestsController extends Controller
         return $this->service->approve($data['id']);
     }
 
+    public function sendToPurchasing($id)
+    {
+        return $this->service->sendToPurchasing($id);
+    }
+
     public function validateApprove(array $data)
     {
         return Validator::make($data, [

@@ -24,6 +24,8 @@
 
 @section('content')
 
-    <request-container :request-id.number="{{ $request->id }}"></request-container>
+    <request-container :request-id.number="{{ $request->id }}"
+                       :can-send-requests-to-purchasing="{{ Auth::user()->can('send-requests-to-purchasing') ? '1' : '0' }}"
+    ></request-container>
 
 @stop
