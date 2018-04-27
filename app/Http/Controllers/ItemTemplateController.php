@@ -14,9 +14,10 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\ItemTemplate;
 use App\Models\Manufacturer;
+use App\Models\MaxNumber;
 use Brick\Money\Money;
-use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ItemTemplateController extends Controller
 {
@@ -102,8 +103,9 @@ class ItemTemplateController extends Controller
         $this->authorize('create-item-templates');
 
         $request->validate([
-           'code' => 'required|unique:item_templates,code',
+           'name' => 'required|string|max:255',
            'model_number' => 'nullable|string|max:255',
+           'category_id' => 'required|exists:categories,id',
            'manufacturer_id' => 'nullable|exists:manufacturers,id',
            'eol' => 'nullable|numeric',
            'unit_price' => 'nullable|numeric',
@@ -115,13 +117,35 @@ class ItemTemplateController extends Controller
             $unitPrice = null;
         }
 
-        $itemTemplate = new ItemTemplate();
-        $itemTemplate->code = $request->code;
-        $itemTemplate->model_number = $request->model_number;
-        $itemTemplate->manufacturer_id = $request->manufacturer_id;
-        $itemTemplate->eol = $request->eol;
-        $itemTemplate->default_unit_price_minor = $unitPrice;
-        $itemTemplate->save();
+        $itemTemplate = DB::transaction(function() use ($request, $unitPrice) {
+
+            $category = Category::where('id', $request->category_id)->firstOrFail();
+            $strippedCategoryName = preg_replace('/\s+/', '', $category->name);
+            $categoryCode = mb_substr($strippedCategoryName, 0, 3);
+
+            dd($categoryCode);
+
+            $strippedName = preg_replace('/\s+/', '', $request->name);
+            $nameCode = mb_substr($strippedName, 0, 3);
+
+            dd($maxNumberName);
+
+            MaxNumber::firstOrCreate([
+                'name' => '',
+            ]);
+
+
+            $itemTemplate = new ItemTemplate();
+            $itemTemplate->code = // Laptop Asus UX305UA -> {3 letters of name}-{3 letters of category}-1005;
+            $itemTemplate->name = $request->name;
+            $itemTemplate->model_number = $request->model_number;
+            $itemTemplate->manufacturer_id = $request->manufacturer_id;
+            $itemTemplate->eol = $request->eol;
+            $itemTemplate->default_unit_price_minor = $unitPrice;
+            $itemTemplate->save();
+
+            return $itemTemplate;
+        }, 2);
 
         return redirect()->route('item-templates.show', ['id' => $itemTemplate->id]);
     }

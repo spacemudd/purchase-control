@@ -121,12 +121,6 @@
                                     </sidebar-links-group>
                                     @endcan
 
-                                    @can('view-item-templates')
-                                        <sidebar-links-group link="{{ route('item-templates.index') }}"
-                                                             icon="file-text-o" title="{{ __('words.item-templates') }}">
-                                        </sidebar-links-group>
-                                    @endcan
-
                                     @can('view-manufacturers')
                                         <sidebar-links-group link="{{ route('manufacturers.index') }}"
                                                              icon="industry"
@@ -134,19 +128,35 @@
                                         </sidebar-links-group>
                                     @endcan
 
-                                    @can('show-users')
-                                        <sidebar-links-group link="{{ route('users.index') }}"
-                                                             icon="user"
-                                                             title="{{ __('words.users') }}">
-                                        </sidebar-links-group>
-                                    @endcan
+                                    <sidebar-links-group icon="cog"
+                                                         title="{{ __('words.settings') }}">
 
-                                    @can('edit-roles')
-                                        <sidebar-links-group link="{{ route('roles.index') }}"
-                                                             icon="superpowers"
-                                                             title="{{ __('words.roles') }}">
-                                        </sidebar-links-group>
-                                    @endcan
+                                        {{--@can('view-categories')--}}
+                                            {{--<sidebar-links-group link="{{ route('categories.index') }}"--}}
+                                                                 {{--icon="bookmark" title="{{ __('words.categories') }}">--}}
+                                            {{--</sidebar-links-group>--}}
+                                        {{--@endcan--}}
+
+                                        @can('view-item-templates')
+                                            <sidebar-links-group link="{{ route('item-templates.index') }}"
+                                                                 icon="file-text-o" title="{{ __('words.item-templates') }}">
+                                            </sidebar-links-group>
+                                        @endcan
+
+                                        @can('show-users')
+                                            <sidebar-links-group link="{{ route('users.index') }}"
+                                                                 icon="user"
+                                                                 title="{{ __('words.users') }}">
+                                            </sidebar-links-group>
+                                        @endcan
+
+                                        @can('edit-roles')
+                                            <sidebar-links-group link="{{ route('roles.index') }}"
+                                                                 icon="superpowers"
+                                                                 title="{{ __('words.roles') }}">
+                                            </sidebar-links-group>
+                                        @endcan
+                                    </sidebar-links-group>
                                 </div>
                             </div>
 

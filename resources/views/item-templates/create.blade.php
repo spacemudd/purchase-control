@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => trans('words.create') . ' ' . trans('words.assets')])
+@extends('layouts.app', ['title' => trans('words.create') . ' Item Template'])
 
 
 @section('header')
@@ -34,18 +34,19 @@
 				{{ csrf_field() }}
 
 				<div class="columns is-multiline">
+					
 					<div class="column is-6">
 						<div class="field">
-							<label for="code" class="label">{{ __('words.code') }} <span class="has-text-danger">*</span></label>
+							<label for="name" class="label">Name <span class="has-text-danger">*</span></label>
 
 							<p class="control">
-								<input id="code" type="text"
-									   class="input {{ $errors->has('code') ? ' is-danger' : '' }}"
-									   name="code" value="{{ old('code') }}" required>
+								<input id="name" type="text"
+									   class="input {{ $errors->has('name') ? ' is-danger' : '' }}"
+									   name="name" value="{{ old('name') }}" required>
 
-								@if ($errors->has('code'))
+								@if ($errors->has('name'))
 									<span class="help is-danger">
-							            {{ $errors->first('code') }}
+							            {{ $errors->first('name') }}
 							        </span>
 								@endif
 							</p>
@@ -54,13 +55,35 @@
 
 					<div class="column is-6">
 						<div class="field">
-							<label for="model_number" class="label">Model Number / Description</label>
+							<label for="category_id" class="label">Category</label>
+
+							<div class="control">
+								<div class="select is-fullwidth{{ $errors->has('category_id') ? ' is-danger' : '' }}">
+									<select name="category_id">
+										@foreach($categories as $category)
+											<option value="{{ $category->id }}">{{ $category->name }}</option>
+										@endforeach
+									</select>
+								</div>
+
+								@if ($errors->has('category_id'))
+									<span class="help is-danger">
+							            {{ $errors->first('category_id') }}
+							        </span>
+								@endif
+							</div>
+						</div>
+					</div>
+					
+					<div class="column is-6">
+						<div class="field">
+							<label for="model_number" class="label">Model Number</label>
 
 							<p class="control">
 								<input id="model_number" type="text"
 									   class="input {{ $errors->has('model_number') ? ' is-danger' : '' }}"
 									   name="model_number"
-									   value="{{ old('model_number') }}">
+									   value="{{ old('model_number') }}" required>
 
 								@if ($errors->has('model_number'))
 									<span class="help is-danger">

@@ -22,28 +22,4 @@ class ItemTemplateService
     {
         $this->repository = $repository;
     }
-
-    public function store()
-    {
-        $request = request()->except('_token');
-
-        $this->validate($request)->validate();
-
-        return $this->repository->store($request);
-    }
-
-    public function validate(array $data)
-    {
-        return Validator::make($data, [
-            'code' => 'required|unique:asset_templates|string|min:1|max:255',
-            'active' => 'required|boolean',
-            'manufacturer_id' => 'required|exists:manufacturers,id',
-            'category_id' => 'required|exists:asset_categories,id',
-            'description' => 'required|string|min:1|max:255',
-            'details' => 'required|string|max:500',
-            'type_id' => 'required|exists:asset_types,id',
-            'unit_price' => 'required|numeric',
-        ]);
-
-    }
 }

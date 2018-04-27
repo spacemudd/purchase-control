@@ -65,7 +65,7 @@ class User extends Authenticatable implements UserResolver, Auditable
      *
      * @return mixed|null
      */
-    public static function resolveId()
+    public static function resolve()
     {
         return Auth::check() ? Auth::user()->getAuthIdentifier() : null;
     }

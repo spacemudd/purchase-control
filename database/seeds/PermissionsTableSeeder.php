@@ -45,6 +45,11 @@ class PermissionsTableSeeder extends Seeder
             'update-manufacturers',
             'delete-manufacturers',
 
+            'view-categories',
+            'create-categories',
+            'update-categories',
+            'delete-categories',
+
             'view-items',
             'create-items',
             'update-items',

@@ -36,7 +36,6 @@ class CreateManufacturersTable extends Migration
         });
 
         if(env('DB_CONNECTION') != 'sqlite_testing') {
-            dd(1);
             \DB::statement('ALTER TABLE pur_manufacturers AUTO_INCREMENT = 1002;');
         }
     }
