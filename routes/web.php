@@ -25,9 +25,9 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
 
         Route::get('users/invite', 'Back\UsersController@invite')->name('users.invite');
 
-        // Requests.
-        Route::get('requests/by-status/{status_slug}', 'RequestsController@paginatedByStatus')->name('requests.by-status');
-        Route::resource('requests', 'RequestsController');
+        // Purchase Requisitions.
+        Route::get('purchase-requisitions/by-status/{status_slug}', 'PurchaseRequisitionsController@paginatedByStatus')->name('purchase-requisitions.by-status');
+        Route::resource('purchase-requisitions', 'PurchaseRequisitionsController');
 
         // Items.
         Route::get('items/browse', 'ItemController@browse')->name('items.browse');
@@ -89,7 +89,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
 	 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
 	 Route::post('register', 'Auth\RegisterController@register');
 
-	// Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+	// Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkPurchase RequisitionForm')->name('password.request');
 	// Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 	// Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 	// Route::post('password/reset', 'Auth\ResetPasswordController@reset');
@@ -172,15 +172,16 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('purchase-orders/service-items/store', 'Api\PurchaseOrderItemController@storeServiceLine');
     Route::delete('purchase-orders/service-items/delete', 'Api\PurchaseOrderItemController@deleteServiceLine');
 
-    // Requests.
-    Route::post('requests/{id}/send-to-purchasing', 'Api\RequestsController@sendToPurchasing')->name('api-requests.send-to-purchasing');
-    Route::post('requests/{id}/approve', 'Api\RequestsController@approve');
-    Route::get('requests/{id}', 'Api\RequestsController@show');
-    Route::post('requests', 'Api\RequestsController@store')->name('api.requests.store');
+    // Purchase Requisitions.
+    Route::post('purchase-requisitions/{id}/send-to-purchasing', 'Api\PurchaseRequisitionsController@sendToPurchasing')->name('api-purchase-requisitions.send-to-purchasing');
+    Route::post('purchase-requisitions/{id}/approve', 'Api\PurchaseRequisitionsController@approve');
+    Route::get('purchase-requisitions/{id}', 'Api\PurchaseRequisitionsController@show');
+    Route::post('purchase-requisitions', 'Api\PurchaseRequisitionsController@store')->name('api.purchase-requisitions.store');
 
-    // Request items.
-    Route::post('requests/{request_id}/items', 'Api\RequestItemController@store')->name('requests.items');
-    Route::delete('requests/{request_id}/items/{id}', 'Api\RequestItemController@delete')->name('requests.delete');
+    // Purchase Requisition items.
+    Route::get('purchase-requisitions/{purchase_requisition_id}/items', 'Api\PurchaseRequisitionItemsController@underRequisition')->name('purchase-requisitions.items');
+    Route::post('purchase-requisitions/{purchase_requisition_id}/items', 'Api\PurchaseRequisitionItemsController@store')->name('purchase-requisitions.items');
+    Route::delete('purchase-requisitions/{purchase_requisition_id}/items/{id}', 'Api\PurchaseRequisitionItemsController@delete')->name('purchase-requisitions.delete');
 
     // Items.
     Route::post('items', 'Api\ItemsController@store')->name('items.store');

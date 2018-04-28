@@ -12,17 +12,16 @@
 namespace App\Clarimount\Service;
 
 use App\Models\Item;
-use App\Models\ItemTemplate;
 use Brick\Math\RoundingMode;
 use Brick\Money\Money;
 use Illuminate\Support\Facades\Validator;
-use App\Clarimount\Repository\RequestItemRepository;
+use App\Clarimount\Repository\PurchaseRequisitionItemsRepository;
 
-class RequestItemsService
+class PurchaseRequisitionItemsService
 {
     protected $repo;
 
-    public function __construct(RequestItemRepository $repo)
+    public function __construct(PurchaseRequisitionItemsRepository $repo)
     {
         $this->repo = $repo;
     }
@@ -82,6 +81,17 @@ class RequestItemsService
         // TODO: Check if the request is in draft mode... etc.
 
         return $this->repo->delete($id);
+    }
+
+    /**
+     * Shows all the items under a requisition.
+     *
+     * @param $id Requisition ID.
+     * @return mixed
+     */
+    public function underRequisition($id)
+    {
+        return $this->repo->underRequisition($id);
     }
 
 }

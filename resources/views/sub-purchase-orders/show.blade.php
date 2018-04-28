@@ -10,7 +10,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('requests.index') }}">
+                <a href="{{ route('purchase-requisitions') }}">
                     <span class="icon is-small"><i class="fa fa-file-o"></i></span>
                     <span>{{ __('words.requests') }}</span>
                 </a>

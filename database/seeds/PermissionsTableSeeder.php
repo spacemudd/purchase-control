@@ -78,14 +78,14 @@ class PermissionsTableSeeder extends Seeder
             'upload-purchase-orders',
             'void-purchase-orders',
 
-            'view-requests',
-            'create-requests',
-            'update-requests',
-            'delete-requests',
-            'send-requests-to-purchasing',
-            'approve-requests',
-            'upload-requests',
-            'void-requests',
+            'view-purchase-requisitions',
+            'create-purchase-requisitions',
+            'update-purchase-requisitions',
+            'delete-purchase-requisitions',
+            'send-purchase-requisitions-to-purchasing',
+            'approve-purchase-requisitions',
+            'upload-purchase-requisitions',
+            'void-purchase-requisitions',
         ];
 
         // Creating a super admin role.

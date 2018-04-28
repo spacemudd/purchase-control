@@ -119,7 +119,7 @@
                 <!--
                 <b-tab-item label="Work Requests">
                     <div class="section">
-                        <asset-work-requests :assetId="assetId"></asset-work-requests>
+                        <asset-work-purchase-requisitions :assetId="assetId"></asset-work-purchase-requisitions>
                     </div>
                 </b-tab-item>
                 -->

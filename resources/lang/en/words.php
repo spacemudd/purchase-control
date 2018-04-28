@@ -377,4 +377,6 @@
         'created-by' => 'Created by',
         'welcome' => 'Welcome',
         'item-templates' => 'Item Templates',
+        'purchase-requisitions' => 'Purchase Requisitions',
+        'requisition-items' => 'Requisition Items',
 	];

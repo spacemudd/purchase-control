@@ -15,13 +15,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
-use App\Clarimount\Service\RequestsService;
+use App\Clarimount\Service\PurchaseRequisitionsService;
 
-class RequestsController extends Controller
+class PurchaseRequisitionsController extends Controller
 {
     protected $service;
 
-    public function __construct(RequestsService $service)
+    public function __construct(PurchaseRequisitionsService $service)
     {
         $this->service = $service;
     }

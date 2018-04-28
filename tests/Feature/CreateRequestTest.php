@@ -24,14 +24,14 @@ class CreateRequestTest extends TestCase
     public function test_creating_a_request_document()
     {
         $user = factory(User::class)->create()->givePermissionTo([
-            'create-requests',
-            'send-requests-to-purchasing',
+            'create-purchase-requisitions',
+            'send-purchase-requisitions-to-purchasing',
         ]);
 
         $byEmployee = factory(Employee::class)->create();
         $forEmployee = factory(Employee::class)->create();
 
-        $url = route('api.requests.store');
+        $url = route('api.purchase-requisitions.store');
         $data = [
             'requested_by_id' => $byEmployee->id,
             'cost_center_by_id' => $byEmployee->department->id,
@@ -53,10 +53,10 @@ class CreateRequestTest extends TestCase
         ]);
 
         $user = factory(User::class)->create()->givePermissionTo([
-            'send-requests-to-purchasing'
+            'send-purchase-requisitions-to-purchasing'
         ]);
 
-        $url = route('api-requests.send-to-purchasing', ['id' => $requestDocument->id]);
+        $url = route('api-purchase-requisitions.send-to-purchasing', ['id' => $requestDocument->id]);
 
         $this->actingAs($user)->post($url)->assertSessionMissing('errors');
 
@@ -76,7 +76,7 @@ class CreateRequestTest extends TestCase
             'status' => RequestDocument::UNSET,
         ]);
 
-        $url = route('requests.by-status', ['status_slug' => 'draft']);
+        $url = route('purchase-requisitions.by-status', ['status_slug' => 'draft']);
 
         $seeText = $requestDocument->requested_by->code . ' - ' . $requestDocument->requested_by->name;
 

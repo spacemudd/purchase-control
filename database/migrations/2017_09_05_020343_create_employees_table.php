@@ -34,6 +34,8 @@ class CreateEmployeesTable extends Migration
             $table->string('phone')->nullable();
             $table->timestamps(4);
             $table->softDeletes('deleted_at', 4);
+
+            $table->index(['name']);
         });
     }
 

@@ -69,4 +69,15 @@ class User extends Authenticatable implements UserResolver, Auditable
     {
         return Auth::check() ? Auth::user()->getAuthIdentifier() : null;
     }
+
+    public function getExposedPermissionsAttribute()
+    {
+        $permissions = [];
+
+        foreach($this->getAllPermissions() as $permission) {
+            $permissions[$permission->name] = 1;
+        }
+
+        return json_encode($permissions);
+    }
 }

@@ -9,7 +9,7 @@
     {{-- <meta name="description" content="Always know where your assets are, with complete detailed logs, warranty alerts, service contracts alerts, time tracking, and more."> --}}
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="permissions" content="{{ auth()->user()->permissions }}">
+    <meta name="permissions" content='{!! auth()->user()->exposed_permissions !!}'>
 
     <title>{{ isset($title) ? $title . ' | Purchase Management' : 'Purchase Management' }}</title>
 

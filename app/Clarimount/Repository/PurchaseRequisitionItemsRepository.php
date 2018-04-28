@@ -13,7 +13,7 @@ namespace App\Clarimount\Repository;
 
 use App\Models\RequestDocumentItem;
 
-class RequestItemRepository
+class PurchaseRequisitionItemsRepository
 {
     protected $model;
 
@@ -30,5 +30,15 @@ class RequestItemRepository
     public function delete($id)
     {
         return $this->model->where('id', $id)->delete();
+    }
+
+    /**
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function underRequisition($id)
+    {
+        return $this->model->where('request_document_id', $id)->get();
     }
 }

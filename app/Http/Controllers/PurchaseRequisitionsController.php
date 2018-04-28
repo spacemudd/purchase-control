@@ -14,14 +14,14 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use App\Clarimount\Service\RequestsService;
+use App\Clarimount\Service\PurchaseRequisitionsService;
 use App\Models\RequestDocument;
 
-class RequestsController extends Controller
+class PurchaseRequisitionsController extends Controller
 {
     protected $service;
 
-    public function __construct(RequestsService $service)
+    public function __construct(PurchaseRequisitionsService $service)
     {
         $this->service = $service;
     }
@@ -34,9 +34,9 @@ class RequestsController extends Controller
     {
         $draftCounter = RequestDocument::where('status', RequestDocument::DRAFT)->count();
         $savedCounter = RequestDocument::where('status', RequestDocument::SAVED)->count();
-        $voidCounter = RequestDocument::where('status', RequestDocument::VOID)->count();
+        $approvedCounter = RequestDocument::where('status', RequestDocument::VOID)->count();
 
-        return view('requests.index', compact('draftCounter', 'savedCounter', 'voidCounter'));
+        return view('purchase-requisitions.index', compact('draftCounter', 'savedCounter', 'approvedCounter'));
     }
 
     /**
@@ -66,7 +66,7 @@ class RequestsController extends Controller
         }
 
         $data = $records->latest()->paginate(50);
-        return view('requests.paginated-by-status', compact('data', 'statusSlug'));
+        return view('purchase-requisitions.paginated-by-status', compact('data', 'statusSlug'));
     }
 
     /**
@@ -76,7 +76,7 @@ class RequestsController extends Controller
     public function create()
     {
         $employees = Employee::get();
-        return view('requests.create', compact('employees'));
+        return view('purchase-requisitions.create', compact('employees'));
     }
 
     /**
@@ -89,7 +89,7 @@ class RequestsController extends Controller
     {
         $request = $this->service->find($id);
 
-        return view('requests.show', compact('request'));
+        return view('purchase-requisitions.show', compact('request'));
     }
 
     /**
@@ -120,5 +120,19 @@ class RequestsController extends Controller
     public function destroy()
     {
 
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store()
+    {
+        $data = request()->except('_token');
+
+        $purchaseRequisition = $this->service->store($data);
+
+        return redirect()->route('purchase-requisitions.show', ['id' => $purchaseRequisition->id]);
     }
 }

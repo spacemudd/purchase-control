@@ -16,7 +16,7 @@ use Carbon\Carbon;
 use App\Models\RequestDocument;
 use DB;
 
-class RequestsRepository
+class PurchaseRequisitionsRepository
 {
     protected $model;
     

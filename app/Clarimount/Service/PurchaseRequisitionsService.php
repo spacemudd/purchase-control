@@ -13,13 +13,13 @@ namespace App\Clarimount\Service;
 
 use App\Models\RequestDocument;
 use Illuminate\Support\Facades\Validator;
-use App\Clarimount\Repository\RequestsRepository;
+use App\Clarimount\Repository\PurchaseRequisitionsRepository;
 
-class RequestsService
+class PurchaseRequisitionsService
 {
     protected $repository;
 
-    public function __construct(RequestsRepository $repository)
+    public function __construct(PurchaseRequisitionsRepository $repository)
     {
         $this->repository = $repository;
     }

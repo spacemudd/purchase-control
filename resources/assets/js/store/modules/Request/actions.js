@@ -14,7 +14,7 @@ const { startLoading, endLoading } = createActionHelpers({moduleName: 'loading'}
 export default {
     getResource(context, resourceId) {
         startLoading(context.dispatch, 'GETTING_PURCHASE_REQUEST');
-        axios.get(this.getters.apiUrl + '/requests/' + resourceId).then(response => {
+        axios.get(this.getters.apiUrl + '/purchase-requisitions/' + resourceId).then(response => {
             context.commit('request', response.data);
             endLoading(context.dispatch, 'GETTING_PURCHASE_REQUEST');
         }).catch(error => {

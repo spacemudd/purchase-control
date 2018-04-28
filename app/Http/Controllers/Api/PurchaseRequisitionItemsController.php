@@ -12,13 +12,13 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Routing\Controller;
-use App\Clarimount\Service\RequestItemsService;
+use App\Clarimount\Service\PurchaseRequisitionItemsService;
 
-class RequestItemController extends Controller
+class PurchaseRequisitionItemsController extends Controller
 {
     protected $service;
 
-    public function __construct(RequestItemsService $service)
+    public function __construct(PurchaseRequisitionItemsService $service)
     {
         $this->service = $service;
     }
@@ -36,5 +36,9 @@ class RequestItemController extends Controller
         return $this->service->delete($id);
     }
 
+    public function underRequisition($requisition_id)
+    {
+        return $this->service->underRequisition($requisition_id);
+    }
 
 }

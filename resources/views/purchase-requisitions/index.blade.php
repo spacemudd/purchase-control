@@ -10,9 +10,9 @@
                 </a>
             </li>
             <li class="is-active">
-                <a href="{{ route('requests.index') }}">
+                <a href="{{ route('purchase-requisitions.index') }}">
                     <span class="icon is-small"><i class="fa fa-file"></i></span>
-                    <span>{{ __('words.requests') }}</span>
+                    <span>{{ __('words.purchase-requisitions') }}</span>
                 </a>
             </li>
         </ul>
@@ -21,14 +21,14 @@
 
 @section('content')
 
-    {{-- Counts for the requests --}}
+    {{-- Counts for the purchase-requisitions --}}
     <div class="columns">
         <div class="column is-4">
             <p class="title is-6">
-                Draft Requests
+                {{ __('words.draft') }}
             </p>
 
-            <a href="{{ route('requests.by-status', ['status' => 'draft']) }}">
+            <a href="{{ route('purchase-requisitions.by-status', ['status' => 'draft']) }}">
                 <div class="notification is-warning">
                     <p class="subtitle is-7">
                         <b>{{ $draftCounter }}</b>
@@ -39,11 +39,11 @@
 
         <div class="column is-4">
             <p class="title is-6">
-                Saved Requests
+                Saved
             </p>
 
-            <a href="{{ route('requests.by-status', ['status' => 'saved']) }}">
-                <div class="notification is-success">
+            <a href="{{ route('purchase-requisitions.by-status', ['status' => 'saved']) }}">
+                <div class="notification is-warning">
                     <p class="subtitle is-7">
                         <b>{{ $savedCounter }}</b>
                     </p>
@@ -51,16 +51,15 @@
             </a>
         </div>
 
-
         <div class="column is-4">
             <p class="title is-6">
-                Void Requests
+                Approved
             </p>
 
-            <a href="{{ route('requests.by-status', ['status' => 'void']) }}">
-                <div class="notification is-danger">
+            <a href="{{ route('purchase-requisitions.by-status', ['status' => 'saved']) }}">
+                <div class="notification is-success">
                     <p class="subtitle is-7">
-                        <b>{{ $voidCounter }}</b>
+                        {{ $approvedCounter }}
                     </p>
                 </div>
             </a>
@@ -72,7 +71,8 @@
 
         </div>
         <div class="column is-6 has-text-right">
-            <a href="{{ route('requests.create') }}" class="button is-primary">New Request</a>
+            {{--<a href="#" class="button is-text">Blank Form</a>--}}
+            <a href="{{ route('purchase-requisitions.create') }}" class="button is-primary">New Purchase Requisition</a>
         </div>
     </div>
 

@@ -39,6 +39,16 @@ if (token) {
 }
 
 /**
+ * Load the permissions to be used elsewhere in vue.
+ */
+
+let permissions = document.head.querySelector('meta[name="permissions"]');
+
+if(permissions) {
+    window.permissions = JSON.parse(permissions.content);
+}
+
+/**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.

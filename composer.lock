@@ -1529,16 +1529,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.6.17",
+            "version": "v5.6.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "0f787c763ae8fb9fae0c8c809830ba4fa81e2d9d"
+                "reference": "088f286d0b5145275ced93799e23980a81898d10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/0f787c763ae8fb9fae0c8c809830ba4fa81e2d9d",
-                "reference": "0f787c763ae8fb9fae0c8c809830ba4fa81e2d9d",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/088f286d0b5145275ced93799e23980a81898d10",
+                "reference": "088f286d0b5145275ced93799e23980a81898d10",
                 "shasum": ""
             },
             "require": {
@@ -1664,7 +1664,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-04-17T12:51:04+00:00"
+            "time": "2018-04-26T13:25:23+00:00"
         },
         {
             "name": "laravel/passport",
@@ -2256,16 +2256,16 @@
         },
         {
             "name": "mcamara/laravel-localization",
-            "version": "v1.3.6",
+            "version": "1.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mcamara/laravel-localization.git",
-                "reference": "68a06bcb5406083f2dbe8ac6f2344aa85381b655"
+                "reference": "6cd1756bce568248b58d04878e5e1caf6096e673"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mcamara/laravel-localization/zipball/68a06bcb5406083f2dbe8ac6f2344aa85381b655",
-                "reference": "68a06bcb5406083f2dbe8ac6f2344aa85381b655",
+                "url": "https://api.github.com/repos/mcamara/laravel-localization/zipball/6cd1756bce568248b58d04878e5e1caf6096e673",
+                "reference": "6cd1756bce568248b58d04878e5e1caf6096e673",
                 "shasum": ""
             },
             "require": {
@@ -2314,7 +2314,7 @@
                 "localization",
                 "php"
             ],
-            "time": "2018-03-15T17:23:53+00:00"
+            "time": "2018-04-25T17:16:00+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2656,16 +2656,16 @@
         },
         {
             "name": "owen-it/laravel-auditing",
-            "version": "v6.1.0",
+            "version": "v6.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/owen-it/laravel-auditing.git",
-                "reference": "e5694edc594475a40e88ce3f48c23c08ca689579"
+                "reference": "ec2e490d77f4e030f296e90b944c07deb10bef2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/owen-it/laravel-auditing/zipball/e5694edc594475a40e88ce3f48c23c08ca689579",
-                "reference": "e5694edc594475a40e88ce3f48c23c08ca689579",
+                "url": "https://api.github.com/repos/owen-it/laravel-auditing/zipball/ec2e490d77f4e030f296e90b944c07deb10bef2e",
+                "reference": "ec2e490d77f4e030f296e90b944c07deb10bef2e",
                 "shasum": ""
             },
             "require": {
@@ -2735,7 +2735,7 @@
                 "revision",
                 "tracking"
             ],
-            "time": "2018-04-23T14:30:13+00:00"
+            "time": "2018-04-27T10:42:41+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -3558,16 +3558,16 @@
         },
         {
             "name": "spatie/db-dumper",
-            "version": "2.9.0",
+            "version": "2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/db-dumper.git",
-                "reference": "98a3b7df0186d66a2385f444603dc60ff656a6b9"
+                "reference": "ee745fba17bcf77c916f231a571bbde8dae8e001"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/db-dumper/zipball/98a3b7df0186d66a2385f444603dc60ff656a6b9",
-                "reference": "98a3b7df0186d66a2385f444603dc60ff656a6b9",
+                "url": "https://api.github.com/repos/spatie/db-dumper/zipball/ee745fba17bcf77c916f231a571bbde8dae8e001",
+                "reference": "ee745fba17bcf77c916f231a571bbde8dae8e001",
                 "shasum": ""
             },
             "require": {
@@ -3604,20 +3604,20 @@
                 "mysqldump",
                 "spatie"
             ],
-            "time": "2018-03-05T23:49:28+00:00"
+            "time": "2018-04-27T15:10:51+00:00"
         },
         {
             "name": "spatie/laravel-backup",
-            "version": "5.6.2",
+            "version": "5.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-backup.git",
-                "reference": "3e9bad559035384e5cf96cae7513d0c7ff0b4e02"
+                "reference": "4c4bf144725f2a0e0316f1daca6c0297cb1eb673"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-backup/zipball/3e9bad559035384e5cf96cae7513d0c7ff0b4e02",
-                "reference": "3e9bad559035384e5cf96cae7513d0c7ff0b4e02",
+                "url": "https://api.github.com/repos/spatie/laravel-backup/zipball/4c4bf144725f2a0e0316f1daca6c0297cb1eb673",
+                "reference": "4c4bf144725f2a0e0316f1daca6c0297cb1eb673",
                 "shasum": ""
             },
             "require": {
@@ -3677,7 +3677,7 @@
                 "laravel-backup",
                 "spatie"
             ],
-            "time": "2018-04-24T13:54:00+00:00"
+            "time": "2018-04-26T14:36:51+00:00"
         },
         {
             "name": "spatie/laravel-permission",

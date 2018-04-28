@@ -1112,7 +1112,12 @@ export default {
             "account-number": "Account Number",
             "support-url": "Support URL",
             "support-phone": "Support Phone",
-            "support-email": "Support Email"
+            "support-email": "Support Email",
+            "created-by": "Created by",
+            "welcome": "Welcome",
+            "item-templates": "Item Templates",
+            "purchase-requisitions": "Purchase Requisitions",
+            "requisition-items": "Requisition Items"
         }
     }
 }

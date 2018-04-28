@@ -39,6 +39,11 @@ class Department extends Model implements AuditableContract
     	return $this->code . ' - ' . $this->description;
     }
 
+    public function getDisplayNameAttribute()
+    {
+        return $this->code . ' - ' . $this->description;
+    }
+
     public function getLinkAttribute()
     {
         return route('departments.show', ['id' => $this->id]);

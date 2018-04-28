@@ -42,7 +42,6 @@ class EmployeeController extends Controller
 
         $employees = Employee::where('code', 'LIKE', '%' . $search . '%')
             ->orWhere('name', 'LIKE', '%' . $search . '%')
-            ->orWhere('phone', 'LIKE', '%' . $search . '%')
             ->paginate(10);
 
         return $employees;

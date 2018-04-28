@@ -22,8 +22,8 @@ class UsersTableSeeder extends Seeder
     {
         $superAdminUser = [
             'username' => '0',
-            'name' => 'Initial Admin',
-            'email' => 'admin@clarimount.tech',
+            'name' => 'System',
+            'email' => 'system@clarimount.tech',
             'password' => bcrypt('secret'),
         ];
 

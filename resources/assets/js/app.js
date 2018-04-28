@@ -190,7 +190,9 @@ Vue.component('approve-confirmation', require('./components/ApproveConfirmation/
 Vue.component('autocomplete-select', require('./components/AutocompleteSelect/AutocompleteSelect.vue'));
 Vue.component('datepicker', require('./components/Datepicker/Datepicker.vue'));
 Vue.component('clipboard', require('./components/CopyToClipboard/CopyToClipboard'));
-
+Vue.component('select-employee', require('./components/SelectEmployee/SelectEmployee'));
+Vue.component('select-department', require('./components/SelectDepartment/SelectDepartment'));
+Vue.component('purchase-requisition-items', require('./components/PurchaseRequisitionItems/PurchaseRequisitionItems'));
 
 /**
  * API/App settings
@@ -213,6 +215,9 @@ Vue.mixin({
         },
         scannerUrl() {
             return 'https://localhost:8087';
+        },
+        getPermissions() {
+            return permissions;
         },
         getTrans(key) {
             return this.$t(key)

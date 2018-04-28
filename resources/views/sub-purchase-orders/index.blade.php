@@ -10,7 +10,7 @@
                 </a>
             </li>
             <li class="is-active">
-                <a href="{{ route('requests.index') }}">
+                <a href="{{ route('purchase-requisitions') }}">
                     <span class="icon is-small"><i class="fa fa-file"></i></span>
                     <span>{{ __('words.requests') }}</span>
                 </a>
@@ -21,7 +21,7 @@
 
 @section('content')
 
-    {{-- Counts for the requests --}}
+    {{-- Counts for the purchase-requisitions --}}
     <div class="columns">
         <div class="column is-4">
             <p class="title is-6">
