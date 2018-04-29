@@ -12,8 +12,7 @@
 namespace App\Clarimount\Service;
 
 use App\Models\Item;
-use Brick\Math\RoundingMode;
-use Brick\Money\Money;
+use App\Models\ItemTemplate;
 use Illuminate\Support\Facades\Validator;
 use App\Clarimount\Repository\PurchaseRequisitionItemsRepository;
 
@@ -30,43 +29,22 @@ class PurchaseRequisitionItemsService
     {
         $this->validate($data)->validate();
 
-        $data['currency'] = 'SAR';
-
-        $unitPrice = Money::of($data['unit_price'], $data['currency']);
-        $total = $unitPrice->multipliedBy($data['qty'], RoundingMode::HALF_UP);
-        $data['unit_price_minor'] = $unitPrice->getMinorAmount()->toInt();
-        $data['total_minor'] = $total->getMinorAmount()->toInt();
-
-        // Create an item template if it doesnt exist.
-        if( ! $data['item_id'] ) {
-            $newItem = $data;
-            $newItem['code'] = $data['name'];
-            $newItem['default_unit_price'] = $data['unit_price_minor'];
-
-            $data['item_id'] = $this->createItemTemplateOnFly($newItem)
-                                    ->id;
-        }
+        // Fill some of the immutable data.
+        $itemTemplate = ItemTemplate::findOrFail($data['item_template_id']);
+        $data['code'] = $itemTemplate->code;
+        $data['name'] = $itemTemplate->name;
+        $data['model_number'] = $itemTemplate->model_number;
+        $data['manufacturer'] = optional($itemTemplate->manufacturer)->name;
 
         return $this->repo->store($data);
-    }
-
-    /**
-     *
-     * @param array $data
-     * @return \App\Models\Item;
-     */
-    public function createItemTemplateOnFly(array $data)
-    {
-        return Item::create($data);
     }
 
     public function validate(array $data)
     {
         return Validator::make($data, [
-            'item_id' => 'nullable|exists:items,id',
-            'name' => 'required|string|max:255,',
+            'request_document_id' => 'required|exists:request_documents,id',
+            'item_template_id' => 'required|exists:item_templates,id',
             'qty' => 'required|numeric|min:0',
-            'unit_price' => 'required|numeric|min:1',
         ]);
     }
 

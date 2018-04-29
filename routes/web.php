@@ -183,11 +183,14 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('purchase-requisitions/{purchase_requisition_id}/items', 'Api\PurchaseRequisitionItemsController@store')->name('purchase-requisitions.items');
     Route::delete('purchase-requisitions/{purchase_requisition_id}/items/{id}', 'Api\PurchaseRequisitionItemsController@delete')->name('purchase-requisitions.delete');
 
+    Route::post('purchase-requisition-items', 'Api\PurchaseRequisitionItemsController@store')->name('api.purchase-requisitions.store');
+
     // Items.
     Route::post('items', 'Api\ItemsController@store')->name('items.store');
 
     Route::prefix('search')->group(function() {
         Route::get('items', 'Api\ItemController@search');
+        Route::get('item-templates', 'Api\ItemTemplateController@search');
         Route::get('purchase-orders', 'Api\PurchaseOrderController@search');
         Route::get('vendors', 'Api\VendorController@search')->name('api.search.vendor');
         Route::get('manufacturers', 'Api\ManufacturerController@search')->name('api.search.manufacturer');

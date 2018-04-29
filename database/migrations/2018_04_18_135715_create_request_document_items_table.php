@@ -19,10 +19,15 @@ class CreateRequestDocumentItemsTable extends Migration
             $table->foreign('request_document_id')->references('id')->on('request_documents');
             $table->integer('item_template_id')->unsigned();
             $table->foreign('item_template_id')->references('id')->on('item_templates');
+
+            // Filled from item_templates table.
+            $table->string('code')->nullable();
+            $table->string('name')->nullable();
+            $table->string('model_number')->nullable();
+            $table->string('manufacturer')->nullable();
+
             $table->string('description')->nullable();
             $table->decimal('qty', 15, 2);
-            $table->unsignedBigInteger('unit_price_minor');
-            $table->unsignedBigInteger('total_minor');
             $table->timestamps();
         });
     }

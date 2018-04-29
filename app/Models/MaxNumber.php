@@ -18,4 +18,9 @@ class MaxNumber extends Model
     protected $fillable = [
         'name', 'value',
     ];
+
+    public function getCodeAttribute()
+    {
+        return $this->name . '-' . $this->value;
+    }
 }

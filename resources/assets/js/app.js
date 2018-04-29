@@ -193,6 +193,8 @@ Vue.component('clipboard', require('./components/CopyToClipboard/CopyToClipboard
 Vue.component('select-employee', require('./components/SelectEmployee/SelectEmployee'));
 Vue.component('select-department', require('./components/SelectDepartment/SelectDepartment'));
 Vue.component('purchase-requisition-items', require('./components/PurchaseRequisitionItems/PurchaseRequisitionItems'));
+Vue.component('new-item-requisition-modal', require('./components/NewItemRequisitionModal/NewItemRequisitionModal'));
+Vue.component('select-item-template', require('./components/SelectItemTemplate/SelectItemTemplate'));
 
 /**
  * API/App settings

@@ -2,13 +2,13 @@
     <div>
         <!-- New requisition item modal -->
         <b-modal :active.sync="newItemModal">
-            <new-requisition-item-modal :requisition-id="requisitionId"></new-requisition-item-modal>
+            <new-item-requisition-modal :requisition-id="requisitionId" @saved="getItems"></new-item-requisition-modal>
         </b-modal>
 
         <div class="columns">
             <div class="column"><p class="title is-4">{{ $t('words.requisition-items') }}</p></div>
             <div class="column has-text-right">
-                <button class="button has-icon" >
+                <button class="button has-icon" @click="newItemModal=true">
                     <span class="icon"><i class="fa fa-plus"></i></span>
                     <span>New Item</span>
                 </button>
@@ -28,7 +28,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr class="has-text-centered">
+                    <tr v-for="(item, key) in items">
+                        <td>{{ ++key }}</td>
+                        <td>{{ item.code }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.qty }}</td>
+                    </tr>
+                    <tr class="has-text-centered" v-if="items.length === 0">
                         <td colspan="5"><p class="has-text-centered"><i>No items</i></p></td>
                     </tr>
                     </tbody>

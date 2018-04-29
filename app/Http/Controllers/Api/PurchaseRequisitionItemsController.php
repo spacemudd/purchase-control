@@ -23,10 +23,9 @@ class PurchaseRequisitionItemsController extends Controller
         $this->service = $service;
     }
 
-    public function store($request_document_id)
+    public function store()
     {
         $data = request()->except('_token');
-        $data['request_document_id'] = $request_document_id;
 
         return $this->service->store($data);
     }

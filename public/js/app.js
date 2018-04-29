@@ -30526,6 +30526,8 @@ Vue.component('clipboard', __webpack_require__(558));
 Vue.component('select-employee', __webpack_require__(562));
 Vue.component('select-department', __webpack_require__(565));
 Vue.component('purchase-requisition-items', __webpack_require__(568));
+Vue.component('new-item-requisition-modal', __webpack_require__(578));
+Vue.component('select-item-template', __webpack_require__(581));
 
 /**
  * API/App settings
@@ -103233,6 +103235,12 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     props: {
@@ -103285,8 +103293,9 @@ var render = function() {
           }
         },
         [
-          _c("new-requisition-item-modal", {
-            attrs: { "requisition-id": _vm.requisitionId }
+          _c("new-item-requisition-modal", {
+            attrs: { "requisition-id": _vm.requisitionId },
+            on: { saved: _vm.getItems }
           })
         ],
         1
@@ -103299,10 +103308,57 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(0)
+        _c("div", { staticClass: "column has-text-right" }, [
+          _c(
+            "button",
+            {
+              staticClass: "button has-icon",
+              on: {
+                click: function($event) {
+                  _vm.newItemModal = true
+                }
+              }
+            },
+            [_vm._m(0), _vm._v(" "), _c("span", [_vm._v("New Item")])]
+          )
+        ])
       ]),
       _vm._v(" "),
-      _vm._m(1)
+      _c("div", { staticClass: "columns" }, [
+        _c("div", { staticClass: "column" }, [
+          _c(
+            "table",
+            { staticClass: "table is-fullwidth is-bordered is-size-7" },
+            [
+              _vm._m(1),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                [
+                  _vm._l(_vm.items, function(item, key) {
+                    return _c("tr", [
+                      _c("td", [_vm._v(_vm._s(++key))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.code))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.qty))])
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _vm.items.length === 0
+                    ? _c("tr", { staticClass: "has-text-centered" }, [
+                        _vm._m(2)
+                      ])
+                    : _vm._e()
+                ],
+                2
+              )
+            ]
+          )
+        ])
+      ])
     ],
     1
   )
@@ -103312,13 +103368,25 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "column has-text-right" }, [
-      _c("button", { staticClass: "button has-icon" }, [
-        _c("span", { staticClass: "icon" }, [
-          _c("i", { staticClass: "fa fa-plus" })
-        ]),
+    return _c("span", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fa fa-plus" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
-        _c("span", [_vm._v("New Item")])
+        _c("th", [_vm._v("Code")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Description")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "has-text-right" }, [_vm._v("Quantity")]),
+        _vm._v(" "),
+        _c("th")
       ])
     ])
   },
@@ -103326,39 +103394,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "columns" }, [
-      _c("div", { staticClass: "column" }, [
-        _c(
-          "table",
-          { staticClass: "table is-fullwidth is-bordered is-size-7" },
-          [
-            _c("thead", [
-              _c("tr", [
-                _c("th", [_vm._v("#")]),
-                _vm._v(" "),
-                _c("th", [_vm._v("Code")]),
-                _vm._v(" "),
-                _c("th", [_vm._v("Description")]),
-                _vm._v(" "),
-                _c("th", { staticClass: "has-text-right" }, [
-                  _vm._v("Quantity")
-                ]),
-                _vm._v(" "),
-                _c("th")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("tbody", [
-              _c("tr", { staticClass: "has-text-centered" }, [
-                _c("td", { attrs: { colspan: "5" } }, [
-                  _c("p", { staticClass: "has-text-centered" }, [
-                    _c("i", [_vm._v("No items")])
-                  ])
-                ])
-              ])
-            ])
-          ]
-        )
+    return _c("td", { attrs: { colspan: "5" } }, [
+      _c("p", { staticClass: "has-text-centered" }, [
+        _c("i", [_vm._v("No items")])
       ])
     ])
   }
@@ -103377,6 +103415,616 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 574 */,
+/* 575 */,
+/* 576 */,
+/* 577 */,
+/* 578 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(579)
+/* template */
+var __vue_template__ = __webpack_require__(580)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\NewItemRequisitionModal\\NewItemRequisitionModal.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-957196b6", Component.options)
+  } else {
+    hotAPI.reload("data-v-957196b6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 579 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        requisitionId: {
+            type: Number,
+            required: true
+        }
+    },
+    data: function data() {
+        return {
+
+            form: {
+                itemTemplate: null,
+                qty: 1,
+                errors: []
+            }
+        };
+    },
+    mounted: function mounted() {
+        //
+    },
+
+    methods: {
+        selectedItemTemplate: function selectedItemTemplate(itemTemplate) {
+            this.form.itemTemplate = itemTemplate;
+        },
+        save: function save() {
+            var _this = this;
+
+            this.form.errors = [];
+
+            axios.post(this.apiUrl() + '/purchase-requisition-items', {
+                request_document_id: this.requisitionId,
+                qty: this.form.qty,
+                item_template_id: this.form.itemTemplate.id
+            }).then(function (response) {
+                _this.form.name = '';
+                _this.form.scopes = [];
+                _this.form.errors = [];
+
+                _this.$emit('saved');
+
+                _this.$parent.close();
+            }).catch(function (response) {
+                if (_typeof(response.data) === 'object') {
+                    _this.form.errors = _.flatten(_.toArray(response.data));
+                } else {
+                    _this.form.errors = ['Something went wrong. Please try again.'];
+                }
+            });
+        }
+    }
+};
+
+/***/ }),
+/* 580 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "form",
+    {
+      on: {
+        submit: function($event) {
+          $event.preventDefault()
+          return _vm.save($event)
+        }
+      }
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass: "modal-card",
+          staticStyle: { width: "auto", "min-height": "600px" }
+        },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "section",
+            { staticClass: "modal-card-body" },
+            [
+              _vm.form.errors.length > 0
+                ? _c("div", { staticClass: "notification is-danger" }, [
+                    _c("strong", [_vm._v("An error occurred.")]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
+                      _vm._l(_vm.form.errors, function(error) {
+                        return _c("li", [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(error) +
+                              "\n                    "
+                          )
+                        ])
+                      })
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("div", { staticClass: "field" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "control" },
+                  [
+                    _vm.form.itemTemplate
+                      ? _c("b-input", {
+                          attrs: {
+                            value:
+                              _vm.form.itemTemplate.code +
+                              " - " +
+                              _vm.form.itemTemplate.name
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.form.itemTemplate = null
+                            }
+                          }
+                        })
+                      : _c("select-item-template", {
+                          attrs: {
+                            url: this.apiUrl() + "/search/item-templates"
+                          },
+                          on: { select: _vm.selectedItemTemplate }
+                        })
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "field" }, [
+                _vm._m(2),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "control" },
+                  [
+                    _c("b-input", {
+                      attrs: { type: "number", step: "1" },
+                      model: {
+                        value: _vm.form.qty,
+                        callback: function($$v) {
+                          _vm.$set(_vm.form, "qty", $$v)
+                        },
+                        expression: "form.qty"
+                      }
+                    })
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "transition",
+                {
+                  attrs: {
+                    "enter-active-class": "animated fadeInLeft",
+                    "leave-active-class": "animated fadeOutLeft"
+                  }
+                },
+                [
+                  _vm.form.itemTemplate
+                    ? _c("div", { staticClass: "notification" }, [
+                        _c("p", { staticClass: "title is-spaced" }, [
+                          _vm._v(_vm._s(_vm.form.itemTemplate.name) + " "),
+                          _c("span", { staticClass: "has-text-grey" }, [
+                            _vm._v("x " + _vm._s(_vm.form.qty))
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "subtitle" }, [
+                          _vm._v(_vm._s(_vm.form.itemTemplate.model_number))
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "button is-small is-text",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.form.itemTemplate = null
+                              }
+                            }
+                          },
+                          [_vm._v("Clear")]
+                        )
+                      ])
+                    : _vm._e()
+                ]
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("footer", { staticClass: "modal-card-foot" }, [
+            _c(
+              "button",
+              {
+                staticClass: "button",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    _vm.$parent.close()
+                  }
+                }
+              },
+              [_vm._v("Close")]
+            ),
+            _vm._v(" "),
+            _c("button", { staticClass: "button is-primary" }, [_vm._v("Add")])
+          ])
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("header", { staticClass: "modal-card-head" }, [
+      _c("p", { staticClass: "modal-card-title" }, [_vm._v("Add new item")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "label" }, [
+      _vm._v("Item "),
+      _c("span", { staticClass: "has-text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "label" }, [
+      _vm._v("Quantity "),
+      _c("span", { staticClass: "has-text-danger" }, [_vm._v("*")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-957196b6", module.exports)
+  }
+}
+
+/***/ }),
+/* 581 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(582)
+/* template */
+var __vue_template__ = __webpack_require__(583)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\SelectItemTemplate\\SelectItemTemplate.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4440c016", Component.options)
+  } else {
+    hotAPI.reload("data-v-4440c016", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 582 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _debounce = __webpack_require__(7);
+
+var _debounce2 = _interopRequireDefault(_debounce);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    props: {
+        /**
+         * api endpoint to search for results.
+         */
+        url: {
+            type: String,
+            required: true
+        },
+        name: {
+            type: String,
+            required: false
+        }
+    },
+    data: function data() {
+        return {
+            isLoading: false,
+            selected: null,
+            search: null,
+            results: []
+        };
+    },
+    mounted: function mounted() {},
+
+    methods: {
+        selectRecord: function selectRecord(record) {
+            this.selected = record;
+            this.$emit('select', record);
+        },
+
+        getData: (0, _debounce2.default)(function () {
+            var _this = this;
+
+            this.results = [];
+            this.isLoading = true;
+            axios.get(this.url + '?q=' + this.search).then(function (response) {
+                response.data.data.forEach(function (item) {
+                    return _this.results.push(item);
+                });
+                _this.isLoading = false;
+            }).catch(function (error) {
+                _this.isLoading = false;
+                throw error;
+            });
+        }, 500)
+    }
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/***/ }),
+/* 583 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "span",
+    [
+      _vm.selected
+        ? _c("input", {
+            attrs: { type: "hidden", name: _vm.name },
+            domProps: { value: _vm.selected.id }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.selected
+        ? _c("input", {
+            staticClass: "input",
+            attrs: { type: "text", readonly: "" },
+            domProps: { value: _vm.selected.code + " - " + _vm.selected.name },
+            on: {
+              click: function($event) {
+                _vm.selected = _vm.search = null
+              }
+            }
+          })
+        : _c(
+            "b-autocomplete",
+            {
+              attrs: {
+                data: _vm.results,
+                loading: _vm.isLoading,
+                field: "code"
+              },
+              on: { input: _vm.getData, select: _vm.selectRecord },
+              scopedSlots: _vm._u([
+                {
+                  key: "default",
+                  fn: function(props) {
+                    return [
+                      _c("a", { staticClass: "dropdown-item" }, [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(props.option.code) +
+                            " - " +
+                            _vm._s(props.option.name) +
+                            "\n            "
+                        )
+                      ])
+                    ]
+                  }
+                }
+              ]),
+              model: {
+                value: _vm.search,
+                callback: function($$v) {
+                  _vm.search = $$v
+                },
+                expression: "search"
+              }
+            },
+            [
+              !_vm.isLoading
+                ? _c("template", { slot: "empty" }, [
+                    _vm._v("No results found")
+                  ])
+                : _vm._e()
+            ],
+            2
+          )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4440c016", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

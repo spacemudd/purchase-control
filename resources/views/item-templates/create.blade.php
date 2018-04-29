@@ -83,7 +83,7 @@
 								<input id="model_number" type="text"
 									   class="input {{ $errors->has('model_number') ? ' is-danger' : '' }}"
 									   name="model_number"
-									   value="{{ old('model_number') }}" required>
+									   value="{{ old('model_number') }}">
 
 								@if ($errors->has('model_number'))
 									<span class="help is-danger">

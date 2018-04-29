@@ -47,6 +47,6 @@ class ItemTemplate extends Model implements AuditableContract
 
     public function getLinkAttribute()
     {
-        return route('asset-templates.show', ['id' => $this->id]);
+        return route('item-templates.show', ['id' => $this->id]);
     }
 }
