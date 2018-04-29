@@ -35,7 +35,7 @@ class PurchaseRequisitionItemsController extends Controller
         return $this->service->store($data);
     }
 
-    public function delete($request_document_id, $id)
+    public function delete($id)
     {
         return $this->service->delete($id);
     }

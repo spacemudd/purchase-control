@@ -27,6 +27,11 @@ class PurchaseRequisitionItemsRepository
         return $this->model->create($data);
     }
 
+    public function find($id)
+    {
+        return $this->model->where('id', $id)->firstOrFail();
+    }
+
     public function delete($id)
     {
         return $this->model->where('id', $id)->delete();

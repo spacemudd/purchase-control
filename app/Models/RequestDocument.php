@@ -90,6 +90,16 @@ class RequestDocument extends Model implements AuditableContract
         return $this->belongsTo(User::class);
     }
 
+    public function getIsDraftAttribute()
+    {
+        return $this->status === self::DRAFT;
+    }
+
+    public function getCanAddItemsAttribute()
+    {
+        return $this->status === self::DRAFT || $this->status === self::UNSET;
+    }
+
     public function scopeDraft($q)
     {
         return $q->where('status', self::DRAFT);

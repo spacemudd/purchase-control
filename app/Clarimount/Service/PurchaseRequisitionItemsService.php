@@ -53,10 +53,12 @@ class PurchaseRequisitionItemsService
      *
      * @param $id
      * @return bool
+     * @throws \Exception
      */
     public function delete($id)
     {
-        // TODO: Check if the request is in draft mode... etc.
+        $requisitionItem = $this->repo->find($id);
+        if( ! $requisitionItem->requisition->canAddItems) throw new \Exception('Requisition must be in draft mode.');
 
         return $this->repo->delete($id);
     }

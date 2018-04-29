@@ -103241,10 +103241,23 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     props: {
         requisitionId: {
+            type: Number,
+            required: true
+        },
+        inDraft: {
             type: Number,
             required: true
         }
@@ -103264,8 +103277,21 @@ exports.default = {
         getItems: function getItems() {
             var _this = this;
 
-            axios.get(this.apiUrl() + ("/purchase-requisitions/" + this.requisitionId + "/items")).then(function (response) {
+            axios.get(this.apiUrl() + ('/purchase-requisitions/' + this.requisitionId + '/items')).then(function (response) {
                 _this.items = response.data;
+                _this.$endLoading('DELETING_ITEM');
+            });
+        },
+
+        /**
+         * @param item Object
+         */
+        deleteItem: function deleteItem(item) {
+            var _this2 = this;
+
+            this.$startLoading('DELETING_ITEM');
+            axios.delete(this.apiUrl() + ('/purchase-requisition-items/' + item.id)).then(function (response) {
+                _this2.getItems();
             });
         }
     }
@@ -103309,7 +103335,8 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "column has-text-right" }, [
-          this.getPermissions()["create-purchase-requisition-item"]
+          this.getPermissions()["create-purchase-requisition-item"] &&
+          _vm.inDraft
             ? _c(
                 "button",
                 {
@@ -103327,39 +103354,94 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "columns" }, [
-        _c("div", { staticClass: "column" }, [
-          _c(
-            "table",
-            { staticClass: "table is-fullwidth is-bordered is-size-7" },
-            [
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                [
-                  _vm._l(_vm.items, function(item, key) {
-                    return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(++key))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.code))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.name))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.qty))])
-                    ])
-                  }),
-                  _vm._v(" "),
-                  _vm.items.length === 0
-                    ? _c("tr", { staticClass: "has-text-centered" }, [
-                        _vm._m(2)
+        _c(
+          "div",
+          { staticClass: "column" },
+          [
+            _vm.$isLoading("DELETING_ITEM")
+              ? _c("loading-screen")
+              : _c(
+                  "table",
+                  { staticClass: "table is-fullwidth is-bordered is-size-7" },
+                  [
+                    _c("thead", [
+                      _c("tr", [
+                        _c("th", [_vm._v("#")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Code")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Description")]),
+                        _vm._v(" "),
+                        _c("th", { staticClass: "has-text-right" }, [
+                          _vm._v("Quantity")
+                        ]),
+                        _vm._v(" "),
+                        _c("th")
                       ])
-                    : _vm._e()
-                ],
-                2
-              )
-            ]
-          )
-        ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      [
+                        _vm._l(_vm.items, function(item, key) {
+                          return _c("tr", [
+                            _c("td", [_vm._v(_vm._s(++key))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(item.code))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(item.name))]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "has-text-right" }, [
+                              _vm._v(_vm._s(item.qty))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "has-text-centered" }, [
+                              _vm.inDraft
+                                ? _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "button is-outlined is-danger has-icon is-small",
+                                      on: {
+                                        click: function($event) {
+                                          _vm.deleteItem(item)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "span",
+                                        { staticClass: "icon is-small" },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fa fa-times"
+                                          })
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                : _vm._e()
+                            ])
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _vm.items.length === 0
+                          ? _c("tr", { staticClass: "has-text-centered" }, [
+                              _c("td", { attrs: { colspan: "5" } }, [
+                                _c("p", { staticClass: "has-text-centered" }, [
+                                  _c("i", [_vm._v("No items")])
+                                ])
+                              ])
+                            ])
+                          : _vm._e()
+                      ],
+                      2
+                    )
+                  ]
+                )
+          ],
+          1
+        )
       ])
     ],
     1
@@ -103372,34 +103454,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "icon" }, [
       _c("i", { staticClass: "fa fa-plus" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("#")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Code")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Description")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "has-text-right" }, [_vm._v("Quantity")]),
-        _vm._v(" "),
-        _c("th")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "5" } }, [
-      _c("p", { staticClass: "has-text-centered" }, [
-        _c("i", [_vm._v("No items")])
-      ])
     ])
   }
 ]

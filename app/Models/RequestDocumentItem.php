@@ -22,6 +22,11 @@ class RequestDocumentItem extends Model
         return $this->belongsTo(RequestDocument::class);
     }
 
+    public function requisition()
+    {
+        return $this->belongsTo(RequestDocument::class, 'request_document_id');
+    }
+
     public function item()
     {
         return $this->belongsTo(Item::class);

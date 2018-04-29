@@ -184,6 +184,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::delete('purchase-requisitions/{purchase_requisition_id}/items/{id}', 'Api\PurchaseRequisitionItemsController@delete')->name('purchase-requisitions.delete');
 
     Route::post('purchase-requisition-items', 'Api\PurchaseRequisitionItemsController@store')->name('api.purchase-requisitions.store');
+    Route::delete('purchase-requisition-items/{id}', 'Api\PurchaseRequisitionItemsController@delete')->name('api.purchase-requisitions.delete');
 
     // Items.
     Route::post('items', 'Api\ItemsController@store')->name('items.store');
