@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRequestDocumentItemsTable extends Migration
+class CreatePurchaseRequisitionItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateRequestDocumentItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('request_document_items', function (Blueprint $table) {
+        Schema::create('purchase_requisition_items', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('request_document_id')->unsigned();
-            $table->foreign('request_document_id')->references('id')->on('request_documents');
+            $table->integer('purchase_requisition_id')->unsigned();
+            $table->foreign('purchase_requisition_id')->references('id')->on('purchase_requisitions');
             $table->integer('item_template_id')->unsigned();
             $table->foreign('item_template_id')->references('id')->on('item_templates');
 
@@ -39,6 +39,6 @@ class CreateRequestDocumentItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('request_document_items');
+        Schema::dropIfExists('purchase_requisitions_items');
     }
 }

@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Employee;
-use App\Models\RequestDocument;
+use App\Models\PurchaseRequisition;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
@@ -41,15 +41,15 @@ class CreateRequestTest extends TestCase
 
         $this->actingAs($user)->post($url, $data)->assertSessionMissing('errors');
 
-        $data['status'] = RequestDocument::UNSET; // See \App\Clarimount\Service\RequestDocument@store
+        $data['status'] = PurchaseRequisition::UNSET; // See \App\Clarimount\Service\PurchaseRequisition@store
 
         $this->assertDatabaseHas('request_documents', $data);
     }
 
     public function test_sending_to_purchasing_dept()
     {
-        $requestDocument = factory(RequestDocument::class)->create([
-            'status' => RequestDocument::UNSET,
+        $requestDocument = factory(PurchaseRequisition::class)->create([
+            'status' => PurchaseRequisition::UNSET,
         ]);
 
         $user = factory(User::class)->create()->givePermissionTo([
@@ -62,7 +62,7 @@ class CreateRequestTest extends TestCase
 
         $this->assertDatabaseHas('request_documents', [
             'id' => $requestDocument->id,
-            'status' => RequestDocument::DRAFT,
+            'status' => PurchaseRequisition::DRAFT,
         ]);
 
         // todo: assert notification.
@@ -72,8 +72,8 @@ class CreateRequestTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $requestDocument = factory(RequestDocument::class)->create([
-            'status' => RequestDocument::UNSET,
+        $requestDocument = factory(PurchaseRequisition::class)->create([
+            'status' => PurchaseRequisition::UNSET,
         ]);
 
         $url = route('purchase-requisitions.by-status', ['status_slug' => 'draft']);
@@ -82,7 +82,7 @@ class CreateRequestTest extends TestCase
 
         $this->actingAs($user)->get($url)->assertDontSeeText($seeText);
 
-        $requestDocument->status = RequestDocument::DRAFT;
+        $requestDocument->status = PurchaseRequisition::DRAFT;
         $requestDocument->save();
 
         $this->actingAs($user)->get($url)->assertSeeText($seeText);

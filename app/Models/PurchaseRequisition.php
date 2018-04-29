@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class RequestDocument extends Model implements AuditableContract
+class PurchaseRequisition extends Model implements AuditableContract
 {
     use Auditable, SoftDeletes;
 
@@ -81,14 +81,14 @@ class RequestDocument extends Model implements AuditableContract
         return $this->belongsTo(User::class);
     }
 
-    public function request_document_items()
+    public function purchase_requisition_items()
     {
-        return $this->hasMany(RequestDocumentItem::class);
+        return $this->hasMany(PurchaseRequisitionItem::class);
     }
 
     public function items()
     {
-        return $this->hasMany(RequestDocumentItem::class, 'request_document_id');
+        return $this->hasMany(PurchaseRequisitionItem::class);
     }
 
     public function approved_by()

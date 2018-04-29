@@ -16,7 +16,7 @@ use App\Models\AssetIssuance;
 use App\Models\AssetIssuanceReturn;
 use App\Models\Employee;
 use App\Models\PurchaseOrder;
-use App\Models\RequestDocument;
+use App\Models\PurchaseRequisition;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -48,7 +48,7 @@ class AuditsController extends Controller
 
             // PurchaseControl module.
             case 'requests':
-                $resource = RequestDocument::where('id', $request->resource_id);
+                $resource = PurchaseRequisition::where('id', $request->resource_id);
                 break;
         }
 

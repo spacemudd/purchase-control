@@ -42,7 +42,7 @@ class PurchaseRequisitionItemsService
     public function validate(array $data)
     {
         return Validator::make($data, [
-            'request_document_id' => 'required|exists:request_documents,id',
+            'purchase_requisition_id' => 'required|exists:purchase_requisitions,id',
             'item_template_id' => 'required|exists:item_templates,id',
             'qty' => 'required|numeric|min:0',
         ]);
@@ -58,7 +58,7 @@ class PurchaseRequisitionItemsService
     public function delete($id)
     {
         $requisitionItem = $this->repo->find($id);
-        if( ! $requisitionItem->requisition->canAddItems) throw new \Exception('Requisition must be in draft mode.');
+        if( ! $requisitionItem->purchase_requisition->canAddItems) throw new \Exception('Requisition must be in draft mode.');
 
         return $this->repo->delete($id);
     }

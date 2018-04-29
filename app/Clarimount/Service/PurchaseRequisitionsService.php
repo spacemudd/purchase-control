@@ -12,7 +12,7 @@
 namespace App\Clarimount\Service;
 
 use App\Models\MaxNumber;
-use App\Models\RequestDocument;
+use App\Models\PurchaseRequisition;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -57,7 +57,7 @@ class PurchaseRequisitionsService
      * Approves a request.
      *
      * @param $id
-     * @return \App\Models\RequestDocument
+     * @return \App\Models\PurchaseRequisition
      */
     public function approve($id)
     {
@@ -72,9 +72,9 @@ class PurchaseRequisitionsService
     {
         $request = $this->repository->find($id);
 
-        if($request->status != RequestDocument::UNSET) return abort(404);
+        if($request->status != PurchaseRequisition::UNSET) return abort(404);
 
-        $request->status = RequestDocument::DRAFT;
+        $request->status = PurchaseRequisition::DRAFT;
         $request->save();
 
         // todo: send a notification.
@@ -100,7 +100,7 @@ class PurchaseRequisitionsService
         $requisition = DB::transaction(function() use ($id) {
             $requisition = $this->repository->lockFind($id);
 
-            if($requisition->status != (RequestDocument::DRAFT || RequestDocument::UNSET)) throw new \Exception('Requisition must be in draft mode');
+            if($requisition->status != (PurchaseRequisition::DRAFT || PurchaseRequisition::UNSET)) throw new \Exception('Requisition must be in draft mode');
 
             // Calculating the new request number.
             $numberPrefix = 'REQ-' . Carbon::now()->format('Y-m');
@@ -115,7 +115,7 @@ class PurchaseRequisitionsService
             // The updates.
             $requisition->number = $maxNumber->name . '-' . sprintf('%05d', $number);
 
-            $requisition->status = RequestDocument::SAVED;
+            $requisition->status = PurchaseRequisition::SAVED;
             $requisition->save();
 
             // Save the new number.

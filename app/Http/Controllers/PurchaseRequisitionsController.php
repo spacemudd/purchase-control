@@ -15,7 +15,7 @@ use App\Models\Employee;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use App\Clarimount\Service\PurchaseRequisitionsService;
-use App\Models\RequestDocument;
+use App\Models\PurchaseRequisition;
 
 class PurchaseRequisitionsController extends Controller
 {
@@ -32,9 +32,9 @@ class PurchaseRequisitionsController extends Controller
      */
     public function index()
     {
-        $draftCounter = RequestDocument::where('status', RequestDocument::DRAFT)->count();
-        $savedCounter = RequestDocument::where('status', RequestDocument::SAVED)->count();
-        $approvedCounter = RequestDocument::where('status', RequestDocument::VOID)->count();
+        $draftCounter = PurchaseRequisition::where('status', PurchaseRequisition::DRAFT)->count();
+        $savedCounter = PurchaseRequisition::where('status', PurchaseRequisition::SAVED)->count();
+        $approvedCounter = PurchaseRequisition::where('status', PurchaseRequisition::VOID)->count();
 
         return view('purchase-requisitions.index', compact('draftCounter', 'savedCounter', 'approvedCounter'));
     }
@@ -46,7 +46,7 @@ class PurchaseRequisitionsController extends Controller
      */
     public function paginatedByStatus(string $statusSlug)
     {
-        $records = RequestDocument::query();
+        $records = PurchaseRequisition::query();
 
         switch ($statusSlug) {
             case 'draft':

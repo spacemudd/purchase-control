@@ -11,13 +11,13 @@
 
 namespace App\Clarimount\Repository;
 
-use App\Models\RequestDocumentItem;
+use App\Models\PurchaseRequisitionItem;
 
 class PurchaseRequisitionItemsRepository
 {
     protected $model;
 
-    public function __construct(RequestDocumentItem $model)
+    public function __construct(PurchaseRequisitionItem $model)
     {
         $this->model = $model;
     }
@@ -44,6 +44,6 @@ class PurchaseRequisitionItemsRepository
      */
     public function underRequisition($id)
     {
-        return $this->model->where('request_document_id', $id)->get();
+        return $this->model->where('purchase_requisition_id', $id)->get();
     }
 }

@@ -83,7 +83,7 @@
                 this.form.errors = [];
 
                 axios.post(this.apiUrl() + '/purchase-requisition-items', {
-                    request_document_id: this.requisitionId,
+                    purchase_requisition_id: this.requisitionId,
                     qty: this.form.qty,
                     item_template_id: this.form.itemTemplate.id,
                 })

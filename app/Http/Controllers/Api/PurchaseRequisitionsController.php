@@ -61,7 +61,7 @@ class PurchaseRequisitionsController extends Controller
     public function validateApprove(array $data)
     {
         return Validator::make($data, [
-            'id' => 'required|exists:request_documents',
+            'id' => 'required|exists:purchase_requisitions',
         ]);
     }
 }

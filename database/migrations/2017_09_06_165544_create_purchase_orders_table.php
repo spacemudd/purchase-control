@@ -47,7 +47,7 @@ class CreatePurchaseOrdersTable extends Migration
             /**
              * Added columns from different migrations.
              *
-             * 'request_document_id' - create_request_documents_table.php
+             * 'purchase_requisition_id'
              *
              */
         });

@@ -11,6 +11,6 @@
 export default {
     request(state, payload) {
         state.request = payload;
-        state.requestItems = payload.request_document_items;
+        state.requestItems = payload.purchase_requisition_items;
     },
 }

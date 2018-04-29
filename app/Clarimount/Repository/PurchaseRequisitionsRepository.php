@@ -13,14 +13,14 @@ namespace App\Clarimount\Repository;
 
 use App\Models\MaxNumber;
 use Carbon\Carbon;
-use App\Models\RequestDocument;
+use App\Models\PurchaseRequisition;
 use DB;
 
 class PurchaseRequisitionsRepository
 {
     protected $model;
     
-    public function __construct(RequestDocument $model)
+    public function __construct(PurchaseRequisition $model)
     {
         $this->model = $model;
     }
@@ -33,7 +33,7 @@ class PurchaseRequisitionsRepository
      */
     public function store(array $data)
     {
-        $data['status'] = RequestDocument::UNSET;
+        $data['status'] = PurchaseRequisition::UNSET;
 
         return $this->model->create($data);
     }
@@ -49,9 +49,7 @@ class PurchaseRequisitionsRepository
                 'created_by',
                 'approved_by',
             ])
-            ->with(['request_document_items' => function($q) {
-                $q->with(['item']);
-            }])
+            ->with(['purchase_requisition_items'])
             ->firstOrFail();
     }
 
@@ -64,7 +62,7 @@ class PurchaseRequisitionsRepository
      * Approves a request.
      *
      * @param $id
-     * @return \App\Models\RequestDocument
+     * @return \App\Models\PurchaseRequisition
      */
     public function approve($id)
     {
@@ -74,8 +72,8 @@ class PurchaseRequisitionsRepository
             $request = $this->model->where('id', $id)->lockForUpdate()->first();
 
             // Some validation.
-            if($request->status != RequestDocument::DRAFT) throw new \Exception('Request must be in draft mode to be approved.');
-            if( ! $request->request_document_items->count()) throw new \Exception('No request items are attached');
+            if($request->status != PurchaseRequisition::DRAFT) throw new \Exception('Request must be in draft mode to be approved.');
+            if( ! $request->purchase_requisition_items->count()) throw new \Exception('No request items are attached');
 
             // Calculating the new request number.
             $numberPrefix = 'REQ-' . Carbon::now()->format('Y-m');
@@ -90,7 +88,7 @@ class PurchaseRequisitionsRepository
             // The updates.
             $request->number = $maxNumber->name . '-' . sprintf('%05d', $number);
             $request->approved_by_id = auth()->user()->id;
-            $request->status = RequestDocument::SAVED;
+            $request->status = PurchaseRequisition::SAVED;
             $request->save();
 
             // Save the new number.
