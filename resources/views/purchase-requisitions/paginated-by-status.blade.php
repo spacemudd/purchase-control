@@ -12,9 +12,9 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('requests.index') }}">
+                <a href="{{ route('purchase-requisitions.index') }}">
                     <span class="icon is-small"><i class="fa fa-file-o"></i></span>
-                    <span>{{ trans('words.requests') }}</span>
+                    <span>{{ trans('words.purchase-requisitions') }}</span>
                 </a>
             </li>
             <li class="is-active">
@@ -60,10 +60,10 @@
                 @foreach($data as $record)
                     <tr>
                         <td>
-                            <a href="{{ route('requests.show', ['id' => $record->id]) }}">{{ $record->id }}</a>
+                            <a href="{{ route('purchase-requisitions.show', ['id' => $record->id]) }}">{{ $record->id }}</a>
                         </td>
                         <td>
-                            <a href="{{ route('requests.show', ['id' => $record->id]) }}">{{ $record->number }}</a>
+                            <a href="{{ route('purchase-requisitions.show', ['id' => $record->id]) }}">{{ $record->number }}</a>
                         </td>
                         <td>{{ $record->requested_by->code . ' - ' . $record->requested_by->name }}</td>
                         <td>{{ $record->cost_center_by->code . ' - ' . $record->cost_center_by->description }}</td>

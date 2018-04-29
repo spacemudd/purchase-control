@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['title' => 'Purchase Requisitions'])
 
 @section('header')
     <nav class="breadcrumb" aria-label="breadcrumbs">
