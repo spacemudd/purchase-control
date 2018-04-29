@@ -71,6 +71,7 @@ class PurchaseRequisitionsController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
      * @return Response
      */
     public function create()
@@ -117,6 +118,7 @@ class PurchaseRequisitionsController extends Controller
      *
      * @param $id
      * @return void
+     * @throws \Exception
      */
     public function destroy($id)
     {
@@ -133,7 +135,7 @@ class PurchaseRequisitionsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource.
      *
      * @return Response
      */
@@ -144,5 +146,18 @@ class PurchaseRequisitionsController extends Controller
         $purchaseRequisition = $this->service->store($data);
 
         return redirect()->route('purchase-requisitions.show', ['id' => $purchaseRequisition->id]);
+    }
+
+    /**
+     * Saves the purchase requisition (to become unmodifiable) for rejection/approval.
+     *
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function save($id)
+    {
+        $requisition = $this->service->save($id);
+
+        return redirect()->route('purchase-requisitions.show', ['id' => $requisition->id]);
     }
 }

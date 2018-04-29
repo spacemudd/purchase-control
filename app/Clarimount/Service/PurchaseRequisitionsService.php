@@ -11,7 +11,10 @@
 
 namespace App\Clarimount\Service;
 
+use App\Models\MaxNumber;
 use App\Models\RequestDocument;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Clarimount\Repository\PurchaseRequisitionsRepository;
 
@@ -82,5 +85,46 @@ class PurchaseRequisitionsService
         if( ! $this->repository->find($id)->canAddItems) throw new \Exception('Requisition must be in draft mode.');
 
         return $this->repository->delete($id);
+    }
+
+    /**
+     * Saves the purchase requisition (to become unmodifiable) for rejection/approval.
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function save($id)
+    {
+        $requisition = DB::transaction(function() use ($id) {
+            $requisition = $this->repository->lockFind($id);
+
+            if($requisition->status != (RequestDocument::DRAFT || RequestDocument::UNSET)) throw new \Exception('Requisition must be in draft mode');
+
+            // Calculating the new request number.
+            $numberPrefix = 'REQ-' . Carbon::now()->format('Y-m');
+            $maxNumber = MaxNumber::lockForUpdate()->firstOrCreate([
+                'name' => $numberPrefix,
+            ], [
+                'value' => 0,
+            ]);
+
+            $number = ++$maxNumber->value;
+
+            // The updates.
+            $requisition->number = $maxNumber->name . '-' . sprintf('%05d', $number);
+
+            $requisition->status = RequestDocument::SAVED;
+            $requisition->save();
+
+            // Save the new number.
+            $maxNumber->value = $number;
+            $maxNumber->save();
+
+            return $requisition;
+        }, 2);
+
+        // todo: notification.
+
+        return $requisition;
     }
 }

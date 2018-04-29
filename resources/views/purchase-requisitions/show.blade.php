@@ -47,11 +47,23 @@
                     </div>
 
                     <div class="column has-text-right">
+                        @can('delete-purchase-requisitions')
+                            @if($request->canAddItems)
+                                <delete-prompt :id.number="{{ $request->id }}"
+                                               url="{{ route('purchase-requisitions.destroy', ['id' => $request->id]) }}"
+                                >
+                                </delete-prompt>
+                            @endif
+                        @endcan
 
-                        <delete-prompt :id.number="{{ $request->id }}"
-                                       url="{{ route('purchase-requisitions.destroy', ['id' => $request->id]) }}"
-                        >
-                        </delete-prompt>
+                        @can('create-purchase-requisitions')
+                            @if($request->canAddItems)
+                                <form class="button is-warning is-small" action="{{ route('purchase-requisitions.save', ['id' => $request->id]) }}" method="post">
+                                    {{ csrf_field() }}
+                                    <button type="submit" class="button is-warning is-small">Save</button>
+                                </form>
+                            @endif
+                        @endif
                     </div>
                 </div>
 

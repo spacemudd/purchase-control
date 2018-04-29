@@ -55,6 +55,11 @@ class PurchaseRequisitionsRepository
             ->firstOrFail();
     }
 
+    public function lockFind($id)
+    {
+        return $this->model->where('id', $id)->lockForUpdate()->firstOrFail();
+    }
+
     /**
      * Approves a request.
      *
