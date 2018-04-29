@@ -160,4 +160,18 @@ class PurchaseRequisitionsController extends Controller
 
         return redirect()->route('purchase-requisitions.show', ['id' => $requisition->id]);
     }
+
+    /**
+     * Print a PDF form of the requisition.
+     *
+     * @param $id
+     * @return \Knp\Snappy\Pdf
+     * @throws \Exception
+     */
+    public function pdf($id)
+    {
+        $pdf = $this->service->pdf($id);
+
+        return $pdf->inline();
+    }
 }

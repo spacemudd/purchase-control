@@ -47,6 +47,11 @@
                     </div>
 
                     <div class="column has-text-right">
+
+                        @if(!$request->canAddItems)
+                            <a class="button is-small" href="{{ route('purchase-requisitions.pdf', ['id' => $request->id]) }}">Print</a>
+                        @endif
+
                         @can('delete-purchase-requisitions')
                             @if($request->canAddItems)
                                 <delete-prompt :id.number="{{ $request->id }}"

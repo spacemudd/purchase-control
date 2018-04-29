@@ -26,6 +26,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::get('users/invite', 'Back\UsersController@invite')->name('users.invite');
 
         // Purchase Requisitions.
+        Route::get('purchase-requisitions/{id}/pdf', 'PurchaseRequisitionsController@pdf')->name('purchase-requisitions.pdf');
         Route::post('purchase-requisitions/{id}/save', 'PurchaseRequisitionsController@save')->name('purchase-requisitions.save');
         Route::get('purchase-requisitions/by-status/{status_slug}', 'PurchaseRequisitionsController@paginatedByStatus')->name('purchase-requisitions.by-status');
         Route::resource('purchase-requisitions', 'PurchaseRequisitionsController');

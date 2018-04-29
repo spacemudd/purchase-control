@@ -86,6 +86,11 @@ class RequestDocument extends Model implements AuditableContract
         return $this->hasMany(RequestDocumentItem::class);
     }
 
+    public function items()
+    {
+        return $this->hasMany(RequestDocumentItem::class, 'request_document_id');
+    }
+
     public function approved_by()
     {
         return $this->belongsTo(User::class);
