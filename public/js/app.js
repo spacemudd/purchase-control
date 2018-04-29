@@ -30536,9 +30536,9 @@ Vue.component('delete-prompt', __webpack_require__(577));
 var apiVersion = '1';
 
 // if(process.env.NODE_ENV === 'production') {
-//    var envUrl = window.location.origin + '/pd';
+var envUrl = window.location.origin + '/pd';
 // } else {
-var envUrl = window.location.origin;
+//    var envUrl = window.location.origin;
 // }
 
 Vue.mixin({
@@ -33151,9 +33151,9 @@ Object.defineProperty(exports, "__esModule", {
 var apiVersion = '1';
 
 // if(process.env.NODE_ENV === 'production') {
-//     var envUrl = window.location.origin + '/pd';
+var envUrl = window.location.origin + '/pd';
 // } else {
-var envUrl = window.location.origin;
+//    var envUrl = window.location.origin;
 // }
 
 exports.default = {

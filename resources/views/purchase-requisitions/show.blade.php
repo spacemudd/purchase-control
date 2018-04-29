@@ -88,7 +88,18 @@
                                 </tr>
                                 <tr>
                                     <td><strong>Status</strong></td>
-                                    <td>{{ $request->status_name }}</td>
+                                    <td class="is-capitalized">
+                                        {{ $request->status_name }}
+                                        @if($request->canAddItems)
+                                            <span class="circle is-warning"></span>
+                                        @endif
+                                        @if($request->isSaved)
+                                            <span class="circle is-warning"></span>
+                                        @endif
+                                        @if($request->isApproved)
+                                            <span class="circle is-success"></span>
+                                        @endif
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><strong>Requested for</strong><br/>Employee</td>

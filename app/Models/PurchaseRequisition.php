@@ -23,7 +23,9 @@ class PurchaseRequisition extends Model implements AuditableContract
     const UNSET = -1;
     const DRAFT = 0;
     const SAVED = 1;
-    const VOID = 2;
+    const APPROVED = 2;
+    const REJECTED = 3;
+    const VOID = 4;
 
     protected $guarded = ['id'];
 
@@ -43,6 +45,12 @@ class PurchaseRequisition extends Model implements AuditableContract
                 break;
             case self::DRAFT:
                 return 'draft';
+                break;
+            case self::APPROVED:
+                return 'approved';
+                break;
+            case self::REJECTED:
+                return 'rejected';
                 break;
 
             default:
@@ -104,6 +112,16 @@ class PurchaseRequisition extends Model implements AuditableContract
     public function getCanAddItemsAttribute()
     {
         return $this->status === self::DRAFT || $this->status === self::UNSET;
+    }
+
+    public function getIsSavedAttribute()
+    {
+        return $this->status === self::SAVED;
+    }
+
+    public function getIsApprovedAttribute()
+    {
+        return $this->status === self::APPROVED;
     }
 
     public function scopeDraft($q)
