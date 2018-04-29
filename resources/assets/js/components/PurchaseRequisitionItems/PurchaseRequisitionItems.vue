@@ -8,7 +8,7 @@
         <div class="columns">
             <div class="column"><p class="title is-4">{{ $t('words.requisition-items') }}</p></div>
             <div class="column has-text-right">
-                <button class="button has-icon" @click="newItemModal=true">
+                <button class="button has-icon" v-if="this.getPermissions()['create-purchase-requisition-item']" @click="newItemModal=true">
                     <span class="icon"><i class="fa fa-plus"></i></span>
                     <span>New Item</span>
                 </button>

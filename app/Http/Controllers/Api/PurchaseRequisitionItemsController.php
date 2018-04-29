@@ -12,10 +12,13 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Clarimount\Service\PurchaseRequisitionItemsService;
 
 class PurchaseRequisitionItemsController extends Controller
 {
+    use AuthorizesRequests;
+
     protected $service;
 
     public function __construct(PurchaseRequisitionItemsService $service)
@@ -25,6 +28,8 @@ class PurchaseRequisitionItemsController extends Controller
 
     public function store()
     {
+        $this->authorize('create-purchase-requisition-item');
+
         $data = request()->except('_token');
 
         return $this->service->store($data);

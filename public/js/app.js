@@ -103309,18 +103309,20 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "column has-text-right" }, [
-          _c(
-            "button",
-            {
-              staticClass: "button has-icon",
-              on: {
-                click: function($event) {
-                  _vm.newItemModal = true
-                }
-              }
-            },
-            [_vm._m(0), _vm._v(" "), _c("span", [_vm._v("New Item")])]
-          )
+          this.getPermissions()["create-purchase-requisition-item"]
+            ? _c(
+                "button",
+                {
+                  staticClass: "button has-icon",
+                  on: {
+                    click: function($event) {
+                      _vm.newItemModal = true
+                    }
+                  }
+                },
+                [_vm._m(0), _vm._v(" "), _c("span", [_vm._v("New Item")])]
+              )
+            : _vm._e()
         ])
       ]),
       _vm._v(" "),
