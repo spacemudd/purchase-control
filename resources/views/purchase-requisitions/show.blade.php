@@ -45,6 +45,14 @@
                             @endif
                         </p>
                     </div>
+
+                    <div class="column has-text-right">
+
+                        <delete-prompt :id.number="{{ $request->id }}"
+                                       url="{{ route('purchase-requisitions.destroy', ['id' => $request->id]) }}"
+                        >
+                        </delete-prompt>
+                    </div>
                 </div>
 
                 <hr>

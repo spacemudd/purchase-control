@@ -97,4 +97,9 @@ class PurchaseRequisitionsRepository
 
         return $request;
     }
+
+    public function delete($id)
+    {
+        return $this->model->where('id', $id)->delete();
+    }
 }

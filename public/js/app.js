@@ -30528,6 +30528,7 @@ Vue.component('select-department', __webpack_require__(565));
 Vue.component('purchase-requisition-items', __webpack_require__(568));
 Vue.component('new-item-requisition-modal', __webpack_require__(578));
 Vue.component('select-item-template', __webpack_require__(581));
+Vue.component('delete-prompt', __webpack_require__(584));
 
 /**
  * API/App settings
@@ -104079,6 +104080,166 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-4440c016", module.exports)
+  }
+}
+
+/***/ }),
+/* 584 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(587)
+/* template */
+var __vue_template__ = __webpack_require__(588)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\DeletePrompt\\DeletePrompt.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-00207175", Component.options)
+  } else {
+    hotAPI.reload("data-v-00207175", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 585 */,
+/* 586 */,
+/* 587 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        id: {
+            type: Number,
+            required: true
+        },
+        url: {
+            type: String,
+            required: true
+        },
+        redirect: {
+            type: String,
+            required: false
+        }
+    },
+    data: function data() {
+        return {
+            isLoading: false
+        };
+    },
+
+    methods: {
+        confirm: function confirm() {
+            var _this = this;
+
+            this.$dialog.confirm({
+                title: 'Delete',
+                message: 'Are you sure?',
+                type: 'is-danger',
+                confirmText: 'Delete Requisition',
+                onConfirm: function onConfirm() {
+                    return _this.delete();
+                }
+            });
+        },
+        delete: function _delete() {
+            var _this2 = this;
+
+            this.isLoading = true;
+            axios.delete(this.url).then(function (response) {
+                _this2.$emit('deleted');
+
+                if (response.data.redirect) {
+                    window.location.href = response.data.redirect;
+                }
+            });
+        }
+    }
+};
+
+/***/ }),
+/* 588 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "button",
+    {
+      staticClass: "button is-danger is-small has-icon",
+      class: { "is-loading": _vm.isLoading },
+      on: { click: _vm.confirm }
+    },
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("span", [_vm._v(_vm._s(_vm.$t("words.delete")))])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fa fa-trash" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-00207175", module.exports)
   }
 }
 

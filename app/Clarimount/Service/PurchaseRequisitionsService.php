@@ -76,4 +76,11 @@ class PurchaseRequisitionsService
 
         return $request;
     }
+
+    public function delete($id)
+    {
+        if( ! $this->repository->find($id)->canAddItems) throw new \Exception('Requisition must be in draft mode.');
+
+        return $this->repository->delete($id);
+    }
 }

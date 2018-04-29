@@ -55,6 +55,7 @@ class CreateRequestDocumentsTable extends Migration
             $table->integer('created_by_id')->unsigned();
             $table->foreign('created_by_id')->references('id')->on('users');
             $table->timestamps(4);
+            $table->softDeletes('deleted_at', 4);
         });
     }
 

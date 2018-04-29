@@ -115,11 +115,21 @@ class PurchaseRequisitionsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param $id
      * @return void
      */
-    public function destroy()
+    public function destroy($id)
     {
+        $this->service->delete($id);
 
+        if(request()->wantsJson()) {
+            return [
+                'status' => true,
+                'redirect' => route('purchase-requisitions.index'),
+            ];
+        }
+
+        return redirect()->route('purchase-requisitions.index');
     }
 
     /**
