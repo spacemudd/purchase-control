@@ -16,7 +16,7 @@
     </div>
     <div class="col-7-sm">
         <strong>
-            PREMISES AND ADMINISTRATOR<br/>
+            PREMISES AND ADMINISTRATION<br/>
             IT HARDWARE / SOFTWARE REQUEST FORM
         </strong>
         <p>Please send your complete filled form in original after obtaining the authorized signature to: <strong>&rarr;</strong></p>
