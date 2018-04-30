@@ -379,4 +379,6 @@
         'item-templates' => 'Item Templates',
         'purchase-requisitions' => 'Purchase Requisitions',
         'requisition-items' => 'Requisition Items',
+        'notes' => 'Notes',
+        'new-note' => 'New Note',
 	];

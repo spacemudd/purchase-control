@@ -2,50 +2,46 @@
     .action-link {
         cursor: pointer;
     }
-
-    .m-b-none {
-        margin-bottom: 0;
-    }
 </style>
 
 <template>
     <div>
         <div v-if="tokens.length > 0">
-            <div class="panel panel-default">
-                <div class="panel-heading">Authorized Applications</div>
+            <div class="card card-default">
+                <div class="card-header">Authorized Applications</div>
 
-                <div class="panel-body">
+                <div class="card-body">
                     <!-- Authorized Tokens -->
-                    <table class="table table-borderless m-b-none">
+                    <table class="table table-borderless mb-0">
                         <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Scopes</th>
-                            <th></th>
-                        </tr>
+                            <tr>
+                                <th>Name</th>
+                                <th>Scopes</th>
+                                <th></th>
+                            </tr>
                         </thead>
 
                         <tbody>
-                        <tr v-for="token in tokens">
-                            <!-- Client Name -->
-                            <td style="vertical-align: middle;">
-                                {{ token.client.name }}
-                            </td>
+                            <tr v-for="token in tokens">
+                                <!-- Client Name -->
+                                <td style="vertical-align: middle;">
+                                    {{ token.client.name }}
+                                </td>
 
-                            <!-- Scopes -->
-                            <td style="vertical-align: middle;">
+                                <!-- Scopes -->
+                                <td style="vertical-align: middle;">
                                     <span v-if="token.scopes.length > 0">
                                         {{ token.scopes.join(', ') }}
                                     </span>
-                            </td>
+                                </td>
 
-                            <!-- Revoke Button -->
-                            <td style="vertical-align: middle;">
-                                <a class="action-link text-danger" @click="revoke(token)">
-                                    Revoke
-                                </a>
-                            </td>
-                        </tr>
+                                <!-- Revoke Button -->
+                                <td style="vertical-align: middle;">
+                                    <a class="action-link text-danger" @click="revoke(token)">
+                                        Revoke
+                                    </a>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -55,7 +51,6 @@
 </template>
 
 <script>
-    import axios from 'axios'
     export default {
         /*
          * The component's data.
@@ -93,9 +88,9 @@
              */
             getTokens() {
                 axios.get('/oauth/tokens')
-                    .then(response => {
-                        this.tokens = response.data;
-                    });
+                        .then(response => {
+                            this.tokens = response.data;
+                        });
             },
 
             /**
@@ -103,9 +98,9 @@
              */
             revoke(token) {
                 axios.delete('/oauth/tokens/' + token.id)
-                    .then(response => {
-                        this.getTokens();
-                    });
+                        .then(response => {
+                            this.getTokens();
+                        });
             }
         }
     }

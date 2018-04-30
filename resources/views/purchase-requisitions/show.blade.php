@@ -148,6 +148,12 @@
         {{-- Resource side info --}}
         <div class="column">
 
+            {{-- Notes section --}}
+            <notes-container url="{{ route('api.purchase-requisition.notes', ['id' => $request->id]) }}"
+                             resource-id.number="{{ $request->id }}"
+            >
+            </notes-container>
+
         </div>
 
     </div>

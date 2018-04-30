@@ -30529,6 +30529,7 @@ Vue.component('purchase-requisition-items', __webpack_require__(568));
 Vue.component('new-item-requisition-modal', __webpack_require__(571));
 Vue.component('select-item-template', __webpack_require__(574));
 Vue.component('delete-prompt', __webpack_require__(577));
+Vue.component('notes-container', __webpack_require__(585));
 
 /**
  * API/App settings
@@ -30536,9 +30537,9 @@ Vue.component('delete-prompt', __webpack_require__(577));
 var apiVersion = '1';
 
 // if(process.env.NODE_ENV === 'production') {
-var envUrl = window.location.origin + '/pd';
+//    var envUrl = window.location.origin + '/pd';
 // } else {
-//    var envUrl = window.location.origin;
+var envUrl = window.location.origin;
 // }
 
 Vue.mixin({
@@ -32773,7 +32774,9 @@ exports.default = {
             "welcome": "Welcome",
             "item-templates": "Item Templates",
             "purchase-requisitions": "Purchase Requisitions",
-            "requisition-items": "Requisition Items"
+            "requisition-items": "Requisition Items",
+            "notes": "Notes",
+            "new-note": "New Note"
         }
     }
 };
@@ -33151,9 +33154,9 @@ Object.defineProperty(exports, "__esModule", {
 var apiVersion = '1';
 
 // if(process.env.NODE_ENV === 'production') {
-var envUrl = window.location.origin + '/pd';
+//      var envUrl = window.location.origin + '/pd';
 // } else {
-//    var envUrl = window.location.origin;
+var envUrl = window.location.origin;
 // }
 
 exports.default = {
@@ -97109,7 +97112,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.action-link[data-v-3f99fc75] {\n    cursor: pointer;\n}\n.m-b-none[data-v-3f99fc75] {\n    margin-bottom: 0;\n}\n", ""]);
+exports.push([module.i, "\n.action-link[data-v-3f99fc75] {\n    cursor: pointer;\n}\n", ""]);
 
 // exports
 
@@ -97125,7 +97128,14 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; //
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -97333,13 +97343,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //
 //
 
-var _axios = __webpack_require__(9);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var $ = window.$;
 exports.default = {
     /*
      * The component's data.
@@ -97358,9 +97361,7 @@ exports.default = {
                 errors: [],
                 name: '',
                 redirect: ''
-            },
-            clientModal: false,
-            editClientModal: false
+            }
         };
     },
 
@@ -97387,6 +97388,14 @@ exports.default = {
          */
         prepareComponent: function prepareComponent() {
             this.getClients();
+
+            $('#modal-create-client').on('shown.bs.modal', function () {
+                $('#create-client-name').focus();
+            });
+
+            $('#modal-edit-client').on('shown.bs.modal', function () {
+                $('#edit-client-name').focus();
+            });
         },
 
 
@@ -97396,7 +97405,7 @@ exports.default = {
         getClients: function getClients() {
             var _this = this;
 
-            _axios2.default.get('/oauth/clients').then(function (response) {
+            axios.get('/oauth/clients').then(function (response) {
                 _this.clients = response.data;
             });
         },
@@ -97406,7 +97415,7 @@ exports.default = {
          * Show the form for creating new clients.
          */
         showCreateClientForm: function showCreateClientForm() {
-            this.clientModal = true;
+            $('#modal-create-client').modal('show');
         },
 
 
@@ -97426,7 +97435,7 @@ exports.default = {
             this.editForm.name = client.name;
             this.editForm.redirect = client.redirect;
 
-            this.closeEditClientModal();
+            $('#modal-edit-client').modal('show');
         },
 
 
@@ -97446,18 +97455,17 @@ exports.default = {
 
             form.errors = [];
 
-            _axios2.default[method](uri, form).then(function (response) {
+            axios[method](uri, form).then(function (response) {
                 _this2.getClients();
 
                 form.name = '';
                 form.redirect = '';
                 form.errors = [];
 
-                _this2.closeClientModal();
-                _this2.closeEditClientModal();
-            }).catch(function (response) {
-                if (_typeof(response.data) === 'object') {
-                    form.errors = _.flatten(_.toArray(response.data));
+                $(modal).modal('hide');
+            }).catch(function (error) {
+                if (_typeof(error.response.data) === 'object') {
+                    form.errors = _.flatten(_.toArray(error.response.data.errors));
                 } else {
                     form.errors = ['Something went wrong. Please try again.'];
                 }
@@ -97471,15 +97479,9 @@ exports.default = {
         destroy: function destroy(client) {
             var _this3 = this;
 
-            _axios2.default.delete('/oauth/clients/' + client.id).then(function (response) {
+            axios.delete('/oauth/clients/' + client.id).then(function (response) {
                 _this3.getClients();
             });
-        },
-        closeClientModal: function closeClientModal() {
-            this.clientModal = false;
-        },
-        closeEditClientModal: function closeEditClientModal() {
-            this.editClientModal = false;
         }
     }
 };
@@ -97493,8 +97495,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "panel panel-default" }, [
-      _c("div", { staticClass: "panel-heading" }, [
+    _c("div", { staticClass: "card card-default" }, [
+      _c("div", { staticClass: "card-header" }, [
         _c(
           "div",
           {
@@ -97513,6 +97515,7 @@ var render = function() {
               "a",
               {
                 staticClass: "action-link",
+                attrs: { tabindex: "-1" },
                 on: { click: _vm.showCreateClientForm }
               },
               [
@@ -97525,9 +97528,9 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "panel-body" }, [
+      _c("div", { staticClass: "card-body" }, [
         _vm.clients.length === 0
-          ? _c("p", { staticClass: "m-b-none" }, [
+          ? _c("p", { staticClass: "mb-0" }, [
               _vm._v(
                 "\n                You have not created any OAuth clients.\n            "
               )
@@ -97535,7 +97538,7 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _vm.clients.length > 0
-          ? _c("table", { staticClass: "table table-borderless m-b-none" }, [
+          ? _c("table", { staticClass: "table table-borderless mb-0" }, [
               _vm._m(0),
               _vm._v(" "),
               _c(
@@ -97544,17 +97547,17 @@ var render = function() {
                   return _c("tr", [
                     _c("td", { staticStyle: { "vertical-align": "middle" } }, [
                       _vm._v(
-                        "\n                        " +
+                        "\n                            " +
                           _vm._s(client.id) +
-                          "\n                    "
+                          "\n                        "
                       )
                     ]),
                     _vm._v(" "),
                     _c("td", { staticStyle: { "vertical-align": "middle" } }, [
                       _vm._v(
-                        "\n                        " +
+                        "\n                            " +
                           _vm._s(client.name) +
-                          "\n                    "
+                          "\n                        "
                       )
                     ]),
                     _vm._v(" "),
@@ -97567,6 +97570,7 @@ var render = function() {
                         "a",
                         {
                           staticClass: "action-link",
+                          attrs: { tabindex: "-1" },
                           on: {
                             click: function($event) {
                               _vm.edit(client)
@@ -97575,7 +97579,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                            Edit\n                        "
+                            "\n                                Edit\n                            "
                           )
                         ]
                       )
@@ -97594,7 +97598,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                            Delete\n                        "
+                            "\n                                Delete\n                            "
                           )
                         ]
                       )
@@ -97610,165 +97614,169 @@ var render = function() {
     _c(
       "div",
       {
-        staticClass: "modal",
-        class: [_vm.clientModal ? "is-active" : ""],
+        staticClass: "modal fade",
         attrs: { id: "modal-create-client", tabindex: "-1", role: "dialog" }
       },
       [
-        _c("div", { staticClass: "modal-background" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "modal-card" }, [
-          _c("div", { staticClass: "modal-card-head" }, [
-            _c("h4", { staticClass: "modal-card-title" }, [
-              _vm._v("\n                    Create Client\n                ")
-            ]),
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(1),
             _vm._v(" "),
-            _c("a", {
-              staticClass: "delete",
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.closeClientModal($event)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-card-body" }, [
-            _vm.createForm.errors.length > 0
-              ? _c("div", { staticClass: "notification is-danger" }, [
-                  _c("strong", [_vm._v("Whoops! Something went wrong!")]),
+            _c("div", { staticClass: "modal-body" }, [
+              _vm.createForm.errors.length > 0
+                ? _c("div", { staticClass: "alert alert-danger" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
+                      _vm._l(_vm.createForm.errors, function(error) {
+                        return _c("li", [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(error) +
+                              "\n                            "
+                          )
+                        ])
+                      })
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("form", { attrs: { role: "form" } }, [
+                _c("div", { staticClass: "form-group row" }, [
+                  _c("label", { staticClass: "col-md-3 col-form-label" }, [
+                    _vm._v("Name")
+                  ]),
                   _vm._v(" "),
-                  _c("br"),
+                  _c("div", { staticClass: "col-md-9" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.createForm.name,
+                          expression: "createForm.name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { id: "create-client-name", type: "text" },
+                      domProps: { value: _vm.createForm.name },
+                      on: {
+                        keyup: function($event) {
+                          if (
+                            !("button" in $event) &&
+                            _vm._k(
+                              $event.keyCode,
+                              "enter",
+                              13,
+                              $event.key,
+                              "Enter"
+                            )
+                          ) {
+                            return null
+                          }
+                          return _vm.store($event)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.createForm, "name", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "form-text text-muted" }, [
+                      _vm._v(
+                        "\n                                    Something your users will recognize and trust.\n                                "
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c("label", { staticClass: "col-md-3 col-form-label" }, [
+                    _vm._v("Redirect URL")
+                  ]),
                   _vm._v(" "),
-                  _c(
-                    "ul",
-                    _vm._l(_vm.createForm.errors, function(error) {
-                      return _c("li", [
-                        _vm._v(
-                          "\n                            " +
-                            _vm._s(error) +
-                            "\n                        "
-                        )
-                      ])
-                    })
-                  )
+                  _c("div", { staticClass: "col-md-9" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.createForm.redirect,
+                          expression: "createForm.redirect"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "redirect" },
+                      domProps: { value: _vm.createForm.redirect },
+                      on: {
+                        keyup: function($event) {
+                          if (
+                            !("button" in $event) &&
+                            _vm._k(
+                              $event.keyCode,
+                              "enter",
+                              13,
+                              $event.key,
+                              "Enter"
+                            )
+                          ) {
+                            return null
+                          }
+                          return _vm.store($event)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.createForm,
+                            "redirect",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "form-text text-muted" }, [
+                      _vm._v(
+                        "\n                                    Your application's authorization callback URL.\n                                "
+                      )
+                    ])
+                  ])
                 ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("p", { staticClass: "control" }),
-            _c("div", { staticClass: "field" }, [
-              _c("label", { staticClass: "label" }, [_vm._v("Name")]),
-              _vm._v(" "),
-              _c("p", { staticClass: "control" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.createForm.name,
-                      expression: "createForm.name"
-                    }
-                  ],
-                  staticClass: "input",
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.createForm.name },
-                  on: {
-                    keyup: function($event) {
-                      if (
-                        !("button" in $event) &&
-                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                      ) {
-                        return null
-                      }
-                      return _vm.store($event)
-                    },
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.createForm, "name", $event.target.value)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "help" }, [
-                _vm._v(
-                  "\n                    Something your users will recognize and trust.\n                "
-                )
               ])
             ]),
             _vm._v(" "),
-            _c("p"),
-            _vm._v(" "),
-            _c("p", { staticClass: "control" }),
-            _c("div", { staticClass: "field" }, [
-              _c("label", { staticClass: "label" }, [_vm._v("Redirect URL")]),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button", "data-dismiss": "modal" }
+                },
+                [_vm._v("Close")]
+              ),
               _vm._v(" "),
-              _c("p", { staticClass: "control" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.createForm.redirect,
-                      expression: "createForm.redirect"
-                    }
-                  ],
-                  staticClass: "input",
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.createForm.redirect },
-                  on: {
-                    keyup: function($event) {
-                      if (
-                        !("button" in $event) &&
-                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                      ) {
-                        return null
-                      }
-                      return _vm.store($event)
-                    },
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.createForm, "redirect", $event.target.value)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "help" }, [
-                _vm._v(
-                  "\n                Your application's authorization callback URL.\n            "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("p")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-card-foot" }, [
-            _c(
-              "a",
-              {
-                staticClass: "button",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.closeClientModal($event)
-                  }
-                }
-              },
-              [_vm._v("Close")]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              { staticClass: "button is-primary", on: { click: _vm.store } },
-              [_vm._v("Create")]
-            )
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "button" },
+                  on: { click: _vm.store }
+                },
+                [
+                  _vm._v(
+                    "\n                        Create\n                    "
+                  )
+                ]
+              )
+            ])
           ])
         ])
       ]
@@ -97778,32 +97786,17 @@ var render = function() {
       "div",
       {
         staticClass: "modal fade",
-        class: [],
         attrs: { id: "modal-edit-client", tabindex: "-1", role: "dialog" }
       },
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _c("div", { staticClass: "modal-header" }, [
-              _c("a", {
-                staticClass: "delete",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.closeEditClientModal($event)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("h4", { staticClass: "modal-title" }, [
-                _vm._v("\n                    Edit Client\n                ")
-              ])
-            ]),
+            _vm._m(3),
             _vm._v(" "),
             _c("div", { staticClass: "modal-body" }, [
               _vm.editForm.errors.length > 0
-                ? _c("div", { staticClass: "notification is-danger" }, [
-                    _c("strong", [_vm._v("Whoops! Something went wrong!")]),
+                ? _c("div", { staticClass: "alert alert-danger" }, [
+                    _vm._m(4),
                     _vm._v(" "),
                     _c("br"),
                     _vm._v(" "),
@@ -97812,9 +97805,9 @@ var render = function() {
                       _vm._l(_vm.editForm.errors, function(error) {
                         return _c("li", [
                           _vm._v(
-                            "\n                            " +
+                            "\n                                " +
                               _vm._s(error) +
-                              "\n                        "
+                              "\n                            "
                           )
                         ])
                       })
@@ -97822,124 +97815,120 @@ var render = function() {
                   ])
                 : _vm._e(),
               _vm._v(" "),
-              _c(
-                "form",
-                { staticClass: "form-horizontal", attrs: { role: "form" } },
-                [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { staticClass: "col-md-3 control-label" }, [
-                      _vm._v("Name")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-7" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.editForm.name,
-                            expression: "editForm.name"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { id: "edit-client-name", type: "text" },
-                        domProps: { value: _vm.editForm.name },
-                        on: {
-                          keyup: function($event) {
-                            if (
-                              !("button" in $event) &&
-                              _vm._k(
-                                $event.keyCode,
-                                "enter",
-                                13,
-                                $event.key,
-                                "Enter"
-                              )
-                            ) {
-                              return null
-                            }
-                            return _vm.update($event)
-                          },
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(_vm.editForm, "name", $event.target.value)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "help-block" }, [
-                        _vm._v(
-                          "\n                                    Something your users will recognize and trust.\n                                "
-                        )
-                      ])
-                    ])
+              _c("form", { attrs: { role: "form" } }, [
+                _c("div", { staticClass: "form-group row" }, [
+                  _c("label", { staticClass: "col-md-3 col-form-label" }, [
+                    _vm._v("Name")
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { staticClass: "col-md-3 control-label" }, [
-                      _vm._v("Redirect URL")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-7" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.editForm.redirect,
-                            expression: "editForm.redirect"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "text", name: "redirect" },
-                        domProps: { value: _vm.editForm.redirect },
-                        on: {
-                          keyup: function($event) {
-                            if (
-                              !("button" in $event) &&
-                              _vm._k(
-                                $event.keyCode,
-                                "enter",
-                                13,
-                                $event.key,
-                                "Enter"
-                              )
-                            ) {
-                              return null
-                            }
-                            return _vm.update($event)
-                          },
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.editForm,
-                              "redirect",
-                              $event.target.value
-                            )
-                          }
+                  _c("div", { staticClass: "col-md-9" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editForm.name,
+                          expression: "editForm.name"
                         }
-                      }),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "help-block" }, [
-                        _vm._v(
-                          "\n                                    Your application's authorization callback URL.\n                                "
-                        )
-                      ])
+                      ],
+                      staticClass: "form-control",
+                      attrs: { id: "edit-client-name", type: "text" },
+                      domProps: { value: _vm.editForm.name },
+                      on: {
+                        keyup: function($event) {
+                          if (
+                            !("button" in $event) &&
+                            _vm._k(
+                              $event.keyCode,
+                              "enter",
+                              13,
+                              $event.key,
+                              "Enter"
+                            )
+                          ) {
+                            return null
+                          }
+                          return _vm.update($event)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.editForm, "name", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "form-text text-muted" }, [
+                      _vm._v(
+                        "\n                                    Something your users will recognize and trust.\n                                "
+                      )
                     ])
                   ])
-                ]
-              )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c("label", { staticClass: "col-md-3 col-form-label" }, [
+                    _vm._v("Redirect URL")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-9" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editForm.redirect,
+                          expression: "editForm.redirect"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "redirect" },
+                      domProps: { value: _vm.editForm.redirect },
+                      on: {
+                        keyup: function($event) {
+                          if (
+                            !("button" in $event) &&
+                            _vm._k(
+                              $event.keyCode,
+                              "enter",
+                              13,
+                              $event.key,
+                              "Enter"
+                            )
+                          ) {
+                            return null
+                          }
+                          return _vm.update($event)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.editForm,
+                            "redirect",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "form-text text-muted" }, [
+                      _vm._v(
+                        "\n                                    Your application's authorization callback URL.\n                                "
+                      )
+                    ])
+                  ])
+                ])
+              ])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-default",
+                  staticClass: "btn btn-secondary",
                   attrs: { type: "button", "data-dismiss": "modal" }
                 },
                 [_vm._v("Close")]
@@ -97952,7 +97941,11 @@ var render = function() {
                   attrs: { type: "button" },
                   on: { click: _vm.update }
                 },
-                [_vm._v("\n                    Save Changes\n                ")]
+                [
+                  _vm._v(
+                    "\n                        Save Changes\n                    "
+                  )
+                ]
               )
             ])
           ])
@@ -97978,6 +97971,70 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th")
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title" }, [
+        _vm._v("\n                        Create Client\n                    ")
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-hidden": "true"
+          }
+        },
+        [_vm._v("×")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "mb-0" }, [
+      _c("strong", [_vm._v("Whoops!")]),
+      _vm._v(" Something went wrong!")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title" }, [
+        _vm._v("\n                        Edit Client\n                    ")
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-hidden": "true"
+          }
+        },
+        [_vm._v("×")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "mb-0" }, [
+      _c("strong", [_vm._v("Whoops!")]),
+      _vm._v(" Something went wrong!")
     ])
   }
 ]
@@ -98076,7 +98133,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.action-link[data-v-0b76a99a] {\n    cursor: pointer;\n}\n.m-b-none[data-v-0b76a99a] {\n    margin-bottom: 0;\n}\n", ""]);
+exports.push([module.i, "\n.action-link[data-v-0b76a99a] {\n    cursor: pointer;\n}\n", ""]);
 
 // exports
 
@@ -98091,12 +98148,58 @@ exports.push([module.i, "\n.action-link[data-v-0b76a99a] {\n    cursor: pointer;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _axios = __webpack_require__(9);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     /*
@@ -98140,7 +98243,7 @@ exports.default = {
         getTokens: function getTokens() {
             var _this = this;
 
-            _axios2.default.get('/oauth/tokens').then(function (response) {
+            axios.get('/oauth/tokens').then(function (response) {
                 _this.tokens = response.data;
             });
         },
@@ -98152,67 +98255,12 @@ exports.default = {
         revoke: function revoke(token) {
             var _this2 = this;
 
-            _axios2.default.delete('/oauth/tokens/' + token.id).then(function (response) {
+            axios.delete('/oauth/tokens/' + token.id).then(function (response) {
                 _this2.getTokens();
             });
         }
     }
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+};
 
 /***/ }),
 /* 526 */
@@ -98225,13 +98273,13 @@ var render = function() {
   return _c("div", [
     _vm.tokens.length > 0
       ? _c("div", [
-          _c("div", { staticClass: "panel panel-default" }, [
-            _c("div", { staticClass: "panel-heading" }, [
+          _c("div", { staticClass: "card card-default" }, [
+            _c("div", { staticClass: "card-header" }, [
               _vm._v("Authorized Applications")
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "panel-body" }, [
-              _c("table", { staticClass: "table table-borderless m-b-none" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("table", { staticClass: "table table-borderless mb-0" }, [
                 _vm._m(0),
                 _vm._v(" "),
                 _c(
@@ -98243,9 +98291,9 @@ var render = function() {
                         { staticStyle: { "vertical-align": "middle" } },
                         [
                           _vm._v(
-                            "\n                            " +
+                            "\n                                " +
                               _vm._s(token.client.name) +
-                              "\n                        "
+                              "\n                            "
                           )
                         ]
                       ),
@@ -98282,7 +98330,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                Revoke\n                            "
+                                "\n                                    Revoke\n                                "
                               )
                             ]
                           )
@@ -98409,7 +98457,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.action-link[data-v-50e40461] {\n    cursor: pointer;\n}\n.m-b-none[data-v-50e40461] {\n    margin-bottom: 0;\n}\n", ""]);
+exports.push([module.i, "\n.action-link[data-v-50e40461] {\n    cursor: pointer;\n}\n", ""]);
 
 // exports
 
@@ -98425,166 +98473,164 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _axios = __webpack_require__(9);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     /*
@@ -98601,9 +98647,7 @@ exports.default = {
                 name: '',
                 scopes: [],
                 errors: []
-            },
-            tokenModal: false,
-            accessTokenModal: false
+            }
         };
     },
 
@@ -98631,6 +98675,10 @@ exports.default = {
         prepareComponent: function prepareComponent() {
             this.getTokens();
             this.getScopes();
+
+            $('#modal-create-token').on('shown.bs.modal', function () {
+                $('#create-token-name').focus();
+            });
         },
 
 
@@ -98640,7 +98688,7 @@ exports.default = {
         getTokens: function getTokens() {
             var _this = this;
 
-            _axios2.default.get('/oauth/personal-access-tokens').then(function (response) {
+            axios.get('/oauth/personal-access-tokens').then(function (response) {
                 _this.tokens = response.data;
             });
         },
@@ -98652,7 +98700,7 @@ exports.default = {
         getScopes: function getScopes() {
             var _this2 = this;
 
-            _axios2.default.get('/oauth/scopes').then(function (response) {
+            axios.get('/oauth/scopes').then(function (response) {
                 _this2.scopes = response.data;
             });
         },
@@ -98662,7 +98710,7 @@ exports.default = {
          * Show the form for creating new tokens.
          */
         showCreateTokenForm: function showCreateTokenForm() {
-            this.tokenModal = true;
+            $('#modal-create-token').modal('show');
         },
 
 
@@ -98676,7 +98724,7 @@ exports.default = {
 
             this.form.errors = [];
 
-            _axios2.default.post('/oauth/personal-access-tokens', this.form).then(function (response) {
+            axios.post('/oauth/personal-access-tokens', this.form).then(function (response) {
                 _this3.form.name = '';
                 _this3.form.scopes = [];
                 _this3.form.errors = [];
@@ -98684,9 +98732,9 @@ exports.default = {
                 _this3.tokens.push(response.data.token);
 
                 _this3.showAccessToken(response.data.accessToken);
-            }).catch(function (response) {
-                if (_typeof(response.data) === 'object') {
-                    _this3.form.errors = _.flatten(_.toArray(response.data));
+            }).catch(function (error) {
+                if (_typeof(error.response.data) === 'object') {
+                    _this3.form.errors = _.flatten(_.toArray(error.response.data.errors));
                 } else {
                     _this3.form.errors = ['Something went wrong. Please try again.'];
                 }
@@ -98720,11 +98768,11 @@ exports.default = {
          * Show the given access token to the user.
          */
         showAccessToken: function showAccessToken(accessToken) {
-            this.closeTokenModal();
+            $('#modal-create-token').modal('hide');
 
             this.accessToken = accessToken;
 
-            this.accessTokenModal = true;
+            $('#modal-access-token').modal('show');
         },
 
 
@@ -98734,15 +98782,9 @@ exports.default = {
         revoke: function revoke(token) {
             var _this4 = this;
 
-            _axios2.default.delete('/oauth/personal-access-tokens/' + token.id).then(function (response) {
+            axios.delete('/oauth/personal-access-tokens/' + token.id).then(function (response) {
                 _this4.getTokens();
             });
-        },
-        closeTokenModal: function closeTokenModal() {
-            this.tokenModal = false;
-        },
-        closeAccessTokenModal: function closeAccessTokenModal() {
-            this.accessTokenModal = false;
         }
     }
 };
@@ -98757,8 +98799,8 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", [
-      _c("div", { staticClass: "panel panel-default" }, [
-        _c("div", { staticClass: "panel-heading" }, [
+      _c("div", { staticClass: "card card-default" }, [
+        _c("div", { staticClass: "card-header" }, [
           _c(
             "div",
             {
@@ -98779,6 +98821,7 @@ var render = function() {
                 "a",
                 {
                   staticClass: "action-link",
+                  attrs: { tabindex: "-1" },
                   on: { click: _vm.showCreateTokenForm }
                 },
                 [
@@ -98791,9 +98834,9 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "panel-body" }, [
+        _c("div", { staticClass: "card-body" }, [
           _vm.tokens.length === 0
-            ? _c("p", { staticClass: "m-b-none" }, [
+            ? _c("p", { staticClass: "mb-0" }, [
                 _vm._v(
                   "\n                    You have not created any personal access tokens.\n                "
                 )
@@ -98801,7 +98844,7 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _vm.tokens.length > 0
-            ? _c("table", { staticClass: "table table-borderless m-b-none" }, [
+            ? _c("table", { staticClass: "table table-borderless mb-0" }, [
                 _vm._m(0),
                 _vm._v(" "),
                 _c(
@@ -98813,9 +98856,9 @@ var render = function() {
                         { staticStyle: { "vertical-align": "middle" } },
                         [
                           _vm._v(
-                            "\n                            " +
+                            "\n                                " +
                               _vm._s(token.name) +
-                              "\n                        "
+                              "\n                            "
                           )
                         ]
                       ),
@@ -98836,7 +98879,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                Delete\n                            "
+                                "\n                                    Delete\n                                "
                               )
                             ]
                           )
@@ -98854,157 +98897,148 @@ var render = function() {
     _c(
       "div",
       {
-        staticClass: "modal",
-        class: [_vm.tokenModal ? "is-active" : ""],
+        staticClass: "modal fade",
         attrs: { id: "modal-create-token", tabindex: "-1", role: "dialog" }
       },
       [
-        _c("div", { staticClass: "modal-background" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "modal-card" }, [
-          _c("div", { staticClass: "modal-card-head" }, [
-            _c("h4", { staticClass: "modal-card-title" }, [
-              _vm._v("\n                    Create Token\n                ")
-            ]),
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(1),
             _vm._v(" "),
-            _c("a", {
-              staticClass: "delete",
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.closeTokenModal($event)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-card-body" }, [
-            _vm.form.errors.length > 0
-              ? _c("div", { staticClass: "notification is-danger" }, [
-                  _c("strong", [_vm._v("Whoops! Something went wrong!")]),
-                  _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c(
-                    "ul",
-                    _vm._l(_vm.form.errors, function(error) {
-                      return _c("li", [
-                        _vm._v(
-                          "\n                            " +
-                            _vm._s(error) +
-                            "\n                        "
-                        )
-                      ])
-                    })
-                  )
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c(
-              "form",
-              {
-                staticClass: "form-horizontal",
-                attrs: { role: "form" },
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.store($event)
-                  }
-                }
-              },
-              [
-                _c("div", { staticClass: "field" }, [
-                  _c("label", { staticClass: "label" }, [_vm._v("Name")]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "control" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.name,
-                          expression: "form.name"
-                        }
-                      ],
-                      staticClass: "input",
-                      attrs: {
-                        id: "create-token-name",
-                        type: "text",
-                        name: "name"
-                      },
-                      domProps: { value: _vm.form.name },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "name", $event.target.value)
-                        }
-                      }
-                    })
+            _c("div", { staticClass: "modal-body" }, [
+              _vm.form.errors.length > 0
+                ? _c("div", { staticClass: "alert alert-danger" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
+                      _vm._l(_vm.form.errors, function(error) {
+                        return _c("li", [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(error) +
+                              "\n                            "
+                          )
+                        ])
+                      })
+                    )
                   ])
-                ]),
-                _vm._v(" "),
-                _vm.scopes.length > 0
-                  ? _c("div", { staticClass: "form-group" }, [
-                      _c("label", { staticClass: "col-md-4 control-label" }, [
-                        _vm._v("Scopes")
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "col-md-6" },
-                        _vm._l(_vm.scopes, function(scope) {
-                          return _c("div", [
-                            _c("div", { staticClass: "checkbox" }, [
-                              _c("label", [
-                                _c("input", {
-                                  attrs: { type: "checkbox" },
-                                  domProps: {
-                                    checked: _vm.scopeIsAssigned(scope.id)
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.toggleScope(scope.id)
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  attrs: { role: "form" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.store($event)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c("label", { staticClass: "col-md-4 col-form-label" }, [
+                      _vm._v("Name")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.name,
+                            expression: "form.name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          id: "create-token-name",
+                          type: "text",
+                          name: "name"
+                        },
+                        domProps: { value: _vm.form.name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "name", $event.target.value)
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm.scopes.length > 0
+                    ? _c("div", { staticClass: "form-group" }, [
+                        _c(
+                          "label",
+                          { staticClass: "col-md-4 col-form-label" },
+                          [_vm._v("Scopes")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-md-6" },
+                          _vm._l(_vm.scopes, function(scope) {
+                            return _c("div", [
+                              _c("div", { staticClass: "checkbox" }, [
+                                _c("label", [
+                                  _c("input", {
+                                    attrs: { type: "checkbox" },
+                                    domProps: {
+                                      checked: _vm.scopeIsAssigned(scope.id)
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.toggleScope(scope.id)
+                                      }
                                     }
-                                  }
-                                }),
-                                _vm._v(
-                                  "\n\n                                        " +
-                                    _vm._s(scope.id) +
-                                    "\n                                    "
-                                )
+                                  }),
+                                  _vm._v(
+                                    "\n\n                                                " +
+                                      _vm._s(scope.id) +
+                                      "\n                                        "
+                                  )
+                                ])
                               ])
                             ])
-                          ])
-                        })
-                      )
-                    ])
-                  : _vm._e()
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-card-foot" }, [
-            _c(
-              "a",
-              {
-                staticClass: "button",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.closeTokenModal($event)
-                  }
-                }
-              },
-              [_vm._v("Close")]
-            ),
+                          })
+                        )
+                      ])
+                    : _vm._e()
+                ]
+              )
+            ]),
             _vm._v(" "),
-            _c(
-              "a",
-              { staticClass: "button is-primary", on: { click: _vm.store } },
-              [_vm._v("Create")]
-            )
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button", "data-dismiss": "modal" }
+                },
+                [_vm._v("Close")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "button" },
+                  on: { click: _vm.store }
+                },
+                [
+                  _vm._v(
+                    "\n                        Create\n                    "
+                  )
+                ]
+              )
+            ])
           ])
         ])
       ]
@@ -99013,56 +99047,29 @@ var render = function() {
     _c(
       "div",
       {
-        staticClass: "modal",
-        class: [_vm.accessTokenModal ? "is-active" : ""],
+        staticClass: "modal fade",
         attrs: { id: "modal-access-token", tabindex: "-1", role: "dialog" }
       },
       [
-        _c("div", { staticClass: "modal-background" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "modal-card" }, [
-          _c("div", { staticClass: "modal-card-head" }, [
-            _c("h4", { staticClass: "modal-card-title" }, [
-              _vm._v(
-                "\n                    Personal Access Token\n                "
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(3),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("p", [
+                _vm._v(
+                  "\n                        Here is your new personal access token. This is the only time it will be shown so don't lose it!\n                        You may now use this token to make API requests.\n                    "
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "textarea",
+                { staticClass: "form-control", attrs: { rows: "10" } },
+                [_vm._v(_vm._s(_vm.accessToken))]
               )
             ]),
             _vm._v(" "),
-            _c("a", {
-              staticClass: "delete",
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.closeAccessTokenModal($event)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-card-body" }, [
-            _c("p", [
-              _vm._v(
-                "\n                    Here is your new personal access token. This is the only time it will be shown so don't lose it!\n                    You may now use this token to make API requests.\n                "
-              )
-            ]),
-            _vm._v(" "),
-            _c("pre", [_c("code", [_vm._v(_vm._s(_vm.accessToken))])])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-card-foot" }, [
-            _c(
-              "a",
-              {
-                staticClass: "button",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.closeAccessTokenModal($event)
-                  }
-                }
-              },
-              [_vm._v("Close")]
-            )
+            _vm._m(4)
           ])
         ])
       ]
@@ -99076,6 +99083,78 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [_c("th", [_vm._v("Name")]), _vm._v(" "), _c("th")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title" }, [
+        _vm._v("\n                        Create Token\n                    ")
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-hidden": "true"
+          }
+        },
+        [_vm._v("×")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "mb-0" }, [
+      _c("strong", [_vm._v("Whoops!")]),
+      _vm._v(" Something went wrong!")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title" }, [
+        _vm._v(
+          "\n                        Personal Access Token\n                    "
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-hidden": "true"
+          }
+        },
+        [_vm._v("×")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Close")]
+      )
     ])
   }
 ]
@@ -104234,6 +104313,509 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 581 */,
+/* 582 */,
+/* 583 */,
+/* 584 */,
+/* 585 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(588)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(586)
+/* template */
+var __vue_template__ = __webpack_require__(587)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\NotesContainer\\NotesContainer.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0bb13595", Component.options)
+  } else {
+    hotAPI.reload("data-v-0bb13595", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 586 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        /**
+         * The ID of the notable resource.
+         */
+        resourceId: {
+            type: {
+                type: Number,
+                required: false
+            }
+        },
+        /**
+         * The same GET/POST routes to save notes for a given resource.Damn
+         */
+        url: {
+            type: String,
+            required: true
+        }
+    },
+    data: function data() {
+        return {
+            notes: [],
+
+            noteBox: false,
+
+            form: {
+                id: null,
+                body: '',
+                errors: []
+            }
+        };
+    },
+    mounted: function mounted() {
+        this.getNotes();
+    },
+
+    methods: {
+        /**
+         * Get all of the notes for resource.
+         */
+        getNotes: function getNotes() {
+            var _this = this;
+
+            axios.get(this.url).then(function (response) {
+                _this.notes = response.data.reverse();
+            });
+        },
+        clearBoxNote: function clearBoxNote() {
+            this.form.body = '';
+            // this.noteBox = false;
+        },
+
+        /**
+         * Save a new note.
+         */
+        save: function save() {
+            var _this2 = this;
+
+            this.form.errors = [];
+            this.form.id = this.resourceId;
+
+            this.$startLoading('SAVING_NOTE');
+
+            axios.post(this.url, this.form).then(function (response) {
+                _this2.form.errors = [];
+                _this2.form.body = '';
+
+                response.data['new'] = true;
+
+                var originalNotes = _this2.notes.reverse();
+                originalNotes.push(response.data);
+                _this2.notes = originalNotes.reverse();
+
+                _this2.$endLoading('SAVING_NOTE');
+
+                _this2.clearBoxNote();
+            }).catch(function (error) {
+                _this2.$endLoading('SAVING_NOTE');
+
+                if (_typeof(error.response.data) === 'object') {
+                    _this2.form.errors = _.flatten(_.toArray(error.response.data.errors));
+                } else {
+                    _this2.form.errors = ['Something went wrong. Please try again.'];
+                }
+            });
+        }
+    }
+};
+
+/***/ }),
+/* 587 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "resources-sidebar" }, [
+        _c("h3", { staticClass: "title is-4" }, [
+          _vm._v(_vm._s(_vm.$t("words.notes")))
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c(
+            "button",
+            {
+              staticClass: "button",
+              on: {
+                click: function($event) {
+                  _vm.noteBox = true
+                }
+              }
+            },
+            [_vm._v(_vm._s(_vm.$t("words.new-note")))]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "transition",
+        {
+          attrs: {
+            "enter-active-class": "animated fadeIn",
+            "leave-active-class": "animated fadeOut",
+            mode: "out-in"
+          }
+        },
+        [
+          _vm.noteBox
+            ? _c("div", [
+                _vm.form.errors.length > 0
+                  ? _c("div", { staticClass: "notification is-danger" }, [
+                      _c("strong", [_vm._v("Something went wrong.")]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "ul",
+                        _vm._l(_vm.form.errors, function(error) {
+                          return _c("li", [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(error) +
+                                "\n                    "
+                            )
+                          ])
+                        })
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.save($event)
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "field" },
+                      [
+                        _c("b-input", {
+                          attrs: {
+                            type: "textarea",
+                            maxlength: "225",
+                            "has-counter": "",
+                            required: "",
+                            autofocus: ""
+                          },
+                          model: {
+                            value: _vm.form.body,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "body", $$v)
+                            },
+                            expression: "form.body"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "field" }, [
+                      _c("div", { staticClass: "control has-text-right" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "button is-text is-small",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.noteBox = false
+                              }
+                            }
+                          },
+                          [_vm._v("Close")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "button is-primary is-small",
+                            class: {
+                              "is-loading": _vm.$isLoading("SAVING_NOTE")
+                            },
+                            attrs: { type: "submit" }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Save Note\n                        "
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              ])
+            : _vm._e()
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "notes-container" },
+        [
+          _vm.notes.length > 0
+            ? _c(
+                "transition-group",
+                {
+                  attrs: {
+                    name: "notes-container",
+                    "enter-active-class": "animated fadeInDown",
+                    "leave-active-class": "animated fadeOutUp",
+                    mode: "in-out"
+                  }
+                },
+                _vm._l(_vm.notes, function(note) {
+                  return _c(
+                    "div",
+                    { key: note.id, staticClass: "media-content" },
+                    [
+                      _c("div", { staticClass: "content" }, [
+                        _c("p", [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(note.body) +
+                              "\n                        "
+                          ),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("small", [
+                            _c(
+                              "strong",
+                              { attrs: { title: note.user.username } },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(note.user.name) +
+                                    "\n                            "
+                                )
+                              ]
+                            ),
+                            _vm._v(
+                              "\n                            •\n                            "
+                            ),
+                            _c(
+                              "time",
+                              {
+                                staticClass: "has-text-grey-light",
+                                attrs: {
+                                  title: note.created_rss,
+                                  datetime: note.created_w3c
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(note.created_at_human) +
+                                    "\n                            "
+                                )
+                              ]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("hr")
+                      ])
+                    ]
+                  )
+                })
+              )
+            : _vm._e()
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-0bb13595", module.exports)
+  }
+}
+
+/***/ }),
+/* 588 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(589);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("23405cb6", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0bb13595\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./NotesContainer.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0bb13595\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./NotesContainer.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 589 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.notes-container-move {\n    -webkit-transition: -webkit-transform 1s;\n    transition: -webkit-transform 1s;\n    transition: transform 1s;\n    transition: transform 1s, -webkit-transform 1s;\n}\n", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);

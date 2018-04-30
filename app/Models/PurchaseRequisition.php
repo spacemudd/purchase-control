@@ -104,6 +104,16 @@ class PurchaseRequisition extends Model implements AuditableContract
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Get all the notes owned by this requisition.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function notes()
+    {
+        return $this->morphMany(Note::class, 'notable');
+    }
+
     public function getIsDraftAttribute()
     {
         return $this->status === self::DRAFT;

@@ -196,6 +196,7 @@ Vue.component('purchase-requisition-items', require('./components/PurchaseRequis
 Vue.component('new-item-requisition-modal', require('./components/NewItemRequisitionModal/NewItemRequisitionModal'));
 Vue.component('select-item-template', require('./components/SelectItemTemplate/SelectItemTemplate'));
 Vue.component('delete-prompt', require('./components/DeletePrompt/DeletePrompt'));
+Vue.component('notes-container', require('./components/NotesContainer/NotesContainer'));
 
 /**
  * API/App settings
@@ -203,9 +204,9 @@ Vue.component('delete-prompt', require('./components/DeletePrompt/DeletePrompt')
 const apiVersion = '1';
 
 // if(process.env.NODE_ENV === 'production') {
-    var envUrl = window.location.origin + '/pd';
+//    var envUrl = window.location.origin + '/pd';
 // } else {
-//    var envUrl = window.location.origin;
+    var envUrl = window.location.origin;
 // }
 
 Vue.mixin({

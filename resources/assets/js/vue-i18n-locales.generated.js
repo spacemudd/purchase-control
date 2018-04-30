@@ -1117,7 +1117,9 @@ export default {
             "welcome": "Welcome",
             "item-templates": "Item Templates",
             "purchase-requisitions": "Purchase Requisitions",
-            "requisition-items": "Requisition Items"
+            "requisition-items": "Requisition Items",
+            "notes": "Notes",
+            "new-note": "New Note"
         }
     }
 }

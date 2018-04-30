@@ -180,6 +180,10 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::get('purchase-requisitions/{id}', 'Api\PurchaseRequisitionsController@show');
     Route::post('purchase-requisitions', 'Api\PurchaseRequisitionsController@store')->name('api.purchase-requisitions.store');
 
+    // Notes.
+    Route::post('purchase-requisition/notes', 'Api\PurchaseRequisitionNotes@store')->name('api.purchase-requisition.notes');
+    Route::get('purchase-requisition/notes', 'Api\PurchaseRequisitionNotes@index')->name('api.purchase-requisition.notes');
+
     // Purchase Requisition items.
     Route::get('purchase-requisitions/{purchase_requisition_id}/items', 'Api\PurchaseRequisitionItemsController@underRequisition')->name('purchase-requisitions.items');
     Route::post('purchase-requisitions/{purchase_requisition_id}/items', 'Api\PurchaseRequisitionItemsController@store')->name('purchase-requisitions.items');
