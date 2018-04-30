@@ -154,6 +154,12 @@
             >
             </notes-container>
 
+            {{-- Uploads section --}}
+            <uploads-container url="{{ route('api.purchase-requisition.uploads', ['id' => $request->id]) }}"
+                               resource-id.number="{{ $request->id }}"
+            >
+            </uploads-container>
+
         </div>
 
     </div>

@@ -30530,6 +30530,8 @@ Vue.component('new-item-requisition-modal', __webpack_require__(571));
 Vue.component('select-item-template', __webpack_require__(574));
 Vue.component('delete-prompt', __webpack_require__(577));
 Vue.component('notes-container', __webpack_require__(585));
+Vue.component('uploads-container', __webpack_require__(590));
+Vue.component('new-upload-modal', __webpack_require__(595));
 
 /**
  * API/App settings
@@ -32264,7 +32266,8 @@ exports.default = {
             "role-added": "Role added",
             "role-removed": "Role removed",
             "you-can-add-multiple-stock-the-list": "You can add multiple stock to the list",
-            "are-you-sure": "Are you sure?"
+            "are-you-sure": "Are you sure?",
+            "upload-help": "Drop your files here or click to upload"
         },
         "pagination": {
             "previous": "&laquo; Previous",
@@ -32776,7 +32779,9 @@ exports.default = {
             "purchase-requisitions": "Purchase Requisitions",
             "requisition-items": "Requisition Items",
             "notes": "Notes",
-            "new-note": "New Note"
+            "new-note": "New Note",
+            "files": "Files",
+            "new-file": "New File"
         }
     }
 };
@@ -104459,6 +104464,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //
 //
 //
+//
+//
+//
 
 exports.default = {
     props: {
@@ -104759,7 +104767,18 @@ var render = function() {
                   )
                 })
               )
-            : _vm._e()
+            : _c(
+                "div",
+                {
+                  staticClass: "is-flex columns is-vcentered",
+                  staticStyle: { "min-height": "100px" }
+                },
+                [
+                  _c("p", { staticClass: "column has-text-centered" }, [
+                    _c("i", [_vm._v("No notes")])
+                  ])
+                ]
+              )
         ],
         1
       )
@@ -104816,6 +104835,897 @@ exports.push([module.i, "\n.notes-container-move {\n    -webkit-transition: -web
 
 // exports
 
+
+/***/ }),
+/* 590 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(591)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(593)
+/* template */
+var __vue_template__ = __webpack_require__(594)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\UploadsContainer\\UploadsContainer.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7612f416", Component.options)
+  } else {
+    hotAPI.reload("data-v-7612f416", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 591 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(592);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("ab815dec", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7612f416\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./UploadsContainer.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7612f416\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./UploadsContainer.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 592 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.uploads-container-move {\n    -webkit-transition: -webkit-transform 1s;\n    transition: -webkit-transform 1s;\n    transition: transform 1s;\n    transition: transform 1s, -webkit-transform 1s;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 593 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _file = __webpack_require__(14);
+
+var fileUtil = _interopRequireWildcard(_file);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+exports.default = {
+    props: {
+        /**
+         * The ID of the mediable resource.
+         */
+        resourceId: {
+            type: {
+                type: Number,
+                required: false
+            }
+        },
+        /**
+         * The same GET/POST routes to save files for a given resource.
+         */
+        url: {
+            type: String,
+            required: true
+        }
+    },
+    data: function data() {
+        return {
+            newUploadModal: false,
+
+            uploads: []
+
+        };
+    },
+    mounted: function mounted() {
+        this.getUploads();
+    },
+
+    methods: {
+        /**
+         * Get all of the uploads for resource.
+         */
+        getUploads: function getUploads() {
+            var _this = this;
+
+            axios.get(this.url).then(function (response) {
+                _this.uploads = response.data;
+            });
+        },
+
+        /**
+         * Adds new files to the list.
+         * array files
+         */
+        addFilesToList: function addFilesToList(files) {
+            var _this2 = this;
+
+            files.forEach(function (file) {
+                _this2.uploads.push(file);
+            });
+        },
+        downloadFile: function downloadFile(id) {
+            var _this3 = this;
+
+            var params = { id: id };
+            var options = { responseType: 'arraybuffer' };
+
+            this.$startLoading('DOWNLOADING_FILE_' + id);
+
+            axios.post(this.apiUrl() + '/media/download', params, options).then(function (response) {
+                var blob = new Blob([response.data], { type: response.headers['Content-Type'] });
+                var filename = (response.headers['content-disposition'] || '').split('filename=')[1];
+                filename = filename.replace('"', '');
+                filename = filename.replace('"', '');
+                fileUtil.downloadBlob(blob, filename);
+
+                _this3.$endLoading('DOWNLOADING_FILE_' + id);
+            }).catch(function (error) {
+                alert('Something went wrong. Please try again.');
+            });
+        },
+        confirmDelete: function confirmDelete(id) {
+            var _this4 = this;
+
+            this.$dialog.confirm({
+                type: 'is-danger',
+                message: 'This is irreversible. Are you sure you want to delete the file?',
+                confirmText: 'Delete File',
+                onConfirm: function onConfirm() {
+                    axios.delete(_this4.apiUrl() + '/media/' + id).then(function (response) {
+                        _this4.getUploads();
+                    });
+                }
+            });
+        }
+    }
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/***/ }),
+/* 594 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "resources-sidebar" }, [
+        _c("h3", { staticClass: "title is-4" }, [
+          _vm._v(_vm._s(_vm.$t("words.files")))
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c(
+            "button",
+            {
+              staticClass: "button",
+              on: {
+                click: function($event) {
+                  _vm.newUploadModal = true
+                }
+              }
+            },
+            [_vm._v(_vm._s(_vm.$t("words.new-file")))]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: { active: _vm.newUploadModal },
+          on: {
+            "update:active": function($event) {
+              _vm.newUploadModal = $event
+            }
+          }
+        },
+        [
+          _c("new-upload-modal", {
+            attrs: { url: _vm.url, "resource-id": _vm.resourceId },
+            on: { completed: _vm.addFilesToList }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "uploads-container" },
+        [
+          _vm.uploads.length > 0
+            ? _c(
+                "transition-group",
+                {
+                  attrs: {
+                    name: "uploads-container",
+                    "enter-active-class": "animated fadeInDown",
+                    "leave-active-class": "animated fadeOut",
+                    mode: "in-out"
+                  }
+                },
+                _vm._l(_vm.uploads.slice().reverse(), function(upload) {
+                  return _c(
+                    "div",
+                    { key: upload.id, staticClass: "media-content" },
+                    [
+                      _c("div", { staticClass: "content" }, [
+                        upload.purpose
+                          ? _c("p", { staticClass: "tag" }, [
+                              _c("strong", [_vm._v(_vm._s(upload.purpose))])
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("p", [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(upload.file_name) +
+                              "\n                        "
+                          ),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("small", [
+                            _c(
+                              "strong",
+                              { attrs: { title: upload.user.username } },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(upload.user.name) +
+                                    "\n                            "
+                                )
+                              ]
+                            ),
+                            _vm._v(
+                              "\n                            •\n                            "
+                            ),
+                            _c(
+                              "time",
+                              {
+                                staticClass: "has-text-grey-light",
+                                attrs: {
+                                  title: upload.created_rss,
+                                  datetime: upload.created_w3c
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(upload.created_at_human) +
+                                    "\n                            "
+                                )
+                              ]
+                            ),
+                            _vm._v(
+                              "\n                            •\n                            "
+                            ),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "button is-small is-text has-text-link",
+                                class: {
+                                  "is-loading": _vm.$isLoading(
+                                    "DOWNLOADING_FILE_" + upload.id
+                                  )
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.downloadFile(upload.id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Download")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "button is-small is-danger is-pulled-right has-icon",
+                                on: {
+                                  click: function($event) {
+                                    _vm.confirmDelete(upload.id)
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", { staticClass: "icon" }, [
+                                  _c("i", { staticClass: "fa fa-trash" })
+                                ])
+                              ]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("hr")
+                      ])
+                    ]
+                  )
+                })
+              )
+            : _c(
+                "div",
+                {
+                  staticClass: "is-flex columns is-vcentered",
+                  staticStyle: { "min-height": "100px" }
+                },
+                [
+                  _c("p", { staticClass: "column has-text-centered" }, [
+                    _c("i", [_vm._v("No files")])
+                  ])
+                ]
+              )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7612f416", module.exports)
+  }
+}
+
+/***/ }),
+/* 595 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(596)
+/* template */
+var __vue_template__ = __webpack_require__(597)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\NewUploadFile\\NewUploadFile.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-41c66557", Component.options)
+  } else {
+    hotAPI.reload("data-v-41c66557", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 596 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        /**
+         * The ID of the notable resource.
+         */
+        resourceId: {
+            type: {
+                type: Number,
+                required: false
+            }
+        },
+        /**
+         * The same GET/POST routes to save notes for a given resource.Damn
+         */
+        url: {
+            type: String,
+            required: true
+        }
+    },
+    data: function data() {
+        return {
+            dropFiles: [],
+            isLoading: false,
+            isUploading: false,
+            progressValue: null,
+
+            form: {
+                purpose: '',
+                errors: []
+            }
+        };
+    },
+    mounted: function mounted() {
+        //
+    },
+
+    methods: {
+        deleteDropFile: function deleteDropFile(index) {
+            this.dropFiles.splice(index, 1);
+        },
+        startUploadAttachment: function startUploadAttachment() {
+            if (!this.dropFiles.length) {
+                this.$toast.open({
+                    message: 'No files to upload'
+                });
+                return false;
+            }
+
+            this.uploadFile(this.onProgress);
+        },
+        onProgress: function onProgress(percent) {
+            this.progressValue = percent;
+        },
+        uploadFile: function uploadFile(onProgress) {
+            var _this = this;
+
+            var fileToUpload = new FormData();
+
+            this.dropFiles.forEach(function (file) {
+                fileToUpload.append('files[]', file);
+            });
+
+            fileToUpload.append('purpose', this.form.purpose);
+
+            this.isUploading = true;
+
+            var config = {
+                onUploadProgress: function onUploadProgress(progressEvent) {
+                    var percentCompleted = Math.round(progressEvent.loaded * 100 / progressEvent.total);
+                    console.log(percentCompleted);
+                    if (onProgress) onProgress(percentCompleted);
+                    return percentCompleted;
+                },
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+
+            this.form.errors = [];
+
+            axios.post(this.url, fileToUpload, config).then(function (response) {
+                _this.form.errors = [];
+                _this.$parent.close();
+                _this.$emit('completed', response.data);
+            }).catch(function (error) {
+                _this.$endLoading('SAVING_UPLOADS');
+
+                if (_typeof(error.response.data) === 'object') {
+                    _this.form.errors = _.flatten(_.toArray(error.response.data.errors));
+                } else {
+                    _this.form.errors = ['Something went wrong. Please try again.'];
+                }
+            });
+        }
+    }
+};
+
+/***/ }),
+/* 597 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "form",
+    {
+      on: {
+        submit: function($event) {
+          $event.preventDefault()
+          return _vm.startUploadAttachment($event)
+        }
+      }
+    },
+    [
+      _c("div", { staticClass: "modal-card" }, [
+        _c("header", { staticClass: "modal-card-head" }, [
+          _c("p", { staticClass: "modal-card-title" }, [
+            _vm._v(_vm._s(_vm.$t("words.upload")))
+          ])
+        ]),
+        _vm._v(" "),
+        _c("section", { staticClass: "modal-card-body" }, [
+          _vm.form.errors.length > 0
+            ? _c("div", { staticClass: "notification is-danger" }, [
+                _c("strong", [_vm._v("Something went wrong.")]),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c(
+                  "ul",
+                  _vm._l(_vm.form.errors, function(error) {
+                    return _c("li", [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(error) +
+                          "\n                    "
+                      )
+                    ])
+                  })
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.isUploading
+            ? _c(
+                "progress",
+                {
+                  staticClass: "progress is-primary",
+                  staticStyle: { "margin-top": "50px" },
+                  attrs: { max: "100" },
+                  domProps: { value: _vm.progressValue }
+                },
+                [_vm._v(_vm._s(_vm.progressValue) + "%")]
+              )
+            : _c(
+                "div",
+                [
+                  _c(
+                    "b-field",
+                    {
+                      attrs: {
+                        label: _vm.$t("words.description"),
+                        message: "Description of the file(s)"
+                      }
+                    },
+                    [
+                      _c("b-input", {
+                        model: {
+                          value: _vm.form.purpose,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "purpose", $$v)
+                          },
+                          expression: "form.purpose"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-field",
+                    {
+                      staticClass: "has-text-centered upload-box-position-unset"
+                    },
+                    [
+                      _c(
+                        "b-upload",
+                        {
+                          attrs: { multiple: "", "drag-drop": "" },
+                          model: {
+                            value: _vm.dropFiles,
+                            callback: function($$v) {
+                              _vm.dropFiles = $$v
+                            },
+                            expression: "dropFiles"
+                          }
+                        },
+                        [
+                          _c("section", { staticClass: "section" }, [
+                            _c(
+                              "div",
+                              { staticClass: "content has-text-centered" },
+                              [
+                                _c(
+                                  "p",
+                                  [
+                                    _c("b-icon", {
+                                      attrs: {
+                                        icon: "upload",
+                                        size: "is-large"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c("p", [
+                                  _vm._v(_vm._s(_vm.$t("messages.upload-help")))
+                                ])
+                              ]
+                            )
+                          ])
+                        ]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "tags" },
+                    _vm._l(_vm.dropFiles, function(file, index) {
+                      return _c(
+                        "span",
+                        { key: index, staticClass: "tag is-primary" },
+                        [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(file.name) +
+                              "\n                    "
+                          ),
+                          _c("button", {
+                            staticClass: "delete is-small",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.deleteDropFile(index)
+                              }
+                            }
+                          })
+                        ]
+                      )
+                    })
+                  )
+                ],
+                1
+              )
+        ]),
+        _vm._v(" "),
+        _c("footer", { staticClass: "modal-card-foot" }, [
+          !_vm.isUploading
+            ? _c(
+                "button",
+                {
+                  staticClass: "button",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      _vm.$parent.close()
+                    }
+                  }
+                },
+                [_vm._v("Close")]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "button is-primary",
+              attrs: { type: "submit", disabled: _vm.isUploading }
+            },
+            [_vm._v(_vm._s(_vm.$t("words.save")))]
+          )
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-41c66557", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

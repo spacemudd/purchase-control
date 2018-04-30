@@ -39,6 +39,6 @@ class CreatePurchaseRequisitionItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('purchase_requisitions_items');
+        Schema::dropIfExists('purchase_requisition_items');
     }
 }

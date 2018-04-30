@@ -607,7 +607,8 @@ export default {
             "role-added": "Role added",
             "role-removed": "Role removed",
             "you-can-add-multiple-stock-the-list": "You can add multiple stock to the list",
-            "are-you-sure": "Are you sure?"
+            "are-you-sure": "Are you sure?",
+            "upload-help": "Drop your files here or click to upload"
         },
         "pagination": {
             "previous": "&laquo; Previous",
@@ -1119,7 +1120,9 @@ export default {
             "purchase-requisitions": "Purchase Requisitions",
             "requisition-items": "Requisition Items",
             "notes": "Notes",
-            "new-note": "New Note"
+            "new-note": "New Note",
+            "files": "Files",
+            "new-file": "New File"
         }
     }
 }

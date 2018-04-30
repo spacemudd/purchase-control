@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ReferenceTypesTableSeeder::class);
 
         // Faker.
-        factory(\App\Models\Vendor::class, 500)->create();
-        factory(\App\Models\Employee::class, 500)->create();
+        //factory(\App\Models\Vendor::class, 500)->create();
+        //factory(\App\Models\Employee::class, 500)->create();
     }
 }

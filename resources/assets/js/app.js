@@ -197,6 +197,8 @@ Vue.component('new-item-requisition-modal', require('./components/NewItemRequisi
 Vue.component('select-item-template', require('./components/SelectItemTemplate/SelectItemTemplate'));
 Vue.component('delete-prompt', require('./components/DeletePrompt/DeletePrompt'));
 Vue.component('notes-container', require('./components/NotesContainer/NotesContainer'));
+Vue.component('uploads-container', require('./components/UploadsContainer/UploadsContainer'));
+Vue.component('new-upload-modal', require('./components/NewUploadFile/NewUploadFile'))
 
 /**
  * API/App settings

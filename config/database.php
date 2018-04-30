@@ -135,7 +135,7 @@ return [
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
-            'prefix' => 'purchase_',
+            'prefix' => 'pur_',
         ],
 
         'sqlsrv_old' => [

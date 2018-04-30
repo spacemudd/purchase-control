@@ -10,7 +10,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class CreateRequestTest extends TestCase
+class CreatePurchaseRequisitionTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
@@ -21,7 +21,7 @@ class CreateRequestTest extends TestCase
         Artisan::call('db:seed');
     }
 
-    public function test_creating_a_request_document()
+    public function test_creating_a_purchase_requisition()
     {
         $user = factory(User::class)->create()->givePermissionTo([
             'create-purchase-requisitions',
@@ -31,7 +31,7 @@ class CreateRequestTest extends TestCase
         $byEmployee = factory(Employee::class)->create();
         $forEmployee = factory(Employee::class)->create();
 
-        $url = route('api.purchase-requisitions.store');
+        $url = route('purchase-requisitions.store');
         $data = [
             'requested_by_id' => $byEmployee->id,
             'cost_center_by_id' => $byEmployee->department->id,
@@ -43,7 +43,7 @@ class CreateRequestTest extends TestCase
 
         $data['status'] = PurchaseRequisition::UNSET; // See \App\Clarimount\Service\PurchaseRequisition@store
 
-        $this->assertDatabaseHas('request_documents', $data);
+        $this->assertDatabaseHas('purchase_requisitions', $data);
     }
 
     public function test_sending_to_purchasing_dept()
@@ -60,7 +60,7 @@ class CreateRequestTest extends TestCase
 
         $this->actingAs($user)->post($url)->assertSessionMissing('errors');
 
-        $this->assertDatabaseHas('request_documents', [
+        $this->assertDatabaseHas('purchase_requisitions', [
             'id' => $requestDocument->id,
             'status' => PurchaseRequisition::DRAFT,
         ]);

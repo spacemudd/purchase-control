@@ -76,10 +76,23 @@ class MediaRepository
     {
         $attachment = Media::where('id', $id)->firstOrFail();
 
-        if(!file_exists($attachment->file_path)) {
+        $exists = Storage::disk('local')->exists($attachment->file_path);
+
+        if(!$exists) {
             throw new \Exception('File not found');
         }
 
-        return response()->download($attachment->file_path . $attachment->file_name, $attachment->file_name, [], 'inline');
+        return Storage::disk('local')->download($attachment->file_path, $attachment->file_name);
+    }
+
+    /**
+     *
+     * @param $id
+     * @return bool
+     */
+    public function delete($id)
+    {
+        // We are specifically not deleting the files on the server in case of audit.
+        return Media::where('id', $id)->delete();
     }
 }

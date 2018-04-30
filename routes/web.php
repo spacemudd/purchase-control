@@ -100,15 +100,16 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
 
 Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function() {
 
-    Route::get('/', function() {
-        $response = ['message' => 'Hello! - API version ' . env('APP_API', '1')];
-        return response()->json($response, 200);
-    });
+    //Route::get('/', function() {
+    //    $response = ['message' => 'Hello! - API version ' . env('APP_API', '1')];
+    //    return response()->json($response, 200);
+    //});
 
     Route::post('audit/show', 'Api\AuditsController@show');
 
     Route::post('upload/store', 'Api\MediaController@store');
     Route::post('media/download', 'Api\MediaController@download');
+    Route::delete('media/{id}', 'Api\MediaController@delete');
 
     Route::prefix('profile')->group(function() {
         Route::get('inbox', 'Api\ProfileController@inbox');
@@ -183,6 +184,11 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     // Notes.
     Route::post('purchase-requisition/notes', 'Api\PurchaseRequisitionNotes@store')->name('api.purchase-requisition.notes');
     Route::get('purchase-requisition/notes', 'Api\PurchaseRequisitionNotes@index')->name('api.purchase-requisition.notes');
+
+    // Purchase Requisition uploads.
+    Route::post('purchase-requisition/uploads', 'Api\PurchaseRequisitionUploads@store')->name('api.purchase-requisition.uploads');
+    Route::get('purchase-requisition/uploads', 'Api\PurchaseRequisitionUploads@index')->name('api.purchase-requisition.uploads');
+    Route::get('purchase-requisition/uploads/{id}/download', 'Api\PurchaseRequisitionUploads@download')->name('api.purchase-requisition.download');
 
     // Purchase Requisition items.
     Route::get('purchase-requisitions/{purchase_requisition_id}/items', 'Api\PurchaseRequisitionItemsController@underRequisition')->name('purchase-requisitions.items');

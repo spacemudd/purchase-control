@@ -26,13 +26,15 @@ class CreateMediaTable extends Migration
             $table->increments('id');
             $table->morphs('model');
             $table->string('collection_name', 100);
-            $table->string('purpose', 100);
+            $table->string('purpose')->nullable();
             $table->string('file_name');
             $table->string('file_path');
             $table->string('mime_type')->nullable();
+            $table->string('ext', 10)->nullable();
             $table->string('disk');
-            $table->unsignedInteger('size');
-            $table->unsignedTinyInteger('order');
+            $table->unsignedBigInteger('size');
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

@@ -65,6 +65,9 @@
                     </div>
                 </div>
             </transition-group>
+            <div style="min-height: 100px;" class="is-flex columns is-vcentered" v-else>
+                <p class="column has-text-centered"><i>No notes</i></p>
+            </div>
         </div>
     </div>
 </template>

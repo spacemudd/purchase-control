@@ -61,7 +61,7 @@ class PurchaseRequisition extends Model implements AuditableContract
 
     public function getLinkAttribute()
     {
-        return route('requests.show', ['id' => $this->id]);
+        return route('purchase-requisitions.show', ['id' => $this->id]);
     }
 
     public function requested_by()
@@ -112,6 +112,16 @@ class PurchaseRequisition extends Model implements AuditableContract
     public function notes()
     {
         return $this->morphMany(Note::class, 'notable');
+    }
+
+    /**
+     * Get all the media files associated with this record.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function media()
+    {
+        return $this->morphMany(Media::class, 'model');
     }
 
     public function getIsDraftAttribute()

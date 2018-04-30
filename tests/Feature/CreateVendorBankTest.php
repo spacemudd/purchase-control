@@ -26,7 +26,7 @@ class CreateVendorBankTest extends TestCase
 
         $vendor = factory(Vendor::class)->create();
 
-        $url = route('vendor-banks.store', ['id' => $vendor]);
+        $url = route('vendor-bank.store', ['id' => $vendor]);
 
         $data = [
             'vendor_id' => $vendor->id,

@@ -381,4 +381,6 @@
         'requisition-items' => 'Requisition Items',
         'notes' => 'Notes',
         'new-note' => 'New Note',
+        'files' => 'Files',
+        'new-file' => 'New File',
 	];

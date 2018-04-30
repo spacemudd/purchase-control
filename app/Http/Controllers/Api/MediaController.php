@@ -33,4 +33,14 @@ class MediaController extends Controller
     {
         return $this->service->download($request);
     }
+
+    /**
+     *
+     * @param $id
+     * @return bool
+     */
+    public function delete($id)
+    {
+        return $this->service->delete($id);
+    }
 }

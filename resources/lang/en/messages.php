@@ -32,4 +32,5 @@
         'role-removed' => 'Role removed',
         'you-can-add-multiple-stock-the-list' => 'You can add multiple stock to the list',
         'are-you-sure' => 'Are you sure?',
+        'upload-help' => 'Drop your files here or click to upload',
 	];

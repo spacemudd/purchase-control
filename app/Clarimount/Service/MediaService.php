@@ -44,4 +44,11 @@ class MediaService
 
         return $this->repository->download($request->id);
     }
+
+    public function delete($id)
+    {
+        // todo: permissions.
+
+        return $this->repository->delete($id);
+    }
 }
