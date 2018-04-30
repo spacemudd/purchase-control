@@ -348,7 +348,7 @@
         'commit-issuance' => 'Commit Issuance',
         'commit-issuance-return' => 'Commit Issuance Return',
         'purchase-control' => 'Purchase Control',
-        'new-request' => 'New Request',
+        'new-request' => 'New PurchaseRequisition',
         'requests' => 'Requests',
         'purchase-control-dashboard' => 'Purchase Control Dashboard',
         'users' => 'Users',

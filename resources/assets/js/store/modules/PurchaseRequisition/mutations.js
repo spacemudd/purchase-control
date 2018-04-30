@@ -8,18 +8,12 @@
  *
  */
 
-import Getters from './getters';
-import Mutations from './mutations';
-import Actions from './actions';
-
 export default {
-
-    state: {
-        request: null,
-        requestItems: [],
+    request(state, payload) {
+        state.request = payload;
+        state.requestItems = payload.purchase_requisition_items;
     },
-
-    getters: Getters,
-    mutations: Mutations,
-    actions: Actions,
-};
+    togglePreviewPdf(state) {
+        state.previewPdf = ! state.previewPdf;
+    }
+}

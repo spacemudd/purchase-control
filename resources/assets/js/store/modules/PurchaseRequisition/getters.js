@@ -15,4 +15,7 @@ export default {
     requestItems(state) {
         return state.requestItems;
     },
+    previewPdf(state) {
+        return state.previewPdf;
+    }
 }

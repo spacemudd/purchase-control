@@ -72,8 +72,8 @@ class PurchaseRequisitionsRepository
             $request = $this->model->where('id', $id)->lockForUpdate()->first();
 
             // Some validation.
-            if($request->status != PurchaseRequisition::DRAFT) throw new \Exception('Request must be in draft mode to be approved.');
-            if( ! $request->purchase_requisition_items->count()) throw new \Exception('No request items are attached');
+            if($request->status != PurchaseRequisition::DRAFT) throw new \Exception('Purchase Requisition must be in draft mode to be approved.');
+            if( ! $request->purchase_requisition_items->count()) throw new \Exception('No items are attached');
 
             // Calculating the new request number.
             $numberPrefix = 'REQ-' . Carbon::now()->format('Y-m');

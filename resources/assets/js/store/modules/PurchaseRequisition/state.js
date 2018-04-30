@@ -8,9 +8,20 @@
  *
  */
 
+import Getters from './getters';
+import Mutations from './mutations';
+import Actions from './actions';
+
 export default {
-    request(state, payload) {
-        state.request = payload;
-        state.requestItems = payload.purchase_requisition_items;
+
+    state: {
+        request: null,
+        requestItems: [],
+
+        previewPdf: false,
     },
-}
+
+    getters: Getters,
+    mutations: Mutations,
+    actions: Actions,
+};

@@ -30526,6 +30526,8 @@ Vue.component('delete-prompt', __webpack_require__(577));
 Vue.component('notes-container', __webpack_require__(580));
 Vue.component('uploads-container', __webpack_require__(585));
 Vue.component('new-upload-modal', __webpack_require__(590));
+Vue.component('preview-pdf', __webpack_require__(602));
+Vue.component('toggle-preview-requisition', __webpack_require__(605));
 
 /**
  * API/App settings
@@ -32832,7 +32834,7 @@ var _state11 = __webpack_require__(177);
 
 var _state12 = _interopRequireDefault(_state11);
 
-var _state13 = __webpack_require__(181);
+var _state13 = __webpack_require__(598);
 
 var _state14 = _interopRequireDefault(_state13);
 
@@ -32871,7 +32873,7 @@ var store = exports.store = new _vuex2.default.Store({
         'FileUpload': _extends({
             namespaced: true
         }, _state12.default),
-        'PurchaseControlRequest': _extends({ namespaced: true }, _state14.default)
+        'PurchaseRequisition': _extends({ namespaced: true }, _state14.default)
     },
     getters: _helpers2.default
 });
@@ -34517,145 +34519,10 @@ var _createActionHelpers = (0, _vuexLoading.createActionHelpers)({
 exports.default = {};
 
 /***/ }),
-/* 181 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _getters = __webpack_require__(182);
-
-var _getters2 = _interopRequireDefault(_getters);
-
-var _mutations = __webpack_require__(183);
-
-var _mutations2 = _interopRequireDefault(_mutations);
-
-var _actions = __webpack_require__(184);
-
-var _actions2 = _interopRequireDefault(_actions);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-
-    state: {
-        request: null,
-        requestItems: []
-    },
-
-    getters: _getters2.default,
-    mutations: _mutations2.default,
-    actions: _actions2.default
-}; /*
-    * Copyright (c) 2018 - Clarastars, LLC - All Rights Reserved.
-    *
-    * Unauthorized copying of this file via any medium is strictly prohibited.
-    * This file is a proprietary of Clarastars LLC and is confidential.
-    *
-    * https://clarastars.com - info@clarastars.com
-    *
-    */
-
-/***/ }),
-/* 182 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-/*
- * Copyright (c) 2018 - Clarastars, LLC - All Rights Reserved.
- *
- * Unauthorized copying of this file via any medium is strictly prohibited.
- * This file is a proprietary of Clarastars LLC and is confidential.
- *
- * https://clarastars.com - info@clarastars.com
- *
- */
-
-exports.default = {
-    request: function request(state) {
-        return state.request;
-    },
-    requestItems: function requestItems(state) {
-        return state.requestItems;
-    }
-};
-
-/***/ }),
-/* 183 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-/*
- * Copyright (c) 2018 - Clarastars, LLC - All Rights Reserved.
- *
- * Unauthorized copying of this file via any medium is strictly prohibited.
- * This file is a proprietary of Clarastars LLC and is confidential.
- *
- * https://clarastars.com - info@clarastars.com
- *
- */
-
-exports.default = {
-    request: function request(state, payload) {
-        state.request = payload;
-        state.requestItems = payload.purchase_requisition_items;
-    }
-};
-
-/***/ }),
-/* 184 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _vuexLoading = __webpack_require__(5);
-
-var _createActionHelpers = (0, _vuexLoading.createActionHelpers)({ moduleName: 'loading' }),
-    startLoading = _createActionHelpers.startLoading,
-    endLoading = _createActionHelpers.endLoading; /*
-                                                   * Copyright (c) 2018 - Clarastars, LLC - All Rights Reserved.
-                                                   *
-                                                   * Unauthorized copying of this file via any medium is strictly prohibited.
-                                                   * This file is a proprietary of Clarastars LLC and is confidential.
-                                                   *
-                                                   * https://clarastars.com - info@clarastars.com
-                                                   *
-                                                   */
-
-exports.default = {
-    getResource: function getResource(context, resourceId) {
-        startLoading(context.dispatch, 'GETTING_PURCHASE_REQUEST');
-        axios.get(this.getters.apiUrl + '/purchase-requisitions/' + resourceId).then(function (response) {
-            context.commit('request', response.data);
-            endLoading(context.dispatch, 'GETTING_PURCHASE_REQUEST');
-        }).catch(function (error) {
-            alert(error.response.data.message);
-            endLoading(context.dispatch, 'GETTING_PURCHASE_REQUEST');
-        });
-    }
-};
-
-/***/ }),
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
 /* 185 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -105729,6 +105596,473 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 594 */,
+/* 595 */,
+/* 596 */,
+/* 597 */,
+/* 598 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _getters = __webpack_require__(599);
+
+var _getters2 = _interopRequireDefault(_getters);
+
+var _mutations = __webpack_require__(600);
+
+var _mutations2 = _interopRequireDefault(_mutations);
+
+var _actions = __webpack_require__(601);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    state: {
+        request: null,
+        requestItems: [],
+
+        previewPdf: false
+    },
+
+    getters: _getters2.default,
+    mutations: _mutations2.default,
+    actions: _actions2.default
+}; /*
+    * Copyright (c) 2018 - Clarastars, LLC - All Rights Reserved.
+    *
+    * Unauthorized copying of this file via any medium is strictly prohibited.
+    * This file is a proprietary of Clarastars LLC and is confidential.
+    *
+    * https://clarastars.com - info@clarastars.com
+    *
+    */
+
+/***/ }),
+/* 599 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+/*
+ * Copyright (c) 2018 - Clarastars, LLC - All Rights Reserved.
+ *
+ * Unauthorized copying of this file via any medium is strictly prohibited.
+ * This file is a proprietary of Clarastars LLC and is confidential.
+ *
+ * https://clarastars.com - info@clarastars.com
+ *
+ */
+
+exports.default = {
+    request: function request(state) {
+        return state.request;
+    },
+    requestItems: function requestItems(state) {
+        return state.requestItems;
+    },
+    previewPdf: function previewPdf(state) {
+        return state.previewPdf;
+    }
+};
+
+/***/ }),
+/* 600 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+/*
+ * Copyright (c) 2018 - Clarastars, LLC - All Rights Reserved.
+ *
+ * Unauthorized copying of this file via any medium is strictly prohibited.
+ * This file is a proprietary of Clarastars LLC and is confidential.
+ *
+ * https://clarastars.com - info@clarastars.com
+ *
+ */
+
+exports.default = {
+    request: function request(state, payload) {
+        state.request = payload;
+        state.requestItems = payload.purchase_requisition_items;
+    },
+    togglePreviewPdf: function togglePreviewPdf(state) {
+        state.previewPdf = !state.previewPdf;
+    }
+};
+
+/***/ }),
+/* 601 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _vuexLoading = __webpack_require__(5);
+
+var _createActionHelpers = (0, _vuexLoading.createActionHelpers)({ moduleName: 'loading' }),
+    startLoading = _createActionHelpers.startLoading,
+    endLoading = _createActionHelpers.endLoading; /*
+                                                   * Copyright (c) 2018 - Clarastars, LLC - All Rights Reserved.
+                                                   *
+                                                   * Unauthorized copying of this file via any medium is strictly prohibited.
+                                                   * This file is a proprietary of Clarastars LLC and is confidential.
+                                                   *
+                                                   * https://clarastars.com - info@clarastars.com
+                                                   *
+                                                   */
+
+exports.default = {
+    getResource: function getResource(context, resourceId) {
+        startLoading(context.dispatch, 'GETTING_PURCHASE_REQUEST');
+        axios.get(this.getters.apiUrl + '/purchase-requisitions/' + resourceId).then(function (response) {
+            context.commit('request', response.data);
+            endLoading(context.dispatch, 'GETTING_PURCHASE_REQUEST');
+        }).catch(function (error) {
+            alert(error.response.data.message);
+            endLoading(context.dispatch, 'GETTING_PURCHASE_REQUEST');
+        });
+    }
+};
+
+/***/ }),
+/* 602 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(608)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(603)
+/* template */
+var __vue_template__ = __webpack_require__(604)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\PreviewPdf\\PreviewPdf.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3ab15b56", Component.options)
+  } else {
+    hotAPI.reload("data-v-3ab15b56", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 603 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        url: {
+            type: String,
+            required: true
+        }
+    },
+    data: function data() {
+        return {
+            loading: true
+        };
+    },
+
+    computed: {
+        show: function show() {
+            return this.$store.getters['PurchaseRequisition/previewPdf'];
+        }
+    },
+    methods: {
+        loaded: function loaded() {
+            this.loading = false;
+        }
+    }
+};
+
+/***/ }),
+/* 604 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticStyle: { width: "100%" } },
+    [
+      _c(
+        "b-collapse",
+        { attrs: { open: _vm.show } },
+        [
+          _vm.loading
+            ? _c("loading-screen", { staticStyle: { "min-height": "450px" } })
+            : _vm._e(),
+          _vm._v(" "),
+          _c("iframe", {
+            class: { hidden: _vm.loading },
+            staticStyle: { width: "100%", "min-height": "450px" },
+            attrs: { src: _vm.url },
+            on: { load: _vm.loaded }
+          })
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3ab15b56", module.exports)
+  }
+}
+
+/***/ }),
+/* 605 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(606)
+/* template */
+var __vue_template__ = __webpack_require__(607)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\TogglePreviewRequisition\\TogglePreviewRequisition.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-80f855d6", Component.options)
+  } else {
+    hotAPI.reload("data-v-80f855d6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 606 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    data: function data() {
+        return {
+            //
+        };
+    },
+    mounted: function mounted() {
+        //
+    },
+
+    computed: {
+        open: function open() {
+            return this.$store.getters['PurchaseRequisition/previewPdf'];
+        }
+    },
+    methods: {
+        toggle: function toggle() {
+            this.$store.commit('PurchaseRequisition/togglePreviewPdf');
+        }
+    }
+};
+
+/***/ }),
+/* 607 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "button",
+    {
+      staticClass: "button is-small",
+      on: {
+        click: function($event) {
+          _vm.toggle()
+        }
+      }
+    },
+    [
+      _vm.open
+        ? [_vm._v("\n        Close\n    ")]
+        : [_vm._v("\n        Print\n    ")]
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-80f855d6", module.exports)
+  }
+}
+
+/***/ }),
+/* 608 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(609);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("5ab641d4", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3ab15b56\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PreviewPdf.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3ab15b56\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PreviewPdf.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 609 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.hidden {\n  display: none;\n}\n", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);

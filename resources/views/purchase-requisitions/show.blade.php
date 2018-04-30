@@ -49,7 +49,7 @@
                     <div class="column has-text-right">
 
                         @if(!$request->canAddItems)
-                            <a class="button is-small" href="{{ route('purchase-requisitions.pdf', ['id' => $request->id]) }}">Print</a>
+                            <toggle-preview-requisition></toggle-preview-requisition>
                         @endif
 
                         @can('delete-purchase-requisitions')
@@ -71,6 +71,8 @@
                         @endif
                     </div>
                 </div>
+
+                <preview-pdf url="{{ route('purchase-requisitions.pdf', ['id' => $request->id]) }}"></preview-pdf>
 
                 <hr>
 

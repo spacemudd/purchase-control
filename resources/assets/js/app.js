@@ -199,6 +199,8 @@ Vue.component('delete-prompt', require('./components/DeletePrompt/DeletePrompt')
 Vue.component('notes-container', require('./components/NotesContainer/NotesContainer'));
 Vue.component('uploads-container', require('./components/UploadsContainer/UploadsContainer'));
 Vue.component('new-upload-modal', require('./components/NewUploadFile/NewUploadFile'))
+Vue.component('preview-pdf', require('./components/PreviewPdf/PreviewPdf'));
+Vue.component('toggle-preview-requisition', require('./components/TogglePreviewRequisition/TogglePreviewRequisition'));
 
 /**
  * API/App settings
