@@ -54,7 +54,7 @@ class PurchaseRequisitionUploads extends Controller
                     'size' => $file->getSize(),
                     'disk' => 'local',
                     'ext' => $file->getClientOriginalExtension(),
-                    'mime_type' => $file->getClientMimeType(),
+                    'mime_type' => $file->getMimeType(),
                     'purpose' => $request->purpose,
                     'collection_name' => 'Uploads',
                     'user_id' => auth()->user()->id,

@@ -14,7 +14,7 @@
 
          <!-- Where the uploads are displayed -->
         <div class="uploads-container">
-            <transition-group name="uploads-container" enter-active-class="animated fadeInDown" leave-active-class="animated fadeOut" mode="in-out" v-if="uploads.length > 0">
+            <transition-group name="uploads-container" enter-active-class="animated fadeInDown" leave-active-class="animated fadeOut" mode="in-out">
                 <div v-bind:key="upload.id" class="media-content" v-for="upload in uploads.slice().reverse()">
                     <div class="content">
                         <p v-if="upload.purpose" class="tag"><strong>{{ upload.purpose }}</strong></p>
@@ -43,7 +43,7 @@
                     </div>
                 </div>
             </transition-group>
-            <div style="min-height: 100px;" class="is-flex columns is-vcentered" v-else>
+            <div style="min-height: 100px;" class="is-flex columns is-vcentered" v-if="uploads.length === 0">
                 <p class="column has-text-centered"><i>No files</i></p>
             </div>
         </div>
