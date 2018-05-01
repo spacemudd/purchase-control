@@ -201,6 +201,7 @@ Vue.component('uploads-container', require('./components/UploadsContainer/Upload
 Vue.component('new-upload-modal', require('./components/NewUploadFile/NewUploadFile'))
 Vue.component('preview-pdf', require('./components/PreviewPdf/PreviewPdf'));
 Vue.component('toggle-preview-requisition', require('./components/TogglePreviewRequisition/TogglePreviewRequisition'));
+Vue.component('attach-requisition-item-to-po', require('./components/AttachRequisitionItemToPo/AttachRequisitionItemToPo'));
 
 /**
  * API/App settings
@@ -208,9 +209,9 @@ Vue.component('toggle-preview-requisition', require('./components/TogglePreviewR
 const apiVersion = '1';
 
 // if(process.env.NODE_ENV === 'production') {
-    var envUrl = window.location.origin + '/PMS';
+//     var envUrl = window.location.origin + '/PMS';
 // } else {
-//     var envUrl = window.location.origin;
+    var envUrl = window.location.origin;
 // }
 
 Vue.mixin({

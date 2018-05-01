@@ -153,7 +153,9 @@
             </div>
 
             {{-- Items --}}
-            <purchase-requisition-items :requisition-id="{{ $request->id }}" :in-draft.number="{{ $request->canAddItems ? '1' : '0' }}"></purchase-requisition-items>
+            <purchase-requisition-items :requisition-id="{{ $request->id }}"
+                                        :in-draft.number="{{ $request->canAddItems ? '1' : '0' }}">
+            </purchase-requisition-items>
         </div>
 
         {{-- Resource side info --}}

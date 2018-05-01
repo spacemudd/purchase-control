@@ -84,13 +84,13 @@
                                                          link="{{ route('purchase-requisitions.index') }}">
                                     </sidebar-links-group>
 
-                                    {{--@can('view-purchase-orders')--}}
-                                        {{--<sidebar-links-group selected="{{ (request()->route()->getName() === 'purchase-orders.index') }}"--}}
-                                                             {{--icon="shopping-cart"--}}
-                                                             {{--title="{{ __('words.purchase-orders') }}"--}}
-                                                             {{--link="{{ route('purchase-orders.index') }}">--}}
-                                        {{--</sidebar-links-group>--}}
-                                    {{--@endcan--}}
+                                    @can('view-purchase-orders')
+                                        <sidebar-links-group selected="{{ (request()->route()->getName() === 'purchase-orders.index') }}"
+                                                             icon="shopping-cart"
+                                                             title="{{ __('words.purchase-orders') }}"
+                                                             link="{{ route('purchase-orders.index') }}">
+                                        </sidebar-links-group>
+                                    @endcan
 
                                     {{--
                                     <sidebar-links-group selected="{{ (request()->route()->getName() === 'reports.index') }}"

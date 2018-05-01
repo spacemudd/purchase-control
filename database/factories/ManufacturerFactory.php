@@ -12,12 +12,13 @@
 use Faker\Generator as Faker;
 
 $factory->define(\App\Models\Manufacturer::class, function (Faker $faker) {
-    static $code;
 
     return [
-        'code' => $code ? $code : $faker->unique()->randomNumber(5),
-        'description' => $faker->catchPhrase,
-        'description_slug' => str_slug($faker->catchPhrase),
-        'active' => $faker->boolean(80),
+        'name' => $faker->company,
+        'website' => $faker->domainName,
+        'support_url' => $faker->domainName . '/support',
+        'support_phone' => $faker->phoneNumber,
+        'support_email' => $faker->companyEmail,
+        'created_by_id' => factory(\App\Models\User::class)->create()->id,
     ];
 });
