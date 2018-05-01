@@ -39,10 +39,18 @@
                 type: String,
                 required: true,
             },
+            /**
+             * input field name (for http requests).
+             */
             name: {
                 type: String,
                 required: false,
-            }
+            },
+            redirect: {
+                type: Boolean,
+                required: false,
+                default: false,
+            },
         },
         data() {
             return {
@@ -59,6 +67,10 @@
             selectRecord(record) {
                 this.selected = record;
                 this.$emit('select', record);
+
+                if(this.redirect) {
+                    window.location = record.link;
+                }
             },
             getData: debounce(function () {
                 this.results = []

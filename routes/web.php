@@ -205,7 +205,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
 
     Route::prefix('search')->group(function() {
         Route::get('items', 'Api\ItemController@search');
-        Route::get('item-templates', 'Api\ItemTemplateController@search');
+        Route::get('item-templates', 'Api\ItemTemplateController@search')->name('api.search.item-templates');
         Route::get('purchase-orders', 'Api\PurchaseOrderController@search');
         Route::get('vendors', 'Api\VendorController@search')->name('api.search.vendor');
         Route::get('manufacturers', 'Api\ManufacturerController@search')->name('api.search.manufacturer');

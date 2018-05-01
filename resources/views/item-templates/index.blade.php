@@ -36,14 +36,10 @@
     </div>
 
     <div class="columns">
-        <div class="column is-6">
-            <simple-search
-                    :hyper-linked-results="true"
-                    placeholder-text="Find item templates"
-                    search-endpoint="item-templates">
-            </simple-search>
+        <div class="column is-3">
+            <select-item-template url="{{ route('api.search.item-templates') }}" :redirect="true"></select-item-template>
         </div>
-        <div class="column is-6">
+        <div class="column is-6 is-offset-3">
             @can('create-item-templates')
                 <a class="button is-primary pull-right" href="{{ route('item-templates.create') }}">
                     New Item Template
