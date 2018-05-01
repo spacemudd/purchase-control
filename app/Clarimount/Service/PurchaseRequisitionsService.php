@@ -13,7 +13,12 @@ namespace App\Clarimount\Service;
 
 use App\Models\MaxNumber;
 use App\Models\PurchaseRequisition;
+use App\Models\Subscriber;
+use App\Models\User;
+use App\Notifications\PurchaseRequisitionApprovedNotification;
+use App\Notifications\PurchaseRequisitionSavedNotification;
 use Carbon\Carbon;
+use Notification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -33,9 +38,29 @@ class PurchaseRequisitionsService
     {
         $this->validate($data)->validate();
 
+        $data['status'] = PurchaseRequisition::DRAFT; // UNSET when saved from a different provider.
         $data['created_by_id'] = auth()->user()->id;
 
-        return $this->repository->store($data);
+        $requisition = $this->repository->store($data);
+
+
+        // Build the initial list of subscribers (if any + the logged in user).
+        $subscribers = [];
+        $subscribers[] = auth()->user()->id; // The user doing the action automatically is subscribed.
+        foreach($requisition->subscribers()->get() as $subscriber) {
+            $subscribers[] = $subscriber->id;
+        }
+
+        // Subscribe all the users that are allowed to receive notifications about purchase requisitions.
+        $privilegedUsers = User::permission('receive-purchase-requisitions-notifications')->get();
+        foreach($privilegedUsers as $user) {
+            $subscribers[] = $user->id;
+        }
+
+        // Add the subscriptions.
+        $requisition->subscribers()->sync($subscribers);
+
+        return $requisition;
     }
 
     public function find($id)
@@ -51,17 +76,6 @@ class PurchaseRequisitionsService
             'requested_for_id' => 'nullable|exists:employees,id',
             'cost_center_for_id' => 'nullable|exists:departments,id',
         ]);
-    }
-
-    /**
-     * Approves a request.
-     *
-     * @param $id
-     * @return \App\Models\PurchaseRequisition
-     */
-    public function approve($id)
-    {
-        return $this->repository->approve($id);
     }
 
     /**
@@ -100,7 +114,7 @@ class PurchaseRequisitionsService
         $requisition = DB::transaction(function() use ($id) {
             $requisition = $this->repository->lockFind($id);
 
-            if($requisition->status != (PurchaseRequisition::DRAFT || PurchaseRequisition::UNSET)) throw new \Exception('Requisition must be in draft mode');
+            if( ! ($requisition->is_saved || $requisition->is_draft) ) throw new \Exception('Requisition must be in draft mode');
 
             // Calculating the new request number.
             $numberPrefix = 'REQ-' . Carbon::now()->format('Y-m');
@@ -125,7 +139,27 @@ class PurchaseRequisitionsService
             return $requisition;
         }, 2);
 
-        // todo: notification.
+        // Send the notification to users that should be notified, including the one who made the action.
+        Notification::send($requisition->subscribers()->get(), new PurchaseRequisitionSavedNotification($requisition));
+
+        return $requisition;
+    }
+
+    public function approve($id)
+    {
+        $requisition = DB::transaction(function() use ($id) {
+            $requisition = $this->repository->lockFind($id);
+
+            if( ! $requisition->is_saved ) throw new \Exception('Requisition must be in saved mode');
+
+            $requisition->status = PurchaseRequisition::APPROVED;
+            $requisition->save();
+
+            return $requisition;
+        }, 2);
+
+        // Send the notification to users that should be notified, including the one who made the action.
+        Notification::send($requisition->subscribers()->get(), new PurchaseRequisitionApprovedNotification($requisition));
 
         return $requisition;
     }

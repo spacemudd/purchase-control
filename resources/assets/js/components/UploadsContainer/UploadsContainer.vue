@@ -14,7 +14,7 @@
 
          <!-- Where the uploads are displayed -->
         <div class="uploads-container">
-            <transition-group name="uploads-container" enter-active-class="animated fadeInDown" leave-active-class="animated fadeOut" mode="in-out">
+            <transition-group name="uploads-container" enter-active-class="animated fadeInDown" leave-active-class="animated fadeOut" mode="in-out" v-if="uploads.length">
                 <div v-bind:key="upload.id" class="media-content" v-for="upload in uploads.slice().reverse()">
                     <div class="content">
                         <p v-if="upload.purpose" class="tag"><strong>{{ upload.purpose }}</strong></p>
@@ -50,7 +50,7 @@
     </div>
 </template>
 
-<style>
+<style scoped>
     .uploads-container-move {
         transition: transform 1s;
     }

@@ -44,18 +44,41 @@ class PurchaseRequisitionsController extends Controller
         return $this->service->find($id);
     }
 
-    public function approve(Request $request)
-    {
-        $data['id'] = $request->id;
-
-        $this->validateApprove($data)->validate();
-
-        return $this->service->approve($data['id']);
-    }
-
     public function sendToPurchasing($id)
     {
         return $this->service->sendToPurchasing($id);
+    }
+
+    public function subscribe($id)
+    {
+        $requisition = $this->service->find($id);
+
+        $subscribers[] = auth()->user()->id;
+        foreach($requisition->subscribers()->get() as $subscriber) {
+            $subscribers[] = $subscriber->id;
+        }
+
+        $requisition->subscribers()->sync($subscribers);
+;
+        return response()->json(['status' => 201]);
+    }
+
+    public function unsubscribe($id)
+    {
+        $requisition = $this->service->find($id);
+
+        $subscribers = [];
+        foreach($requisition->subscribers()->get() as $subscriber) {
+            if( $subscriber->id == auth()->user()->id ) {
+
+            } else {
+                $subscribers[] = $subscriber->id;
+            }
+        }
+
+        $requisition->subscribers()->sync($subscribers);
+
+        return response()->json(['status' => 201]);
     }
 
     public function validateApprove(array $data)

@@ -1,5 +1,5 @@
 @extends('layouts.app', [
-	'title' => 'Requests ' . $statusSlug
+	'title' => 'Purchase Requisitions ' . ucwords($statusSlug)
 ])
 
 @section('header')

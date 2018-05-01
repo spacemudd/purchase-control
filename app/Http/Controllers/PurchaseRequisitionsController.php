@@ -161,6 +161,13 @@ class PurchaseRequisitionsController extends Controller
         return redirect()->route('purchase-requisitions.show', ['id' => $requisition->id]);
     }
 
+    public function approve($id)
+    {
+        $requisition = $this->service->approve($id);
+
+        return redirect()->route('purchase-requisitions.show', ['id' => $requisition->id]);
+    }
+
     /**
      * Print a PDF form of the requisition.
      *

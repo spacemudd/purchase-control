@@ -104187,19 +104187,19 @@ if (false) {
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(581)
+  __webpack_require__(613)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(583)
 /* template */
-var __vue_template__ = __webpack_require__(584)
+var __vue_template__ = __webpack_require__(615)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-0bb13595"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -104232,46 +104232,8 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 581 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(582);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("23405cb6", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0bb13595\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./NotesContainer.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0bb13595\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./NotesContainer.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 582 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.notes-container-move {\n    -webkit-transition: -webkit-transform 1s;\n    transition: -webkit-transform 1s;\n    transition: transform 1s;\n    transition: transform 1s, -webkit-transform 1s;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 581 */,
+/* 582 */,
 /* 583 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -104455,264 +104417,26 @@ exports.default = {
 };
 
 /***/ }),
-/* 584 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("div", { staticClass: "resources-sidebar" }, [
-        _c("h3", { staticClass: "title is-4" }, [
-          _vm._v(_vm._s(_vm.$t("words.notes")))
-        ]),
-        _vm._v(" "),
-        _c("div", [
-          _c(
-            "button",
-            {
-              staticClass: "button",
-              on: {
-                click: function($event) {
-                  _vm.noteBox = true
-                }
-              }
-            },
-            [_vm._v(_vm._s(_vm.$t("words.new-note")))]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "transition",
-        {
-          attrs: {
-            "enter-active-class": "animated fadeIn",
-            "leave-active-class": "animated fadeOut",
-            mode: "out-in"
-          }
-        },
-        [
-          _vm.noteBox
-            ? _c("div", [
-                _vm.form.errors.length > 0
-                  ? _c("div", { staticClass: "notification is-danger" }, [
-                      _c("strong", [_vm._v("Something went wrong.")]),
-                      _vm._v(" "),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c(
-                        "ul",
-                        _vm._l(_vm.form.errors, function(error) {
-                          return _c("li", [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(error) +
-                                "\n                    "
-                            )
-                          ])
-                        })
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _c(
-                  "form",
-                  {
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        return _vm.save($event)
-                      }
-                    }
-                  },
-                  [
-                    _c(
-                      "div",
-                      { staticClass: "field" },
-                      [
-                        _c("b-input", {
-                          attrs: {
-                            type: "textarea",
-                            maxlength: "225",
-                            "has-counter": "",
-                            required: "",
-                            autofocus: ""
-                          },
-                          model: {
-                            value: _vm.form.body,
-                            callback: function($$v) {
-                              _vm.$set(_vm.form, "body", $$v)
-                            },
-                            expression: "form.body"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "field" }, [
-                      _c("div", { staticClass: "control has-text-right" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "button is-text is-small",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                _vm.noteBox = false
-                              }
-                            }
-                          },
-                          [_vm._v("Close")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "button is-primary is-small",
-                            class: {
-                              "is-loading": _vm.$isLoading("SAVING_NOTE")
-                            },
-                            attrs: { type: "submit" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            Save Note\n                        "
-                            )
-                          ]
-                        )
-                      ])
-                    ])
-                  ]
-                )
-              ])
-            : _vm._e()
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "notes-container" },
-        [
-          _vm.notes.length > 0
-            ? _c(
-                "transition-group",
-                {
-                  attrs: {
-                    name: "notes-container",
-                    "enter-active-class": "animated fadeInDown",
-                    "leave-active-class": "animated fadeOutUp",
-                    mode: "in-out"
-                  }
-                },
-                _vm._l(_vm.notes, function(note) {
-                  return _c(
-                    "div",
-                    { key: note.id, staticClass: "media-content" },
-                    [
-                      _c("div", { staticClass: "content" }, [
-                        _c("p", [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(note.body) +
-                              "\n                        "
-                          ),
-                          _c("br"),
-                          _vm._v(" "),
-                          _c("small", [
-                            _c(
-                              "strong",
-                              { attrs: { title: note.user.username } },
-                              [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(note.user.name) +
-                                    "\n                            "
-                                )
-                              ]
-                            ),
-                            _vm._v(
-                              "\n                            •\n                            "
-                            ),
-                            _c(
-                              "time",
-                              {
-                                staticClass: "has-text-grey-light",
-                                attrs: {
-                                  title: note.created_rss,
-                                  datetime: note.created_w3c
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(note.created_at_human) +
-                                    "\n                            "
-                                )
-                              ]
-                            )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("hr")
-                      ])
-                    ]
-                  )
-                })
-              )
-            : _c(
-                "div",
-                {
-                  staticClass: "is-flex columns is-vcentered",
-                  staticStyle: { "min-height": "100px" }
-                },
-                [
-                  _c("p", { staticClass: "column has-text-centered" }, [
-                    _c("i", [_vm._v("No notes")])
-                  ])
-                ]
-              )
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-0bb13595", module.exports)
-  }
-}
-
-/***/ }),
+/* 584 */,
 /* 585 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(586)
+  __webpack_require__(610)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(588)
 /* template */
-var __vue_template__ = __webpack_require__(589)
+var __vue_template__ = __webpack_require__(612)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-7612f416"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -104745,46 +104469,8 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 586 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(587);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("ab815dec", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7612f416\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./UploadsContainer.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7612f416\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./UploadsContainer.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 587 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.uploads-container-move {\n    -webkit-transition: -webkit-transform 1s;\n    transition: -webkit-transform 1s;\n    transition: transform 1s;\n    transition: transform 1s, -webkit-transform 1s;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 586 */,
+/* 587 */,
 /* 588 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -104950,210 +104636,7 @@ exports.default = {
 //
 
 /***/ }),
-/* 589 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("div", { staticClass: "resources-sidebar" }, [
-        _c("h3", { staticClass: "title is-4" }, [
-          _vm._v(_vm._s(_vm.$t("words.files")))
-        ]),
-        _vm._v(" "),
-        _c("div", [
-          _c(
-            "button",
-            {
-              staticClass: "button",
-              on: {
-                click: function($event) {
-                  _vm.newUploadModal = true
-                }
-              }
-            },
-            [_vm._v(_vm._s(_vm.$t("words.new-file")))]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "b-modal",
-        {
-          attrs: { active: _vm.newUploadModal },
-          on: {
-            "update:active": function($event) {
-              _vm.newUploadModal = $event
-            }
-          }
-        },
-        [
-          _c("new-upload-modal", {
-            attrs: { url: _vm.url, "resource-id": _vm.resourceId },
-            on: { completed: _vm.addFilesToList }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "uploads-container" },
-        [
-          _c(
-            "transition-group",
-            {
-              attrs: {
-                name: "uploads-container",
-                "enter-active-class": "animated fadeInDown",
-                "leave-active-class": "animated fadeOut",
-                mode: "in-out"
-              }
-            },
-            _vm._l(_vm.uploads.slice().reverse(), function(upload) {
-              return _c(
-                "div",
-                { key: upload.id, staticClass: "media-content" },
-                [
-                  _c("div", { staticClass: "content" }, [
-                    upload.purpose
-                      ? _c("p", { staticClass: "tag" }, [
-                          _c("strong", [_vm._v(_vm._s(upload.purpose))])
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c("p", [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(upload.file_name) +
-                          "\n                        "
-                      ),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("small", [
-                        _c(
-                          "strong",
-                          { attrs: { title: upload.user.username } },
-                          [
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(upload.user.name) +
-                                "\n                            "
-                            )
-                          ]
-                        ),
-                        _vm._v(
-                          "\n                            •\n                            "
-                        ),
-                        _c(
-                          "time",
-                          {
-                            staticClass: "has-text-grey-light",
-                            attrs: {
-                              title: upload.created_rss,
-                              datetime: upload.created_w3c
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(upload.created_at_human) +
-                                "\n                            "
-                            )
-                          ]
-                        ),
-                        _vm._v(
-                          "\n                            •\n                            "
-                        ),
-                        _c(
-                          "button",
-                          {
-                            staticClass:
-                              "button is-small is-text has-text-link",
-                            class: {
-                              "is-loading": _vm.$isLoading(
-                                "DOWNLOADING_FILE_" + upload.id
-                              )
-                            },
-                            on: {
-                              click: function($event) {
-                                _vm.downloadFile(upload.id)
-                              }
-                            }
-                          },
-                          [_vm._v("Download")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass:
-                              "button is-small is-danger is-pulled-right has-icon",
-                            on: {
-                              click: function($event) {
-                                _vm.confirmDelete(upload.id)
-                              }
-                            }
-                          },
-                          [
-                            _c("span", { staticClass: "icon" }, [
-                              _c("i", { staticClass: "fa fa-trash" })
-                            ])
-                          ]
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("hr")
-                  ])
-                ]
-              )
-            })
-          ),
-          _vm._v(" "),
-          _vm.uploads.length === 0
-            ? _c(
-                "div",
-                {
-                  staticClass: "is-flex columns is-vcentered",
-                  staticStyle: { "min-height": "100px" }
-                },
-                [_vm._m(0)]
-              )
-            : _vm._e()
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", { staticClass: "column has-text-centered" }, [
-      _c("i", [_vm._v("No files")])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7612f416", module.exports)
-  }
-}
-
-/***/ }),
+/* 589 */,
 /* 590 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -105827,6 +105310,7 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
 
 exports.default = {
     props: {
@@ -105873,12 +105357,14 @@ var render = function() {
             ? _c("loading-screen", { staticStyle: { "min-height": "450px" } })
             : _vm._e(),
           _vm._v(" "),
-          _c("iframe", {
-            class: { hidden: _vm.loading },
-            staticStyle: { width: "100%", "min-height": "450px" },
-            attrs: { src: _vm.url },
-            on: { load: _vm.loaded }
-          })
+          _vm.show
+            ? _c("iframe", {
+                class: { hidden: _vm.loading },
+                staticStyle: { width: "100%", "min-height": "450px" },
+                attrs: { src: _vm.url },
+                on: { load: _vm.loaded }
+              })
+            : _vm._e()
         ],
         1
       )
@@ -106063,6 +105549,531 @@ exports.push([module.i, "\n.hidden {\n  display: none;\n}\n", ""]);
 
 // exports
 
+
+/***/ }),
+/* 610 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(611);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("d5a4187a", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7612f416\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./UploadsContainer.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7612f416\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./UploadsContainer.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 611 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.uploads-container-move[data-v-7612f416] {\n    -webkit-transition: -webkit-transform 1s;\n    transition: -webkit-transform 1s;\n    transition: transform 1s;\n    transition: transform 1s, -webkit-transform 1s;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 612 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "resources-sidebar" }, [
+        _c("h3", { staticClass: "title is-4" }, [
+          _vm._v(_vm._s(_vm.$t("words.files")))
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c(
+            "button",
+            {
+              staticClass: "button",
+              on: {
+                click: function($event) {
+                  _vm.newUploadModal = true
+                }
+              }
+            },
+            [_vm._v(_vm._s(_vm.$t("words.new-file")))]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: { active: _vm.newUploadModal },
+          on: {
+            "update:active": function($event) {
+              _vm.newUploadModal = $event
+            }
+          }
+        },
+        [
+          _c("new-upload-modal", {
+            attrs: { url: _vm.url, "resource-id": _vm.resourceId },
+            on: { completed: _vm.addFilesToList }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "uploads-container" },
+        [
+          _vm.uploads.length
+            ? _c(
+                "transition-group",
+                {
+                  attrs: {
+                    name: "uploads-container",
+                    "enter-active-class": "animated fadeInDown",
+                    "leave-active-class": "animated fadeOut",
+                    mode: "in-out"
+                  }
+                },
+                _vm._l(_vm.uploads.slice().reverse(), function(upload) {
+                  return _c(
+                    "div",
+                    { key: upload.id, staticClass: "media-content" },
+                    [
+                      _c("div", { staticClass: "content" }, [
+                        upload.purpose
+                          ? _c("p", { staticClass: "tag" }, [
+                              _c("strong", [_vm._v(_vm._s(upload.purpose))])
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("p", [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(upload.file_name) +
+                              "\n                        "
+                          ),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("small", [
+                            _c(
+                              "strong",
+                              { attrs: { title: upload.user.username } },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(upload.user.name) +
+                                    "\n                            "
+                                )
+                              ]
+                            ),
+                            _vm._v(
+                              "\n                            •\n                            "
+                            ),
+                            _c(
+                              "time",
+                              {
+                                staticClass: "has-text-grey-light",
+                                attrs: {
+                                  title: upload.created_rss,
+                                  datetime: upload.created_w3c
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(upload.created_at_human) +
+                                    "\n                            "
+                                )
+                              ]
+                            ),
+                            _vm._v(
+                              "\n                            •\n                            "
+                            ),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "button is-small is-text has-text-link",
+                                class: {
+                                  "is-loading": _vm.$isLoading(
+                                    "DOWNLOADING_FILE_" + upload.id
+                                  )
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.downloadFile(upload.id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Download")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "button is-small is-danger is-pulled-right has-icon",
+                                on: {
+                                  click: function($event) {
+                                    _vm.confirmDelete(upload.id)
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", { staticClass: "icon" }, [
+                                  _c("i", { staticClass: "fa fa-trash" })
+                                ])
+                              ]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("hr")
+                      ])
+                    ]
+                  )
+                })
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.uploads.length === 0
+            ? _c(
+                "div",
+                {
+                  staticClass: "is-flex columns is-vcentered",
+                  staticStyle: { "min-height": "100px" }
+                },
+                [_vm._m(0)]
+              )
+            : _vm._e()
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "column has-text-centered" }, [
+      _c("i", [_vm._v("No files")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7612f416", module.exports)
+  }
+}
+
+/***/ }),
+/* 613 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(614);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("339a3206", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0bb13595\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./NotesContainer.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0bb13595\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./NotesContainer.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 614 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.notes-container-move[data-v-0bb13595] {\n    -webkit-transition: -webkit-transform 1s;\n    transition: -webkit-transform 1s;\n    transition: transform 1s;\n    transition: transform 1s, -webkit-transform 1s;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 615 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "resources-sidebar" }, [
+        _c("h3", { staticClass: "title is-4" }, [
+          _vm._v(_vm._s(_vm.$t("words.notes")))
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c(
+            "button",
+            {
+              staticClass: "button",
+              on: {
+                click: function($event) {
+                  _vm.noteBox = true
+                }
+              }
+            },
+            [_vm._v(_vm._s(_vm.$t("words.new-note")))]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "transition",
+        {
+          attrs: {
+            "enter-active-class": "animated fadeIn",
+            "leave-active-class": "animated fadeOut",
+            mode: "out-in"
+          }
+        },
+        [
+          _vm.noteBox
+            ? _c("div", [
+                _vm.form.errors.length > 0
+                  ? _c("div", { staticClass: "notification is-danger" }, [
+                      _c("strong", [_vm._v("Something went wrong.")]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "ul",
+                        _vm._l(_vm.form.errors, function(error) {
+                          return _c("li", [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(error) +
+                                "\n                    "
+                            )
+                          ])
+                        })
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.save($event)
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "field" },
+                      [
+                        _c("b-input", {
+                          attrs: {
+                            type: "textarea",
+                            maxlength: "225",
+                            "has-counter": "",
+                            required: "",
+                            autofocus: ""
+                          },
+                          model: {
+                            value: _vm.form.body,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "body", $$v)
+                            },
+                            expression: "form.body"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "field" }, [
+                      _c("div", { staticClass: "control has-text-right" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "button is-text is-small",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.noteBox = false
+                              }
+                            }
+                          },
+                          [_vm._v("Close")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "button is-primary is-small",
+                            class: {
+                              "is-loading": _vm.$isLoading("SAVING_NOTE")
+                            },
+                            attrs: { type: "submit" }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Save Note\n                        "
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              ])
+            : _vm._e()
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "notes-container" },
+        [
+          _vm.notes.length > 0
+            ? _c(
+                "transition-group",
+                {
+                  attrs: {
+                    name: "notes-container",
+                    "enter-active-class": "animated fadeInDown",
+                    "leave-active-class": "animated fadeOutUp",
+                    mode: "in-out"
+                  }
+                },
+                _vm._l(_vm.notes, function(note) {
+                  return _c(
+                    "div",
+                    { key: note.id, staticClass: "media-content" },
+                    [
+                      _c("div", { staticClass: "content" }, [
+                        _c("p", [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(note.body) +
+                              "\n                        "
+                          ),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("small", [
+                            _c(
+                              "strong",
+                              { attrs: { title: note.user.username } },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(note.user.name) +
+                                    "\n                            "
+                                )
+                              ]
+                            ),
+                            _vm._v(
+                              "\n                            •\n                            "
+                            ),
+                            _c(
+                              "time",
+                              {
+                                staticClass: "has-text-grey-light",
+                                attrs: {
+                                  title: note.created_rss,
+                                  datetime: note.created_w3c
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(note.created_at_human) +
+                                    "\n                            "
+                                )
+                              ]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("hr")
+                      ])
+                    ]
+                  )
+                })
+              )
+            : _c(
+                "div",
+                {
+                  staticClass: "is-flex columns is-vcentered",
+                  staticStyle: { "min-height": "100px" }
+                },
+                [
+                  _c("p", { staticClass: "column has-text-centered" }, [
+                    _c("i", [_vm._v("No notes")])
+                  ])
+                ]
+              )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-0bb13595", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

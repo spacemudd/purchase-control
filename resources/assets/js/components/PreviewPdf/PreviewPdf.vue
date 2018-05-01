@@ -8,6 +8,7 @@
             <loading-screen v-if="loading"
                             style="min-height:450px;"></loading-screen>
             <iframe :src="url"
+                    v-if="show"
                     @load="loaded"
                     style="width:100%;min-height:450px;"
                     :class="{'hidden': loading}">

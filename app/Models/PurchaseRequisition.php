@@ -124,24 +124,33 @@ class PurchaseRequisition extends Model implements AuditableContract
         return $this->morphMany(Media::class, 'model');
     }
 
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\App\Models\User[]
+     */
+    public function subscribers()
+    {
+        return $this->belongsToMany(User::class, 'purchase_requisitions_subscribers', 'purchase_requisition_id', 'user_id');
+    }
+
     public function getIsDraftAttribute()
     {
-        return $this->status === self::DRAFT;
+        return $this->status == self::DRAFT;
     }
 
     public function getCanAddItemsAttribute()
     {
-        return $this->status === self::DRAFT || $this->status === self::UNSET;
+        return $this->status == self::DRAFT || $this->status == self::UNSET;
     }
 
     public function getIsSavedAttribute()
     {
-        return $this->status === self::SAVED;
+        return $this->status == self::SAVED;
     }
 
     public function getIsApprovedAttribute()
     {
-        return $this->status === self::APPROVED;
+        return $this->status == self::APPROVED;
     }
 
     public function scopeDraft($q)

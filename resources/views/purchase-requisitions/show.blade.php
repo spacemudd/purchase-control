@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => ($request->number ? $request->number : $request->id) . ' - Requests' ])
+@extends('layouts.app', ['title' => ($request->number ? $request->number : $request->id) . ' - Purchase Requisitions' ])
 
 @section('header')
     <nav class="breadcrumb" aria-label="breadcrumbs">
@@ -66,6 +66,15 @@
                                 <form class="button is-warning is-small" action="{{ route('purchase-requisitions.save', ['id' => $request->id]) }}" method="post">
                                     {{ csrf_field() }}
                                     <button type="submit" class="button is-warning is-small">Save</button>
+                                </form>
+                            @endif
+                        @endif
+
+                        @can('approve-purchase-requisitions')
+                            @if($request->is_saved)
+                                <form class="button is-warning is-small" action="{{ route('purchase-requisitions.approve', ['id' => $request->id]) }}" method="post">
+                                    {{ csrf_field() }}
+                                    <button type="submit" class="button is-warning is-small">Approve</button>
                                 </form>
                             @endif
                         @endif

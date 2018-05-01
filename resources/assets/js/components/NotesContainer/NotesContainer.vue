@@ -72,7 +72,7 @@
     </div>
 </template>
 
-<style>
+<style scoped>
     .notes-container-move {
         transition: transform 1s;
     }

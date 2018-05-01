@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Clarimount'),
+    'name' => env('APP_NAME', 'Premises and Administration'),
 
     /*
     |--------------------------------------------------------------------------
