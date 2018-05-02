@@ -51,7 +51,7 @@ class CopyEmployees extends Command
         DB::connection($this->foreignConnection)
             ->table('employees')
             ->orderBy('id')
-            ->chunk(1000, function($employees) use ($counter) {
+            ->chunk(300, function($employees) use ($counter) {
 
                 $toInsert = [];
                 foreach($employees as $employee) {
@@ -74,9 +74,9 @@ class CopyEmployees extends Command
                         'code' => $employee->code,
                         'department_id' => $localDepartment->id,
                         'staff_type_id' => $localStaffType->id,
-                        'name' => $localStaffType->name,
-                        'email' => $localStaffType->email,
-                        'phone' => $localStaffType->phone,
+                        'name' => $employee->name,
+                        'email' => $employee->email,
+                        'phone' => $employee->contact_number,
                     ];
                 }
 

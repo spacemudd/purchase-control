@@ -50,7 +50,7 @@ class CopyDepartments extends Command
         DB::connection($this->foreignConnection)
             ->table('departments')
             ->orderBy('id')
-            ->chunk(1000, function($departments) use ($currentProcessing) {
+            ->chunk(100, function($departments) use ($currentProcessing) {
 
                 $toInsert = [];
                 foreach($departments as $department) {
@@ -96,9 +96,9 @@ class CopyDepartments extends Command
         }
 
         $region = Region::firstOrCreate([
-            'name' => $foreignRegion->name,
+            'name' => $foreignRegion->title,
         ], [
-            'name' => $foreignRegion->name,
+            'name' => $foreignRegion->title,
         ]);
 
         return $region->id;
