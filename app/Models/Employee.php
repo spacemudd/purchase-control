@@ -11,6 +11,7 @@
 
 namespace App\Models;
 
+use Brick\Money\Money;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +23,7 @@ class Employee extends Model implements AuditableContract
 
 	protected $fillable = ['code', 'department_id', 'staff_type_id', 'name', 'email', 'phone'];
 
-	protected $appends = ['link', 'edit_link'];
+	protected $appends = ['link', 'edit_link', 'approver_link'];
 
 	public function department()
 	{
@@ -52,5 +53,27 @@ class Employee extends Model implements AuditableContract
     public function getEditLinkAttribute()
     {
         return route('employees.edit', ['id' => $this->id]);
+    }
+
+    public function getApproverLinkAttribute()
+    {
+        if($this->approver) {
+            return route('approvers.show', ['id' => $this->id]);
+        } else {
+            return false;
+        }
+    }
+
+    public function getFinancialAuthorityHumanAttribute()
+    {
+        if($this->financial_auth) {
+            $currency = $this->financial_auth_currency;
+            return Money::ofMinor($this->financial_auth, $currency ? $currency : 'SAR')->getAmount();
+        }
+    }
+
+    public function scopeApprovers($q)
+    {
+        return $q->where('approver', true);
     }
 }

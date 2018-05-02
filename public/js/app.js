@@ -30528,6 +30528,8 @@ Vue.component('uploads-container', __webpack_require__(585));
 Vue.component('new-upload-modal', __webpack_require__(590));
 Vue.component('preview-pdf', __webpack_require__(593));
 Vue.component('toggle-preview-requisition', __webpack_require__(598));
+Vue.component('create-approver-page', __webpack_require__(606));
+Vue.component('delete-dialog', __webpack_require__(611));
 
 /**
  * API/App settings
@@ -102884,7 +102886,11 @@ exports.default = {
                 _this.isLoading = false;
                 throw error;
             });
-        }, 500)
+        }, 500),
+        selectEmployee: function selectEmployee(employee) {
+            this.selectedEmployee = employee;
+            this.$emit('selected', employee);
+        }
     }
 }; //
 //
@@ -102956,12 +102962,7 @@ var render = function() {
                 loading: _vm.isLoading,
                 field: "code"
               },
-              on: {
-                input: _vm.getData,
-                select: function(option) {
-                  return (_vm.selectedEmployee = option)
-                }
-              },
+              on: { input: _vm.getData, select: _vm.selectEmployee },
               scopedSlots: _vm._u([
                 {
                   key: "default",
@@ -106081,6 +106082,598 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 602 */,
+/* 603 */,
+/* 604 */,
+/* 605 */,
+/* 606 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(607)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(609)
+/* template */
+var __vue_template__ = __webpack_require__(610)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\CreateApproverPage\\CreateApproverPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6ecb0495", Component.options)
+  } else {
+    hotAPI.reload("data-v-6ecb0495", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 607 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(608);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("48d1b88d", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6ecb0495\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CreateApproverPage.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6ecb0495\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CreateApproverPage.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 608 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/***/ }),
+/* 609 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var _debounce = __webpack_require__(6);
+
+var _debounce2 = _interopRequireDefault(_debounce);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    data: function data() {
+        return {
+            selectedEmployee: null,
+            searchEmployee: null,
+            employees: [],
+
+            form: {
+                employee_id: null,
+                financial_auth: null,
+                designation: '',
+
+                errors: []
+            }
+        };
+    },
+
+    computed: {
+        searchEmployeesEndpoint: function searchEmployeesEndpoint() {
+            return this.apiUrl() + '/search/employees';
+        }
+    },
+    mounted: function mounted() {
+        //
+    },
+
+    methods: {
+        getEmployeesData: (0, _debounce2.default)(function () {
+            var _this = this;
+
+            this.employees = [];
+            this.$startLoading('LOADING_EMPLOYEES');
+            axios.get(this.apiUrl() + '/search/approvers/create?q=' + this.searchEmployee).then(function (response) {
+                response.data.data.forEach(function (item) {
+                    return _this.employees.push(item);
+                });
+                _this.$endLoading('LOADING_EMPLOYEES');
+            }).catch(function (error) {
+                _this.$endLoading('LOADING_EMPLOYEES');
+
+                throw error;
+            });
+        }, 500),
+        selectEmployee: function selectEmployee(employee) {
+            this.selectedEmployee = employee;
+            this.form.employee_id = employee.id;
+            this.$emit('selected', employee);
+        },
+        clearSelectedEmployee: function clearSelectedEmployee() {
+            this.selectedEmployee = null;
+            this.searchEmployee = null;
+            this.form.employee_id = null;
+        },
+        save: function save() {
+            var _this2 = this;
+
+            this.$startLoading('CREATING_APPROVER');
+            this.form.errors = [];
+
+            axios.post(this.apiUrl() + '/approvers', this.form).then(function (response) {
+                _this2.form.errors = [];
+
+                window.location = response.data.approver_link;
+            }).catch(function (error) {
+                _this2.$endLoading('CREATING_APPROVER');
+
+                if (_typeof(error.response.data) === 'object') {
+                    _this2.form.errors = _.flatten(_.toArray(error.response.data.errors));
+                } else {
+                    _this2.form.errors = ['Something went wrong. Please try again.'];
+                }
+
+                throw error;
+            });
+        }
+    }
+};
+
+/***/ }),
+/* 610 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "columns" }, [
+    _c("div", { staticClass: "column is-4 is-offset-4" }, [
+      _vm.form.errors.length > 0
+        ? _c("div", { staticClass: "notification is-danger" }, [
+            _c("strong", [_vm._v("Something went wrong.")]),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c(
+              "ul",
+              _vm._l(_vm.form.errors, function(error) {
+                return _c("li", [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(error) +
+                      "\n                "
+                  )
+                ])
+              })
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              _vm.save()
+            }
+          }
+        },
+        [
+          _c(
+            "b-field",
+            { attrs: { label: "Employee Code" } },
+            [
+              _vm.selectedEmployee
+                ? _c("input", {
+                    staticClass: "input",
+                    attrs: { type: "text", required: "", readonly: "" },
+                    domProps: {
+                      value:
+                        _vm.selectedEmployee.code +
+                        " - " +
+                        _vm.selectedEmployee.name
+                    },
+                    on: { click: _vm.clearSelectedEmployee }
+                  })
+                : _c(
+                    "b-autocomplete",
+                    {
+                      attrs: {
+                        data: _vm.employees,
+                        loading: _vm.$isLoading("LOADING_EMPLOYEES"),
+                        field: "code"
+                      },
+                      on: {
+                        mousedown: _vm.clearSelectedEmployee,
+                        input: _vm.getEmployeesData,
+                        select: _vm.selectEmployee
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function(props) {
+                            return [
+                              _c("a", { staticClass: "dropdown-item" }, [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(props.option.code) +
+                                    " - " +
+                                    _vm._s(props.option.name) +
+                                    "\n                        "
+                                )
+                              ])
+                            ]
+                          }
+                        }
+                      ]),
+                      model: {
+                        value: _vm.searchEmployee,
+                        callback: function($$v) {
+                          _vm.searchEmployee = $$v
+                        },
+                        expression: "searchEmployee"
+                      }
+                    },
+                    [
+                      !_vm.$isLoading("LOADING_EMPLOYEES") &&
+                      _vm.employees.length === 0
+                        ? _c("template", { slot: "empty" }, [
+                            _vm._v("No results found")
+                          ])
+                        : _vm._e()
+                    ],
+                    2
+                  )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-field",
+            { attrs: { label: "Financial Authority" } },
+            [
+              _c("b-input", {
+                attrs: { type: "number", min: "0", required: "" },
+                model: {
+                  value: _vm.form.financial_auth,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "financial_auth", $$v)
+                  },
+                  expression: "form.financial_auth"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-field",
+            { attrs: { label: "Designation" } },
+            [
+              _c("b-input", {
+                attrs: { type: "text" },
+                model: {
+                  value: _vm.form.designation,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "designation", $$v)
+                  },
+                  expression: "form.designation"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("b-field", [
+            _c("div", { staticClass: "has-text-right" }, [
+              _c("a", { staticClass: "button is-text", attrs: { href: "#" } }, [
+                _vm._v("Cancel")
+              ]),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "button is-primary",
+                  class: { "is-loading": _vm.$isLoading("CREATING_APPROVER") },
+                  attrs: { type: "submit" }
+                },
+                [_vm._v("Save")]
+              )
+            ])
+          ])
+        ],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6ecb0495", module.exports)
+  }
+}
+
+/***/ }),
+/* 611 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(612)
+/* template */
+var __vue_template__ = __webpack_require__(613)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\DeleteDialog\\DeleteDialog.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4ae8b816", Component.options)
+  } else {
+    hotAPI.reload("data-v-4ae8b816", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 612 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        url: {
+            type: String,
+            required: true
+        },
+        redirect: {
+            type: String,
+            required: false
+        },
+        buttonText: {
+            type: String,
+            required: false,
+            default: 'Delete'
+        },
+        confirmText: {
+            type: String,
+            required: false,
+            default: 'Delete'
+        }
+    },
+    data: function data() {
+        return {
+            isLoading: false
+        };
+    },
+
+    methods: {
+        confirm: function confirm() {
+            var _this = this;
+
+            this.$dialog.confirm({
+                title: 'Delete',
+                message: 'Are you sure?',
+                type: 'is-danger',
+                confirmText: this.confirmText,
+                onConfirm: function onConfirm() {
+                    return _this.delete();
+                }
+            });
+        },
+        delete: function _delete() {
+            var _this2 = this;
+
+            this.isLoading = true;
+            axios.delete(this.url).then(function (response) {
+                _this2.$emit('deleted');
+
+                if (response.data.redirect) {
+                    window.location.href = response.data.redirect;
+                }
+            });
+        }
+    }
+};
+
+/***/ }),
+/* 613 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "button",
+    {
+      staticClass: "button is-danger is-small has-icon",
+      class: { "is-loading": _vm.isLoading },
+      on: { click: _vm.confirm }
+    },
+    [_vm._m(0), _vm._v(" "), _c("span", [_vm._v(_vm._s(_vm.buttonText))])]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fa fa-trash" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4ae8b816", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

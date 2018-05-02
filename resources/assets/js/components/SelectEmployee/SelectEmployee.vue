@@ -9,14 +9,14 @@
                @click="selectedEmployee=search=null"
                readonly>
         <!-- When searching -->
-            <b-autocomplete
+        <b-autocomplete
                     v-else
                     v-model="search"
                     :data="employees"
                     :loading="isLoading"
                     field="code"
                     @input="getData"
-                    @select="option => selectedEmployee = option">
+                    @select="selectEmployee">
             <template slot="empty" v-if="!isLoading">No results found</template>
             <template slot-scope="props">
                 <a class="dropdown-item">
@@ -69,6 +69,10 @@
                         throw error
                     })
             }, 500),
+            selectEmployee(employee) {
+                this.selectedEmployee = employee;
+                this.$emit('selected', employee);
+            }
         }
     }
 </script>

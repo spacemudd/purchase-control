@@ -79,6 +79,12 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::name('users.index')->get('users', 'Back\UsersController@index');
         Route::name('users.show')->get('users/{id}', 'Back\UsersController@show');
 
+        Route::get('approvers', 'ApproversController@index')->name('approvers.index');
+        Route::get('approvers/create', 'ApproversController@create')->name('approvers.create');
+        Route::get('approvers/{id}', 'ApproversController@show')->name('approvers.show');
+        Route::get('approvers/{id}/edit', 'ApproversController@edit')->name('approvers.edit');
+        Route::put('approvers/{id}', 'ApproversController@update')->name('approvers.update');
+
         Route::get('search', 'SearchController@index')->name('search.index');
 	});
 
@@ -138,6 +144,10 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('employees/store', 'Api\EmployeeController@store');
 
     Route::get('employees/types', 'Api\EmployeeController@staffTypes');
+
+    // Approvers.
+    Route::post('approvers', 'Api\ApproversController@store')->name('api.approvers.store');
+    Route::delete('approvers/{id}', 'Api\ApproversController@delete')->name('api.approvers.destroy');
 
     // Manufacturers.
     Route::get('manufacturers/paginated/{per_page}', 'Api\ManufacturerController@paginatedIndex');
@@ -210,6 +220,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
         Route::get('vendors', 'Api\VendorController@search')->name('api.search.vendor');
         Route::get('manufacturers', 'Api\ManufacturerController@search')->name('api.search.manufacturer');
         Route::get('employees', 'Api\EmployeeController@search')->name('api.search.employee');
+        Route::get('approvers/create', 'Api\ApproversController@searchWithoutApproverInformation');
         Route::get('departments', 'Api\DepartmentController@search')->name('api.search.department');
     });
 });

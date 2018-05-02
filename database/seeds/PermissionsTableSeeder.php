@@ -90,6 +90,11 @@ class PermissionsTableSeeder extends Seeder
             'decline-purchase-requisitions',
 
             'create-purchase-requisition-item',
+
+            'create-approvers',
+            'view-approvers',
+            'edit-approvers',
+            'delete-approvers',
         ];
 
         // Creating a super admin role.

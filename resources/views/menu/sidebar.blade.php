@@ -84,6 +84,7 @@
                                                          link="{{ route('purchase-requisitions.index') }}">
                                     </sidebar-links-group>
 
+                                    {{--
                                     @can('view-purchase-orders')
                                         <sidebar-links-group selected="{{ (request()->route()->getName() === 'purchase-orders.index') }}"
                                                              icon="shopping-cart"
@@ -91,6 +92,7 @@
                                                              link="{{ route('purchase-orders.index') }}">
                                         </sidebar-links-group>
                                     @endcan
+                                    --}}
 
                                     {{--
                                     <sidebar-links-group selected="{{ (request()->route()->getName() === 'reports.index') }}"
@@ -136,6 +138,11 @@
                                                                  {{--icon="bookmark" title="{{ __('words.categories') }}">--}}
                                             {{--</sidebar-links-group>--}}
                                         {{--@endcan--}}
+                                        @can('view-employees')
+                                            <sidebar-links-group link="{{ route('approvers.index') }}"
+                                                                 icon="address-book" title="Approvers">
+                                            </sidebar-links-group>
+                                        @endcan
 
                                         @can('view-item-templates')
                                             <sidebar-links-group link="{{ route('item-templates.index') }}"

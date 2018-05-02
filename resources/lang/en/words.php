@@ -388,4 +388,6 @@
         'new-supplier' => 'New Supplier',
         'supplier-code' => 'Supplier Code',
         'supplier-delivery-number' => 'Supplier Delivery Number',
+        'approvers' => 'Approvers',
+        'new-approver' => 'New Approver',
 	];
