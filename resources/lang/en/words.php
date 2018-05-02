@@ -383,4 +383,9 @@
         'new-note' => 'New Note',
         'files' => 'Files',
         'new-file' => 'New File',
+        'suppliers' => 'Suppliers',
+        'supplier' => 'Supplier',
+        'new-supplier' => 'New Supplier',
+        'supplier-code' => 'Supplier Code',
+        'supplier-delivery-number' => 'Supplier Delivery Number',
 	];

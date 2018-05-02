@@ -3,7 +3,7 @@
 		<div class="level-left">
 			<simple-search
 					:hyper-linked-results="true"
-					placeholder-text="Find vendors"
+					placeholder-text="Find suppliers"
 					search-endpoint="vendors">
 			</simple-search>
 		</div>
@@ -12,7 +12,7 @@
 			<button class="button is-primary pull-right"
 					v-if="canCreate == 1"
 					@click="$store.commit('Vendor/setNewModal', true)">
-				{{ $t('words.new-vendor') }}
+				{{ $t('words.new-supplier') }}
 			</button>
 
 		</div>

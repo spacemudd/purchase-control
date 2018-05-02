@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => trans('words.vendors')])
+@extends('layouts.app', ['title' => trans('words.suppliers')])
 
 @section('header')
 	<nav class="breadcrumb" aria-label="breadcrumbs">
@@ -12,7 +12,7 @@
 			<li class="is-active">
 				<a href="{{ route('vendors.index') }}">
 					<span class="icon is-small"><i class="fa fa-truck"></i></span>
-					<span>{{ trans('words.vendors') }}</span>
+					<span>{{ trans('words.suppliers') }}</span>
 				</a>
 			</li>
 		</ul>
@@ -24,7 +24,7 @@
 	<div class="columns">
 		<div class="column is-4">
 			<p class="title is-6">
-				<b>{{ trans('words.inactive') }} {{ trans('words.vendors') }}</b>
+				<b>{{ trans('words.inactive') }} {{ trans('words.supplier') }}</b>
 			</p>
 
 			<div class="notification is-warning">
@@ -36,7 +36,7 @@
 
 		<div class="column is-4">
 			<p class="title is-6">
-				<b>{{ trans('words.active') }} {{ trans('words.vendors') }}</b>
+				<b>{{ trans('words.active') }} {{ trans('words.supplier') }}</b>
 			</p>
 
 			<a href="{{ route('vendors.all') }}">

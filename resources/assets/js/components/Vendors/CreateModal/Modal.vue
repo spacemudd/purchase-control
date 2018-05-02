@@ -5,7 +5,7 @@
                 <div class="modal-card">
                 <div class="modal-card-head">
                     <p class="modal-card-title">
-                        {{ $t('words.new-vendor') }}
+                        {{ $t('words.new-supplier') }}
                     </p>
                 </div>
                 <section class="modal-card-body">

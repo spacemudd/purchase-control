@@ -30528,7 +30528,6 @@ Vue.component('uploads-container', __webpack_require__(585));
 Vue.component('new-upload-modal', __webpack_require__(590));
 Vue.component('preview-pdf', __webpack_require__(593));
 Vue.component('toggle-preview-requisition', __webpack_require__(598));
-Vue.component('attach-requisition-item-to-po', __webpack_require__(606));
 
 /**
  * API/App settings
@@ -32744,7 +32743,7 @@ exports.default = {
             "commit-issuance": "Commit Issuance",
             "commit-issuance-return": "Commit Issuance Return",
             "purchase-control": "Purchase Control",
-            "new-request": "New Request",
+            "new-request": "New PurchaseRequisition",
             "requests": "Requests",
             "purchase-control-dashboard": "Purchase Control Dashboard",
             "users": "Users",
@@ -32778,7 +32777,12 @@ exports.default = {
             "notes": "Notes",
             "new-note": "New Note",
             "files": "Files",
-            "new-file": "New File"
+            "new-file": "New File",
+            "suppliers": "Suppliers",
+            "supplier": "Supplier",
+            "new-supplier": "New Supplier",
+            "supplier-code": "Supplier Code",
+            "supplier-delivery-number": "Supplier Delivery Number"
         }
     }
 };
@@ -76965,7 +76969,7 @@ var render = function() {
         _c("simple-search", {
           attrs: {
             "hyper-linked-results": true,
-            "placeholder-text": "Find vendors",
+            "placeholder-text": "Find suppliers",
             "search-endpoint": "vendors"
           }
         })
@@ -76985,7 +76989,11 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n\t\t\t" + _vm._s(_vm.$t("words.new-vendor")) + "\n\t\t")]
+            [
+              _vm._v(
+                "\n\t\t\t" + _vm._s(_vm.$t("words.new-supplier")) + "\n\t\t"
+              )
+            ]
           )
         : _vm._e()
     ])
@@ -77246,7 +77254,7 @@ var render = function() {
                       _c("p", { staticClass: "modal-card-title" }, [
                         _vm._v(
                           "\n                    " +
-                            _vm._s(_vm.$t("words.new-vendor")) +
+                            _vm._s(_vm.$t("words.new-supplier")) +
                             "\n                "
                         )
                       ])
@@ -77939,7 +77947,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("header", { staticClass: "modal-card-head" }, [
       _c("p", { staticClass: "modal-card-title" }, [
-        _vm._v("\n            Associate manufacturer to vendor\n        ")
+        _vm._v("\n            Associate manufacturer to supplier\n        ")
       ])
     ])
   }
@@ -78995,7 +79003,7 @@ var render = function() {
             _c("tbody", [
               _c("tr", [
                 _c("td", [
-                  _c("strong", [_vm._v(_vm._s(_vm.$t("words.vendor")))])
+                  _c("strong", [_vm._v(_vm._s(_vm.$t("words.supplier")))])
                 ]),
                 _vm._v(" "),
                 _c("td", [
@@ -79010,7 +79018,7 @@ var render = function() {
               _c("tr", [
                 _c("td", [
                   _c("strong", [
-                    _vm._v(_vm._s(_vm.$t("words.vendor-delivery-number")))
+                    _vm._v(_vm._s(_vm.$t("words.supplier-delivery-number")))
                   ])
                 ]),
                 _vm._v(" "),
@@ -80289,7 +80297,7 @@ var render = function() {
                                                 [
                                                   _vm._v(
                                                     _vm._s(
-                                                      _vm.$t("words.vendor")
+                                                      _vm.$t("words.supplier")
                                                     ) + " "
                                                   ),
                                                   _c(
@@ -80348,7 +80356,7 @@ var render = function() {
                                                 _vm._v(
                                                   _vm._s(
                                                     _vm.$t(
-                                                      "words.vendor-delivery-number"
+                                                      "words.supplier-delivery-number"
                                                     )
                                                   )
                                                 )
@@ -103344,12 +103352,6 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 exports.default = {
     props: {
@@ -103365,7 +103367,6 @@ exports.default = {
     data: function data() {
         return {
             newItemModal: false,
-            attachPoModal: false,
 
             items: []
         };
@@ -103425,20 +103426,6 @@ var render = function() {
             on: { saved: _vm.getItems }
           })
         ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "b-modal",
-        {
-          attrs: { active: _vm.attachPoModal },
-          on: {
-            "update:active": function($event) {
-              _vm.attachPoModal = $event
-            }
-          }
-        },
-        [_c("attach-requisition-item-to-po")],
         1
       ),
       _vm._v(" "),
@@ -103511,19 +103498,6 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("td", { staticClass: "has-text-centered" }, [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "button is-primary is-small",
-                                  on: {
-                                    click: function($event) {
-                                      _vm.attachPoModal = true
-                                    }
-                                  }
-                                },
-                                [_vm._v("Choose PO")]
-                              ),
-                              _vm._v(" "),
                               _vm.inDraft
                                 ? _c(
                                     "button",
@@ -106107,265 +106081,6 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 602 */,
-/* 603 */,
-/* 604 */,
-/* 605 */,
-/* 606 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(607)
-/* template */
-var __vue_template__ = __webpack_require__(608)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\components\\AttachRequisitionItemToPo\\AttachRequisitionItemToPo.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1f13f0e5", Component.options)
-  } else {
-    hotAPI.reload("data-v-1f13f0e5", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 607 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-    data: function data() {
-        return {
-            form: {
-                itemTemplate: null,
-                qty: 1,
-                errors: []
-            }
-        };
-    },
-    mounted: function mounted() {
-        //
-    },
-
-    methods: {
-        selectedItemTemplate: function selectedItemTemplate(itemTemplate) {
-            this.form.itemTemplate = itemTemplate;
-        },
-        save: function save() {
-            var _this = this;
-
-            this.form.errors = [];
-
-            axios.post(this.apiUrl() + '/purchase-requisition-items', {
-                purchase_requisition_id: this.requisitionId,
-                qty: this.form.qty,
-                item_template_id: this.form.itemTemplate.id
-            }).then(function (response) {
-                _this.form.name = '';
-                _this.form.scopes = [];
-                _this.form.errors = [];
-
-                _this.$emit('saved');
-
-                _this.$parent.close();
-            }).catch(function (response) {
-                if (_typeof(response.data) === 'object') {
-                    _this.form.errors = _.flatten(_.toArray(response.data));
-                } else {
-                    _this.form.errors = ['Something went wrong. Please try again.'];
-                }
-            });
-        }
-    }
-};
-
-/***/ }),
-/* 608 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "form",
-    {
-      on: {
-        submit: function($event) {
-          $event.preventDefault()
-          return _vm.save($event)
-        }
-      }
-    },
-    [
-      _c(
-        "div",
-        {
-          staticClass: "modal-card",
-          staticStyle: { width: "auto", "min-height": "600px" }
-        },
-        [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("section", { staticClass: "modal-card-body" }, [
-            _vm.form.errors.length > 0
-              ? _c("div", { staticClass: "notification is-danger" }, [
-                  _c("strong", [_vm._v("An error occurred.")]),
-                  _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c(
-                    "ul",
-                    _vm._l(_vm.form.errors, function(error) {
-                      return _c("li", [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(error) +
-                            "\n                    "
-                        )
-                      ])
-                    })
-                  )
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("div", { staticClass: "columns" }, [
-              _c(
-                "div",
-                { staticClass: "column is-6" },
-                [
-                  _c("p", { staticClass: "title" }, [
-                    _vm._v("1. Select purchase order")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "b-field",
-                    { attrs: { label: "Choose Purchase Order" } },
-                    [_c("b-input")],
-                    1
-                  )
-                ],
-                1
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("footer", { staticClass: "modal-card-foot" }, [
-            _c(
-              "button",
-              {
-                staticClass: "button",
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    _vm.$parent.close()
-                  }
-                }
-              },
-              [_vm._v("Close")]
-            ),
-            _vm._v(" "),
-            _c("button", { staticClass: "button is-primary" }, [_vm._v("Add")])
-          ])
-        ]
-      )
-    ]
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("header", { staticClass: "modal-card-head" }, [
-      _c("p", { staticClass: "modal-card-title" }, [_vm._v("Add new item")])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1f13f0e5", module.exports)
-  }
-}
 
 /***/ })
 /******/ ]);

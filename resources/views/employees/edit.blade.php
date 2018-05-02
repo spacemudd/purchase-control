@@ -100,7 +100,7 @@
                                     <select name="department_id">
                                         <option></option>
                                         @foreach($departments as $department)
-                                            <option value="{{ $department->id }}"{{ ($employee->department->id == $department->id) ? ' selected' : '' }}>
+                                            <option value="{{ $department->id }}"{{ $employee->department->id == $department->id ? ' selected' : '' }}>
                                                 {{ $department->id }} - {{ $department->description }}
                                             </option>
                                         @endforeach
@@ -126,7 +126,7 @@
                                     <select name="staff_type_id">
                                         <option></option>
                                         @foreach($types as $type)
-                                            <option value="{{ $type->id }}"{{ ($employee->staff_type_id != $type->id) ?: 'selected' }}>{{ $type->name }}</option>
+                                            <option value="{{ $type->id }}"{{ $employee->staff_type_id == $type->id ? ' selected' : '' }}>{{ $type->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

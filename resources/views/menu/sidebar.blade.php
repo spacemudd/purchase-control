@@ -117,7 +117,7 @@
                                     @can('view-vendor')
                                     <sidebar-links-group link="{{ route('vendors.index') }}"
                                                          icon="truck"
-                                                         title="{{ __('words.vendors') }}">
+                                                         title="{{ __('words.suppliers') }}">
                                     </sidebar-links-group>
                                     @endcan
 

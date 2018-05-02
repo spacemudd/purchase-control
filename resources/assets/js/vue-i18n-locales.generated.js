@@ -1088,7 +1088,7 @@ export default {
             "commit-issuance": "Commit Issuance",
             "commit-issuance-return": "Commit Issuance Return",
             "purchase-control": "Purchase Control",
-            "new-request": "New Request",
+            "new-request": "New PurchaseRequisition",
             "requests": "Requests",
             "purchase-control-dashboard": "Purchase Control Dashboard",
             "users": "Users",
@@ -1122,7 +1122,12 @@ export default {
             "notes": "Notes",
             "new-note": "New Note",
             "files": "Files",
-            "new-file": "New File"
+            "new-file": "New File",
+            "suppliers": "Suppliers",
+            "supplier": "Supplier",
+            "new-supplier": "New Supplier",
+            "supplier-code": "Supplier Code",
+            "supplier-delivery-number": "Supplier Delivery Number"
         }
     }
 }

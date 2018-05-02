@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => $vendor->id . ' - ' . $vendor->name . ' - ' . trans('words.vendor')])
+@extends('layouts.app', ['title' => $vendor->id . ' - ' . $vendor->name . ' - ' . trans('words.supplier')])
 
 
 @section('header')
@@ -13,7 +13,7 @@
             <li>
                 <a href="{{ route('vendors.index') }}">
                     <span class="icon is-small"><i class="fa fa-truck"></i></span>
-                    <span>{{ trans('words.vendors') }}</span>
+                    <span>{{ trans('words.suppliers') }}</span>
                 </a>
             </li>
             <li class="is-active">
@@ -31,7 +31,7 @@
         <div class="columns">
             <div class="column is-6">
                 <h1 class="title">{{ $vendor->id }}</h1>
-                <p class="subtitle is-6">{{ __('words.vendor-code') }}</p>
+                <p class="subtitle is-6">{{ __('words.supplier-code') }}</p>
             </div>
             <div class="column is-6 has-text-right">
                 <a href="{{ route('vendors.edit', ['id' => $vendor->id]) }}" class="button is-small is-warning">

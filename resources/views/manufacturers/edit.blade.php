@@ -42,7 +42,7 @@
                             <label for="name" class="label">{{ trans('words.name') }}</label>
 
                             <p class="control">
-                                <input id="name" type="text" class="input {{ $errors->has('name') ? ' is-danger' : '' }}"
+                                <input id="name" type="text" class="input{{ $errors->has('name') ? ' is-danger' : '' }}"
                                        name="name"
                                        tabindex="1"
                                        autofocus
@@ -83,7 +83,7 @@
 
                             <p class="control">
                                 <input id="support_url" type="text"
-                                       class="input {{ $errors->has('support_url') ? ' is-danger' : '' }}"
+                                       class="input{{ $errors->has('support_url') ? ' is-danger' : '' }}"
                                        name="support_url"
                                        tabindex="3"
                                        value="{{ $manufacturer->support_url }}">
@@ -123,7 +123,7 @@
 
                             <p class="control">
                                 <input id="support_email" type="email"
-                                       class="input {{ $errors->has('support_email') ? ' is-danger' : '' }}"
+                                       class="input{{ $errors->has('support_email') ? ' is-danger' : '' }}"
                                        name="support_email"
                                        tabindex="5"
                                        value="{{ $manufacturer->support_email }}">

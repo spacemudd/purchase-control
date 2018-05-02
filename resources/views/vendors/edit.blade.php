@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => $vendor->id . ' - ' . $vendor->name . ' - ' . trans('words.edit') . ' ' . trans('words.vendor')])
+@extends('layouts.app', ['title' => $vendor->id . ' - ' . $vendor->name . ' - ' . trans('words.edit') . ' ' . trans('words.supplier')])
 
 @section('header')
 	<nav class="breadcrumb" aria-label="breadcrumbs">
@@ -12,7 +12,7 @@
 			<li>
 				<a href="{{ route('vendors.index') }}">
 					<span class="icon is-small"><i class="fa fa-truck"></i></span>
-					<span>{{ trans('words.vendors') }}</span>
+					<span>{{ trans('words.suppliers') }}</span>
 				</a>
 			</li>
 			<li>

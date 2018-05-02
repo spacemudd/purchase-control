@@ -2,7 +2,7 @@
     <div class="modal-card" style="width:auto;">
         <header class="modal-card-head">
             <p class="modal-card-title">
-                Associate manufacturer to vendor
+                Associate manufacturer to supplier
             </p>
         </header>
         <section class="modal-card-body">

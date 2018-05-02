@@ -71,7 +71,7 @@
 
                                 <div class="column is-6">
                                     <div class="field">
-                                        <label class="label">{{ $t('words.vendor') }} <span class="has-text-danger">*</span></label>
+                                        <label class="label">{{ $t('words.supplier') }} <span class="has-text-danger">*</span></label>
                                         <input v-if="vendor" type="text" class="input" :value="vendorName" readonly
                                                @click="vendor = null">
                                         <simple-search
@@ -85,7 +85,7 @@
 
                                 <div class="column is-6">
                                     <div class="field">
-                                        <label class="label">{{ $t('words.vendor-delivery-number') }}</label>
+                                        <label class="label">{{ $t('words.supplier-delivery-number') }}</label>
                                         <div class="control">
                                             <input class="input" type="text" name="vendorDeliveryNumber" v-model="vendorDeliveryNumber">
                                         </div>

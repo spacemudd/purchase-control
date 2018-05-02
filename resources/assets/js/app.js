@@ -201,7 +201,6 @@ Vue.component('uploads-container', require('./components/UploadsContainer/Upload
 Vue.component('new-upload-modal', require('./components/NewUploadFile/NewUploadFile'))
 Vue.component('preview-pdf', require('./components/PreviewPdf/PreviewPdf'));
 Vue.component('toggle-preview-requisition', require('./components/TogglePreviewRequisition/TogglePreviewRequisition'));
-Vue.component('attach-requisition-item-to-po', require('./components/AttachRequisitionItemToPo/AttachRequisitionItemToPo'));
 
 /**
  * API/App settings

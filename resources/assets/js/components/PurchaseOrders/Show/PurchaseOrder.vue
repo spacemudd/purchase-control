@@ -127,11 +127,11 @@
                     </colgroup>
                     <tbody>
                         <tr>
-                            <td><strong>{{ $t('words.vendor') }}</strong></td>
+                            <td><strong>{{ $t('words.supplier') }}</strong></td>
                             <td>{{ purchaseOrder.vendor.code }} - {{ purchaseOrder.vendor.description }}</td>
                         </tr>
                         <tr>
-                            <td><strong>{{ $t('words.vendor-delivery-number') }}</strong></td>
+                            <td><strong>{{ $t('words.supplier-delivery-number') }}</strong></td>
                             <td>{{ purchaseOrder.delivery_number }}</td>
                         </tr>
                         <tr>
