@@ -34,10 +34,6 @@ class CreateManufacturersTable extends Migration
             $table->timestamps(4);
             $table->softDeletes('deleted_at', 4);
         });
-
-        if(env('DB_CONNECTION') != 'sqlite_testing') {
-            \DB::statement('ALTER TABLE pur_manufacturers AUTO_INCREMENT = 1002;');
-        }
     }
 
     /**
