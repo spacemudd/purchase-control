@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Employee;
 use App\Models\PurchaseRequisition;
+use App\Models\PurchaseRequisitionItem;
 use App\Models\User;
 use App\Notifications\PurchaseRequisitionApprovedNotification;
 use App\Notifications\PurchaseRequisitionSavedNotification;
@@ -124,8 +125,12 @@ class CreatePurchaseRequisitionTest extends TestCase
             'user_id' => $noPermissionUser->id,
         ]);
 
+        factory(PurchaseRequisitionItem::class)->create([
+            'purchase_requisition_id' => 1,
+        ]);
+
         $saveUrl = route('purchase-requisitions.save', ['id' => 1]);
-        $this->actingAs($user)->post($saveUrl)->assertRedirect();
+        $this->actingAs($user)->post($saveUrl)->assertSessionMissing('errors');
 
         Notification::assertSentTo(
             $notifiedUser,
@@ -149,10 +154,14 @@ class CreatePurchaseRequisitionTest extends TestCase
             'status' => PurchaseRequisition::SAVED,
         ]);
 
+        $employee = factory(Employee::class)->create([
+            'approver' => true,
+        ]);
+
         $this->actingAs($user)->post(route('api.purchase-requisitions.subscribe', ['id' => $requisition->id]))->assertSuccessful();
 
-        $url = route('purchase-requisitions.approve', ['id' => $requisition]);
-        $this->actingAs($user)->post($url)->assertRedirect();
+        $url = route('api.purchase-requisitions.approve', ['id' => $requisition]);
+        $this->actingAs($user)->post($url, ['approved_by_employee_id' => $employee->id]);
 
         Notification::assertSentTo(
             $user,

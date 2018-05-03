@@ -4,6 +4,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Models\Employee::class, function (Faker $faker) {
     static $department_id;
+    static $approver;
 
     return [
         'code' => $faker->unique()->randomNumber(4),
@@ -12,5 +13,6 @@ $factory->define(App\Models\Employee::class, function (Faker $faker) {
         'name' => $faker->name(),
         'email' => $faker->unique()->email(),
         'phone' => $faker->e164PhoneNumber(),
+        'approver' => $approver ? $approver : $faker->boolean(10),
     ];
 });

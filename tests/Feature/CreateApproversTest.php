@@ -21,6 +21,28 @@ class CreateApproversTest extends TestCase
         Artisan::call('db:seed');
     }
 
+    public function test_saving_an_employee_thats_already_an_approver()
+    {
+        $financial_auth = $this->faker->randomNumber(4);
+
+        $user = factory(User::class)->create()->givePermissionTo([
+            'create-approvers',
+        ]);
+
+        $employee = factory(Employee::class)->create([
+            'approver' => true,
+        ]);
+
+        $url = route('api.approvers.store');
+        $response = $this->actingAs($user)->post($url, [
+            'employee_id' => $employee->id,
+            'financial_auth' => $financial_auth,
+            'designation' => $this->faker->jobTitle,
+        ]);
+
+        $response->assertSeeText('Employee is already an approver');
+    }
+
     public function test_saving_an_approver()
     {
         $financial_auth = $this->faker->randomNumber(4);
@@ -32,7 +54,9 @@ class CreateApproversTest extends TestCase
             'delete-approvers',
         ]);
 
-        $employee = factory(Employee::class)->create();
+        $employee = factory(Employee::class)->create([
+            'approver' => false,
+            ]);
 
         $url = route('api.approvers.store');
         $response = $this->actingAs($user)->post($url, [
@@ -43,7 +67,7 @@ class CreateApproversTest extends TestCase
 
         $response->assertJson([
             'id' => $employee->id,
-            'financial_auth' => $financial_auth,
+            'financial_auth' => $financial_auth * 100, // Because saving money as minor (e.g. $10.59 saved 1059). Check \Brick\Money package.
         ]);
     }
 }
