@@ -30294,7 +30294,7 @@ module.exports = Symbol;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(150);
-module.exports = __webpack_require__(601);
+module.exports = __webpack_require__(615);
 
 
 /***/ }),
@@ -30528,9 +30528,10 @@ Vue.component('uploads-container', __webpack_require__(585));
 Vue.component('new-upload-modal', __webpack_require__(590));
 Vue.component('preview-pdf', __webpack_require__(593));
 Vue.component('toggle-preview-requisition', __webpack_require__(598));
-Vue.component('create-approver-page', __webpack_require__(606));
-Vue.component('delete-dialog', __webpack_require__(611));
-
+Vue.component('create-approver-page', __webpack_require__(601));
+Vue.component('delete-dialog', __webpack_require__(606));
+Vue.component('approve-requisition', __webpack_require__(609));
+Vue.component('approve-requisition-modal', __webpack_require__(612));
 /**
  * API/App settings
  */
@@ -106079,28 +106080,18 @@ if (false) {
 
 /***/ }),
 /* 601 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 602 */,
-/* 603 */,
-/* 604 */,
-/* 605 */,
-/* 606 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(607)
+  __webpack_require__(602)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(609)
+var __vue_script__ = __webpack_require__(604)
 /* template */
-var __vue_template__ = __webpack_require__(610)
+var __vue_template__ = __webpack_require__(605)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -106139,13 +106130,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 607 */
+/* 602 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(608);
+var content = __webpack_require__(603);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -106165,7 +106156,7 @@ if(false) {
 }
 
 /***/ }),
-/* 608 */
+/* 603 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)(false);
@@ -106179,7 +106170,7 @@ exports.push([module.i, "", ""]);
 
 
 /***/ }),
-/* 609 */
+/* 604 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -106336,7 +106327,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 610 */
+/* 605 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -106516,15 +106507,15 @@ if (false) {
 }
 
 /***/ }),
-/* 611 */
+/* 606 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(612)
+var __vue_script__ = __webpack_require__(607)
 /* template */
-var __vue_template__ = __webpack_require__(613)
+var __vue_template__ = __webpack_require__(608)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -106563,7 +106554,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 612 */
+/* 607 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -106639,7 +106630,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 613 */
+/* 608 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -106674,6 +106665,467 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-4ae8b816", module.exports)
   }
 }
+
+/***/ }),
+/* 609 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(610)
+/* template */
+var __vue_template__ = __webpack_require__(611)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ApproveRequisition\\ApproveRequisition.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6be73e35", Component.options)
+  } else {
+    hotAPI.reload("data-v-6be73e35", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 610 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        /**
+         * Where the request is saved.
+         */
+        url: {
+            type: String,
+            required: true
+        },
+        buttonText: {
+            type: String,
+            required: false,
+            default: 'Approve'
+        },
+        /**
+         * The search endpoint for approvers.
+         */
+        searchApproversUrl: {
+            type: String,
+            required: true
+        }
+    },
+    data: function data() {
+        return {
+            ApproveRequisitionModal: false
+        };
+    },
+    mounted: function mounted() {},
+
+    methods: {
+        //
+    }
+};
+
+/***/ }),
+/* 611 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "span",
+    { staticStyle: { "text-align": "left" } },
+    [
+      _c(
+        "b-modal",
+        {
+          attrs: { active: _vm.ApproveRequisitionModal },
+          on: {
+            "update:active": function($event) {
+              _vm.ApproveRequisitionModal = $event
+            }
+          }
+        },
+        [
+          _c("approve-requisition-modal", {
+            attrs: {
+              url: _vm.url,
+              "search-approvers-url": _vm.searchApproversUrl
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "button is-success is-small",
+          on: {
+            click: function($event) {
+              _vm.ApproveRequisitionModal = true
+            }
+          }
+        },
+        [_vm._v("\n        " + _vm._s(_vm.buttonText) + "\n    ")]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6be73e35", module.exports)
+  }
+}
+
+/***/ }),
+/* 612 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(613)
+/* template */
+var __vue_template__ = __webpack_require__(614)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ApproveRequisitionModal\\ApproveRequisitionModal.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-20015999", Component.options)
+  } else {
+    hotAPI.reload("data-v-20015999", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 613 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        /**
+         * Where the endpoint request is saved.
+         */
+        url: {
+            type: String,
+            required: true
+        },
+        /**
+         * Where to search for the list of approvers.
+         */
+        searchApproversUrl: {
+            type: String,
+            required: true
+        }
+    },
+    data: function data() {
+        return {
+            selectedEmployee: null,
+            form: {
+                approved_by_employee_id: null,
+                errors: []
+            }
+        };
+    },
+    mounted: function mounted() {
+        //
+    },
+
+    methods: {
+        employeeIsSelected: function employeeIsSelected(employee) {
+            this.selectedEmployee = employee;
+            this.form.approved_by_employee_id = employee.id;
+        },
+        save: function save() {
+            var _this = this;
+
+            this.$startLoading('APPROVING_REQUISITION');
+            this.form.errors = [];
+
+            axios.post(this.url, this.form).then(function (response) {
+                _this.form.errors = [];
+                window.location.reload();
+            }).catch(function (error) {
+                _this.$endLoading('APPROVING_REQUISITION');
+
+                if (_typeof(error.response.data) === 'object') {
+                    _this.form.errors = _.flatten(_.toArray(error.response.data.errors));
+                } else {
+                    _this.form.errors = ['Something went wrong. Please try again.'];
+                }
+
+                throw error;
+            });
+        }
+    }
+};
+
+/***/ }),
+/* 614 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "form",
+    {
+      on: {
+        submit: function($event) {
+          $event.preventDefault()
+          return _vm.save($event)
+        }
+      }
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass: "modal-card",
+          staticStyle: { width: "auto", height: "500px" }
+        },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "section",
+            { staticClass: "modal-card-body" },
+            [
+              _vm.form.errors.length > 0
+                ? _c("div", { staticClass: "notification is-danger" }, [
+                    _c("strong", [_vm._v("An error occurred.")]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
+                      _vm._l(_vm.form.errors, function(error) {
+                        return _c("li", [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(error) +
+                              "\n                    "
+                          )
+                        ])
+                      })
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "b-field",
+                [
+                  _vm.selectedEmployee
+                    ? _c("input", {
+                        staticClass: "input",
+                        attrs: { readonly: "" },
+                        domProps: {
+                          value:
+                            _vm.selectedEmployee.code +
+                            " - " +
+                            _vm.selectedEmployee.name
+                        },
+                        on: {
+                          click: function($event) {
+                            _vm.selectedEmployee = null
+                          }
+                        }
+                      })
+                    : _c("select-employee", {
+                        attrs: { url: _vm.searchApproversUrl },
+                        on: { selected: _vm.employeeIsSelected }
+                      })
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("footer", { staticClass: "modal-card-foot" }, [
+            _c(
+              "button",
+              {
+                staticClass: "button",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    _vm.$parent.close()
+                  }
+                }
+              },
+              [_vm._v("Close")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "button is-success",
+                class: { "is-loading": _vm.$isLoading("APPROVING_REQUISITION") }
+              },
+              [_vm._v("Approve")]
+            )
+          ])
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("header", { staticClass: "modal-card-head" }, [
+      _c("p", { staticClass: "modal-card-title" }, [_vm._v("Approved by")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-20015999", module.exports)
+  }
+}
+
+/***/ }),
+/* 615 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

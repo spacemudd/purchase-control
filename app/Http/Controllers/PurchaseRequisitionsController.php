@@ -156,14 +156,15 @@ class PurchaseRequisitionsController extends Controller
      */
     public function save($id)
     {
+        if(! $this->service->find($id)->purchase_requisition_items()->count() ) {
+            session()->flash('status', 'is-warning');
+            session()->flash('messages', [
+                'The purchase requisitions doesnt have any items',
+            ]);
+            return redirect()->back();
+        }
+
         $requisition = $this->service->save($id);
-
-        return redirect()->route('purchase-requisitions.show', ['id' => $requisition->id]);
-    }
-
-    public function approve($id)
-    {
-        $requisition = $this->service->approve($id);
 
         return redirect()->route('purchase-requisitions.show', ['id' => $requisition->id]);
     }

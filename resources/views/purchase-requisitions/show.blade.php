@@ -72,11 +72,19 @@
 
                         @can('approve-purchase-requisitions')
                             @if($request->is_saved)
+                                <approve-requisition url="{{ route('api.purchase-requisitions.approve', ['id' => $request->id]) }}"
+                                                     search-approvers-url="{{ route('api.search.approvers') }}"
+                                >
+                                </approve-requisition>
+                            @endif
+                            {{--
+                            @if($request->is_saved)
                                 <form class="button is-warning is-small" action="{{ route('purchase-requisitions.approve', ['id' => $request->id]) }}" method="post">
                                     {{ csrf_field() }}
                                     <button type="submit" class="button is-warning is-small">Approve</button>
                                 </form>
                             @endif
+                            --}}
                         @endif
                     </div>
                 </div>
@@ -95,29 +103,18 @@
                             <tbody>
                                 <tr>
                                     <td><strong>Date</strong></td>
-                                    <td>{{ $request->date }}</td>
+                                    <td>{{ $request->created_at->format('Y-m-d') }}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Status</strong></td>
-                                    <td class="is-capitalized">
-                                        {{ $request->status_name }}
-                                        @if($request->canAddItems)
-                                            <span class="circle is-warning"></span>
-                                        @endif
-                                        @if($request->isSaved)
-                                            <span class="circle is-warning"></span>
-                                        @endif
-                                        @if($request->isApproved)
-                                            <span class="circle is-success"></span>
-                                        @endif
-                                    </td>
+                                    <td><strong>Approved by</strong></td>
+                                    <td>{{ optional($request->approved_by)->display_name }}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Requested for</strong><br/>Employee</td>
+                                    <td><strong>Requested by</strong><br/>Employee</td>
                                     <td>{{ $request->requested_by->code }} - {{ $request->requested_by->name }}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Requested for</strong><br/>Cost Center</td>
+                                    <td><strong>Requested by</strong><br/>Cost Center</td>
                                     <td>{{ $request->cost_center_by->code }} - {{ $request->cost_center_by->description }}</td>
                                 </tr>
                             </tbody>
@@ -134,9 +131,21 @@
                                 <td>{{ $request->created_by->username }} - {{ $request->created_by->name }}</td>
                             </tr>
                             <tr>
-                                <td><strong>In progress by</strong></td>
-                                <td></td>
+                                <td><strong>Status</strong></td>
+                                <td class="is-capitalized">
+                                    {{ $request->status_name }}
+                                    @if($request->canAddItems)
+                                        <span class="circle is-warning"></span>
+                                    @endif
+                                    @if($request->isSaved)
+                                        <span class="circle is-warning"></span>
+                                    @endif
+                                    @if($request->isApproved)
+                                        <span class="circle is-success"></span>
+                                    @endif
+                                </td>
                             </tr>
+
                             <tr>
                                 <td><strong>Requested for</strong><br/>Employee</td>
                                 <td>{{ optional($request->requested_for)->display_name }}</td>

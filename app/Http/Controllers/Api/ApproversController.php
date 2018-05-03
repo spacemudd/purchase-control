@@ -22,6 +22,18 @@ class ApproversController extends Controller
         return $employees;
     }
 
+    public function search()
+    {
+        $search = request()->input('q');
+
+        $employees = Employee::where('approver', true)
+            ->where('code', 'LIKE', '%' . $search . '%')
+            ->orWhere('name', 'LIKE', '%' . $search . '%')
+            ->paginate(30);
+
+        return $employees;
+    }
+
     /**
      * Stores a new approver information.
      *

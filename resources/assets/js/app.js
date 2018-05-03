@@ -203,7 +203,8 @@ Vue.component('preview-pdf', require('./components/PreviewPdf/PreviewPdf'));
 Vue.component('toggle-preview-requisition', require('./components/TogglePreviewRequisition/TogglePreviewRequisition'));
 Vue.component('create-approver-page', require('./components/CreateApproverPage/CreateApproverPage'));
 Vue.component('delete-dialog', require('./components/DeleteDialog/DeleteDialog'));
-
+Vue.component('approve-requisition', require('./components/ApproveRequisition/ApproveRequisition'));
+Vue.component('approve-requisition-modal', require('./components/ApproveRequisitionModal/ApproveRequisitionModal'))
 /**
  * API/App settings
  */

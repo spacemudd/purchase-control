@@ -28,7 +28,6 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         // Purchase Requisitions.
         Route::get('purchase-requisitions/{id}/pdf', 'PurchaseRequisitionsController@pdf')->name('purchase-requisitions.pdf');
         Route::post('purchase-requisitions/{id}/save', 'PurchaseRequisitionsController@save')->name('purchase-requisitions.save');
-        Route::post('purchase-requisitions/{id}/approve', 'PurchaseRequisitionsController@approve')->name('purchase-requisitions.approve');
         Route::get('purchase-requisitions/by-status/{status_slug}', 'PurchaseRequisitionsController@paginatedByStatus')->name('purchase-requisitions.by-status');
         Route::resource('purchase-requisitions', 'PurchaseRequisitionsController');
 
@@ -191,7 +190,8 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::get('purchase-requisitions/{id}', 'Api\PurchaseRequisitionsController@show');
     Route::post('purchase-requisitions', 'Api\PurchaseRequisitionsController@store')->name('api.purchase-requisitions.store');
     Route::post('purchase-requisitions/{id}/subscribe', 'Api\PurchaseRequisitionsController@subscribe')->name('api.purchase-requisitions.subscribe');
-    Route::post('purchase-requisitions/{id}/unsubscribe', 'Api\PurchaseRequisitionsController@unsubscribe')->name('api.purchase-requisitions.unsubscribe');;
+    Route::post('purchase-requisitions/{id}/unsubscribe', 'Api\PurchaseRequisitionsController@unsubscribe')->name('api.purchase-requisitions.unsubscribe');
+    Route::post('purchase-requisitions/{id}/approve', 'Api\PurchaseRequisitionsController@approve')->name('api.purchase-requisitions.approve');
 
     // Notes.
     Route::post('purchase-requisition/notes', 'Api\PurchaseRequisitionNotes@store')->name('api.purchase-requisition.notes');
@@ -221,6 +221,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
         Route::get('manufacturers', 'Api\ManufacturerController@search')->name('api.search.manufacturer');
         Route::get('employees', 'Api\EmployeeController@search')->name('api.search.employee');
         Route::get('approvers/create', 'Api\ApproversController@searchWithoutApproverInformation');
+        ROute::get('approvers', 'Api\ApproversController@search')->name('api.search.approvers');
         Route::get('departments', 'Api\DepartmentController@search')->name('api.search.department');
     });
 });

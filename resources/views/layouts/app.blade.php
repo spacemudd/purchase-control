@@ -41,6 +41,19 @@
                 <div class="page-panel">
                     <div class="page-panel-inner">
                         <div class="page-panel-content">
+
+                            @if(session()->has('messages'))
+                                <div class="content">
+                                    @component('components.alerts.basic', ['status' => session()->has('status') ? session()->get('status') : 'default'])
+                                        <ul>
+                                            @foreach(session()->get('messages') as $message)
+                                                <li>{{ $message }}</li>
+                                            @endforeach
+                                        </ul>
+                                    @endcomponent
+                                </div>
+                            @endif
+
                             @yield('content')
                             @include('layouts.global-modals')
                         </div>

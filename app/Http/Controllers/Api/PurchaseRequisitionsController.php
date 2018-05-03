@@ -81,10 +81,8 @@ class PurchaseRequisitionsController extends Controller
         return response()->json(['status' => 201]);
     }
 
-    public function validateApprove(array $data)
+    public function approve($id)
     {
-        return Validator::make($data, [
-            'id' => 'required|exists:purchase_requisitions',
-        ]);
+        return $this->service->approve($id);
     }
 }

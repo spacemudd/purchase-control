@@ -101,7 +101,7 @@ class PurchaseRequisition extends Model implements AuditableContract
 
     public function approved_by()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Employee::class);
     }
 
     /**

@@ -11,6 +11,7 @@
 
 namespace App\Clarimount\Service;
 
+use App\Models\Employee;
 use App\Models\MaxNumber;
 use App\Models\PurchaseRequisition;
 use App\Models\Subscriber;
@@ -145,13 +146,28 @@ class PurchaseRequisitionsService
         return $requisition;
     }
 
+    /**
+     *
+     * @param $id
+     * @param $approved_by_employee_id \App\Models\Employee ID (if is an Approver)
+     * @return mixed
+     * @throws \Exception
+     */
     public function approve($id)
     {
-        $requisition = DB::transaction(function() use ($id) {
+        $request = request()->except('_token');
+        $this->validateApprove($request)->validate();
+        $approved_by_employee_id = $request['approved_by_employee_id'];
+
+        $approved_by_employee = Employee::where('id', $approved_by_employee_id)->firstOrFail();
+        if(!$approved_by_employee->approver) throw new \Exception('Employee is not an approver');
+
+        $requisition = DB::transaction(function() use ($id, $approved_by_employee) {
             $requisition = $this->repository->lockFind($id);
 
             if( ! $requisition->is_saved ) throw new \Exception('Requisition must be in saved mode');
 
+            $requisition->approved_by_id = $approved_by_employee->id;
             $requisition->status = PurchaseRequisition::APPROVED;
             $requisition->save();
 
@@ -162,6 +178,13 @@ class PurchaseRequisitionsService
         Notification::send($requisition->subscribers()->get(), new PurchaseRequisitionApprovedNotification($requisition));
 
         return $requisition;
+    }
+
+    public function validateApprove(array $data)
+    {
+        return Validator::make($data, [
+            'approved_by_employee_id' => 'required|exists:employees,id',
+        ]);
     }
 
     /**
