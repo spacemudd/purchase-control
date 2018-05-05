@@ -11,6 +11,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\PurchaseRequisition;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -84,5 +85,32 @@ class PurchaseRequisitionsController extends Controller
     public function approve($id)
     {
         return $this->service->approve($id);
+    }
+
+    /**
+     * Updates purpose of the request.
+     *
+     * @param $id
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updatePurpose($id, Request $request)
+    {
+        $request->validate([
+            'purpose' => 'nullable|string|max:255',
+        ]);
+
+        $pr = $this->service->find($id);
+
+        if($pr->is_approved) {
+            return response()->json(['errors' => [
+                'The purchase requisition is already approved',
+            ]], 422);
+        }
+
+        $pr->purpose = $request->purpose;
+        $pr->save();
+
+        return $pr;
     }
 }

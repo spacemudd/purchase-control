@@ -17,7 +17,7 @@
                     </ul>
                 </div>
 
-                <b-field>
+                <b-field label="Approver" message="Search by employee code">
                     <input v-if="selectedEmployee"
                            class="input"
                            :value="selectedEmployee.code + ' - ' + selectedEmployee.name"

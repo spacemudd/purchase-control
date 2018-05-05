@@ -44,6 +44,7 @@
     "notifyjs": "^3.0.0",
     "spinkit": "^1.2.5",
     "v-click-outside": "^1.0.2",
+    "v-tooltip": "^2.0.0-rc.31",
     "vee-validate": "^2.0.0-rc.19",
     "vue-avatar": "^2.1.1",
     "vue-chartjs": "^3.0.2",

@@ -30294,7 +30294,7 @@ module.exports = Symbol;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(150);
-module.exports = __webpack_require__(615);
+module.exports = __webpack_require__(618);
 
 
 /***/ }),
@@ -30532,6 +30532,8 @@ Vue.component('create-approver-page', __webpack_require__(601));
 Vue.component('delete-dialog', __webpack_require__(606));
 Vue.component('approve-requisition', __webpack_require__(609));
 Vue.component('approve-requisition-modal', __webpack_require__(612));
+Vue.component('edit-requisition-purpose', __webpack_require__(615));
+
 /**
  * API/App settings
  */
@@ -107045,6 +107047,12 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "b-field",
+                {
+                  attrs: {
+                    label: "Approver",
+                    message: "Search by employee code"
+                  }
+                },
                 [
                   _vm.selectedEmployee
                     ? _c("input", {
@@ -107123,6 +107131,278 @@ if (false) {
 
 /***/ }),
 /* 615 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(616)
+/* template */
+var __vue_template__ = __webpack_require__(617)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\EditRequisitionPurpose\\EditRequsitionPurpose.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-31950e3a", Component.options)
+  } else {
+    hotAPI.reload("data-v-31950e3a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 616 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        /**
+         * Purpose text.
+         */
+        purposeText: {
+            type: String,
+            required: false
+        },
+        /**
+         * Saving endpoint.
+         */
+        url: {
+            type: String,
+            required: true
+        },
+        canEdit: {
+            type: Number,
+            required: false,
+            default: 0
+        }
+    },
+    data: function data() {
+        return {
+            is_editing: false,
+
+            old_value: this.purposeText,
+
+            form: {
+                purpose: '',
+
+                errors: []
+            }
+        };
+    },
+    mounted: function mounted() {
+        this.form.purpose = this.purposeText;
+    },
+
+    methods: {
+        edit: function edit() {
+            if (this.canEdit) {
+                this.old_value = this.form.purpose;
+                this.is_editing = true;
+            }
+        },
+        save: function save() {
+            var _this = this;
+
+            this.$startLoading('SAVING_PURPOSE');
+
+            this.form.errors = [];
+
+            axios.put(this.url, this.form).then(function (response) {
+                _this.$endLoading('SAVING_PURPOSE');
+                _this.is_editing = false;
+                _this.form.purpose = response.data.purpose;
+
+                _this.$toast.open({
+                    message: 'Saved',
+                    type: 'is-success'
+                });
+            }).catch(function (error) {
+                _this.$endLoading('SAVING_PURPOSE');
+
+                if (_typeof(error.response.data) === 'object') {
+                    _this.form.errors = _.flatten(_.toArray(error.response.data.errors));
+                } else {
+                    _this.form.errors = ['Something went wrong. Please try again.'];
+                }
+
+                _this.$dialog.alert({
+                    message: _this.form.errors,
+                    type: 'is-danger'
+                });
+
+                throw error;
+            });
+        },
+        rollback: function rollback() {
+            this.purposeText = this.old_value;
+            this.is_editing = false;
+        }
+    }
+};
+
+/***/ }),
+/* 617 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("p", { staticClass: "title is-6" }, [_vm._v("Purpose")]),
+    _vm._v(" "),
+    _c(
+      "p",
+      { staticClass: "transparent-highlighter-bg", on: { click: _vm.edit } },
+      [
+        _vm._v("\n        " + _vm._s(_vm.form.purpose) + "\n        "),
+        !_vm.form.purpose
+          ? _c("span", [_c("i", [_vm._v("[Purpose of request]")])])
+          : _vm._e()
+      ]
+    ),
+    _vm._v(" "),
+    _vm.is_editing
+      ? _c("div", { staticStyle: { "margin-top": "20px" } }, [
+          _c("div", { staticClass: "field" }, [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.purpose,
+                  expression: "form.purpose"
+                }
+              ],
+              staticClass: "textarea is-small",
+              class: { "is-loading": _vm.$isLoading("SAVING_PURPOSE") },
+              attrs: { rows: "4", type: "text" },
+              domProps: { value: _vm.form.purpose },
+              on: {
+                keyup: [
+                  function($event) {
+                    if (
+                      !("button" in $event) &&
+                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                    ) {
+                      return null
+                    }
+                    return _vm.save($event)
+                  },
+                  function($event) {
+                    if (
+                      !("button" in $event) &&
+                      _vm._k($event.keyCode, "esc", 27, $event.key, "Escape")
+                    ) {
+                      return null
+                    }
+                    return _vm.rollback($event)
+                  }
+                ],
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.form, "purpose", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field" }, [
+            _c("div", { staticClass: "control" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "button is-pulled-right is-small is-primary",
+                  class: { "is-loading": _vm.$isLoading("SAVING_PURPOSE") },
+                  on: { click: _vm.save }
+                },
+                [_vm._v("Save")]
+              )
+            ])
+          ])
+        ])
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-31950e3a", module.exports)
+  }
+}
+
+/***/ }),
+/* 618 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

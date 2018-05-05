@@ -12562,6 +12562,12 @@ body {
           justify-content: space-between;
 }
 
+.transparent-highlighter-bg {
+  background: rgba(253, 255, 112, 0.52);
+  -webkit-box-shadow: inset 0 0 1px rgba(252, 229, 102, 0.82);
+          box-shadow: inset 0 0 1px rgba(252, 229, 102, 0.82);
+}
+
 .circle {
   width: 10px;
   height: 10px;

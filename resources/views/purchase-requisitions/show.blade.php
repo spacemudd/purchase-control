@@ -120,7 +120,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="column">
+                    <div class="column is-6">
                         <table class="table is-size-7 is-fullwidth">
                             <colgroup>
                                 <col width="50%">
@@ -159,6 +159,17 @@
                     </div>
                 </div>
 
+                <div class="columns">
+                    <div class="column">
+                        <edit-requisition-purpose :id.number="{{ $request->id }}"
+                                                  :can-edit.number="{{ $request->is_approved ? 0 : 1 }}"
+                                                  purpose-text="{{ $request->purpose }}"
+                                                  url="{{ route('api.purchase-requisitions.purpose', ['id' => $request->id]) }}"
+                                                  style="margin-left: 10px;"
+                        >
+                        </edit-requisition-purpose>
+                    </div>
+                </div>
             </div>
 
             {{-- Items --}}
@@ -169,7 +180,6 @@
 
         {{-- Resource side info --}}
         <div class="column">
-
             {{-- Notes section --}}
             <notes-container url="{{ route('api.purchase-requisition.notes', ['id' => $request->id]) }}"
                              resource-id.number="{{ $request->id }}"
@@ -181,9 +191,6 @@
                                resource-id.number="{{ $request->id }}"
             >
             </uploads-container>
-
         </div>
-
     </div>
-
 @stop

@@ -80,11 +80,11 @@
             <col style='width:80%;'>
         </colgroup>
         <thead>
-        <tr style="background-color:black;">
-            <th style="color:white;" class="center">S.NO</th>
-            <th style="color:white;" class="center">ITEM DESCRIPTION</th>
-            <th style="color:white;" class="center">QUANTITY</th>
-        </tr>
+            <tr style="background-color:black;">
+                <th style="color:white;" class="center">S.NO</th>
+                <th style="color:white;" class="center">ITEM DESCRIPTION</th>
+                <th style="color:white;" class="center">QUANTITY</th>
+            </tr>
         </thead>
         <tbody>
             @foreach($data->items as $counter => $item)
@@ -95,6 +95,39 @@
                 </tr>
             @endforeach
         </tbody>
+    </table>
+
+    {{-- Purpose of request --}}
+    <table class="pure-table pure-table-bordered tight-table">
+        <colgrop>
+            <col style="width:15%;">
+        </colgrop>
+        <tbody>
+        <tr>
+            <td><b>Purpose of Request</b></td>
+            <td>{{ $data->purpose }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    {{-- Signatures of requests --}}
+    <table class="pure-table tight-table" style="margin-top:20px;">
+        <colgroupd>
+            <col style="width:50%;">
+        </colgroupd>
+    	<tbody>
+            <tr>
+                <td class="narrow"><strong>CHECKED AND REGISTERED BY</strong></td>
+                <td class="narrow"><strong>VERIFIED AND APPROVED BY</strong> (Head of IT Assets Management)</td>
+            </tr>
+            <tr style="height:80px;">
+                <td></td><td></td>
+            </tr>
+            <tr>
+                <td><strong>SIGNATURE</strong></td>
+                <td><strong>SIGNATURE</strong></td>
+            </tr>
+    	</tbody>
     </table>
 </div>
 

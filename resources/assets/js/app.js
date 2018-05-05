@@ -204,7 +204,9 @@ Vue.component('toggle-preview-requisition', require('./components/TogglePreviewR
 Vue.component('create-approver-page', require('./components/CreateApproverPage/CreateApproverPage'));
 Vue.component('delete-dialog', require('./components/DeleteDialog/DeleteDialog'));
 Vue.component('approve-requisition', require('./components/ApproveRequisition/ApproveRequisition'));
-Vue.component('approve-requisition-modal', require('./components/ApproveRequisitionModal/ApproveRequisitionModal'))
+Vue.component('approve-requisition-modal', require('./components/ApproveRequisitionModal/ApproveRequisitionModal'));
+Vue.component('edit-requisition-purpose', require('./components/EditRequisitionPurpose/EditRequsitionPurpose'));
+
 /**
  * API/App settings
  */

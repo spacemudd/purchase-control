@@ -171,4 +171,33 @@ class CreatePurchaseRequisitionTest extends TestCase
             }
         );
     }
+
+    public function test_updating_purpose_of_requisition()
+    {
+        $user = factory(User::class)->create()->givePermissionTo([
+            'update-purchase-requisitions',
+        ]);
+
+        $pr = factory(PurchaseRequisition::class)->create([
+            'status' => PurchaseRequisition::SAVED,
+        ]);
+
+        $pr->each(function($requisition) {
+            factory(PurchaseRequisitionItem::class, 5)->create([
+                'purchase_requisition_id' => $requisition->id,
+            ]);
+        });
+
+        $purpose = $this->faker->paragraph(1);
+
+        $url = route('api.purchase-requisitions.purpose', ['id' => $pr->id]);
+        $this->actingAs($user)->put($url, ['purpose' => $purpose])->assertSessionMissing('errors');
+
+        //$this->assertDatabaseHas('purchase_requisitions', [
+        //    'purpose' => $purpose . ' 1',
+        //]);
+
+        $url = route('purchase-requisitions.show', ['id' => $pr->id]);
+        $this->actingAs($user)->get($url)->assertSee($purpose);
+    }
 }
