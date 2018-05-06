@@ -5,7 +5,8 @@
                                        :search-approvers-url="searchApproversUrl">
             </approve-requisition-modal>
         </b-modal>
-        <button class="button is-success is-small" @click="ApproveRequisitionModal=true">
+        <button class="button is-success is-small"
+                @click="ApproveRequisitionModal=true">
             {{ buttonText }}
         </button>
     </span>

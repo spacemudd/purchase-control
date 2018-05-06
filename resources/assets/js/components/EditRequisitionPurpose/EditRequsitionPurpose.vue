@@ -17,8 +17,9 @@
                 </textarea>
             </div>
             <div class="field">
-                <div class="control">
-                    <button class="button is-pulled-right is-small is-primary"
+                <div class="control has-text-right">
+                    <button class="button is-small is-text" @click="rollback">{{ $t('words.cancel') }}</button>
+                    <button class="button is-small is-primary"
                             :class="{'is-loading': $isLoading('SAVING_PURPOSE')}"
                             @click="save">Save</button>
                 </div>
@@ -107,7 +108,7 @@
                     });
             },
             rollback() {
-                this.purposeText = this.old_value;
+                this.form.purpose = this.old_value;
                 this.is_editing = false;
             },
         }
