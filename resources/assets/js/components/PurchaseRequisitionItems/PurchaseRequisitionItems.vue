@@ -5,6 +5,11 @@
             <new-item-requisition-modal :requisition-id="requisitionId" @saved="getItems"></new-item-requisition-modal>
         </b-modal>
 
+        <!-- Choosing a PO for the item modal -->
+        <b-modal :active.sync="showAttachItemToPoItemModal">
+            <pr-item-to-po-modal></pr-item-to-po-modal>
+        </b-modal>
+
         <div class="columns">
             <div class="column"><p class="title is-4">{{ $t('words.requisition-items') }}</p></div>
             <div class="column has-text-right">
@@ -22,6 +27,13 @@
             <div class="column">
                 <loading-screen v-if="$isLoading('DELETING_ITEM')"></loading-screen>
                 <table v-else class="table is-fullwidth is-bordered is-size-7">
+                    <colgroup>
+                        <col style="width:1%;">
+                        <col style="width:20%;">
+                        <col style="width:40%">
+                        <col style="width:10%">
+                        <col>
+                    </colgroup>
                     <thead>
                         <tr>
                             <th>#</th>
@@ -38,8 +50,17 @@
                         <td>{{ item.name }}</td>
                         <td class="has-text-right">{{ item.qty }}</td>
                         <td class="has-text-centered">
-                            <button class="button is-outlined is-danger has-icon is-small" @click="deleteItem(item)" v-if="inDraft">
+                            <button v-if="inDraft"
+                                    @click="deleteItem(item)"
+                                    class="button is-outlined is-danger has-icon is-small">
                                 <span class="icon is-small"><i class="fa fa-times"></i></span>
+                            </button>
+
+                            <button v-if="isApproved"
+                                    @click="attachItemToPo(item)"
+                                    class="button is-small is-primary has-icon">
+                                <span class="icon is-small"><i class="fa fa-plus"></i></span>
+                                <span>Choose PO</span>
                             </button>
                         </td>
                     </tr>
@@ -64,12 +85,26 @@
                 type: Number,
                 required: true,
             },
+            isApproved: {
+                type: Number,
+                required: true,
+            },
         },
         data() {
             return {
                 newItemModal: false,
 
                 items: [],
+            }
+        },
+        computed: {
+            showAttachItemToPoItemModal: {
+                get() {
+                    return this.$store.getters['PurchaseRequisitionItem/showModal'];
+                },
+                set(value) {
+                    this.$store.commit('PurchaseRequisitionItem/showModal', value)
+                }
             }
         },
         mounted() {
@@ -92,6 +127,15 @@
                     .then((response) => {
                         this.getItems();
                     })
+            },
+            /**
+             * Attach a Purchase Requisition item to a PO.
+             *
+             * @param item Object
+             */
+            attachItemToPo(item) {
+                this.$store.commit('PurchaseRequisitionItem/setItem', item);
+                this.$store.commit('PurchaseRequisitionItem/showModal', true);
             },
         }
     }

@@ -23,6 +23,7 @@ import Manufacturer from './modules/Manufacturer/state';
 import FileUpload from './modules/FileUpload/state';
 
 import PurchaseRequisition from './modules/PurchaseRequisition/state';
+import PurchaseRequisitionItem from './modules/PurchaseRequisitionItem/state';
 
 export const store = new Vuex.Store({
     plugins: [VuexLoading.Store],
@@ -51,7 +52,8 @@ export const store = new Vuex.Store({
             namespaced: true,
             ...FileUpload
         },
-        'PurchaseRequisition': {namespaced:true,...PurchaseRequisition},
+        'PurchaseRequisition': {namespaced:true, ...PurchaseRequisition},
+        'PurchaseRequisitionItem': {namespaced:true, ...PurchaseRequisitionItem},
     },
     getters: helpers,
 });

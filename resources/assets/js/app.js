@@ -206,6 +206,7 @@ Vue.component('delete-dialog', require('./components/DeleteDialog/DeleteDialog')
 Vue.component('approve-requisition', require('./components/ApproveRequisition/ApproveRequisition'));
 Vue.component('approve-requisition-modal', require('./components/ApproveRequisitionModal/ApproveRequisitionModal'));
 Vue.component('edit-requisition-purpose', require('./components/EditRequisitionPurpose/EditRequsitionPurpose'));
+Vue.component('pr-item-to-po-modal', require('./components/PrItemToPoModal/PrItemToPoModal'));
 
 /**
  * API/App settings
