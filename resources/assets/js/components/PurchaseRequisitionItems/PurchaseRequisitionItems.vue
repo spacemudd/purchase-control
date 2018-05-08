@@ -7,7 +7,8 @@
 
         <!-- Choosing a PO for the item modal -->
         <b-modal :active.sync="showAttachItemToPoItemModal">
-            <pr-item-to-po-modal></pr-item-to-po-modal>
+            <pr-item-to-po-modal :search-url="apiUrl + '/search/purchase-orders'"
+            ></pr-item-to-po-modal>
         </b-modal>
 
         <div class="columns">

@@ -61,8 +61,8 @@ class PurchaseOrderController extends Controller
     {
         $search = request()->input('q');
 
-        $purchaseOrders = PurchaseOrder::where('order_number', 'LIKE', '%' . $search . '%')
-                                ->orWhere('main_order_number', 'LIKE', '%' . $search . '%');
+        $purchaseOrders = PurchaseOrder::where('number', 'LIKE', '%' . $search . '%')
+                                ->orWhere('id', 'LIKE', '%' . $search . '%');
 
         if($datePeriod = $this->parseDatePeriodDates()) {
             $purchaseOrders->whereBetween('date', $datePeriod);
@@ -74,27 +74,21 @@ class PurchaseOrderController extends Controller
 
         $purchaseOrders->with('employee');
 
-        $purchaseOrders->latest();
-
         return $purchaseOrders->paginate(15);
     }
 
     public function parseDatePeriodDates()
     {
         if(request()->has('datefrom') && request()->has('dateto')) {
-
-            try {
-                $datePeriod = [
-                    Carbon::parse(request()->input('datefrom'))->toDateTimeString(),
-                    Carbon::parse(request()->input('dateto'))->toDateTimeString(),
-                ];
-            } catch (\Exception $error) {
-                session()->flash('Error in date formats.');
-                return redirect()->back();
-            }
+            $datePeriod = [
+                Carbon::parse(request()->input('datefrom'))->toDateTimeString(),
+                Carbon::parse(request()->input('dateto'))->toDateTimeString(),
+            ];
 
             return $datePeriod;
         }
+
+        return;
     }
 
     public function show(Request $request)
