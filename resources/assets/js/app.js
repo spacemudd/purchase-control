@@ -207,6 +207,7 @@ Vue.component('approve-requisition', require('./components/ApproveRequisition/Ap
 Vue.component('approve-requisition-modal', require('./components/ApproveRequisitionModal/ApproveRequisitionModal'));
 Vue.component('edit-requisition-purpose', require('./components/EditRequisitionPurpose/EditRequsitionPurpose'));
 Vue.component('pr-item-to-po-modal', require('./components/PrItemToPoModal/PrItemToPoModal'));
+Vue.component('select-purchase-orders', require('./components/SelectPurchaseOrder/SelectPurchaseOrder'));
 
 /**
  * API/App settings
@@ -214,9 +215,9 @@ Vue.component('pr-item-to-po-modal', require('./components/PrItemToPoModal/PrIte
 const apiVersion = '1';
 
 // if(process.env.NODE_ENV === 'production') {
-//     var envUrl = window.location.origin + '/PMS';
+    var envUrl = window.location.origin + '/PMS';
 // } else {
-    var envUrl = window.location.origin;
+//     var envUrl = window.location.origin;
 // }
 
 Vue.mixin({
