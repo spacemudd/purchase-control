@@ -128,7 +128,7 @@
                     <tbody>
                         <tr>
                             <td><strong>{{ $t('words.supplier') }}</strong></td>
-                            <td>{{ purchaseOrder.vendor.code }} - {{ purchaseOrder.vendor.description }}</td>
+                            <td>{{ purchaseOrder.vendor.id }} - {{ purchaseOrder.vendor.name }}</td>
                         </tr>
                         <tr>
                             <td><strong>{{ $t('words.supplier-delivery-number') }}</strong></td>
