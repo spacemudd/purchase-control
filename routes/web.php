@@ -227,7 +227,9 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
         Route::get('manufacturers', 'Api\ManufacturerController@search')->name('api.search.manufacturer');
         Route::get('employees', 'Api\EmployeeController@search')->name('api.search.employee');
         Route::get('approvers/create', 'Api\ApproversController@searchWithoutApproverInformation');
-        ROute::get('approvers', 'Api\ApproversController@search')->name('api.search.approvers');
+        Route::get('approvers', 'Api\ApproversController@search')->name('api.search.approvers');
         Route::get('departments', 'Api\DepartmentController@search')->name('api.search.department');
+        Route::get('shipping-addresses', 'Api\AddressesController@searchShippingAddresses')->name('api.search.shipping-addresses');
+        Route::get('billing-addresses', 'Api\AddressesController@searchBillingAddresses')->name('api.search.billing-addresses');
     });
 });

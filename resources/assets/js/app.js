@@ -208,6 +208,8 @@ Vue.component('approve-requisition-modal', require('./components/ApproveRequisit
 Vue.component('edit-requisition-purpose', require('./components/EditRequisitionPurpose/EditRequsitionPurpose'));
 Vue.component('pr-item-to-po-modal', require('./components/PrItemToPoModal/PrItemToPoModal'));
 Vue.component('select-purchase-orders', require('./components/SelectPurchaseOrder/SelectPurchaseOrder'));
+Vue.component('select-vendors', require('./components/SelectVendors/SelectVendors'));
+Vue.component('select-address', require('./components/SelectAddress/SelectAddress'));
 
 /**
  * API/App settings

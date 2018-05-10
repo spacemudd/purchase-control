@@ -68,7 +68,12 @@
 			</div>
 	</div>
 
-	<purchase-orders :can-create.number="{{ Auth::user()->can('create-purchase-orders') ? '1' : '0' }}">
-	</purchase-orders>
+	@can('create-purchase-orders')
+		<div class="columns">
+			<div class="column is-12 has-text-right">
+				<a class="button is-primary" href="{{ route('purchase-orders.create') }}">New Purchase Order</a>
+			</div>
+		</div>
+	@endcan
 
 @endsection

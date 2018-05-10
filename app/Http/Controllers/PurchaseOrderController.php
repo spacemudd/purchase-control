@@ -12,6 +12,8 @@
 namespace App\Http\Controllers;
 
 use App\Clarimount\Service\PurchaseOrderService;
+use App\Clarimount\Service\VendorBankService;
+use App\Models\Address;
 use App\Models\PurchaseOrder;
 use App\Models\Department;
 use App\Models\Employee;
@@ -22,9 +24,12 @@ class PurchaseOrderController extends Controller
 
     protected $service;
 
-    public function __construct(PurchaseOrderService $service)
+    protected $vendorBankService;
+
+    public function __construct(PurchaseOrderService $service, VendorBankService $vendorBankService)
     {
         $this->service = $service;
+        $this->vendorBankService = $vendorBankService;
     }
 
     /**
@@ -78,11 +83,14 @@ class PurchaseOrderController extends Controller
     {
         $this->authorize('create-purchase-orders');
 
-        $vendors = Vendor::active()->get();
-        $departments = Department::active()->get();
-        $employees = Employee::active()->get();
+        $shipping_addresses = Address::shipping()->get();
+        $billing_addresses = Address::billing()->get();
 
-        return view('purchase-orders.create', compact('vendors', 'departments', 'employees'));
+        $vendors = Vendor::get();
+
+        $currencies = $this->vendorBankService->currencies();
+
+        return view('purchase-orders.create', compact('shipping_addresses', 'billing_addresses', 'vendors', 'currencies'));
     }
 
     /**
@@ -93,12 +101,12 @@ class PurchaseOrderController extends Controller
     {
         $this->authorize('create-purchase-orders');
 
-        $this->service->store();
+        $po = $this->service->store();
 
         session()->flash('status', 'success');
         session()->flash('message', trans('statements.successfully-saved'));
 
-        return redirect()->route('purchase-orders.index');
+        return redirect()->route('purchase-orders.show', ['id' => $po->id]);
     }
 
     /**

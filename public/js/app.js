@@ -5309,6 +5309,202 @@ module.exports = {
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var isObject = __webpack_require__(146),
+    now = __webpack_require__(309),
+    toNumber = __webpack_require__(311);
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        timeWaiting = wait - timeSinceLastCall;
+
+    return maxing
+      ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
+      : timeWaiting;
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+module.exports = debounce;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
 /**
  * @license
  *
@@ -5522,202 +5718,6 @@ var vuexLoading = {
 return vuexLoading;
 
 })));
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(146),
-    now = __webpack_require__(309),
-    toNumber = __webpack_require__(311);
-
-/** Error message constants. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max,
-    nativeMin = Math.min;
-
-/**
- * Creates a debounced function that delays invoking `func` until after `wait`
- * milliseconds have elapsed since the last time the debounced function was
- * invoked. The debounced function comes with a `cancel` method to cancel
- * delayed `func` invocations and a `flush` method to immediately invoke them.
- * Provide `options` to indicate whether `func` should be invoked on the
- * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
- * with the last arguments provided to the debounced function. Subsequent
- * calls to the debounced function return the result of the last `func`
- * invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is
- * invoked on the trailing edge of the timeout only if the debounced function
- * is invoked more than once during the `wait` timeout.
- *
- * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
- * until to the next tick, similar to `setTimeout` with a timeout of `0`.
- *
- * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
- * for details over the differences between `_.debounce` and `_.throttle`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to debounce.
- * @param {number} [wait=0] The number of milliseconds to delay.
- * @param {Object} [options={}] The options object.
- * @param {boolean} [options.leading=false]
- *  Specify invoking on the leading edge of the timeout.
- * @param {number} [options.maxWait]
- *  The maximum time `func` is allowed to be delayed before it's invoked.
- * @param {boolean} [options.trailing=true]
- *  Specify invoking on the trailing edge of the timeout.
- * @returns {Function} Returns the new debounced function.
- * @example
- *
- * // Avoid costly calculations while the window size is in flux.
- * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
- *
- * // Invoke `sendMail` when clicked, debouncing subsequent calls.
- * jQuery(element).on('click', _.debounce(sendMail, 300, {
- *   'leading': true,
- *   'trailing': false
- * }));
- *
- * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
- * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
- * var source = new EventSource('/stream');
- * jQuery(source).on('message', debounced);
- *
- * // Cancel the trailing debounced invocation.
- * jQuery(window).on('popstate', debounced.cancel);
- */
-function debounce(func, wait, options) {
-  var lastArgs,
-      lastThis,
-      maxWait,
-      result,
-      timerId,
-      lastCallTime,
-      lastInvokeTime = 0,
-      leading = false,
-      maxing = false,
-      trailing = true;
-
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  wait = toNumber(wait) || 0;
-  if (isObject(options)) {
-    leading = !!options.leading;
-    maxing = 'maxWait' in options;
-    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
-  }
-
-  function invokeFunc(time) {
-    var args = lastArgs,
-        thisArg = lastThis;
-
-    lastArgs = lastThis = undefined;
-    lastInvokeTime = time;
-    result = func.apply(thisArg, args);
-    return result;
-  }
-
-  function leadingEdge(time) {
-    // Reset any `maxWait` timer.
-    lastInvokeTime = time;
-    // Start the timer for the trailing edge.
-    timerId = setTimeout(timerExpired, wait);
-    // Invoke the leading edge.
-    return leading ? invokeFunc(time) : result;
-  }
-
-  function remainingWait(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime,
-        timeWaiting = wait - timeSinceLastCall;
-
-    return maxing
-      ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
-      : timeWaiting;
-  }
-
-  function shouldInvoke(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime;
-
-    // Either this is the first call, activity has stopped and we're at the
-    // trailing edge, the system time has gone backwards and we're treating
-    // it as the trailing edge, or we've hit the `maxWait` limit.
-    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
-      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
-  }
-
-  function timerExpired() {
-    var time = now();
-    if (shouldInvoke(time)) {
-      return trailingEdge(time);
-    }
-    // Restart the timer.
-    timerId = setTimeout(timerExpired, remainingWait(time));
-  }
-
-  function trailingEdge(time) {
-    timerId = undefined;
-
-    // Only invoke if we have `lastArgs` which means `func` has been
-    // debounced at least once.
-    if (trailing && lastArgs) {
-      return invokeFunc(time);
-    }
-    lastArgs = lastThis = undefined;
-    return result;
-  }
-
-  function cancel() {
-    if (timerId !== undefined) {
-      clearTimeout(timerId);
-    }
-    lastInvokeTime = 0;
-    lastArgs = lastCallTime = lastThis = timerId = undefined;
-  }
-
-  function flush() {
-    return timerId === undefined ? result : trailingEdge(now());
-  }
-
-  function debounced() {
-    var time = now(),
-        isInvoking = shouldInvoke(time);
-
-    lastArgs = arguments;
-    lastThis = this;
-    lastCallTime = time;
-
-    if (isInvoking) {
-      if (timerId === undefined) {
-        return leadingEdge(lastCallTime);
-      }
-      if (maxing) {
-        // Handle invocations in a tight loop.
-        timerId = setTimeout(timerExpired, wait);
-        return invokeFunc(lastCallTime);
-      }
-    }
-    if (timerId === undefined) {
-      timerId = setTimeout(timerExpired, wait);
-    }
-    return result;
-  }
-  debounced.cancel = cancel;
-  debounced.flush = flush;
-  return debounced;
-}
-
-module.exports = debounce;
 
 
 /***/ }),
@@ -30294,7 +30294,7 @@ module.exports = Symbol;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(150);
-module.exports = __webpack_require__(628);
+module.exports = __webpack_require__(631);
 
 
 /***/ }),
@@ -30535,6 +30535,8 @@ Vue.component('approve-requisition-modal', __webpack_require__(616));
 Vue.component('edit-requisition-purpose', __webpack_require__(619));
 Vue.component('pr-item-to-po-modal', __webpack_require__(622));
 Vue.component('select-purchase-orders', __webpack_require__(625));
+Vue.component('select-vendors', __webpack_require__(628));
+Vue.component('select-address', __webpack_require__(636));
 
 /**
  * API/App settings
@@ -32816,7 +32818,7 @@ var _vuex = __webpack_require__(16);
 
 var _vuex2 = _interopRequireDefault(_vuex);
 
-var _vuexLoading = __webpack_require__(5);
+var _vuexLoading = __webpack_require__(6);
 
 var _helpers = __webpack_require__(156);
 
@@ -33500,7 +33502,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _vuexLoading = __webpack_require__(5);
+var _vuexLoading = __webpack_require__(6);
 
 var _moment = __webpack_require__(0);
 
@@ -33984,7 +33986,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _vuexLoading = __webpack_require__(5);
+var _vuexLoading = __webpack_require__(6);
 
 var _moment = __webpack_require__(0);
 
@@ -34185,7 +34187,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _vuexLoading = __webpack_require__(5);
+var _vuexLoading = __webpack_require__(6);
 
 var _createActionHelpers = (0, _vuexLoading.createActionHelpers)({
   moduleName: 'loading'
@@ -34324,7 +34326,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _vuexLoading = __webpack_require__(5);
+var _vuexLoading = __webpack_require__(6);
 
 var _createActionHelpers = (0, _vuexLoading.createActionHelpers)({
   moduleName: 'loading'
@@ -34509,7 +34511,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _vuexLoading = __webpack_require__(5);
+var _vuexLoading = __webpack_require__(6);
 
 var _createActionHelpers = (0, _vuexLoading.createActionHelpers)({
   moduleName: 'loading'
@@ -34655,7 +34657,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _vuexLoading = __webpack_require__(5);
+var _vuexLoading = __webpack_require__(6);
 
 var _createActionHelpers = (0, _vuexLoading.createActionHelpers)({ moduleName: 'loading' }),
     startLoading = _createActionHelpers.startLoading,
@@ -34808,7 +34810,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _vuexLoading = __webpack_require__(5);
+var _vuexLoading = __webpack_require__(6);
 
 var _createActionHelpers = (0, _vuexLoading.createActionHelpers)({ moduleName: 'loading' }),
     startLoading = _createActionHelpers.startLoading,
@@ -81412,7 +81414,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _debounce = __webpack_require__(6);
+var _debounce = __webpack_require__(5);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -100973,7 +100975,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _debounce = __webpack_require__(6);
+var _debounce = __webpack_require__(5);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -101527,7 +101529,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _debounce = __webpack_require__(6);
+var _debounce = __webpack_require__(5);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -103004,7 +103006,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _debounce = __webpack_require__(6);
+var _debounce = __webpack_require__(5);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -103233,7 +103235,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _debounce = __webpack_require__(6);
+var _debounce = __webpack_require__(5);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -104270,7 +104272,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _debounce = __webpack_require__(6);
+var _debounce = __webpack_require__(5);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -106505,7 +106507,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //
 //
 
-var _debounce = __webpack_require__(6);
+var _debounce = __webpack_require__(5);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -108009,7 +108011,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _debounce = __webpack_require__(6);
+var _debounce = __webpack_require__(5);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -108177,9 +108179,496 @@ if (false) {
 
 /***/ }),
 /* 628 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(629)
+/* template */
+var __vue_template__ = __webpack_require__(630)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\SelectVendors\\SelectVendors.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3c2b413b", Component.options)
+  } else {
+    hotAPI.reload("data-v-3c2b413b", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 629 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _debounce = __webpack_require__(5);
+
+var _debounce2 = _interopRequireDefault(_debounce);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    props: {
+        /**
+         * api endpoint to search for vendors.
+         */
+        url: {
+            type: String,
+            required: true
+        },
+        name: {
+            type: String,
+            required: false
+        }
+    },
+    data: function data() {
+        return {
+            isLoading: false,
+            selectedVendor: null,
+            search: null,
+            vendors: []
+        };
+    },
+    mounted: function mounted() {},
+
+    methods: {
+        getData: (0, _debounce2.default)(function () {
+            var _this = this;
+
+            this.vendors = [];
+            this.isLoading = true;
+            axios.get(this.url + '?q=' + this.search).then(function (response) {
+                response.data.data.forEach(function (item) {
+                    return _this.vendors.push(item);
+                });
+                _this.isLoading = false;
+            }).catch(function (error) {
+                _this.isLoading = false;
+                throw error;
+            });
+        }, 500),
+        selectVendor: function selectVendor(vendor) {
+            this.selectedVendor = vendor;
+            this.$emit('selected', vendor);
+        }
+    }
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/***/ }),
+/* 630 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "span",
+    [
+      _vm.selectedVendor
+        ? _c("input", {
+            attrs: { type: "hidden", name: _vm.name },
+            domProps: { value: _vm.selectedVendor.id }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.selectedVendor
+        ? _c("input", {
+            staticClass: "input",
+            attrs: { type: "text", readonly: "" },
+            domProps: {
+              value: _vm.selectedVendor.id + " - " + _vm.selectedVendor.name
+            },
+            on: {
+              click: function($event) {
+                _vm.selectedVendor = _vm.search = null
+              }
+            }
+          })
+        : _c(
+            "b-autocomplete",
+            {
+              attrs: {
+                data: _vm.vendors,
+                loading: _vm.isLoading,
+                field: "code"
+              },
+              on: { input: _vm.getData, select: _vm.selectVendor },
+              scopedSlots: _vm._u([
+                {
+                  key: "default",
+                  fn: function(props) {
+                    return [
+                      _c("a", { staticClass: "dropdown-item" }, [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(props.option.id) +
+                            " - " +
+                            _vm._s(props.option.name) +
+                            "\n            "
+                        )
+                      ])
+                    ]
+                  }
+                }
+              ]),
+              model: {
+                value: _vm.search,
+                callback: function($$v) {
+                  _vm.search = $$v
+                },
+                expression: "search"
+              }
+            },
+            [
+              !_vm.isLoading
+                ? _c("template", { slot: "empty" }, [
+                    _vm._v("No results found")
+                  ])
+                : _vm._e()
+            ],
+            2
+          )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3c2b413b", module.exports)
+  }
+}
+
+/***/ }),
+/* 631 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 632 */,
+/* 633 */,
+/* 634 */,
+/* 635 */,
+/* 636 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(637)
+/* template */
+var __vue_template__ = __webpack_require__(638)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\SelectAddress\\SelectAddress.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1eeb37e6", Component.options)
+  } else {
+    hotAPI.reload("data-v-1eeb37e6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 637 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _debounce = __webpack_require__(5);
+
+var _debounce2 = _interopRequireDefault(_debounce);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    props: {
+        /**
+         * api endpoint to search for addresses.
+         */
+        url: {
+            type: String,
+            required: true
+        },
+        name: {
+            type: String,
+            required: false
+        }
+    },
+    data: function data() {
+        return {
+            isLoading: false,
+            selectedAddress: null,
+            search: null,
+            addresses: []
+        };
+    },
+    mounted: function mounted() {},
+
+    methods: {
+        getData: (0, _debounce2.default)(function () {
+            var _this = this;
+
+            this.addresses = [];
+            this.isLoading = true;
+            axios.get(this.url + '?q=' + this.search).then(function (response) {
+                response.data.data.forEach(function (item) {
+                    return _this.addresses.push(item);
+                });
+                _this.isLoading = false;
+            }).catch(function (error) {
+                _this.isLoading = false;
+                throw error;
+            });
+        }, 500),
+        selectAddress: function selectAddress(address) {
+            this.selectedAddress = address;
+            this.$emit('selected', address);
+        }
+    }
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/***/ }),
+/* 638 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "span",
+    [
+      _vm.selectedAddress
+        ? _c("input", {
+            attrs: { type: "hidden", name: _vm.name },
+            domProps: { value: _vm.selectedAddress.id }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.selectedAddress
+        ? _c("input", {
+            staticClass: "input",
+            attrs: { type: "text", readonly: "" },
+            domProps: { value: _vm.selectedAddress.location },
+            on: {
+              click: function($event) {
+                _vm.selectedAddress = _vm.search = null
+              }
+            }
+          })
+        : _c(
+            "b-autocomplete",
+            {
+              attrs: {
+                data: _vm.addresses,
+                loading: _vm.isLoading,
+                field: "code"
+              },
+              on: { input: _vm.getData, select: _vm.selectAddress },
+              scopedSlots: _vm._u([
+                {
+                  key: "default",
+                  fn: function(props) {
+                    return [
+                      _c("a", { staticClass: "dropdown-item" }, [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(props.option.location) +
+                            "\n                "
+                        ),
+                        props.option.department
+                          ? _c("span", [
+                              _vm._v(_vm._s(props.option.department)),
+                              _c("br")
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        props.option.contact_name
+                          ? _c("span", [
+                              _vm._v(_vm._s(props.option.contact_name)),
+                              _c("br")
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        props.option.phone
+                          ? _c("span", [
+                              _vm._v(_vm._s(props.option.phone)),
+                              _c("br")
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        props.option.email
+                          ? _c("span", [
+                              _vm._v(_vm._s(props.option.email)),
+                              _c("br")
+                            ])
+                          : _vm._e()
+                      ])
+                    ]
+                  }
+                }
+              ]),
+              model: {
+                value: _vm.search,
+                callback: function($$v) {
+                  _vm.search = $$v
+                },
+                expression: "search"
+              }
+            },
+            [
+              !_vm.isLoading
+                ? _c("template", { slot: "empty" }, [
+                    _vm._v("No results found")
+                  ])
+                : _vm._e()
+            ],
+            2
+          )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1eeb37e6", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
