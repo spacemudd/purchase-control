@@ -40,9 +40,8 @@
             <table class="table is-fullwidth is-narrow is-size-7">
                 <thead>
                 <tr>
-                    <th>Purchase Order Number</th>
-                    <th>Department</th>
-                    <th>Employee</th>
+                    <th>System ID</th>
+                    <th>Supplier</th>
                     <th>Created by</th>
                     <th>Created at</th>
                     <th>Updated at</th>
@@ -57,11 +56,10 @@
                 @foreach($purchaseOrders as $po)
                     <tr>
                         <td>
-                            <a href="{{ route('purchase-orders.show', ['id' => $po->id]) }}">{{ $po->order_number }}</a>
+                            <a href="{{ route('purchase-orders.show', ['id' => $po->id]) }}">{{ $po->id }}</a>
                         </td>
-                        <td>{{ $po->department->department_human }}</td>
-                        <td>{{ $po->employee->display_name }}</td>
-                        <td>{{ $po->created_by->display_name }}</td>
+                        <td>{{ $po->vendor->name }}</td>
+                        <td>{{ optional($po->created_by)->username . ' - ' . optional($po->created_by)->name }}</td>
                         <td>{{ $po->created_at }}</td>
                         <td>{{ $po->updated_at }}</td>
                     </tr>

@@ -36,12 +36,12 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::resource('items', 'ItemController');
 
         // Purchase orders
-        Route::resource('purchase-orders', 'PurchaseOrderController');
         Route::name('purchase-orders.')->prefix('purchase-orders')->group(function() {
             Route::get('draft', 'PurchaseOrderController@draft')->name('draft');
             Route::get('committed', 'PurchaseOrderController@committed')->name('committed');
             Route::get('void', 'PurchaseOrderController@void')->name('void');
         });
+        Route::resource('purchase-orders', 'PurchaseOrderController');
 
         // Purchase Order Sub-PO
         Route::get('purchase-orders/{purchase_order_id}/sub-po/create', 'Back\PurchaseOrdersSubController@create')->name('purchase-orders.sub.create');

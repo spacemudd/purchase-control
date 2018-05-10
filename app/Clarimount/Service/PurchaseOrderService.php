@@ -82,6 +82,8 @@ class PurchaseOrderService
             $purchase_order['shipping_address_json'] = json_encode(Address::where('id', $purchase_order['shipping_address_id'])->firstOrFail()->toArray());
         }
 
+        $purchase_order['created_by_id'] = auth()->user()->id;
+
 		return $this->repository->create($purchase_order);
 	}
 

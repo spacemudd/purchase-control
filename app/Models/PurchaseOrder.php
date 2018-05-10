@@ -61,6 +61,7 @@ class PurchaseOrder extends Model implements AuditableContract
         'shipping_address_json',
         'billing_address_json',
         'currency',
+        'created_by_id',
     ];
 
     protected $dates = ['date', 'delivery_date'];
