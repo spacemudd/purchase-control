@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => trans('words.create') . ' ' . trans('words.vendor')])
+@extends('layouts.app', ['title' => 'Create Address'])
 
 
 @section('header')
@@ -11,13 +11,13 @@
 				</a>
 			</li>
 			<li>
-				<a href="{{ route('vendors.index') }}">
-					<span class="icon is-small"><i class="fa fa-truck"></i></span>
-					<span>{{ trans('words.vendors') }}</span>
+				<a href="{{ route('addresses.index') }}">
+					<span class="icon is-small"><i class="fa fa-map-marker"></i></span>
+					<span>{{ trans('words.addresses') }}</span>
 				</a>
 			</li>
 			<li class="is-active">
-				<a href="#">{{ trans('words.new-vendor') }}</a>
+				<a href="#">New Address</a>
 			</li>
 		</ul>
 	</nav>
@@ -25,173 +25,131 @@
 
 @section('content')
 
-	<form method="POST" action="{{ route('vendors.store') }}">
-		{{ csrf_field() }}
-		<div class="columns is-multiline">
+	<div class="columns">
+		<div class="column is-6 is-offset-3">
+			<form method="post" action="{{ route('addresses.store') }}">
+				{{ csrf_field() }}
+				<div class="columns is-multiline">
+					<div class="column is-12">
+						<div class="field">
+							<label for="type" class="label">Type</label>
 
-			<div class="column is-6">
-				<div class="field">
-					<label for="code" class="label">{{ trans('words.code') }} <span class="has-text-warning">*</span></label>
+							<div class="control">
+								<div class="select">
+									<select name="type" id="type">
+										<option value="0">Shipping Address</option>
+										<option value="1">Billing Address</option>
+									</select>
+								</div>
 
-					<p class="control">
-						<input id="code" type="text" class="input {{ $errors->has('code') ? ' is-danger' : '' }}" name="code"
-							   value="{{ old('code') }}" required>
-
-						@if ($errors->has('code'))
-							<span class="help is-danger">
-                                {{ $errors->first('code') }}
-                            </span>
-						@endif
-					</p>
-				</div>
-			</div>
-
-
-			<div class="column is-6">
-				<div class="field">
-					<label for="description" class="label">{{ trans('words.description') }} <span class="has-text-warning">*</span></label>
-
-					<p class="control">
-						<input id="code" type="text" class="input {{ $errors->has('description') ? ' is-danger' : '' }}" name="description"
-							   value="{{ old('description') }}" required>
-
-						@if ($errors->has('description'))
-							<span class="help is-danger">
-                                {{ $errors->first('description') }}
-                            </span>
-						@endif
-					</p>
-				</div>
-			</div>
-
-
-			<div class="column is-6">
-				<div class="field">
-					<label for="contact_person" class="label">{{ trans('words.contact-person') }} <span class="has-text-warning">*</span></label>
-
-					<p class="control">
-						<input id="code" type="text" class="input {{ $errors->has('contact_person') ? ' is-danger' : '' }}" name="contact_person"
-							   value="{{ old('contact_person') }}" required>
-
-						@if ($errors->has('contact_person'))
-							<span class="help is-danger">
-                                {{ $errors->first('contact_person') }}
-                            </span>
-						@endif
-					</p>
-				</div>
-			</div>
-
-			<div class="column is-6">
-				<div class="field">
-					<label for="contact_details" class="label">{{ trans('words.contact-details') }} <span class="has-text-warning">*</span></label>
-
-					<p class="control">
-						<input id="contact_details" type="text" class="input {{ $errors->has('contact_details') ? ' is-danger' : '' }}" name="contact_details"
-							   value="{{ old('contact_details') }}" required>
-
-						@if ($errors->has('contact_details'))
-							<span class="help is-danger">
-                                {{ $errors->first('contact_details') }}
-                            </span>
-						@endif
-					</p>
-				</div>
-			</div>
-
-			<div class="column is-6">
-				<div class="field">
-					<label for="address" class="label">{{ trans('words.address') }} <span class="has-text-warning">*</span></label>
-
-					<p class="control">
-						<input id="address" type="text" class="input {{ $errors->has('address') ? ' is-danger' : '' }}" name="address"
-							   value="{{ old('address') }}" required>
-
-						@if ($errors->has('address'))
-							<span class="help is-danger">
-                                {{ $errors->first('address') }}
-                            </span>
-						@endif
-					</p>
-				</div>
-			</div>
-
-
-			<div class="column is-6">
-				<div class="field">
-					<label for="email" class="label">{{ trans('auth.email') }}</label>
-
-					<p class="control">
-						<input id="email" type="email" class="input {{ $errors->has('email') ? ' is-danger' : '' }}"
-							   name="email"
-							   value="{{ old('email') }}" >
-
-						@if ($errors->has('email'))
-							<span class="help is-danger">
-                                {{ $errors->first('email') }}
-                            </span>
-						@endif
-					</p>
-				</div>
-			</div>
-
-			<div class="column is-6">
-				<div class="field">
-					<label for="website" class="label">{{ trans('words.website') }}</label>
-
-					<p class="control">
-						<input id="website" type="text" class="input {{ $errors->has('website') ? ' is-danger' : '' }}"
-							   name="website"
-							   value="{{ old('website') }}" >
-
-						@if ($errors->has('website'))
-							<span class="help is-danger">
-                                {{ $errors->first('website') }}
-                            </span>
-						@endif
-					</p>
-				</div>
-			</div>
-
-
-			<div class="column is-6">
-				<div class="field">
-					<label for="" class="label">{{ trans('words.active') }}</label>
-
-					<div class="control">
-						<div class="select">
-							<select name="active">
-								<option value="1" {{ (old('active') == true)  ? 'selected' : '' }}>
-									{{ trans('words.active') }}
-								</option>
-								<option value="0" {{ (old('active') == false)  ? 'selected' : '' }}>
-									{{ trans('words.disabled') }}
-								</option>
-							</select>
+								@if ($errors->has('type'))
+									<span class="help is-danger">
+							            {{ $errors->first('type') }}
+							        </span>
+								@endif
+							</div>
 						</div>
+					</div>
+					<div class="column is-12">
+						<div class="field">
+							<label for="location" class="label">Location <span class="has-text-danger">*</span></label>
 
-						@if ($errors->has('active'))
-							<span class="help is-danger">
-                                {{ $errors->first('active') }}
-                            </span>
-						@endif
+							<p class="control">
+						<textarea id="location"
+								  name="location"
+								  class="textarea{{ $errors->has('location') ? ' is-danger' : '' }}"
+								  required
+						>{{ old('location') }}</textarea>
+
+								@if ($errors->has('location'))
+									<span class="help is-danger">
+								{{ $errors->first('location') }}
+							</span>
+								@endif
+							</p>
+						</div>
+					</div>
+
+					<div class="column is-6">
+						<div class="field">
+							<label for="department" class="label">Department</label>
+
+							<p class="control">
+								<input id="department" type="text"
+									   class="input {{ $errors->has('department') ? ' is-danger' : '' }}" name="department"
+									   value="{{ old('department') }}">
+
+								@if ($errors->has('department'))
+									<span class="help is-danger">
+					            {{ $errors->first('department') }}
+					        </span>
+								@endif
+							</p>
+						</div>
+					</div>
+
+					<div class="column is-6">
+						<div class="field">
+							<label for="contact_name" class="label">Contact Name</label>
+
+							<p class="control">
+								<input id="contact_name" type="text"
+									   class="input {{ $errors->has('contact_name') ? ' is-danger' : '' }}" name="contact_name"
+									   value="{{ old('contact_name') }}">
+
+								@if ($errors->has('contact_name'))
+									<span class="help is-danger">
+					            {{ $errors->first('contact_name') }}
+					        </span>
+								@endif
+							</p>
+						</div>
+					</div>
+
+					<div class="column is-6">
+						<div class="field">
+							<label for="phone" class="label">Phone</label>
+
+							<p class="control">
+								<input id="phone" type="text" class="input {{ $errors->has('phone') ? ' is-danger' : '' }}"
+									   name="phone"
+									   value="{{ old('phone') }}">
+
+								@if ($errors->has('phone'))
+									<span class="help is-danger">
+					            {{ $errors->first('phone') }}
+					        </span>
+								@endif
+							</p>
+						</div>
+					</div>
+
+					<div class="column is-6">
+						<div class="field">
+							<label for="email" class="label">Email</label>
+
+							<p class="control">
+								<input id="email" type="email" class="input {{ $errors->has('email') ? ' is-danger' : '' }}"
+									   name="email"
+									   value="{{ old('email') }}">
+
+								@if ($errors->has('email'))
+									<span class="help is-danger">
+					            {{ $errors->first('email') }}
+					        </span>
+								@endif
+							</p>
+						</div>
+					</div>
+
+					<div class="column is-12 has-text-right">
+						<a class="button is-text" href="{{ route('addresses.index') }}">Cancel</a>
+						<button type="submit" class="button is-primary">Save</button>
 					</div>
 				</div>
-			</div>
 
-			<div class="column is-12">
-				<div class="field is-grouped">
-					<div class="control">
-						<button type="submit" class="button is-success">{{ trans('words.save') }}</button>
-					</div>
-					<div class="control">
-						<a class="button is-text" href="{{ url('/') }}">Cancel</a>
-					</div>
-				</div>
-			</div>
-
+			</form>
 		</div>
-
-	</form>
+	</div>
 
 @endsection

@@ -390,4 +390,5 @@
         'supplier-delivery-number' => 'Supplier Delivery Number',
         'approvers' => 'Approvers',
         'new-approver' => 'New Approver',
+        'addresses' => 'Addresses',
 	];

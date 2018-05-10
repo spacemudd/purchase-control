@@ -1,4 +1,5 @@
-@extends('layouts.app', ['title' => $vendor->id . ' - ' . $vendor->name . ' - ' . trans('words.edit') . ' ' . trans('words.supplier')])
+@extends('layouts.app', ['title' => $address->location . ' - Edit Address'])
+
 
 @section('header')
 	<nav class="breadcrumb" aria-label="breadcrumbs">
@@ -10,168 +11,148 @@
 				</a>
 			</li>
 			<li>
-				<a href="{{ route('vendors.index') }}">
-					<span class="icon is-small"><i class="fa fa-truck"></i></span>
-					<span>{{ trans('words.suppliers') }}</span>
+				<a href="{{ route('addresses.index') }}">
+					<span class="icon is-small"><i class="fa fa-map-marker"></i></span>
+					<span>{{ trans('words.addresses') }}</span>
 				</a>
 			</li>
 			<li>
-				<a href="{{ route('vendors.show', ['id' => $vendor->id]) }}">{{ $vendor->id }} - {{ $vendor->name }}</a>
+				<a href="{{ route('addresses.show', ['id' => $address->id]) }}">
+					{{ $address->location }}
+				</a>
 			</li>
 			<li class="is-active">
-				<a href="#">{{ trans('words.edit') }}</a>
+				<a href="#">Edit</a>
 			</li>
 		</ul>
 	</nav>
 @endsection
 
 @section('content')
+
 	<div class="columns">
-		<div class="column is-8 is-offset-2">
-			<form class="form-horizontal form-groups-bordered" method="post" action="{{ route('vendors.update', ['id' => $vendor->id]) }}">
+		<div class="column is-6 is-offset-3">
+			<form method="post" action="{{ route('addresses.store') }}">
 				{{ csrf_field() }}
-				<input type="hidden" name="_method" value="PUT" class="input">
-
 				<div class="columns is-multiline">
-
-					<div class="column is-6">
-						<div class="field">
-							<label for="name" class="label">{{ trans('words.name') }}</label>
-
-							<p class="control">
-								<input id="code" type="text" class="input {{ $errors->has('name') ? ' is-danger' : '' }}" name="name"
-									   value="{{ $vendor->name }}">
-
-								@if ($errors->has('name'))
-									<span class="help is-danger">
-                                {{ $errors->first('name') }}
-                            </span>
-								@endif
-							</p>
-						</div>
-					</div>
-
-
-					<div class="column is-6">
-						<datepicker
-								label="{{ __('words.established-at') }}"
-								value="{{ $vendor->established_at }}"
-								name="established_at"
-								required.number="1"
-						>
-						</datepicker>
-
-						@if ($errors->has('established_at'))
-							<span class="help is-danger">
-								{{ $errors->first('established_at') }}
-							</span>
-						@endif
-					</div>
-
-					<div class="column is-6">
-						<div class="field">
-							<label for="address" class="label">{{ trans('words.address') }}</label>
-
-							<p class="control">
-								<input id="code" type="text" class="input {{ $errors->has('address') ? ' is-danger' : '' }}" name="address"
-									   value="{{ $vendor->address }}">
-
-								@if ($errors->has('address'))
-									<span class="help is-danger">
-                                {{ $errors->first('address') }}
-                            </span>
-								@endif
-							</p>
-						</div>
-					</div>
-
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="email" class="label">{{ __('auth.email') }}</label>
-
-                            <p class="control">
-                                <input id="email" type="text" class="input {{ $errors->has('email') ? ' is-danger' : '' }}"
-                                       name="email" value="{{ old('email') }}" >
-
-                                @if ($errors->has('email'))
-                                    <span class="help is-danger">
-							            {{ $errors->first('email') }}
-							        </span>
-                                @endif
-                            </p>
-                        </div>
-                    </div>
-
-					<div class="column is-6">
-						<div class="field">
-							<label for="telephone_number" class="label">{{ __('words.telephone-number') }}</label>
-
-							<p class="control">
-								<input id="telephone_number" type="text" class="input {{ $errors->has('telephone_number') ? ' is-danger' : '' }}"
-									   name="telephone_number" value="{{ old('telephone_number') }}" >
-
-								@if ($errors->has('telephone_number'))
-									<span class="help is-danger">
-							            {{ $errors->first('telephone_number') }}
-							        </span>
-								@endif
-							</p>
-						</div>
-					</div>
-
-					<div class="column is-6">
-						<div class="field">
-							<label for="fax_number" class="label">{{ __('words.fax-number') }}</label>
-
-							<p class="control">
-								<input id="fax_number" type="text" class="input {{ $errors->has('fax_number') ? ' is-danger' : '' }}" name="fax_number"
-									   value="{{ old('fax_number') }}" >
-
-								@if ($errors->has('fax_number'))
-									<span class="help is-danger">
-										{{ $errors->first('fax_number') }}
-									</span>
-								@endif
-							</p>
-						</div>
-					</div>
-
 					<div class="column is-12">
 						<div class="field">
-							<label for="website" class="label">{{ trans('words.website') }}</label>
+							<label for="type" class="label">Type</label>
+
+							<div class="control">
+								<div class="select">
+									<select name="type" id="type">
+										<option value="0"{{ $address->type == 0 ? ' selected' : '' }}>Shipping Address</option>
+										<option value="1"{{ $address->type == 1 ? ' selected' : '' }}>Billing Address</option>
+									</select>
+								</div>
+
+								@if ($errors->has('type'))
+									<span class="help is-danger">
+							            {{ $errors->first('type') }}
+							        </span>
+								@endif
+							</div>
+						</div>
+					</div>
+					<div class="column is-12">
+						<div class="field">
+							<label for="location" class="label">Location <span class="has-text-danger">*</span></label>
 
 							<p class="control">
-								<input id="website" type="text" class="input {{ $errors->has('website') ? ' is-danger' : '' }}"
-									   name="website"
-									   value="{{ $vendor->website }}" >
+						<textarea id="location"
+								  name="location"
+								  class="textarea{{ $errors->has('location') ? ' is-danger' : '' }}"
+								  required
+						>{{ $address->location }}</textarea>
 
-								@if ($errors->has('website'))
+								@if ($errors->has('location'))
 									<span class="help is-danger">
-                                {{ $errors->first('website') }}
-                            </span>
+								{{ $errors->first('location') }}
+							</span>
 								@endif
 							</p>
 						</div>
 					</div>
 
 					<div class="column is-6">
-						{{--
-						<form method="post" action="{{ route('vendors.destroy', ['id' => $vendor->id]) }}">
-							{{ csrf_field() }}
-							<input type="hidden" name="_method" value="delete" class="input">
-							<button class="button is-danger">
-								{{ trans('words.delete') }}
-							</button>
-						</form>
-						--}}
+						<div class="field">
+							<label for="department" class="label">Department</label>
+
+							<p class="control">
+								<input id="department" type="text"
+									   class="input {{ $errors->has('department') ? ' is-danger' : '' }}" name="department"
+									   value="{{ $address->department }}">
+
+								@if ($errors->has('department'))
+									<span class="help is-danger">
+					            {{ $errors->first('department') }}
+					        </span>
+								@endif
+							</p>
+						</div>
 					</div>
 
-					<div class="column is-6 has-text-right">
-						<a class="button is-text" href="{{ route('vendors.show', ['id' => $vendor->id]) }}">{{ __('words.cancel') }}</a>
-						<button type="submit" class="button is-success">{{ trans('words.save') }}</button>
+					<div class="column is-6">
+						<div class="field">
+							<label for="contact_name" class="label">Contact Name</label>
+
+							<p class="control">
+								<input id="contact_name" type="text"
+									   class="input {{ $errors->has('contact_name') ? ' is-danger' : '' }}" name="contact_name"
+									   value="{{ $address->contact_name }}">
+
+								@if ($errors->has('contact_name'))
+									<span class="help is-danger">
+					            {{ $errors->first('contact_name') }}
+					        </span>
+								@endif
+							</p>
+						</div>
 					</div>
 
+					<div class="column is-6">
+						<div class="field">
+							<label for="phone" class="label">Phone</label>
+
+							<p class="control">
+								<input id="phone" type="text" class="input {{ $errors->has('phone') ? ' is-danger' : '' }}"
+									   name="phone"
+									   value="{{ $address->phone }}">
+
+								@if ($errors->has('phone'))
+									<span class="help is-danger">
+					            {{ $errors->first('phone') }}
+					        </span>
+								@endif
+							</p>
+						</div>
+					</div>
+
+					<div class="column is-6">
+						<div class="field">
+							<label for="email" class="label">Email</label>
+
+							<p class="control">
+								<input id="email" type="email" class="input {{ $errors->has('email') ? ' is-danger' : '' }}"
+									   name="email"
+									   value="{{ $address->email }}">
+
+								@if ($errors->has('email'))
+									<span class="help is-danger">
+					            {{ $errors->first('email') }}
+					        </span>
+								@endif
+							</p>
+						</div>
+					</div>
+
+					<div class="column is-12 has-text-right">
+						<a class="button is-text" href="{{ route('addresses.index') }}">Cancel</a>
+						<button type="submit" class="button is-primary">Save</button>
+					</div>
 				</div>
+
 			</form>
 		</div>
 	</div>

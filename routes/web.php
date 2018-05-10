@@ -84,6 +84,11 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::get('approvers/{id}/edit', 'ApproversController@edit')->name('approvers.edit');
         Route::put('approvers/{id}', 'ApproversController@update')->name('approvers.update');
 
+        // Addresses.
+        Route::prefix('settings')->group(function() {
+            Route::resource('addresses', 'AddressesController');
+        });
+
         Route::get('search', 'SearchController@index')->name('search.index');
 	});
 

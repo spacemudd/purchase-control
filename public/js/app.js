@@ -30542,9 +30542,9 @@ Vue.component('select-purchase-orders', __webpack_require__(625));
 var apiVersion = '1';
 
 // if(process.env.NODE_ENV === 'production') {
-var envUrl = window.location.origin + '/PMS';
+//     var envUrl = window.location.origin + '/PMS';
 // } else {
-//     var envUrl = window.location.origin;
+var envUrl = window.location.origin;
 // }
 
 Vue.mixin({
@@ -33172,9 +33172,9 @@ Object.defineProperty(exports, "__esModule", {
 var apiVersion = '1';
 
 // if(process.env.NODE_ENV === 'production') {
-var envUrl = window.location.origin + '/PMS';
+//      var envUrl = window.location.origin + '/PMS';
 // } else {
-//    var envUrl = window.location.origin;
+var envUrl = window.location.origin;
 // }
 
 exports.default = {

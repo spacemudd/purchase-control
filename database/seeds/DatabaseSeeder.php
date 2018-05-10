@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
         $this->call(StaffTypesTableSeeder::class);
         $this->call(ReferenceTypesTableSeeder::class);
 
+        $this->call(PermissionsSecondGroupTableSeeder::class);
+
         // Faker.
         factory(\App\Models\Vendor::class, 2)->create();
         factory(\App\Models\Employee::class, 2)->create();

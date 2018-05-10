@@ -39,20 +39,28 @@ class PurchaseOrder extends Model implements AuditableContract
      * Purchase order statuses.
      */
     const NEW = 0;
-    const APPROVED = 1;
-    const VOID = 2;
+    const SAVED = 1;
+    const APPROVED = 2;
+    const VOID = 3;
 
     protected $fillable = [
-        'order_number',
-        'date',
-        'vendor_id',
-        'delivery_number',
-        'main_order_number',
         'department_id',
         'employee_id',
+        'vendor_id',
+        'number',
+        'date',
+        'delivery_number',
         'delivery_date',
-        'created_by_id',
+        'delivered_at',
         'status',
+        'completed_at',
+        'type',
+        'approved_by_id',
+        'shipping_address_id',
+        'billing_address_id',
+        'shipping_address_json',
+        'billing_address_json',
+        'currency',
     ];
 
     protected $dates = ['date', 'delivery_date'];
@@ -136,16 +144,16 @@ class PurchaseOrder extends Model implements AuditableContract
 
     public function scopeDraft($q)
     {
-        $q->where('status', 'draft');
+        $q->where('status', self::NEW);
     }
 
     public function scopeCommitted($q)
     {
-        $q->where('status', 'committed');
+        $q->where('status', self::SAVED);
     }
 
     public function scopeVoid($q)
     {
-        $q->where('status', 'void');
+        $q->where('status', self::VOID);
     }
 }
