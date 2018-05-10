@@ -73,7 +73,13 @@
 							<tr>
 								<td><strong>Date</strong></td>
 								<td>
-									{{--<datetime-token name="purchase_date" value="{{ $purchase_order->created_at }}"></datetime-token>--}}
+									<datetime-token :id.number="{{ $purchase_order->id }}"
+													name="date"
+													value="{{ $purchase_order->date_string }}"
+													:highlighted="true"
+													placeholder="PURCHASE ORDER DATE"
+													url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+									></datetime-token>
 								</td>
 							</tr>
 							</tbody>

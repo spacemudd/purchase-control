@@ -66,7 +66,7 @@ class PurchaseOrder extends Model implements AuditableContract
 
     protected $dates = ['date', 'delivery_date'];
 
-    protected $appends = ['status_human', 'date_human', 'delivery_date_human', 'link'];
+    protected $appends = ['status_human', 'date_human', 'delivery_date_human', 'link', 'date_string'];
 
     public function items()
     {
@@ -161,6 +161,13 @@ class PurchaseOrder extends Model implements AuditableContract
     public function media()
     {
         return $this->morphMany(Media::class, 'model');
+    }
+
+    public function getDateStringAttribute()
+    {
+        if($this->date) {
+            return $this->date->toDateString();
+        }
     }
 
     public function scopeDraft($q)

@@ -176,6 +176,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('purchase-orders/void', 'Api\PurchaseOrderController@void');
     Route::post('purchase-orders/attachments', 'Api\PurchaseOrderController@attachments');
     Route::post('purchase-orders/download-attachment', 'Api\PurchaseOrderController@downloadAttachment');
+    Route::put('purchase-orders/{id}/tokens', 'Api\PurchaseOrderController@updateTokens')->name('purchase-orders.tokens');
 
     // Notes.
     Route::post('purchase-orders/notes', 'Api\PurchaseOrderNotesController@store')->name('api.purchase-orders.notes');

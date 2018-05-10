@@ -110,6 +110,7 @@ class PurchaseOrderController extends Controller
      * Saves a purchase order.
      *
      * @return bool
+     * @throws \Exception
      */
     public function save()
     {
@@ -134,5 +135,21 @@ class PurchaseOrderController extends Controller
     public function downloadAttachment()
     {
         return $this->service->downloadAttachment();
+    }
+
+    public function updateTokens($id, Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'value' => 'required|string|max:255',
+        ]);
+
+        $data[$request->name] = $request->value;
+
+        $po = PurchaseOrder::where('id', $id)->firstOrFail();
+
+        $po->update($data);
+
+        return $po;
     }
 }

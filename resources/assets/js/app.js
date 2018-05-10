@@ -210,6 +210,7 @@ Vue.component('pr-item-to-po-modal', require('./components/PrItemToPoModal/PrIte
 Vue.component('select-purchase-orders', require('./components/SelectPurchaseOrder/SelectPurchaseOrder'));
 Vue.component('select-vendors', require('./components/SelectVendors/SelectVendors'));
 Vue.component('select-address', require('./components/SelectAddress/SelectAddress'));
+Vue.component('datetime-token', require('./components/DatetimeToken/DatetimeToken'));
 
 /**
  * API/App settings

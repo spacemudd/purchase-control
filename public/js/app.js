@@ -30537,6 +30537,7 @@ Vue.component('pr-item-to-po-modal', __webpack_require__(622));
 Vue.component('select-purchase-orders', __webpack_require__(625));
 Vue.component('select-vendors', __webpack_require__(628));
 Vue.component('select-address', __webpack_require__(636));
+Vue.component('datetime-token', __webpack_require__(639));
 
 /**
  * API/App settings
@@ -108717,6 +108718,192 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-1eeb37e6", module.exports)
+  }
+}
+
+/***/ }),
+/* 639 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(642)
+/* template */
+var __vue_template__ = __webpack_require__(643)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\DatetimeToken\\DatetimeToken.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1864c359", Component.options)
+  } else {
+    hotAPI.reload("data-v-1864c359", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 640 */,
+/* 641 */,
+/* 642 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        id: {
+            type: Number,
+            required: true
+        },
+        highlighted: {
+            type: Boolean,
+            default: false
+        },
+        /**
+         * An HTTP PUT method URL to save/update the token.
+         */
+        url: {
+            type: String,
+            required: true
+        },
+        /**
+         * The name of the token/field/column-name of the resource.
+         */
+        name: {
+            type: String,
+            required: true
+        },
+        /**
+         * The value.
+         */
+        value: {
+            type: String,
+            required: false
+        },
+        placeholder: {
+            type: String,
+            default: 'TOKEN'
+        }
+    },
+    data: function data() {
+        return {
+            is_editing: false,
+
+            date: null
+        };
+    },
+    mounted: function mounted() {
+        this.date = this.value;
+    },
+
+    methods: {
+        editToken: function editToken() {
+            var _this = this;
+
+            this.is_editing = true;
+            this.$dialog.prompt({
+                message: 'What\'s the purchase order date?',
+                inputAttrs: {
+                    type: 'date',
+                    placeholder: 'Choose the purchase date'
+                },
+                onConfirm: function onConfirm(value) {
+                    return _this.saveToken(value);
+                }
+            });
+        },
+        saveToken: function saveToken(date) {
+            var _this2 = this;
+
+            axios.put(this.apiUrl() + '/purchase-orders/' + this.id + '/tokens', {
+                'name': this.name,
+                'value': date
+            }).then(function (response) {
+                _this2.$toast.open({
+                    type: 'is-success',
+                    message: 'Saved'
+                });
+
+                _this2.date = response.data.date_string;
+            }).catch(function (error) {
+                alert(error.response.data);
+            });
+        }
+    }
+};
+
+/***/ }),
+/* 643 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      {
+        class: { "transparent-highlighter-bg": _vm.highlighted },
+        on: { click: _vm.editToken }
+      },
+      [
+        !_vm.date
+          ? _c("span", [_c("i", [_vm._v("[" + _vm._s(_vm.placeholder) + "]")])])
+          : _vm._e(),
+        _vm._v("\n        " + _vm._s(_vm.date) + "\n    ")
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1864c359", module.exports)
   }
 }
 
