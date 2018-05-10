@@ -99,6 +99,23 @@
 										@endif
 									</td>
 								</tr>
+								<tr>
+									<td>
+										<strong>Status</strong>
+									</td>
+									<td class="is-capitalized">
+										{{ $purchase_order->status_name }}
+										@if($purchase_order->isDraft)
+											<span class="circle is-warning"></span>
+										@endif
+										@if($purchase_order->isSaved)
+											<span class="circle is-warning"></span>
+										@endif
+										@if($purchase_order->isApproved)
+											<span class="circle is-success"></span>
+										@endif
+									</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>

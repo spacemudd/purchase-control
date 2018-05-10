@@ -98,7 +98,7 @@ class PurchaseOrder extends Model implements AuditableContract
         return $this->belongsTo(User::class, 'created_by_id');
     }
 
-    public function getStatusHumanAttribute()
+    public function getStatusNameAttribute()
     {
         switch($this->status) {
             case self::NEW:
