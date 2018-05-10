@@ -11,6 +11,7 @@
 
 namespace App\Clarimount\Service;
 
+use App\Models\Address;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -72,14 +73,14 @@ class PurchaseOrderService
 
 		$this->validate($purchase_order)->validate();
 
-        if($purchase_order['date'] && array_key_exists('date', $purchase_order)) {
-            $purchase_order['date'] = Carbon::createFromFormat('d/m/Y', $purchase_order['date']);
-        }
-        if($purchase_order['delivery_date'] && array_key_exists('delivery_date', $purchase_order)) {
-            $purchase_order['delivery_date'] = Carbon::createFromFormat('d/m/Y', $purchase_order['delivery_date']);
+        $purchase_order['status'] = PurchaseOrder::NEW;
+        if(isset($purchase_order['billing_address_id'])) {
+            $purchase_order['billing_address_json'] = json_encode(Address::where('id', $purchase_order['billing_address_id'])->firstOrFail()->toArray());
         }
 
-        $purchase_order['status'] = PurchaseOrder::NEW;
+        if(isset($purchase_order['shipping_address_id'])) {
+            $purchase_order['shipping_address_json'] = json_encode(Address::where('id', $purchase_order['shipping_address_id'])->firstOrFail()->toArray());
+        }
 
 		return $this->repository->create($purchase_order);
 	}
@@ -152,35 +153,11 @@ class PurchaseOrderService
 	public function validate(array $data)
 	{
 		$validator = Validator::make($data, [
-		    'date' => 'required|max:255',
             'vendor_id' => 'required|exists:vendors,id',
-            'delivery_number' => 'nullable|string|max:255',
-            'main_order_number' => 'nullable|string|max:255',
-            'department_id' => 'required|exists:departments,id',
-            'employee_id' => 'required|exists:employees,id',
-            'delivery_date' => 'nullable',
+            'shipping_address_id' => 'nullable|exists:addresses,id',
+            'billing_address_id' => 'nullable|exists:addresses,id',
+            'currency' => 'nullable|string|max:255',
         ]);
-
-
-		$validator->after(function($validator) use ($data) {
-
-		    try {
-		        if($data['date'] && array_key_exists('date', $data)) {
-                    $data['date'] = Carbon::createFromFormat('d/m/Y', $data['date']);
-                }
-            } catch(\Exception $error) {
-                $validator->errors()->add('date', trans('validation.date', ['attribute' => 'date']));
-            }
-
-            try {
-                if($data['delivery_date'] && array_key_exists('delivery_date', $data)) {
-                    $date['delivery_date'] = Carbon::createFromFormat('d/m/Y', $data['delivery_date']);
-                }
-            } catch(\Exception $error) {
-                $validator->errors()->add('delivery_date', trans('validation.date', ['attribute' => 'date']));
-            }
-
-        });
 
 		return $validator;
 	}
