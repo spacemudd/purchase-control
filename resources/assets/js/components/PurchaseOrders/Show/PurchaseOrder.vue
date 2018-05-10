@@ -1,6 +1,14 @@
 <template>
     <div class="box">
         <!-- Modals -->
+        <b-modal :active.sync="confirmSaveModal">
+            <confirm-modal @confirmed="savePo"
+                           :message="$t('messages.are-you-sure')"
+                           :button-text="$t('words.save')"
+                           :card-title="$t('words.save')">
+            </confirm-modal>
+        </b-modal>
+
         <b-modal :active.sync="confirmCommitModal">
             <confirm-modal @confirmed="commitPo"
                            :message="$t('messages.are-you-sure')"
@@ -65,10 +73,10 @@
                         <template v-if="isDraft">
                             <!--@if(count($purchase_order->items) || count($purchase_order->service_items))-->
                             <button class="button is-success is-small"
-                                    :class="{'is-loading': isCommitting}"
-                                    @click="confirmCommitModal = true">
+                                    :class="{'is-loading': isSaving}"
+                                    @click="confirmSaveModal = true">
                                 <span class="icon is-small"><i class="fa fa-check"></i></span>
-                                <span>{{ $t('words.approve') }}</span>
+                                <span>{{ $t('words.save') }}</span>
                             </button>
                             <!--@endif-->
                         </template>
@@ -187,6 +195,9 @@
         },
         data() {
             return {
+                confirmSaveModal: false,
+                isSaving: false,
+
                 confirmCommitModal: false,
                 isCommitting: false,
 
@@ -201,6 +212,20 @@
             //
         },
         methods: {
+            savePo() {
+                this.confirmSaveModal = false;
+                this.isSaving = true;
+
+                axios.post(this.apiUrl() + '/purchase-orders/save', {
+                    id: this.purchaseOrder.id
+                }).then(response => {
+                    // this.isSaving = false;
+                    this.$emit('refresh');
+                }).catch(response => {
+                    this.isSaving = false;
+                    alert('Error occurred in saving');
+                })
+            },
             commitPo() {
                 this.confirmCommitModal = false;
                 this.isCommitting = true;

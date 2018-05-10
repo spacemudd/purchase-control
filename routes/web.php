@@ -171,6 +171,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('purchase-orders', 'Api\PurchaseOrderController@store');
     Route::get('purchase-orders/paginated/{per_page}', 'Api\PurchaseOrderController@paginatedIndex');
     Route::get('purchase-orders', 'Api\PurchaseOrderController@index');
+    Route::post('purchase-orders/save', 'Api\PurchaseOrderController@save');
     Route::post('purchase-orders/commit', 'Api\PurchaseOrderController@commit');
     Route::post('purchase-orders/void', 'Api\PurchaseOrderController@void');
     Route::post('purchase-orders/attachments', 'Api\PurchaseOrderController@attachments');

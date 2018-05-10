@@ -107,6 +107,16 @@ class PurchaseOrderController extends Controller
     }
 
     /**
+     * Saves a purchase order.
+     *
+     * @return bool
+     */
+    public function save()
+    {
+        return $this->service->save();
+    }
+
+    /**
      * Voids a purchase order.
      *
      * @return bool

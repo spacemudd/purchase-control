@@ -78770,6 +78770,14 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     props: {
@@ -78804,6 +78812,9 @@ exports.default = {
     },
     data: function data() {
         return {
+            confirmSaveModal: false,
+            isSaving: false,
+
             confirmCommitModal: false,
             isCommitting: false,
 
@@ -78819,8 +78830,24 @@ exports.default = {
     },
 
     methods: {
-        commitPo: function commitPo() {
+        savePo: function savePo() {
             var _this = this;
+
+            this.confirmSaveModal = false;
+            this.isSaving = true;
+
+            axios.post(this.apiUrl() + '/purchase-orders/save', {
+                id: this.purchaseOrder.id
+            }).then(function (response) {
+                // this.isSaving = false;
+                _this.$emit('refresh');
+            }).catch(function (response) {
+                _this.isSaving = false;
+                alert('Error occurred in saving');
+            });
+        },
+        commitPo: function commitPo() {
+            var _this2 = this;
 
             this.confirmCommitModal = false;
             this.isCommitting = true;
@@ -78828,16 +78855,16 @@ exports.default = {
             axios.post(this.apiUrl() + '/purchase-orders/commit', {
                 id: this.purchaseOrder.id
             }).then(function (response) {
-                _this.isCommitting = false;
-                _this.$emit('refresh');
+                _this2.isCommitting = false;
+                _this2.$emit('refresh');
             }).catch(function (response) {
-                _this.isCommitting = false;
+                _this2.isCommitting = false;
                 alert('Error occurred in committing');
-                _this.$emit('refresh');
+                _this2.$emit('refresh');
             });
         },
         voidPo: function voidPo() {
-            var _this2 = this;
+            var _this3 = this;
 
             this.confirmVoidModal = false;
             this.isVoiding = true;
@@ -78845,12 +78872,12 @@ exports.default = {
             axios.post(this.apiUrl() + '/purchase-orders/void', {
                 id: this.purchaseOrder.id
             }).then(function (response) {
-                _this2.isVoiding = false;
-                _this2.$emit('refresh');
+                _this3.isVoiding = false;
+                _this3.$emit('refresh');
             }).catch(function (response) {
-                _this2.isVoiding = false;
+                _this3.isVoiding = false;
                 alert('Error occurred in voiding');
-                _this2.$emit('refresh');
+                _this3.$emit('refresh');
             });
         }
     }
@@ -78868,6 +78895,29 @@ var render = function() {
     "div",
     { staticClass: "box" },
     [
+      _c(
+        "b-modal",
+        {
+          attrs: { active: _vm.confirmSaveModal },
+          on: {
+            "update:active": function($event) {
+              _vm.confirmSaveModal = $event
+            }
+          }
+        },
+        [
+          _c("confirm-modal", {
+            attrs: {
+              message: _vm.$t("messages.are-you-sure"),
+              "button-text": _vm.$t("words.save"),
+              "card-title": _vm.$t("words.save")
+            },
+            on: { confirmed: _vm.savePo }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
       _c(
         "b-modal",
         {
@@ -79033,17 +79083,17 @@ var render = function() {
                         "button",
                         {
                           staticClass: "button is-success is-small",
-                          class: { "is-loading": _vm.isCommitting },
+                          class: { "is-loading": _vm.isSaving },
                           on: {
                             click: function($event) {
-                              _vm.confirmCommitModal = true
+                              _vm.confirmSaveModal = true
                             }
                           }
                         },
                         [
                           _vm._m(3),
                           _vm._v(" "),
-                          _c("span", [_vm._v(_vm._s(_vm.$t("words.approve")))])
+                          _c("span", [_vm._v(_vm._s(_vm.$t("words.save")))])
                         ]
                       )
                     ]

@@ -126,18 +126,32 @@ class PurchaseOrderService
 		return $this->repository->find($id);
 	}
 
-	public function commit()
-	{
-		$purchase_order = request()->only('id');
+	public function save()
+    {
+        $purchase_order = request()->only('id');
 
-		$this->validatePoExists($purchase_order)->validate();
-		
-		if( ! $this->isPoDraft($purchase_order['id'])) {
-			return false;
-		}
+        $this->validatePoExists($purchase_order)->validate();
 
-		return $this->repository->commit($purchase_order['id']);
-	}
+        if( ! $this->isPoDraft($purchase_order['id'])) {
+            throw new \Exception('The PO must be in draft mode to be saved.');
+        }
+
+        return $this->repository->save($purchase_order['id']);
+    }
+
+
+    public function commit()
+    {
+        $purchase_order = request()->only('id');
+
+        $this->validatePoExists($purchase_order)->validate();
+
+        if( ! $this->isPoDraft($purchase_order['id'])) {
+            return false;
+        }
+
+        return $this->repository->commit($purchase_order['id']);
+    }
 
 	public function void()
 	{

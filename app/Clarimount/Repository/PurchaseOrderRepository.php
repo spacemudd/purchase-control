@@ -78,6 +78,41 @@ class PurchaseOrderRepository
 		return $this->model->find($id);
 	}
 
+    public function save($id)
+    {
+        $po = DB::transaction(function() use ($id) {
+
+            // The locking.
+            $po = $this->model->where('id', $id)->lockForUpdate()->first();
+
+            // Some validation.
+            if($po->status != PurchaseOrder::NEW) throw new \Exception('PO must be in draft mode to be approved.');
+
+            // Calculating the new request number.
+            $numberPrefix = 'PO-' . Carbon::now()->format('Y-m');
+            $maxNumber = MaxNumber::lockForUpdate()->firstOrCreate([
+                'name' => $numberPrefix,
+            ], [
+                'value' => 0,
+            ]);
+
+            $number = ++$maxNumber->value;
+
+            // The updates.
+            $po->number = $maxNumber->name . '-' . sprintf('%05d', $number);
+            $po->status = PurchaseOrder:: SAVED;
+            $po->save();
+
+            // Save the new number.
+            $maxNumber->value = $number;
+            $maxNumber->save();
+
+            return $po;
+        });
+
+        return $po;
+    }
+
 	public function commit($id)
 	{
         $po = DB::transaction(function() use ($id) {
