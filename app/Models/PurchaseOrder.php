@@ -143,6 +143,26 @@ class PurchaseOrder extends Model implements AuditableContract
         return route('purchase-orders.show', ['id' => $this->id]);
     }
 
+    /**
+     * Get all the notes owned by this requisition.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function notes()
+    {
+        return $this->morphMany(Note::class, 'notable');
+    }
+
+    /**
+     * Get all the media files associated with this record.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function media()
+    {
+        return $this->morphMany(Media::class, 'model');
+    }
+
     public function scopeDraft($q)
     {
         $q->where('status', self::NEW);
