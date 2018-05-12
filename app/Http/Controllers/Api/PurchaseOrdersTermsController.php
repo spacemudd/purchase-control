@@ -26,4 +26,22 @@ class PurchaseOrdersTermsController extends Controller
 
         return $po;
     }
+
+    public function detach(Request $request)
+    {
+        $request->validate([
+            'purchase_order_id' => 'required|exists:purchase_orders,id',
+            'term_id' => 'required|exists:purchase_terms,id',
+        ]);
+
+        $po = PurchaseOrder::find($request->purchase_order_id);
+        $term = PurchaseTerm::find($request->term_id);
+
+        $po->terms()->detach($term);
+
+        $po->terms_json = $po->terms()->get();
+        $po->save();
+
+        return $po;
+    }
 }

@@ -30548,9 +30548,9 @@ Vue.component('toggle-purchase-term', __webpack_require__(651));
 var apiVersion = '1';
 
 // if(process.env.NODE_ENV === 'production') {
-//     var envUrl = window.location.origin + '/PMS';
+var envUrl = window.location.origin + '/PMS';
 // } else {
-var envUrl = window.location.origin;
+//     var envUrl = window.location.origin;
 // }
 
 Vue.mixin({
@@ -33178,9 +33178,9 @@ Object.defineProperty(exports, "__esModule", {
 var apiVersion = '1';
 
 // if(process.env.NODE_ENV === 'production') {
-//      var envUrl = window.location.origin + '/PMS';
+var envUrl = window.location.origin + '/PMS';
 // } else {
-var envUrl = window.location.origin;
+//    var envUrl = window.location.origin;
 // }
 
 exports.default = {
@@ -109694,7 +109694,7 @@ exports.default = {
         toggle: function toggle() {
             if (!this.isLoading) {
                 if (this.enabled) {
-                    this.detachPermission();
+                    this.detach();
                 } else {
                     this.attach();
                 }
@@ -109721,20 +109721,20 @@ exports.default = {
                 alert('Error occurred');
             });
         },
-        detachPermission: function detachPermission() {
+        detach: function detach() {
             var _this2 = this;
 
             this.isLoading = true;
 
-            axios.post(this.apiUrl() + '/roles/detach-permission', {
-                role_id: this.roleId,
-                permission_name: this.permissionName
+            axios.post(this.apiUrl() + '/purchase-orders/terms/detach', {
+                purchase_order_id: this.poId,
+                term_id: this.termId
             }).then(function () {
                 _this2.isLoading = false;
                 _this2.enabled = false;
                 _this2.$toast.open({
                     duration: 500,
-                    message: _this2.getTrans('messages.permission-removed'),
+                    message: 'Term removed',
                     type: 'is-success'
                 });
             }).catch(function () {
@@ -109766,7 +109766,7 @@ var render = function() {
     [
       _vm.isLoading
         ? _c("div", {
-            staticClass: "button is-transparent is-link is-small is-loading"
+            staticClass: "button is-outlined is-link is-small is-loading"
           })
         : _c(
             "b-checkbox",
