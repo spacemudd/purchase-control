@@ -93,6 +93,18 @@
 										></edit-supplier-token>
 									</td>
 								</tr>
+								<tr>
+									<td><strong>Delivery Date</strong> <b-tooltip label="Supply the following not later than..."><span class="icon is-small"><i class="fa fa-question-circle"></i></span></b-tooltip></td>
+									<td>
+										<delivery-date-token :id.number="{{ $purchase_order->id }}"
+														name="delivery_date"
+														value="{{ $purchase_order->delivery_date_string }}"
+														:highlighted="true"
+														placeholder="DELIVERY DATE DATE"
+														url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+										></delivery-date-token>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>

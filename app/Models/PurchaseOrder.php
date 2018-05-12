@@ -67,7 +67,7 @@ class PurchaseOrder extends Model implements AuditableContract
 
     protected $dates = ['date', 'delivery_date'];
 
-    protected $appends = ['date_human', 'delivery_date_human', 'link', 'date_string'];
+    protected $appends = ['date_human', 'delivery_date_human', 'link', 'date_string', 'delivery_date_string'];
 
     protected $casts = [
         'vendor_json' => 'object',
@@ -175,6 +175,13 @@ class PurchaseOrder extends Model implements AuditableContract
     {
         if($this->date) {
             return $this->date->toDateString();
+        }
+    }
+
+    public function getDeliveryDateStringAttribute()
+    {
+        if($this->delivery_date) {
+            return $this->delivery_date->toDateString();
         }
     }
 
