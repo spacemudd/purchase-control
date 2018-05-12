@@ -94,7 +94,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td><strong>Delivery Date</strong> <b-tooltip label="Supply the following not later than..."><span class="icon is-small"><i class="fa fa-question-circle"></i></span></b-tooltip></td>
+									<td><strong>Delivery Date</strong> <b-tooltip label="To supply the items not later than..."><span class="icon is-small"><i class="fa fa-question-circle"></i></span></b-tooltip></td>
 									<td>
 										<delivery-date-token :id.number="{{ $purchase_order->id }}"
 														name="delivery_date"

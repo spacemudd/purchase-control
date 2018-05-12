@@ -58,10 +58,10 @@
             editToken() {
                 this.is_editing = true;
                 this.$dialog.prompt({
-                    message: `What's the purchase order date?`,
+                    message: `What's the delivery date?`,
                     inputAttrs: {
                         type: 'date',
-                        placeholder: 'Choose the purchase date',
+                        placeholder: 'Choose the delivery date',
                     },
                     onConfirm: (value) => this.saveToken(value),
                 })

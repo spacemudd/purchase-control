@@ -109533,10 +109533,10 @@ exports.default = {
 
             this.is_editing = true;
             this.$dialog.prompt({
-                message: 'What\'s the purchase order date?',
+                message: 'What\'s the delivery date?',
                 inputAttrs: {
                     type: 'date',
-                    placeholder: 'Choose the purchase date'
+                    placeholder: 'Choose the delivery date'
                 },
                 onConfirm: function onConfirm(value) {
                     return _this.saveToken(value);
