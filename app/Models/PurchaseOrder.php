@@ -11,6 +11,7 @@
 
 namespace App\Models;
 
+use App\Model\PurchaseTerm;
 use App\Traits\HasFiles;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Illuminate\Database\Eloquent\Model;
@@ -169,6 +170,11 @@ class PurchaseOrder extends Model implements AuditableContract
     public function media()
     {
         return $this->morphMany(Media::class, 'model');
+    }
+
+    public function terms()
+    {
+        return $this->belongsToMany(PurchaseTerm::class);
     }
 
     public function getDateStringAttribute()
