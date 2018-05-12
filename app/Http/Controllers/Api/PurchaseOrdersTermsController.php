@@ -21,6 +21,9 @@ class PurchaseOrdersTermsController extends Controller
 
         $po->terms()->attach($term);
 
+        $po->terms_json = $po->terms()->get();
+        $po->save();
+
         return $po;
     }
 }

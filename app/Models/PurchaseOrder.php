@@ -74,7 +74,7 @@ class PurchaseOrder extends Model implements AuditableContract
         'vendor_json' => 'object',
         'billing_address_json' => 'object',
         'shipping_address_json' => 'object',
-
+        'terms_json' => 'object',
     ];
 
     public function items()

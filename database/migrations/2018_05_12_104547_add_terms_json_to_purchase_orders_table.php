@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddHistoricalColumnsToPurchaseOrdersTable extends Migration
+class AddTermsJsonToPurchaseOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddHistoricalColumnsToPurchaseOrdersTable extends Migration
     public function up()
     {
         Schema::table('purchase_orders', function (Blueprint $table) {
-            $table->string('vendor_json', 1000)->nullable();
+            $table->binary('terms_json')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddHistoricalColumnsToPurchaseOrdersTable extends Migration
     public function down()
     {
         Schema::table('purchase_orders', function (Blueprint $table) {
-            $table->dropColumn(['vendor_json']);
+            $table->dropColumn(['terms_json']);
         });
     }
 }

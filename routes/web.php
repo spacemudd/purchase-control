@@ -201,6 +201,10 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('purchase-orders/service-items/store', 'Api\PurchaseOrderItemController@storeServiceLine');
     Route::delete('purchase-orders/service-items/delete', 'Api\PurchaseOrderItemController@deleteServiceLine');
 
+    // PO Terms.
+    Route::post('purchase-orders/terms/attach', 'Api\PurchaseOrdersTermsController@attach')->name('api.purchase-orders.terms.attach');
+    Route::post('purchase-orders/terms/detach', 'Api\PurchaseOrdersTermsController@detach')->name('api.purchase-orders.terms.detach');
+
     // Purchase Requisitions.
     Route::post('purchase-requisitions/{id}/send-to-purchasing', 'Api\PurchaseRequisitionsController@sendToPurchasing')->name('api-purchase-requisitions.send-to-purchasing');
     Route::get('purchase-requisitions/{id}', 'Api\PurchaseRequisitionsController@show');
