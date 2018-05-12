@@ -30540,6 +30540,7 @@ Vue.component('select-address', __webpack_require__(631));
 Vue.component('datetime-token', __webpack_require__(634));
 Vue.component('edit-supplier-token', __webpack_require__(637));
 Vue.component('delivery-date-token', __webpack_require__(648));
+Vue.component('toggle-purchase-term', __webpack_require__(651));
 
 /**
  * API/App settings
@@ -109594,6 +109595,204 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-181b584b", module.exports)
+  }
+}
+
+/***/ }),
+/* 651 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(652)
+/* template */
+var __vue_template__ = __webpack_require__(653)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\TogglePurchaseTerm\\TogglePurchaseTerm.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0ee474f5", Component.options)
+  } else {
+    hotAPI.reload("data-v-0ee474f5", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 652 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        poId: {
+            type: Number,
+            required: true
+        },
+        termId: {
+            type: Number,
+            required: true
+        },
+        enabledProp: {
+            type: Boolean,
+            required: true
+        }
+    },
+    data: function data() {
+        return {
+            enabled: false,
+            isLoading: false
+        };
+    },
+    mounted: function mounted() {
+        this.enabled = this.enabledProp;
+    },
+
+    methods: {
+        toggle: function toggle() {
+            if (!this.isLoading) {
+                if (this.enabled) {
+                    this.detachPermission();
+                } else {
+                    this.attach();
+                }
+            }
+        },
+        attach: function attach() {
+            var _this = this;
+
+            this.isLoading = true;
+
+            axios.post(this.apiUrl() + '/purchase-orders/terms/attach', {
+                purchase_order_id: this.poId,
+                term_id: this.termId
+            }).then(function () {
+                _this.isLoading = false;
+                _this.enabled = true;
+                _this.$toast.open({
+                    duration: 500,
+                    message: 'Term attached',
+                    type: 'is-success'
+                });
+            }).catch(function () {
+                _this.isLoading = false;
+                alert('Error occurred');
+            });
+        },
+        detachPermission: function detachPermission() {
+            var _this2 = this;
+
+            this.isLoading = true;
+
+            axios.post(this.apiUrl() + '/roles/detach-permission', {
+                role_id: this.roleId,
+                permission_name: this.permissionName
+            }).then(function () {
+                _this2.isLoading = false;
+                _this2.enabled = false;
+                _this2.$toast.open({
+                    duration: 500,
+                    message: _this2.getTrans('messages.permission-removed'),
+                    type: 'is-success'
+                });
+            }).catch(function () {
+                alert('Error occurred');
+            });
+        }
+    }
+};
+
+/***/ }),
+/* 653 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "field",
+      on: {
+        click: function($event) {
+          $event.preventDefault()
+          _vm.toggle()
+        }
+      }
+    },
+    [
+      _vm.isLoading
+        ? _c("div", {
+            staticClass: "button is-transparent is-link is-small is-loading"
+          })
+        : _c(
+            "b-checkbox",
+            {
+              model: {
+                value: _vm.enabled,
+                callback: function($$v) {
+                  _vm.enabled = $$v
+                },
+                expression: "enabled"
+              }
+            },
+            [_vm._t("default")],
+            2
+          )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-0ee474f5", module.exports)
   }
 }
 

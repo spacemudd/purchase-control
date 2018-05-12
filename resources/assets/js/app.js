@@ -213,6 +213,7 @@ Vue.component('select-address', require('./components/SelectAddress/SelectAddres
 Vue.component('datetime-token', require('./components/DatetimeToken/DatetimeToken'));
 Vue.component('edit-supplier-token', require('./components/EditSupplierToken/EditSupplierToken'));
 Vue.component('delivery-date-token', require('./components/DeliveryDateToken/DeliveryDateToken'));
+Vue.component('toggle-purchase-term', require('./components/TogglePurchaseTerm/TogglePurchaseTerm'));
 
 /**
  * API/App settings

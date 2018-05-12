@@ -174,9 +174,14 @@
 							<p class="title is-7">{{ $type->name }}</p>
 						</div>
 						<div class="column">
-							@foreach($type->terms()->get() as $terms)
+							@foreach($type->terms()->get() as $term)
 								<ul>
-									{{ $terms->value }}
+									<toggle-purchase-term :term-id.number="{{ $term->id }}"
+														  :po-id.number="{{ $purchase_order->id }}"
+														  :enabled-prop.number="{{ $purchase_order->terms->contains($term->id) ? 'true' : 'false' }}"
+									>
+										{{ $term->value }}
+									</toggle-purchase-term>
 								</ul>
 							@endforeach
 						</div>
