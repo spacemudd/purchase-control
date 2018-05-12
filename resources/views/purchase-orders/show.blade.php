@@ -70,18 +70,29 @@
 								<col width="50%">
 							</colgroup>
 							<tbody>
-							<tr>
-								<td><strong>Date</strong></td>
-								<td>
-									<datetime-token :id.number="{{ $purchase_order->id }}"
-													name="date"
-													value="{{ $purchase_order->date_string }}"
-													:highlighted="true"
-													placeholder="PURCHASE ORDER DATE"
-													url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
-									></datetime-token>
-								</td>
-							</tr>
+								<tr>
+									<td><strong>Date</strong></td>
+									<td>
+										<datetime-token :id.number="{{ $purchase_order->id }}"
+														name="date"
+														value="{{ $purchase_order->date_string }}"
+														:highlighted="true"
+														placeholder="PURCHASE ORDER DATE"
+														url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+										></datetime-token>
+									</td>
+								</tr>
+								<tr>
+									<td><strong>Supplier</strong></td>
+									<td>
+										<edit-supplier-token name="vendor_id"
+															 value="{{  $purchase_order->vendor_json_display_name }}"
+															 :highlighted="true"
+															 placeholder="SUPPLIER ID"
+															 url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+										></edit-supplier-token>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>

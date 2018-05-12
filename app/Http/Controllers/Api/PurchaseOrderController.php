@@ -141,7 +141,7 @@ class PurchaseOrderController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'value' => 'required|string|max:255',
+            'value' => 'nullable|max:255',
         ]);
 
         $data[$request->name] = $request->value;
@@ -149,6 +149,8 @@ class PurchaseOrderController extends Controller
         $po = PurchaseOrder::where('id', $id)->firstOrFail();
 
         $po->update($data);
+
+        $this->service->updateHistoricalData($id);
 
         return $po;
     }

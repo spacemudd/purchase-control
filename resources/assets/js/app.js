@@ -211,6 +211,7 @@ Vue.component('select-purchase-orders', require('./components/SelectPurchaseOrde
 Vue.component('select-vendors', require('./components/SelectVendors/SelectVendors'));
 Vue.component('select-address', require('./components/SelectAddress/SelectAddress'));
 Vue.component('datetime-token', require('./components/DatetimeToken/DatetimeToken'));
+Vue.component('edit-supplier-token', require('./components/EditSupplierToken/EditSupplierToken'));
 
 /**
  * API/App settings

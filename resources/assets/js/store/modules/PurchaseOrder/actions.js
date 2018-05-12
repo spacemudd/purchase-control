@@ -5,6 +5,22 @@ const { startLoading, endLoading } = createActionHelpers({
 });
 
 export default {
+    /**
+     * Loads the purchase order.
+     *
+     * @param context
+     * @param poId int @see \App\Models\PurchaseOrder
+     */
+    getPo(context, poId) {
+        axios.post(this.getters.apiUrl + '/purchase-orders/show', {
+            id: poId,
+        })
+            .then(response => {
+                context.commit('setPo', response.data);
+            }).catch(error => {
+            alert(error.response.data.message);
+        })
+    },
     submitPo(context) {
 
         if(!this.getters['PurchaseOrder/vendor']) {

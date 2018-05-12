@@ -12,6 +12,7 @@
 namespace App\Clarimount\Service;
 
 use App\Models\Address;
+use App\Models\Vendor;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -74,15 +75,22 @@ class PurchaseOrderService
 		$this->validate($purchase_order)->validate();
 
         $purchase_order['status'] = PurchaseOrder::NEW;
+
         if(isset($purchase_order['billing_address_id'])) {
-            $purchase_order['billing_address_json'] = json_encode(Address::where('id', $purchase_order['billing_address_id'])->firstOrFail()->toArray());
+            $purchase_order['billing_address_json'] = Address::where('id', $purchase_order['billing_address_id'])->firstOrFail();
         }
 
         if(isset($purchase_order['shipping_address_id'])) {
-            $purchase_order['shipping_address_json'] = json_encode(Address::where('id', $purchase_order['shipping_address_id'])->firstOrFail()->toArray());
+            $purchase_order['shipping_address_json'] = Address::where('id', $purchase_order['shipping_address_id'])->firstOrFail();
+        }
+
+        if(isset($purchase_order['vendor_id'])) {
+            $purchase_order['vendor_json'] = Vendor::where('id', $purchase_order['vendor_id'])->firstOrFail();;
         }
 
         $purchase_order['created_by_id'] = auth()->user()->id;
+
+
 
 		return $this->repository->create($purchase_order);
 	}
@@ -203,6 +211,31 @@ class PurchaseOrderService
 	public function isPoCommitted($id)
 	{
 		return PurchaseOrder::where('id', $id)->firstOrFail()->isCommitted;
+	}
+
+	public function updateHistoricalData($id)
+	{
+        $po = $this->repository->find($id);
+
+        if(isset($po['billing_address_id'])) {
+            $po->billing_address_json = Address::where('id', $po->billing_address_id)->firstOrFail();
+        } else {
+            $po->billing_address_json = null;
+        }
+
+        if(isset($po['shipping_address_id'])) {
+            $po->shipping_address_json = Address::where('id', $po->shipping_address_id)->firstOrFail();
+        } else {
+            $po->shipping_address_json = null;
+        }
+
+        if(isset($po['vendor_id'])) {
+            $po->vendor_json = Vendor::where('id', $po->vendor_id)->firstOrFail();;
+        } else {
+            $po->vendor_json = null;
+        }
+
+        $po->save();
 	}
 
 }

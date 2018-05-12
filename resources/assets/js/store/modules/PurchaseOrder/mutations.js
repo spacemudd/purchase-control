@@ -1,4 +1,7 @@
 export default {
+    setPo(state, payload) {
+        state.po = payload;
+    },
     /**
      * Set the modal on/off.
      *

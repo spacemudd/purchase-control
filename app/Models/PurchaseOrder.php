@@ -62,11 +62,19 @@ class PurchaseOrder extends Model implements AuditableContract
         'billing_address_json',
         'currency',
         'created_by_id',
+        'vendor_json',
     ];
 
     protected $dates = ['date', 'delivery_date'];
 
-    protected $appends = ['status_human', 'date_human', 'delivery_date_human', 'link', 'date_string'];
+    protected $appends = ['date_human', 'delivery_date_human', 'link', 'date_string'];
+
+    protected $casts = [
+        'vendor_json' => 'object',
+        'billing_address_json' => 'object',
+        'shipping_address_json' => 'object',
+
+    ];
 
     public function items()
     {
@@ -167,6 +175,13 @@ class PurchaseOrder extends Model implements AuditableContract
     {
         if($this->date) {
             return $this->date->toDateString();
+        }
+    }
+
+    public function getVendorJsonDisplayNameAttribute()
+    {
+        if($this->vendor_json) {
+            return $this->vendor_json->id . ' - ' . $this->vendor_json->name;
         }
     }
 

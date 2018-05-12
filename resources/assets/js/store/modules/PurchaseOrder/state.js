@@ -4,13 +4,15 @@ import PurchaseOrderActions from './actions';
 
 export default {
     state: {
+        po: null,
+
         'currentView': 'form',
         'showNewModal': false,
         'mainOrderNumber': null,
         'purchaseOrderNumber': null,
         'purchaseOrderDate': null,
         'purchaseOrderDeliveryDate': null,
-        'vendor': null,
+        'vendor': null, // used
         'vendorDeliveryNumber': null,
         'department': null,
         'employee': null,
@@ -26,7 +28,6 @@ export default {
         'editingUnitPrice': null,
         'editingWarranty': null,
         'editingWarrantyType': null,
-
     },
     getters: PurchaseOrderGetters,
     mutations: PurchaseOrderMutations,

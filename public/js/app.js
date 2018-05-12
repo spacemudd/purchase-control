@@ -30294,7 +30294,7 @@ module.exports = Symbol;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(150);
-module.exports = __webpack_require__(631);
+module.exports = __webpack_require__(643);
 
 
 /***/ }),
@@ -30536,8 +30536,9 @@ Vue.component('edit-requisition-purpose', __webpack_require__(619));
 Vue.component('pr-item-to-po-modal', __webpack_require__(622));
 Vue.component('select-purchase-orders', __webpack_require__(625));
 Vue.component('select-vendors', __webpack_require__(628));
-Vue.component('select-address', __webpack_require__(636));
-Vue.component('datetime-token', __webpack_require__(639));
+Vue.component('select-address', __webpack_require__(631));
+Vue.component('datetime-token', __webpack_require__(634));
+Vue.component('edit-supplier-token', __webpack_require__(637));
 
 /**
  * API/App settings
@@ -33293,13 +33294,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
     state: {
+        po: null,
+
         'currentView': 'form',
         'showNewModal': false,
         'mainOrderNumber': null,
         'purchaseOrderNumber': null,
         'purchaseOrderDate': null,
         'purchaseOrderDeliveryDate': null,
-        'vendor': null,
+        'vendor': null, // used
         'vendorDeliveryNumber': null,
         'department': null,
         'employee': null,
@@ -33315,7 +33318,6 @@ exports.default = {
         'editingUnitPrice': null,
         'editingWarranty': null,
         'editingWarrantyType': null
-
     },
     getters: _getters2.default,
     mutations: _mutations2.default,
@@ -33333,6 +33335,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
+    po: function po(state) {
+        return state.po;
+    },
     showNewModal: function showNewModal(state) {
         return state.showNewModal;
     },
@@ -33406,6 +33411,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
+    setPo: function setPo(state, payload) {
+        state.po = payload;
+    },
+
     /**
      * Set the modal on/off.
      *
@@ -33518,6 +33527,21 @@ var _createActionHelpers = (0, _vuexLoading.createActionHelpers)({
     endLoading = _createActionHelpers.endLoading;
 
 exports.default = {
+    /**
+     * Loads the purchase order.
+     *
+     * @param context
+     * @param poId int @see \App\Models\PurchaseOrder
+     */
+    getPo: function getPo(context, poId) {
+        axios.post(this.getters.apiUrl + '/purchase-orders/show', {
+            id: poId
+        }).then(function (response) {
+            context.commit('setPo', response.data);
+        }).catch(function (error) {
+            alert(error.response.data.message);
+        });
+    },
     submitPo: function submitPo(context) {
 
         if (!this.getters['PurchaseOrder/vendor']) {
@@ -108458,24 +108482,14 @@ if (false) {
 
 /***/ }),
 /* 631 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 632 */,
-/* 633 */,
-/* 634 */,
-/* 635 */,
-/* 636 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(637)
+var __vue_script__ = __webpack_require__(632)
 /* template */
-var __vue_template__ = __webpack_require__(638)
+var __vue_template__ = __webpack_require__(633)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -108514,7 +108528,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 637 */
+/* 632 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -108610,7 +108624,7 @@ exports.default = {
 //
 
 /***/ }),
-/* 638 */
+/* 633 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -108722,15 +108736,15 @@ if (false) {
 }
 
 /***/ }),
-/* 639 */
+/* 634 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(642)
+var __vue_script__ = __webpack_require__(635)
 /* template */
-var __vue_template__ = __webpack_require__(643)
+var __vue_template__ = __webpack_require__(636)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -108769,9 +108783,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 640 */,
-/* 641 */,
-/* 642 */
+/* 635 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -108874,7 +108886,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 643 */
+/* 636 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -108906,6 +108918,495 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-1864c359", module.exports)
   }
 }
+
+/***/ }),
+/* 637 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(638)
+/* template */
+var __vue_template__ = __webpack_require__(642)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\EditSupplierToken\\EditSupplierToken.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-252e59e3", Component.options)
+  } else {
+    hotAPI.reload("data-v-252e59e3", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 638 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _EditSupplierTokenModal = __webpack_require__(639);
+
+var _EditSupplierTokenModal2 = _interopRequireDefault(_EditSupplierTokenModal);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    components: { EditSupplierTokenModal: _EditSupplierTokenModal2.default },
+    props: {
+        highlighted: {
+            type: Boolean,
+            default: false
+        },
+        /**
+         * An HTTP PUT method URL to save/current_value the token.
+         */
+        url: {
+            type: String,
+            required: true
+        },
+        /**
+         * The name of the token/field/column-name of the resource.
+         */
+        name: {
+            type: String,
+            required: true
+        },
+        /**
+         * The value.
+         */
+        value: {
+            type: String,
+            required: false
+        },
+        placeholder: {
+            type: String,
+            default: 'TOKEN'
+        }
+    },
+    computed: {
+        po: function po() {
+            return this.$store.getters['PurchaseOrder/po'];
+        }
+    },
+    data: function data() {
+        return {
+            is_editing: false,
+
+            current_value: null
+        };
+    },
+    mounted: function mounted() {
+        this.current_value = this.value;
+    },
+
+    methods: {}
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/***/ }),
+/* 639 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(640)
+/* template */
+var __vue_template__ = __webpack_require__(641)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\EditSupplierTokenModal\\EditSupplierTokenModal.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1bcacc55", Component.options)
+  } else {
+    hotAPI.reload("data-v-1bcacc55", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 640 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        url: {
+            type: String,
+            required: true
+        },
+        /**
+         * The name of the field to be PUT'd into the HTTP server.
+         */
+        name: {
+            type: String,
+            required: true
+        }
+    },
+    data: function data() {
+        return {
+
+            form: {
+                vendor: null,
+                errors: []
+            }
+        };
+    },
+    mounted: function mounted() {
+        //
+    },
+
+    methods: {
+        selectedVendor: function selectedVendor(vendor) {
+            this.form.vendor = vendor;
+        },
+        save: function save() {
+            var _this = this;
+
+            this.form.errors = [];
+
+            axios.put(this.url, {
+                'name': this.name,
+                'value': this.form.vendor.id
+            }).then(function (response) {
+                _this.form.name = '';
+                _this.form.scopes = [];
+                _this.form.errors = [];
+
+                _this.$emit('saved', response.data);
+                // this.$store.dispatch('PurchaseOrder/getPo', response.data.id);
+
+                // this.$parent.close();
+
+                window.location.reload();
+            }).catch(function (response) {
+                if (_typeof(response.data) === 'object') {
+                    _this.form.errors = _.flatten(_.toArray(response.data));
+                } else {
+                    _this.form.errors = ['Something went wrong. Please try again.'];
+                }
+            });
+        }
+    }
+};
+
+/***/ }),
+/* 641 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "form",
+    {
+      on: {
+        submit: function($event) {
+          $event.preventDefault()
+          return _vm.save($event)
+        }
+      }
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass: "modal-card",
+          staticStyle: { width: "auto", "min-height": "600px" }
+        },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("section", { staticClass: "modal-card-body" }, [
+            _vm.form.errors.length > 0
+              ? _c("div", { staticClass: "notification is-danger" }, [
+                  _c("strong", [_vm._v("An error occurred.")]),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "ul",
+                    _vm._l(_vm.form.errors, function(error) {
+                      return _c("li", [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(error) +
+                            "\n                    "
+                        )
+                      ])
+                    })
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", { staticClass: "field" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "control" },
+                [
+                  _vm.form.vendor
+                    ? _c("b-input", {
+                        attrs: {
+                          value:
+                            _vm.form.vendor.id + " - " + _vm.form.vendor.name
+                        },
+                        on: {
+                          click: function($event) {
+                            _vm.form.vendor = null
+                          }
+                        }
+                      })
+                    : _c("select-vendors", {
+                        attrs: { url: this.apiUrl() + "/search/vendors" },
+                        on: { selected: _vm.selectedVendor }
+                      })
+                ],
+                1
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("footer", { staticClass: "modal-card-foot" }, [
+            _c(
+              "button",
+              {
+                staticClass: "button",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    _vm.$parent.close()
+                  }
+                }
+              },
+              [_vm._v("Close")]
+            ),
+            _vm._v(" "),
+            _c("button", { staticClass: "button is-primary" }, [_vm._v("Save")])
+          ])
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("header", { staticClass: "modal-card-head" }, [
+      _c("p", { staticClass: "modal-card-title" }, [_vm._v("Choose Supplier")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "label" }, [
+      _vm._v("Supplier "),
+      _c("span", { staticClass: "has-text-danger" }, [_vm._v("*")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1bcacc55", module.exports)
+  }
+}
+
+/***/ }),
+/* 642 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "b-modal",
+        {
+          attrs: { active: _vm.is_editing },
+          on: {
+            "update:active": function($event) {
+              _vm.is_editing = $event
+            }
+          }
+        },
+        [
+          _c("edit-supplier-token-modal", {
+            attrs: { url: _vm.url, name: _vm.name }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          class: { "transparent-highlighter-bg": _vm.highlighted },
+          on: {
+            click: function($event) {
+              _vm.is_editing = true
+            }
+          }
+        },
+        [
+          !_vm.current_value
+            ? _c("span", [
+                _c("i", [_vm._v("[" + _vm._s(_vm.placeholder) + "]")])
+              ])
+            : _vm._e(),
+          _vm._v("\n        " + _vm._s(_vm.current_value) + "\n    ")
+        ]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-252e59e3", module.exports)
+  }
+}
+
+/***/ }),
+/* 643 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
