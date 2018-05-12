@@ -163,4 +163,28 @@
 
 	</div>
 
+	{{-- Delivery & Terms --}}
+	<div class="columns">
+		<div class="column is-8">
+			<h2 class="title is-5 has-text-weight-light">Delivery &amp; Terms</h2>
+			<div class="box">
+				@foreach($purchaseTermsTypes as $type)
+					<div class="columns">
+						<div class="column is-4">
+							<p class="title is-7">{{ $type->name }}</p>
+						</div>
+						<div class="column">
+							@foreach($type->terms()->get() as $terms)
+								<ul>
+									{{ $terms->value }}
+								</ul>
+							@endforeach
+						</div>
+					</div>
+				@endforeach
+			</div>
+		</div>
+
+	</div>
+
 @endsection

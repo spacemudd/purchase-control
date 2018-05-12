@@ -13,6 +13,7 @@ namespace App\Http\Controllers;
 
 use App\Clarimount\Service\PurchaseOrderService;
 use App\Clarimount\Service\VendorBankService;
+use App\Model\PurchaseTermsType;
 use App\Models\Address;
 use App\Models\PurchaseOrder;
 use App\Models\Department;
@@ -122,7 +123,9 @@ class PurchaseOrderController extends Controller
 
         $purchase_order = $this->service->show($id);
 
-        return view('purchase-orders.show', compact('purchase_order'));
+        $purchaseTermsTypes = PurchaseTermsType::get();
+
+        return view('purchase-orders.show', compact('purchase_order', 'purchaseTermsTypes'));
     }
 
     /**
