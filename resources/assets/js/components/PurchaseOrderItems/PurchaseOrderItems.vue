@@ -17,6 +17,9 @@
                 <b-table-column label="Quantity" numeric>
                     {{ props.row.qty }}
                 </b-table-column>
+                <b-table-column label="Discount" numeric>
+                    {{ props.row.discount }}
+                </b-table-column>
                 <b-table-column label="Sub Total" numeric>
                     {{ props.row.subtotal }}
                 </b-table-column>

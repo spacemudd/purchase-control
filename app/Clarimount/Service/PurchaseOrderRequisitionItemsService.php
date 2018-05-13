@@ -15,6 +15,7 @@ class PurchaseOrderRequisitionItemsService
     /**
      *
      * @param $po_id Purchase Order ID.
+     * @return mixed
      */
     public function store($po_id)
     {
@@ -30,7 +31,21 @@ class PurchaseOrderRequisitionItemsService
             $unit_price =  $request['unit_price']
                             ? Money::of($request['unit_price'], 'SAR')
                             : Money::ofMinor($item_template->default_unit_price_minor, 'SAR');
-            $total_price = $unit_price->multipliedBy($request['qty'], RoundingMode::HALF_UP);
+            $subtotal = $unit_price->multipliedBy($request['qty'], RoundingMode::HALF_UP);
+
+            // Apply the discount if available.
+            if($request['discount']) {
+                $subtotal->minus($request['discount']);
+            }
+
+            // Get the total tax amount.
+            if($request['tax_rate1']) {
+                $tax_amount_1 = $subtotal->multipliedBy(($request['tax_rate1']/100), RoundingMode::HALF_UP);
+            } else {
+                $tax_amount_1 = Money::of(0, 'SAR');
+            }
+
+            $total_price = $subtotal->plus($tax_amount_1);
 
             $po_item = PurchaseOrdersItem::create([
                 'purchase_order_id' => $po->id,
@@ -41,6 +56,10 @@ class PurchaseOrderRequisitionItemsService
                 'manufacturer_id' => $item_template ? optional($item_template->manufacturer)->name : null,
                 'unit_price_minor' => $unit_price->getMinorAmount()->toInt(),
                 'qty' => $request['qty'] ? $request['qty'] : 1,
+                'discount_flat_minor' => $request['discount'] * 100,
+                'subtotal_minor' => $subtotal->getMinorAmount()->toInt(),
+                'tax_rate1' => $request['tax_rate1'],
+                'tax_amount_1_minor' => $tax_amount_1->getMinorAmount()->toInt(),
                 'total_minor' => $total_price->getMinorAmount()->toInt(),
             ]);
 

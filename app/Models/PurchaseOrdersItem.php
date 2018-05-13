@@ -39,13 +39,17 @@ class PurchaseOrdersItem extends Model implements AuditableContract
         'received_at',
         'received_by_id',
         'item_template_id',
+        'discount_flat_minor',
+        'subtotal_minor',
+        'tax_rate1',
+        'tax_amount_1_minor',
     ];
 
 	protected $dates = ['created_at', 'updated_at', 'date', 'received_at', 'warranty_expires_at'];
 
     protected $hidden = ['unit_price_minor', 'total_minor'];
 
-    protected $appends = ['unit_price', 'total'];
+    protected $appends = ['unit_price', 'total', 'subtotal'];
 
 	public function purchase_order()
 	{
@@ -65,5 +69,12 @@ class PurchaseOrdersItem extends Model implements AuditableContract
     public function getTotalAttribute()
     {
         return Money::ofMinor($this->total_minor, 'SAR')->getAmount();
+    }
+
+    public function getSubtotalAttribute()
+    {
+        if($this->subtotal_minor) {
+            return Money::ofMinor($this->subtotal_minor, 'SAR')->getAmount();
+        }
     }
 }
