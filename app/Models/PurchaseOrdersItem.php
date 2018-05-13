@@ -37,6 +37,7 @@ class PurchaseOrdersItem extends Model implements AuditableContract
         'warranty_expires_at',
         'received_at',
         'received_by_id',
+        'item_template_id',
     ];
 
 	protected $dates = ['created_at', 'updated_at', 'date', 'received_at', 'warranty_expires_at'];
