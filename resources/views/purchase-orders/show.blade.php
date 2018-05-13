@@ -207,25 +207,7 @@
 
             {{-- Items --}}
             <div class="box">
-                <table class="table is-fullwidth">
-                <thead>
-                <tr>
-                	<th>#</th>
-                    <th>Code</th>
-                    <th>Description</th>
-                    <th>Unit Price</th>
-                    <th>Quantity</th>
-                    <th>Subtotal</th>
-                    <th>Tax</th>
-                    <th>Total</th>
-                </tr>
-                </thead>
-                	<tbody>
-                			<tr>
-                				<td></td>
-                			</tr>
-                	</tbody>
-                </table>
+                <purchase-order-items :po-id.number="{{ $purchase_order->id }}"></purchase-order-items>
             </div>
 		</div>
 	</div>

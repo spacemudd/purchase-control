@@ -217,6 +217,7 @@ Vue.component('toggle-purchase-term', require('./components/TogglePurchaseTerm/T
 Vue.component('new-po-item-from-pr-button', require('./components/NewPoItemFromPrButton/NewPoItemFromPrButton'));
 Vue.component('new-po-item-modal', require('./components/NewPoItemModal/NewPoItemModal'));
 Vue.component('select-purchase-requisition', require('./components/SelectPurchaseRequsition/SelectPurchaseRequisition'));
+Vue.component('purchase-order-items', require('./components/PurchaseOrderItems/PurchaseOrderItems'));
 
 /**
  * API/App settings
