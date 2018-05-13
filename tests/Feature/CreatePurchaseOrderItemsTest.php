@@ -42,7 +42,9 @@ class CreatePurchaseOrderItemsTest extends TestCase
 
         $this->actingAs($user)->post($url, $data)->assertSuccessful();
 
-        //dd($this->app['session.store']);
+        $tax_amount = Money::of($data['unit_price'], 'SAR')
+            ->multipliedBy($data['qty'])
+            ->multipliedBy($data['tax_rate1']/100);
 
         $this->assertDatabaseHas('purchase_orders_items', [
             'pr_item_id' => $req_item->id,
@@ -50,7 +52,11 @@ class CreatePurchaseOrderItemsTest extends TestCase
             'qty' => $data['qty'],
             // 'unit_price_minor' => $req_item->item_template->default_unit_price_minor, // do a 'saving default price'
             'unit_price_minor' => Money::of($data['unit_price'], 'SAR')->getMinorAmount()->toInt(),
-            'total_minor' => Money::of($data['unit_price'], 'SAR')->multipliedBy($data['qty'])->getMinorAmount()->toInt(),
+            'total_minor' => Money::of($data['unit_price'], 'SAR')
+                ->multipliedBy($data['qty'])
+                ->plus($tax_amount)
+                ->getMinorAmount()
+                ->toInt(),
         ]);
     }
 }
