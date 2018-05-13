@@ -21,4 +21,9 @@ class PurchaseRequisitionItem extends Model
     {
         return $this->belongsTo(PurchaseRequisition::class);
     }
+
+    public function item_template()
+    {
+        return $this->belongsTo(ItemTemplate::class);
+    }
 }
