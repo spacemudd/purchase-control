@@ -25,5 +25,8 @@ export default {
      */
     showModal(state, show) {
         state.showModal = show;
+    },
+    setPoId(state, id) {
+        state.poId = id;
     }
 }

@@ -14,5 +14,8 @@ export default {
     },
     showModal(state) {
         return state.showModal;
-    }
+    },
+    poId(state) {
+        return state.poId;
+    },
 }

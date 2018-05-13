@@ -7,6 +7,12 @@
 
 <script>
     export default {
+        props: {
+            poId: {
+                type: Number,
+                required: true,
+            }
+        },
         data() {
             return {
                 //
@@ -18,6 +24,7 @@
         methods: {
             showNewPoItemFromPrModal() {
                 this.$store.commit('PurchaseOrderItem/showModal', true);
+                this.$store.commit('PurchaseOrderItem/setPoId', this.poId);
             },
         }
     }

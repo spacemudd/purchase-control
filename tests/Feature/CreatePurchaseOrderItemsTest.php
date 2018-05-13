@@ -6,6 +6,7 @@ use App\Models\ItemTemplate;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseRequisitionItem;
 use App\Models\User;
+use Brick\Money\Money;
 use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -13,7 +14,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CreatePurchaseOrderItemsTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     public function setUp()
     {
@@ -31,17 +32,25 @@ class CreatePurchaseOrderItemsTest extends TestCase
 
         $data = [
             'pr_item_id' => $req_item->id,
+            'qty' => $this->faker->numberBetween(0, 10),
+            'unit_price' => $this->faker->numberBetween(0, 4000),
+            'discount' => 0.00,
+            'tax_rate1' => 5, // is %
         ];
 
-        $url = route('api.purchase-orders.requisition-items', ['purchase_order_id' => $po->id]);
+        $url = url('api/v1/purchase-orders/'.$po->id.'/requisition-items');
 
-        $this->actingAs($user)->post($url, $data);
+        $this->actingAs($user)->post($url, $data)->assertSuccessful();
+
+        //dd($this->app['session.store']);
 
         $this->assertDatabaseHas('purchase_orders_items', [
             'pr_item_id' => $req_item->id,
             'description' => $req_item->name,
-            'qty' => 1,
-            'unit_price_minor' => $req_item->item_template->default_unit_price_minor,
+            'qty' => $data['qty'],
+            // 'unit_price_minor' => $req_item->item_template->default_unit_price_minor, // do a 'saving default price'
+            'unit_price_minor' => Money::of($data['unit_price'], 'SAR')->getMinorAmount()->toInt(),
+            'total_minor' => Money::of($data['unit_price'], 'SAR')->multipliedBy($data['qty'])->getMinorAmount()->toInt(),
         ]);
     }
 }

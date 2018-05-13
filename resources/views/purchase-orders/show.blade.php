@@ -201,7 +201,7 @@
                     <h2 class="title is-5 has-text-weight-light">Items</h2>
                 </div>
                 <div class="column has-text-right">
-                    <new-po-item-from-pr-button></new-po-item-from-pr-button>
+                    <new-po-item-from-pr-button :po-id.number="{{ $purchase_order->id }}"></new-po-item-from-pr-button>
                 </div>
             </div>
 

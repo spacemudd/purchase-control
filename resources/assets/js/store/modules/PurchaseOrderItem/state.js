@@ -17,6 +17,7 @@ export default {
     state: {
         item: null,
         showModal: false,
+        poId: null,
     },
 
     getters: Getters,

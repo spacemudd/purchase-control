@@ -41,7 +41,7 @@
                 				<td>{{ item.code }}</td>
                                 <td>{{ item.model_number }}</td>
                                 <td class="has-text-right">
-                                    <button class="button is-small is-primary" type="button" @click="pr_item=item">Select</button>
+                                    <button class="button is-small is-primary" type="button" @click="selectPrItem(item)">Select</button>
                                 </td>
                 			</tr>
                 	</tbody>
@@ -56,22 +56,22 @@
                     </div>
                     <div class="column is-6">
                         <b-field label="Unit Price">
-                            <b-input type="number" step="0.001" min="0.01" v-model="form.unit_price"></b-input>
+                            <b-input type="number" step="0.001" min="0.00" v-model="form.unit_price"></b-input>
                         </b-field>
                     </div>
                     <div class="column is-6">
                         <b-field label="Quantity">
-                            <b-input type="number" step="0.001" min="0.01" v-model="form.qty"></b-input>
+                            <b-input type="number" v-model="form.qty" readonly></b-input>
                         </b-field>
                     </div>
                     <div class="column is-6">
                         <b-field label="Discount">
-                            <b-input type="number" step="0.001" min="0.01" v-model="form.discount"></b-input>
+                            <b-input type="number" step="0.001" min="0.00" v-model="form.discount"></b-input>
                         </b-field>
                     </div>
                     <div class="column is-6">
                         <b-field label="Tax (%)">
-                            <b-input type="number" step="0.001" min="0.01" v-model="form.tax_rate1"></b-input>
+                            <b-input type="number" step="0.001" min="0.00" v-model="form.tax_rate1"></b-input>
                         </b-field>
                     </div>
                 </div>
@@ -95,15 +95,20 @@
                 pr_item: null,
 
                 form: {
+                    pr_item_id: null,
                     qty: 1,
                     unit_price: 1,
-                    name: null,
                     discount: 0.00,
                     tax_rate1: 5,
 
                     errors: [],
                 }
             }
+        },
+        computed: {
+            poId() {
+                return this.$store.getters['PurchaseOrderItem/poId'];
+            },
         },
         mounted() {
             //
@@ -112,6 +117,38 @@
             selectPurchaseRequisition(purchase_requisition) {
                 this.purchase_requisition = purchase_requisition;
                 this.purchase_requisition_items = purchase_requisition.items;
+            },
+            /**
+             * PurchaseRequisitionItem.
+             * @param item
+             */
+            selectPrItem(item) {
+                this.form.pr_item_id = item.id;
+                this.form.qty = item.qty;
+                this.pr_item = item;
+            },
+            /**
+             * Send the request for a new item.
+             */
+            save() {
+                axios.post(this.apiUrl() + '/purchase-orders/' + this.poId + '/requisition-items', this.form)
+                    .then(response => {
+
+                    })
+                    .catch(error => {
+                        if (typeof error.response.data === 'object') {
+                            this.form.errors = _.flatten(_.toArray(error.response.data.errors));
+                        } else {
+                            this.form.errors = ['Something went wrong. Please try again.'];
+                        }
+
+                        this.$dialog.alert({
+                            message: this.form.errors,
+                            type: 'is-danger',
+                        });
+
+                        throw error;
+                    })
             },
         }
     }
