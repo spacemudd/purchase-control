@@ -2,9 +2,9 @@
     <div>
         <b-table :data="items" class="is-size-7">
             <template slot-scope="props">
-                <b-table-column label="#">
-                    /
-                </b-table-column>
+                <!--<b-table-column label="#">-->
+                    <!--/-->
+                <!--</b-table-column>-->
                 <b-table-column label="Code">
                     {{ props.row.code }}
                 </b-table-column>
@@ -27,12 +27,12 @@
                     {{ props.row.total }}
                 </b-table-column>
                 <b-table-column label="Actions" numeric>
-                    <!--<button v-if="request.status_name === 'draft'"-->
-                            <!--class="button is-small is-danger has-icon"-->
-                            <!--@click="confirmDeletingItem(props.row.id)">-->
-                        <!--<span class="icon"><i class="fa fa-trash"></i></span>-->
-                        <!--<span>Delete</span>-->
-                    <!--</button>-->
+                    <button v-if="po.status_name === 'draft'"
+                            class="button is-small is-danger has-icon"
+                            @click="confirmDeletingItem(props.row.id)">
+                        <span class="icon"><i class="fa fa-trash"></i></span>
+                        <span>Delete</span>
+                    </button>
                 </b-table-column>
             </template>
             <template slot="empty">
@@ -56,6 +56,7 @@
         },
         data() {
             return {
+                po: [],
                 items: [],
             }
         },
@@ -66,12 +67,29 @@
             getItems() {
                 axios.post(this.apiUrl() + '/purchase-orders/show', {id: this.poId})
                     .then(response => {
+                        this.po = response.data;
                         this.items = response.data.items;
                     })
                     .catch(error => {
                         alert('Error occurred getting items.');
                     })
-            }
+            },
+            confirmDeletingItem(itemId) {
+                this.$dialog.confirm({
+                    title: 'Deleting item',
+                    message: 'Are you sure?',
+                    onConfirm: () => this.deleteItem(itemId),
+                })
+            },
+            deleteItem(itemId) {
+                axios.delete(this.apiUrl() + `/purchase-orders/${this.poId}/requisition-items/${itemId}`)
+                    .then(response => {
+                        this.getItems();
+                    })
+                    .catch(error => {
+                        alert(error.response.data.message);
+                    })
+            },
         }
     }
 </script>

@@ -68,7 +68,7 @@ class PurchaseOrder extends Model implements AuditableContract
 
     protected $dates = ['date', 'delivery_date'];
 
-    protected $appends = ['date_human', 'delivery_date_human', 'link', 'date_string', 'delivery_date_string'];
+    protected $appends = ['date_human', 'delivery_date_human', 'link', 'date_string', 'delivery_date_string', 'status_name'];
 
     protected $casts = [
         'vendor_json' => 'object',
