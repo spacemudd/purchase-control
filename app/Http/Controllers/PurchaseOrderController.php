@@ -196,4 +196,17 @@ class PurchaseOrderController extends Controller
             return redirect()->back();
         }
     }
+
+    /**
+     *
+     * @param $id po id
+     * @return mixed
+     * @throws \Exception
+     */
+    public function save($id)
+    {
+        $po = $this->service->save($id);
+
+        return redirect()->route('purchase-orders.show', ['id' => $po->id]);
+    }
 }

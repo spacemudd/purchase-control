@@ -22,6 +22,10 @@
                 type: Boolean,
                 required: true,
             },
+            canToggle: {
+                type: Boolean,
+                required: true,
+            }
         },
         data() {
             return {
@@ -34,6 +38,12 @@
         },
         methods: {
             toggle() {
+                if(!this.canToggle) {
+                    this.$toast.open({
+                        message: 'The terms cannot be changed',
+                    })
+                    return false;
+                }
                 if(!this.isLoading) {
                     if(this.enabled) {
                         this.detach();

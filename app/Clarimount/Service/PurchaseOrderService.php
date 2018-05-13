@@ -134,9 +134,15 @@ class PurchaseOrderService
 		return $this->repository->find($id);
 	}
 
-	public function save()
+	public function save($id=null)
     {
-        $purchase_order = request()->only('id');
+        // did the $id=null cause the API controller isn't injecting the save() w/ the id.
+        // the http controller is... injecting.
+        if($id) {
+            $purchase_order = ['id' => $id];
+        } else {
+            $purchase_order = request()->only('id');
+        }
 
         $this->validatePoExists($purchase_order)->validate();
 

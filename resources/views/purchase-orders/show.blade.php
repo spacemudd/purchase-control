@@ -56,7 +56,14 @@
 
 					{{-- Options --}}
 					<div class="column has-text-right">
-
+                        @can('create-purchase-orders')
+                            @if($purchase_order->is_draft)
+                                <form class="button is-warning is-small" action="{{ route('purchase-orders.save', ['id' => $purchase_order->id]) }}" method="post">
+                                    {{ csrf_field() }}
+                                    <button type="submit" class="button is-warning is-small">Save</button>
+                                </form>
+                            @endif
+                        @endif
 					</div>
 				</div>
 
@@ -76,7 +83,7 @@
 										<datetime-token :id.number="{{ $purchase_order->id }}"
 														name="date"
 														value="{{ $purchase_order->date_string }}"
-														:highlighted="true"
+														:highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
 														placeholder="PURCHASE ORDER DATE"
 														url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
 										></datetime-token>
@@ -87,7 +94,7 @@
 									<td>
 										<edit-supplier-token name="vendor_id"
 															 value="{{  $purchase_order->vendor_json_display_name }}"
-															 :highlighted="true"
+                                                             :highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
 															 placeholder="SUPPLIER ID"
 															 url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
 										></edit-supplier-token>
@@ -99,7 +106,7 @@
 										<delivery-date-token :id.number="{{ $purchase_order->id }}"
 														name="delivery_date"
 														value="{{ $purchase_order->delivery_date_string }}"
-														:highlighted="true"
+                                                       :highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
 														placeholder="DELIVERY DATE DATE"
 														url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
 										></delivery-date-token>
@@ -179,6 +186,7 @@
 									<toggle-purchase-term :term-id.number="{{ $term->id }}"
 														  :po-id.number="{{ $purchase_order->id }}"
 														  :enabled-prop.number="{{ $purchase_order->terms->contains($term->id) ? 'true' : 'false' }}"
+                                                         :can-toggle="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
 									>
 										{{ $term->value }}
 									</toggle-purchase-term>
@@ -201,7 +209,9 @@
                     <h2 class="title is-5 has-text-weight-light">Items</h2>
                 </div>
                 <div class="column has-text-right">
-                    <new-po-item-from-pr-button :po-id.number="{{ $purchase_order->id }}"></new-po-item-from-pr-button>
+                    @if($purchase_order->is_draft)
+                        <new-po-item-from-pr-button :po-id.number="{{ $purchase_order->id }}"></new-po-item-from-pr-button>
+                    @endif
                 </div>
             </div>
 
