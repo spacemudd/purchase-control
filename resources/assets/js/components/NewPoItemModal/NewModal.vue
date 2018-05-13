@@ -79,7 +79,9 @@
             </section>
             <footer class="modal-card-foot">
                 <button class="button" type="button" @click="$parent.close()">Close</button>
-                <button class="button is-primary" type="submit" v-if="pr_item">Save</button>
+                <button class="button is-primary"
+                        :class="{'is-loading': $isLoading('SAVING_PO_ITEM')}"
+                        type="submit" v-if="pr_item">Save</button>
             </footer>
         </div>
     </form>
@@ -131,11 +133,14 @@
              * Send the request for a new item.
              */
             save() {
+                this.$startLoading('SAVING_PO_ITEM');
                 axios.post(this.apiUrl() + '/purchase-orders/' + this.poId + '/requisition-items', this.form)
                     .then(response => {
-
+                        window.location.reload();
                     })
                     .catch(error => {
+                        this.$endLoading('SAVING_PO_ITEM');
+
                         if (typeof error.response.data === 'object') {
                             this.form.errors = _.flatten(_.toArray(error.response.data.errors));
                         } else {
