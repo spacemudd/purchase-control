@@ -38,7 +38,7 @@ class CreatePurchaseOrderItemsTest extends TestCase
         $this->actingAs($user)->post($url, $data);
 
         $this->assertDatabaseHas('purchase_orders_items', [
-            //'pr_item_id' => $req_item->id,
+            'pr_item_id' => $req_item->id,
             'description' => $req_item->name,
             'qty' => 1,
             'unit_price_minor' => $req_item->item_template->default_unit_price_minor,

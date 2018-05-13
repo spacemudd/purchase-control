@@ -23,6 +23,7 @@ class PurchaseOrdersItem extends Model implements AuditableContract
     protected $fillable = [
         'purchase_order_id',
         'item_id',
+        'pr_item_id',
         'code',
         'name',
         'description',

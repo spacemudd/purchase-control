@@ -28,6 +28,7 @@ class PurchaseOrderRequisitionItemsService
             $po_item = PurchaseOrdersItem::create([
                 'purchase_order_id' => $po->id,
                 'item_template_id' => $item_template->id,
+                'pr_item_id' => $pr_item->id,
                 'code' => $pr_item->code,
                 'description' => $pr_item->name,
                 'manufacturer_id' => $item_template ? optional($item_template->manufacturer)->name : null,

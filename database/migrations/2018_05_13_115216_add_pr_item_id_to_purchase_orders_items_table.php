@@ -14,7 +14,7 @@ class AddPrItemIdToPurchaseOrdersItemsTable extends Migration
     public function up()
     {
         Schema::table('purchase_orders_items', function (Blueprint $table) {
-            $table->integer('pr_item_id')->unsigned();
+            $table->integer('pr_item_id')->unsigned()->nullable();
             $table->foreign('pr_item_id')->references('id')->on('purchase_requisition_items');
         });
     }
