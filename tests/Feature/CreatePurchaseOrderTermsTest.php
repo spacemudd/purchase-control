@@ -54,5 +54,18 @@ class CreatePurchaseOrderTermsTest extends TestCase
         $this->assertDatabaseHas('purchase_orders', [
             'terms_json' => json_encode($terms),
         ]);
+
+        // The removing part.
+        $url = route('api.purchase-orders.terms.detach');
+        $this->actingAs($user)->post($url, [
+            'purchase_order_id' => $po->id,
+            'term_id' => $term->id,
+        ])->assertSuccessful();
+
+        $terms = $po->terms()->get();
+
+        $this->assertDatabaseHas('purchase_orders', [
+            'terms_json' => json_encode($terms),
+        ]);
     }
 }
