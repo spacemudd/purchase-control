@@ -85,7 +85,6 @@
                                     </sidebar-links-group>
 
 
-                                    {{--
                                     @can('view-purchase-orders')
                                         <sidebar-links-group selected="{{ (request()->route()->getName() === 'purchase-orders.index') }}"
                                                              icon="shopping-cart"
@@ -93,7 +92,6 @@
                                                              link="{{ route('purchase-orders.index') }}">
                                         </sidebar-links-group>
                                     @endcan
-                                    --}}
 
 
                                     {{--
