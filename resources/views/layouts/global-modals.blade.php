@@ -4,3 +4,4 @@
 <new-vendor></new-vendor>
 <new-manufacturer></new-manufacturer>
 <login-dipper :timeout.number="{{ config('session.lifetime', 120) }}"></login-dipper>
+<new-po-item-modal></new-po-item-modal>
