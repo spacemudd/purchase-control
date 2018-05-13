@@ -49,7 +49,7 @@ class PurchaseOrdersItem extends Model implements AuditableContract
 
     protected $hidden = ['unit_price_minor', 'total_minor'];
 
-    protected $appends = ['unit_price', 'total', 'subtotal'];
+    protected $appends = ['unit_price', 'total', 'subtotal', 'discount_flat'];
 
 	public function purchase_order()
 	{
@@ -75,6 +75,13 @@ class PurchaseOrdersItem extends Model implements AuditableContract
     {
         if($this->subtotal_minor) {
             return Money::ofMinor($this->subtotal_minor, 'SAR')->getAmount();
+        }
+    }
+
+    public function getDiscountFlatAttribute()
+    {
+        if($this->discount_flat_minor) {
+            return Money::ofMinor($this->discount_flat_minor, 'SAR')->getAmount();
         }
     }
 }

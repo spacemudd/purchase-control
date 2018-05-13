@@ -35,7 +35,7 @@ class PurchaseOrderRequisitionItemsService
 
             // Apply the discount if available.
             if($request['discount']) {
-                $subtotal->minus($request['discount']);
+                $subtotal = $subtotal->minus($request['discount']);
             }
 
             // Get the total tax amount.

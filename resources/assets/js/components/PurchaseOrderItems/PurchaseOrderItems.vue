@@ -17,13 +17,13 @@
                 <b-table-column label="Quantity" numeric>
                     {{ props.row.qty }}
                 </b-table-column>
-                <b-table-column label="Discount" numeric>
-                    {{ props.row.discount }}
+                <b-table-column label="Discount (flat)" numeric>
+                    {{ props.row.discount_flat }}
                 </b-table-column>
                 <b-table-column label="Sub Total" numeric>
                     {{ props.row.subtotal }}
                 </b-table-column>
-                <b-table-column label="Tax" numeric>
+                <b-table-column label="Tax (%)" numeric>
                     {{ props.row.tax_rate1 }}
                 </b-table-column>
                 <b-table-column label="Total" numeric>
