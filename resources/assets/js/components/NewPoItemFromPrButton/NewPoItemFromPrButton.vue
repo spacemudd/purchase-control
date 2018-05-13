@@ -17,7 +17,7 @@
         },
         methods: {
             showNewPoItemFromPrModal() {
-                this.$store.commit('PurchaseOrdersItems/showNewPoItemFromModal', true);
+                this.$store.commit('PurchaseOrderItem/showModal', true);
             },
         }
     }

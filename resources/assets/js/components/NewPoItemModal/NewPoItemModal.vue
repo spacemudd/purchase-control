@@ -1,15 +1,15 @@
 <template>
     <b-modal :active.sync="show">
-        <modal></modal>
+        <new-modal></new-modal>
     </b-modal>
 </template>
 
 <script>
-    import Modal from './Modal';
+    import NewModal from './NewModal';
 
     export default {
-        component: {
-            Modal,
+        components: {
+            NewModal,
         },
         data() {
             return {
@@ -19,10 +19,10 @@
         computed: {
             show: {
                 get() {
-                    return this.$store.getters['PurchaseOrdersItem/showNewModal'];
+                    return this.$store.getters['PurchaseOrderItem/showModal'];
                 },
                 set(value) {
-                    return this.$store.commit('PurchaseOrdersItems/showNewModal', value);
+                    return this.$store.commit('PurchaseOrderItem/showModal', value);
                 },
             },
         },
