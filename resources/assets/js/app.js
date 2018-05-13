@@ -78,7 +78,7 @@ Vue.component('purchase-order-items', require('./components/PurchaseOrders/Items
 Vue.component('new-purchase-order', require('./components/PurchaseOrders/NewPurchaseOrderModal/Modal.vue'));
 Vue.component('edit-purchase-order-modal', require('./components/PurchaseOrders/EditPurchaseOrderModal/Modal.vue'));
 // Vue.component('asset-issuances', require('./components/AssetIssuances/Browse/Browse.vue'));
-// Vue.component('new-asset-issuance', require('./components/AssetIssuances/NewIssuanceModal/Modal.vue'));
+// Vue.component('new-asset-issuance', require('./components/AssetIssuances/NewIssuanceModal/NewModal.vue'));
 // Vue.component('asset-issuance-items', require('./components/AssetIssuances/Items/Browse/Browse.vue'));
 // Vue.component('asset-issuance-show', require('./components/AssetIssuances/Show/Show.vue'));
 
@@ -86,7 +86,7 @@ Vue.component('purchase-order-item-new-modal', require('./components/PurchaseOrd
 
 // Asset returns.
 // Vue.component('asset-issuances-returns', require('./components/AssetIssuancesReturns/Browse/Browse.vue'));
-// Vue.component('new-asset-issuance-return', require('./components/AssetIssuancesReturns/NewIssuanceReturnModal/Modal.vue'));
+// Vue.component('new-asset-issuance-return', require('./components/AssetIssuancesReturns/NewIssuanceReturnModal/NewModal.vue'));
 // Vue.component('asset-issuance-return-show', require('./components/AssetIssuancesReturns/Show/Show.vue'));
 
 // Vue.component('asset-management', require('./components/AssetManagement/Browse/Browse.vue'));
@@ -112,8 +112,8 @@ Vue.component('simple-search', require('./components/SimpleSearch/ReturnIdRevamp
 Vue.component('loading-screen', require('./components/LoadingAnimations/SvgBrand/SvgBrand.vue'));
 // Vue.component('asset-show', require('./components/Assets/show/show.vue'));
 Vue.component('settings-sidebar-menu', require('./components/Sidebar/SettingsSidebarMenu/Settings.vue'));
-// Vue.component('new-issuance', require('./components/AssetIssuances/NewIssuanceModal/Modal.vue'));
-// Vue.component('new-issuance-return', require('./components/AssetIssuancesReturns/NewIssuanceReturnModal/Modal.vue'));
+// Vue.component('new-issuance', require('./components/AssetIssuances/NewIssuanceModal/NewModal.vue'));
+// Vue.component('new-issuance-return', require('./components/AssetIssuancesReturns/NewIssuanceReturnModal/NewModal.vue'));
 // Vue.component('location-codes-index', require('./components/LocationCodes/Index.vue'));
 // Vue.component('location-codes-show', require('./components/Locations/Show/Show.vue'));
 Vue.component('department-groups-index', require('./components/DepartmentGroups/Index/Index'));
@@ -214,6 +214,9 @@ Vue.component('datetime-token', require('./components/DatetimeToken/DatetimeToke
 Vue.component('edit-supplier-token', require('./components/EditSupplierToken/EditSupplierToken'));
 Vue.component('delivery-date-token', require('./components/DeliveryDateToken/DeliveryDateToken'));
 Vue.component('toggle-purchase-term', require('./components/TogglePurchaseTerm/TogglePurchaseTerm'));
+Vue.component('new-po-item-from-pr-button', require('./components/NewPoItemFromPrButton/NewPoItemFromPrButton'));
+Vue.component('new-po-item-modal', require('./components/NewPoItemModal/NewPoItemModal'));
+Vue.component('select-purchase-requisition', require('./components/SelectPurchaseRequsition/SelectPurchaseRequisition'));
 
 /**
  * API/App settings
@@ -221,9 +224,9 @@ Vue.component('toggle-purchase-term', require('./components/TogglePurchaseTerm/T
 const apiVersion = '1';
 
 // if(process.env.NODE_ENV === 'production') {
-    var envUrl = window.location.origin + '/PMS';
+//     var envUrl = window.location.origin + '/PMS';
 // } else {
-//     var envUrl = window.location.origin;
+    var envUrl = window.location.origin;
 // }
 
 Vue.mixin({

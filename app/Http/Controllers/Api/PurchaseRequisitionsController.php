@@ -113,4 +113,19 @@ class PurchaseRequisitionsController extends Controller
 
         return $pr;
     }
+
+    /**
+     * @return mixed
+     */
+    public function searchSaved()
+    {
+        $search = request()->input('q');
+
+        $results = PurchaseRequisition::where('number', 'LIKE', '%' . $search . '%')
+            ->paginate(10);
+
+        $results->load('items');
+
+        return $results;
+    }
 }

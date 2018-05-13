@@ -193,4 +193,41 @@
 
 	</div>
 
+	{{-- Items --}}
+	<div class="columns">
+		<div class="column is-8">
+            <div class="columns">
+                <div class="column">
+                    <h2 class="title is-5 has-text-weight-light">Items</h2>
+                </div>
+                <div class="column has-text-right">
+                    <new-po-item-from-pr-button></new-po-item-from-pr-button>
+                </div>
+            </div>
+
+            {{-- Items --}}
+            <div class="box">
+                <table class="table is-fullwidth">
+                <thead>
+                <tr>
+                	<th>#</th>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Tax</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                	<tbody>
+                			<tr>
+                				<td></td>
+                			</tr>
+                	</tbody>
+                </table>
+            </div>
+		</div>
+	</div>
+
 @endsection
