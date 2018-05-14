@@ -153,6 +153,20 @@ class PurchaseOrderService
         return $this->repository->save($purchase_order['id']);
     }
 
+    /**
+     * Checks if the PO has the necessary fields in order to save it.
+     *
+     * @param $id
+     * @return bool
+     */
+    public function isReadyToSave($id)
+    {
+        $po = $this->repository->find($id);
+
+        if(!$po->delivery_date) return false;
+        if(!$po->date) return false;
+        if(!$po->supplier) return false;
+    }
 
     public function commit()
     {
