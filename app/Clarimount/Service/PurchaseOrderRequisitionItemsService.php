@@ -53,7 +53,7 @@ class PurchaseOrderRequisitionItemsService
                 'pr_item_id' => $pr_item->id,
                 'code' => $pr_item->code,
                 'description' => $pr_item->name,
-                'manufacturer_id' => $item_template ? optional($item_template->manufacturer)->name : null,
+                'manufacturer_id' => $item_template ? optional($item_template->manufacturer)->id : null,
                 'unit_price_minor' => $unit_price->getMinorAmount()->toInt(),
                 'qty' => $request['qty'] ? $request['qty'] : 1,
                 'discount_flat_minor' => $request['discount'] * 100,

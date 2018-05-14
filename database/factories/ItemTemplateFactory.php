@@ -21,7 +21,7 @@ $factory->define(App\Models\ItemTemplate::class, function (Faker $faker) {
         'model_number' => $faker->numberBetween(500),
         'category_id' => null,
         'manufacturer_id' => $manufacturer_id ?: factory(\App\Models\Manufacturer::class)->create()->id,
-        'eol' => $faker->text(),
+        'eol' => $faker->randomNumber(),
         'default_unit_price_minor' => $faker->numberBetween(0, 250000) * 100,
     ];
 });
