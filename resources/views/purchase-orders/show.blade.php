@@ -56,6 +56,10 @@
 
 					{{-- Options --}}
 					<div class="column has-text-right">
+                        @if(!$purchase_order->is_draft)
+                            <toggle-preview-purchase-order></toggle-preview-purchase-order>
+                        @endif
+
                         @can('create-purchase-orders')
                             @if($purchase_order->is_draft)
                                 <form class="button is-warning is-small" action="{{ route('purchase-orders.save', ['id' => $purchase_order->id]) }}" method="post">
