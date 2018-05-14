@@ -165,5 +165,42 @@
     @endforeach
 </div>
 
+{{-- Signatures block --}}
+<div>
+    <strong>For and on behalf of Arab National Bank</strong>
+    <div class="row" style="margin-top:100px;">
+        <div class="col-4-sm center">
+            <div style="border-top:2px solid black;width:100%;font-size:11px;">
+                <strong>Abdullah S. Alsowayel<br/>
+                    Head of Administration Services Center</strong>
+            </div>
+        </div>
+        <div class="col-4-sm"></div>
+        <div class="col-4-sm center">
+            <div style="border-top:2px solid black;width:100%;font-size:11px;">
+                <strong>Mahmoud H. Al-Enezi<br/>
+                    Procurement Manager - Presmises & Admin</strong>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <p class="center" style="font-size:11px;">The accompanying Terms and Conditions form an integral part of this Purchase Order</p>
+    <p class="center" style="font-size:10px;">Prepared by {{ $data->created_by->username }} - {{ $data->created_by->name }}</p>
+</div>
+
+{{-- Footer --}}
+<div class="row" style="font-size:11px;">
+    <div class="col-6-sm">
+        <strong>arab national bank Saudi Stock Co. Paid up Capital S.R. 10,000 Million</strong><br/>
+        P.O. Box 56921, Riyadh 11564 - Kingdom of Saudi Arabia<br/>
+        TEl +966 11 402 9000 Fax +966 11 402 7747<br/>
+    </div>
+    <div class="col-6-sm right" dir="rtl">
+        <strong>البنك العربي الوطني شركة مساهمة سعودية رأس المال المدفوع 10,000 مليون ريال</strong><br/>
+        ص.ب. 56921، الـــريـــــــــــاض 11574 - المملــكــة العــربـــيـــة الـسـعـوديـــة<br/>
+        تلفون <span dir="ltr">+966 11 402 9000</span> فاكس <span dir="ltr">+966 11 402 7747</span>
+    </div>
+</div>
+
 </body>
 </html>
