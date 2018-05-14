@@ -29,8 +29,14 @@ $factory->define(PurchaseOrdersItem::class, function (Faker $faker) {
     }
 
     $unit_price_minor = $faker->numberBetween(0, 5000);
-    $qty = $faker->numberBetween(0, 10);
-    $total = $unit_price_minor * $qty;
+    $qty = $faker->numberBetween(1, 10);
+    $subtotal = $unit_price_minor * $qty;
+    $tax_rate1 = $faker->randomFloat(2, 0.5, 0.25);
+    $tax_amount_1 = \Brick\Money\Money::of($subtotal, 'SAR')
+        ->multipliedBy($tax_rate1, \Brick\Math\RoundingMode::HALF_UP)
+        ->getMinorAmount()
+        ->toInt();
+    $total = $subtotal + $tax_amount_1;
 
     return [
         'purchase_order_id' => factory(PurchaseOrder::class)->create()->id,
@@ -39,6 +45,9 @@ $factory->define(PurchaseOrdersItem::class, function (Faker $faker) {
         'description' => $item_template->name,
         'unit_price_minor' => $unit_price_minor,
         'qty' => $qty,
+        'subtotal_minor' => $subtotal,
+        'tax_rate1' => $tax_rate1,
+        'tax_amount_1_minor' => $tax_amount_1,
         'total_minor' => $total,
     ];
 });

@@ -84,4 +84,11 @@ class PurchaseOrdersItem extends Model implements AuditableContract
             return Money::ofMinor($this->discount_flat_minor, 'SAR')->getAmount();
         }
     }
+
+    public function getTaxAmount1Attribute()
+    {
+        if($this->tax_amount_1_minor) {
+            return Money::ofMinor($this->tax_amount_1_minor, 'SAR')->getAmount();
+        }
+    }
 }

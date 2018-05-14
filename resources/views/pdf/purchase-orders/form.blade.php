@@ -110,5 +110,48 @@
     </div>
 </div>
 
+{{-- Items --}}
+<div style="padding-top:15px;">
+    <table class="pure-table pure-table-bordered tight-table">
+        <colgroup>
+            <col style='width:1%;'>
+            <col style='width:50%;'>
+            <col style='width:10%;'>
+            <col style='width:10%;'>
+        </colgroup>
+        <thead>
+        <tr>
+            <th class="center">Item</th>
+            <th class="center">Description of items to be supplied</th>
+            <th class="center">Qty</th>
+            <th class="center">
+                Currency: <u>SR</u><br/>
+                Total Price
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($data->items as $counter => $item)
+            <tr>
+                <td class="center" rowspan="2">{{ ++$counter }}</td>
+                <td class="center" rowspan="2">{{ $item->description }}</td>
+                <td class="center">{{ $item->qty }}</td>
+                <td class="center">
+                    {{ $item->unit_price }}<br/>
+                </td>
+            </tr>
+            <tr>
+                <td class="center">VAT</td>
+                <td class="center">{{ $item->tax_amount_1 }}</td>
+            </tr>
+        @endforeach
+        <tr>
+            <td colspan="3" class="right">Total after VAT</td>
+            <td>{{ $po->total_after_vat }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
 </body>
 </html>

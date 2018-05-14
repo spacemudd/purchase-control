@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrdersItem;
 use App\Models\User;
 use Tests\TestCase;
 use App\Models\Vendor;
@@ -85,5 +87,31 @@ class CreatePurchaseOrderTest extends TestCase
         $data['billing_address_json'] = json_encode($billing_address);
 
         $this->assertDatabaseHas('purchase_orders', $data);
+    }
+
+    public function test_totals_are_calculated()
+    {
+        $user = factory(User::class)->create();
+
+        $po = factory(PurchaseOrder::class)->create(['status' => PurchaseOrder::NEW]);
+        $items = factory(PurchaseOrdersItem::class)->create([
+            'purchase_order_id' => $po->id,
+        ]);
+
+        $url = route('purchase-orders.save', ['id' => $po->id]);
+        $this->actingAs($user)->post($url)->assertRedirect();
+
+        $subTotal = 0;
+        $taxAmount = 0;
+        foreach($po->items()->get() as $item) {
+            $subTotal += $item->total_minor;
+            $taxAmount += $item->tax_amount_1_minor;
+        }
+
+        $this->assertDatabaseHas('purchase_orders', [
+            'subtotal_minor' => $subTotal,
+            'tax_amount_1_minor' => $taxAmount,
+            'total_minor' => $subTotal + $taxAmount,
+        ]);
     }
 }

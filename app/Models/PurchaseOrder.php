@@ -134,7 +134,7 @@ class PurchaseOrder extends Model implements AuditableContract
 
     public function getIsDraftAttribute()
     {
-        return $this->status == 'draft';
+        return $this->status == self::NEW;
     }
 
     public function getIsCommittedAttribute()
