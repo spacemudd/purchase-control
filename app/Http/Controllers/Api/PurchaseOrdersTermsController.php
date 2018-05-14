@@ -21,7 +21,12 @@ class PurchaseOrdersTermsController extends Controller
 
         $po->terms()->attach($term);
 
-        $po->terms_json = $po->terms()->get();
+        $savedTerms = [];
+        foreach($po->terms()->get() as $term) {
+            $savedTerms[$term->type->name][] = $term;
+        }
+
+        $po->terms_json = $savedTerms;
         $po->save();
 
         return $po;
@@ -39,7 +44,12 @@ class PurchaseOrdersTermsController extends Controller
 
         $po->terms()->detach($term);
 
-        $po->terms_json = $po->terms()->get();
+        $savedTerms = [];
+        foreach($po->terms()->get() as $term) {
+            $savedTerms[$term->type->name][] = $term;
+        }
+
+        $po->terms_json = $savedTerms;
         $po->save();
 
         return $po;

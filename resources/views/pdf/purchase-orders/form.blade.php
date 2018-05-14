@@ -153,5 +153,17 @@
     </table>
 </div>
 
+{{-- Terms --}}
+<div>
+    @foreach($data->terms_json as  $type => $terms)
+        <h4>{{ $type }}</h4>
+        <ul>
+            @foreach($terms as $term)
+                <li>{{ $term->value }}</li>
+            @endforeach
+        </ul>
+    @endforeach
+</div>
+
 </body>
 </html>

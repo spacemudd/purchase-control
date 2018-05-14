@@ -51,8 +51,13 @@ class CreatePurchaseOrderTermsTest extends TestCase
 
         $terms = $po->terms()->get();
 
+        $confirmTermsInJson = [];
+        foreach($terms as $term) {
+            $confirmTermsInJson[$term->type->name][] = $term;
+        }
+
         $this->assertDatabaseHas('purchase_orders', [
-            'terms_json' => json_encode($terms),
+            'terms_json' => json_encode($confirmTermsInJson),
         ]);
 
         // The removing part.
@@ -64,8 +69,13 @@ class CreatePurchaseOrderTermsTest extends TestCase
 
         $terms = $po->terms()->get();
 
+        $confirmTermsInJson = [];
+        foreach($terms as $term) {
+            $confirmTermsInJson[$term->type->name][] = $term;
+        }
+
         $this->assertDatabaseHas('purchase_orders', [
-            'terms_json' => json_encode($terms),
+            'terms_json' => json_encode($confirmTermsInJson),
         ]);
     }
 }

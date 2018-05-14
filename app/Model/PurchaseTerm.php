@@ -7,10 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class PurchaseTerm extends Model
 {
-    protected $fillable = ['name', 'value'];
+    protected $fillable = ['type_id', 'name', 'value'];
 
     public function purchase_order()
     {
         return $this->belongsToMany(PurchaseOrder::class);
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(PurchaseTermsType::class, 'type_id');
     }
 }
