@@ -31,7 +31,8 @@ class AddAddressesToPurchaseOrdersTable extends Migration
     public function down()
     {
         Schema::table('purchase_orders', function (Blueprint $table) {
-            $table->dropForeign(['shipping_address_id', 'billing_address_id']);
+            $table->dropForeign(['shipping_address_id']);
+            $table->dropForeign(['billing_address_id']);
             $table->dropColumn([
                 'shipping_address_id',
                 'billing_address_id',

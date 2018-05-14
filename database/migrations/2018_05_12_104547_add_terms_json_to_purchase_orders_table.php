@@ -14,7 +14,7 @@ class AddTermsJsonToPurchaseOrdersTable extends Migration
     public function up()
     {
         Schema::table('purchase_orders', function (Blueprint $table) {
-            $table->binary('terms_json')->nullable();
+            $table->string('terms_json', 4000)->nullable();
         });
     }
 

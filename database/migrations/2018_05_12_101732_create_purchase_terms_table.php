@@ -17,7 +17,7 @@ class CreatePurchaseTermsTable extends Migration
             $table->increments('id');
             $table->integer('type_id')->unsigned()->nullable();
             $table->foreign('type_id')->references('id')->on('purchase_terms_types');
-            $table->binary('value');
+            $table->string('value', 4000);
             $table->timestamps();
         });
     }

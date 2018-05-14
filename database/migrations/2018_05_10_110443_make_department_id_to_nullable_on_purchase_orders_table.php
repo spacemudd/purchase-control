@@ -27,8 +27,8 @@ class MakeDepartmentIdToNullableOnPurchaseOrdersTable extends Migration
     public function down()
     {
         Schema::table('purchase_orders', function (Blueprint $table) {
-            $table->integer('department_id')->unsigned()->nullable(false)->change();
-            $table->integer('employee_id')->unsigned()->nullable(false)->change();
+            //$table->integer('department_id')->unsigned()->nullable(false)->change();
+            //$table->integer('employee_id')->unsigned()->nullable(false)->change();
         });
     }
 }
