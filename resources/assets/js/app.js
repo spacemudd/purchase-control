@@ -219,6 +219,7 @@ Vue.component('new-po-item-modal', require('./components/NewPoItemModal/NewPoIte
 Vue.component('select-purchase-requisition', require('./components/SelectPurchaseRequsition/SelectPurchaseRequisition'));
 Vue.component('purchase-order-items', require('./components/PurchaseOrderItems/PurchaseOrderItems'));
 Vue.component('toggle-preview-purchase-order', require('./components/TogglePreviewPurchaseOrder/TogglePreviewPurchaseOrder'));
+Vue.component('preview-pdf-container', require('./components/PreviewPdfContainer/PreviewPdfContainer'));
 
 /**
  * API/App settings

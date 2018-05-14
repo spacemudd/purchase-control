@@ -71,6 +71,10 @@
 					</div>
 				</div>
 
+                <preview-pdf-container url="{{ route('purchase-orders.pdf', ['id' => $purchase_order->id]) }}"
+                                       show-type="PurchaseOrder/previewPdf"
+                ></preview-pdf-container>
+
 				<hr>
 
 				{{-- Resource' table info --}}
