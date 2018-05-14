@@ -94,7 +94,7 @@ class CreatePurchaseOrderTest extends TestCase
         $user = factory(User::class)->create();
 
         $po = factory(PurchaseOrder::class)->create(['status' => PurchaseOrder::NEW]);
-        $items = factory(PurchaseOrdersItem::class)->create([
+        factory(PurchaseOrdersItem::class, 5)->create([
             'purchase_order_id' => $po->id,
         ]);
 
@@ -104,7 +104,7 @@ class CreatePurchaseOrderTest extends TestCase
         $subTotal = 0;
         $taxAmount = 0;
         foreach($po->items()->get() as $item) {
-            $subTotal += $item->total_minor;
+            $subTotal += $item->subtotal_minor;
             $taxAmount += $item->tax_amount_1_minor;
         }
 

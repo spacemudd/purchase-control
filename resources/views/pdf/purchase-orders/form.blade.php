@@ -111,7 +111,7 @@
 </div>
 
 {{-- Items --}}
-<div style="padding-top:15px;">
+<div>
     <table class="pure-table pure-table-bordered tight-table">
         <colgroup>
             <col style='width:1%;'>
@@ -134,20 +134,20 @@
         @foreach($data->items as $counter => $item)
             <tr>
                 <td class="center" rowspan="2">{{ ++$counter }}</td>
-                <td class="center" rowspan="2">{{ $item->description }}</td>
+                <td rowspan="2">{{ $item->description }}</td>
                 <td class="center">{{ $item->qty }}</td>
-                <td class="center">
+                <td class="right">
                     {{ $item->unit_price }}<br/>
                 </td>
             </tr>
             <tr>
                 <td class="center">VAT</td>
-                <td class="center">{{ $item->tax_amount_1 }}</td>
+                <td class="right">{{ $item->tax_amount_1 }}</td>
             </tr>
         @endforeach
         <tr>
-            <td colspan="3" class="right">Total after VAT</td>
-            <td>{{ $po->total_after_vat }}</td>
+            <td colspan="3" class="right"><strong>Total after VAT</strong></td>
+            <td class="right"><strong>{{ $data->total }}</strong></td>
         </tr>
         </tbody>
     </table>

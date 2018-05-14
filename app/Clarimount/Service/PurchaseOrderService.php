@@ -11,10 +11,14 @@
 
 namespace App\Clarimount\Service;
 
+use App\Events\PurchaseOrderSaved;
+use Brick\Math\RoundingMode;
+use Brick\Money\Money;
 use Carbon\Carbon;
 use App\Models\Vendor;
 use App\Models\Address;
 use App\Models\PurchaseOrder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
@@ -149,7 +153,11 @@ class PurchaseOrderService
             throw new \Exception('The PO must be in draft mode to be saved.');
         }
 
-        return $this->repository->save($purchase_order['id']);
+        $po = $this->repository->save($purchase_order['id']);
+
+        event(new PurchaseOrderSaved($po));
+
+        return $po;
     }
 
     /**
@@ -323,5 +331,37 @@ class PurchaseOrderService
         }
 
         return $fileLocation;
+    }
+
+    /**
+     * Calculates the subtotals, tax, and totals and saves them to the PO header.
+     *
+     * @param $id Purchase Order ID.
+     * @return mixed
+     */
+    public function calculateAndSavePurchaseOrderCosts($id)
+{
+        $po = DB::transaction(function() use ($id) {
+            $po = PurchaseOrder::where('id', $id)->sharedLock()->firstOrFail();
+
+            $total_subtotal = Money::of(0, $po->currency);
+            $total_vat_amount = Money::of(0, $po->currency);
+            $total = Money::of(0, $po->currency);
+
+            foreach($po->items()->get() as $item) {
+                $total_subtotal = $total_subtotal->plus($item->subtotal);
+                $total_vat_amount = $total_vat_amount->plus($item->tax_amount_1);
+                $total = $total->plus($item->total);
+            }
+
+            $po->subtotal_minor = $total_subtotal->getMinorAmount()->toInt();
+            $po->tax_amount_1_minor = $total_vat_amount->getMinorAmount()->toInt();
+            $po->total_minor = $total->getMinorAmount()->toInt();
+            $po->save();
+
+            return $po;
+        }, 2);
+
+        return $po;
     }
 }

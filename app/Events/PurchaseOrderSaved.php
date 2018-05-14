@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\PurchaseOrder;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -14,14 +15,16 @@ class PurchaseOrderSaved
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $purchaseOrder;
+
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param \App\Models\PurchaseOrder $purchaseOrder
      */
-    public function __construct()
+    public function __construct(PurchaseOrder $purchaseOrder)
     {
-        //
+        $this->purchaseOrder = $purchaseOrder;
     }
 
     /**

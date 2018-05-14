@@ -13,6 +13,7 @@ namespace App\Models;
 
 use App\Model\PurchaseTerm;
 use App\Traits\HasFiles;
+use Brick\Money\Money;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
@@ -195,6 +196,28 @@ class PurchaseOrder extends Model implements AuditableContract
     {
         if($this->vendor_json) {
             return $this->vendor_json->id . ' - ' . $this->vendor_json->name;
+        }
+    }
+
+    public function getCurrencyAttribute($value)
+    {
+        if($value) {
+            return $value;
+        } else {
+            return 'SAR';
+        }
+    }
+
+    /**
+     * Total price after VAT.
+     *
+     * @return mixed
+     * @throws \Brick\Money\Exception\UnknownCurrencyException
+     */
+    public function getTotalAttribute()
+    {
+        if($this->total_minor) {
+            return number_format(Money::ofMinor($this->total_minor, $this->currency)->getAmount()->toFloat(), 2);
         }
     }
 
