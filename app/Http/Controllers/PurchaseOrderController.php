@@ -205,9 +205,16 @@ class PurchaseOrderController extends Controller
      */
     public function save($id)
     {
+        // todo: make this api/json friendly.
         if(!$this->service->isReadyToSave($id)) {
             session()->flash('status', 'is-warning');
             session()->flash('messages', ['Purchase order has missing tokens. Fields must be completed first.']);
+            return redirect()->back();
+        }
+
+        if(!$this->service->show($id)->items()->count()) {
+            session()->flash('status', 'is-warning');
+            session()->flash('messages', ['There are no items attached.']);
             return redirect()->back();
         }
 

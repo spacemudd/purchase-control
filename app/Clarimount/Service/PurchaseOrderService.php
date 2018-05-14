@@ -165,7 +165,9 @@ class PurchaseOrderService
 
         if(!$po->delivery_date) return false;
         if(!$po->date) return false;
-        if(!$po->supplier) return false;
+        if(!$po->vendor_id) return false;
+
+        return true;
     }
 
     public function commit()
