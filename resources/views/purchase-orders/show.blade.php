@@ -171,35 +171,40 @@
 	</div>
 
 	{{-- Delivery & Terms --}}
-	<div class="columns">
-		<div class="column is-8">
-			<h2 class="title is-5 has-text-weight-light">Delivery &amp; Terms</h2>
-			<div class="box">
-				@foreach($purchaseTermsTypes as $type)
-					<div class="columns">
-						<div class="column is-4">
-							<p class="title is-7">{{ $type->name }}</p>
-						</div>
-						<div class="column">
-							@foreach($type->terms()->get() as $term)
-								<ul>
-									<toggle-purchase-term :term-id.number="{{ $term->id }}"
-														  :po-id.number="{{ $purchase_order->id }}"
-														  :enabled-prop.number="{{ $purchase_order->terms->contains($term->id) ? 'true' : 'false' }}"
-                                                         :can-toggle="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-									>
-										{{ $term->value }}
-									</toggle-purchase-term>
-								</ul>
-							@endforeach
-						</div>
-					</div>
-					<hr>
-				@endforeach
-			</div>
-		</div>
-
-	</div>
+    <div class="columns">
+        <div class="column is-4">
+            <h2 class="title is-5 has-text-weight-light">Delivery &amp; Terms</h2>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column is-8">
+            <div class="box">
+                @foreach($purchaseTermsTypes as $key => $type)
+                    <div class="columns">
+                        <div class="column is-4">
+                            <p class="title is-7">{{ $type->name }}</p>
+                        </div>
+                        <div class="column">
+                            @foreach($type->terms()->get() as $term)
+                                <ul>
+                                    <toggle-purchase-term :term-id.number="{{ $term->id }}"
+                                                          :po-id.number="{{ $purchase_order->id }}"
+                                                          :enabled-prop.number="{{ $purchase_order->terms->contains($term->id) ? 'true' : 'false' }}"
+                                                          :can-toggle="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+                                    >
+                                        {{ $term->value }}
+                                    </toggle-purchase-term>
+                                </ul>
+                            @endforeach
+                        </div>
+                    </div>
+                    @if(!($key === count($purchaseTermsTypes) - 1))
+                        <hr>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    </div>
 
 	{{-- Items --}}
 	<div class="columns">
