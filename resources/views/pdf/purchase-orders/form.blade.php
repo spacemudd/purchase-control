@@ -137,7 +137,7 @@
                 <td rowspan="2">{{ $item->description }}</td>
                 <td class="center">{{ $item->qty }}</td>
                 <td class="right">
-                    {{ $item->unit_price }}<br/>
+                    {{ $item->subtotal }}<br/>
                 </td>
             </tr>
             <tr>

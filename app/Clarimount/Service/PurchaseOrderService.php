@@ -350,7 +350,9 @@ class PurchaseOrderService
 
             foreach($po->items()->get() as $item) {
                 $total_subtotal = $total_subtotal->plus($item->subtotal);
-                $total_vat_amount = $total_vat_amount->plus($item->tax_amount_1);
+                if($item->tax_amount_1) {
+                    $total_vat_amount = $total_vat_amount->plus($item->tax_amount_1);
+                }
                 $total = $total->plus($item->total);
             }
 
