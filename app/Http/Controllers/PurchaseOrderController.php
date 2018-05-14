@@ -222,4 +222,18 @@ class PurchaseOrderController extends Controller
 
         return redirect()->route('purchase-orders.show', ['id' => $po->id]);
     }
+
+    /**
+     * Print a PDF form of the PO.
+     *
+     * @param $id
+     * @return \Knp\Snappy\Pdf
+     * @throws \Exception
+     */
+    public function pdf($id)
+    {
+        $pdf = $this->service->pdf($id);
+
+        return $pdf->inline();
+    }
 }

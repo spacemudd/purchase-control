@@ -11,15 +11,14 @@
 
 namespace App\Clarimount\Service;
 
-use App\Models\Address;
-use App\Models\Vendor;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-
-use App\Clarimount\Repository\PurchaseOrderRepository;
-
+use App\Models\Vendor;
+use App\Models\Address;
 use App\Models\PurchaseOrder;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Validator;
+use App\Clarimount\Repository\PurchaseOrderRepository;
 
 class PurchaseOrderService
 {
@@ -260,4 +259,69 @@ class PurchaseOrderService
         $po->save();
 	}
 
+    /**
+     * Print a requisition form in PDF format.
+     *
+     * @param $id
+     * @return \Knp\Snappy\Pdf
+     * @throws \Exception
+     */
+    public function pdf($id)
+    {
+        $data = $this->repository->find($id);
+
+        // DB settings of PDF.
+        // $marginTopDb = \App\Models\SystemPreference::where('slug', 'pdf-margin-top')->first();
+
+        $pdf = \App::make('snappy.pdf.wrapper');
+
+        $pdf->setOption('page-size', 'A4');
+        $pdf->setOption('orientation', 'portrait');
+        $pdf->setOption('encoding', 'utf-8');
+        $pdf->setOption('dpi', 300);
+        $pdf->setOption('image-dpi', 300);
+        $pdf->setOption('lowquality', false);
+        $pdf->setOption('no-background', false);
+        $pdf->setOption('enable-internal-links', true);
+        $pdf->setOption('enable-external-links', true);
+        $pdf->setOption('javascript-delay', 1000);
+        $pdf->setOption('no-stop-slow-scripts', true);
+        $pdf->setOption('no-background', false);
+        // $pdf->setOption('margin-top', $marginTopDb ? $marginTopDb->value : 55);
+        $pdf->setOption('margin-left', 5);
+        $pdf->setOption('margin-right', 5);
+        $pdf->setOption('margin-top', 35);
+        $pdf->setOption('margin-bottom', 10);
+        $pdf->setOption('disable-smart-shrinking', true);
+        $pdf->setOption('zoom', 0.78);
+        $pdf->setOption('header-html', $this->generateHeaderTempFile($data));
+        $pdf->setOption('footer-html', resource_path('views/pdf/footer.html'));
+
+        return $pdf->loadView('pdf.purchase-orders.form', compact('data'));
+    }
+
+    /**
+     *
+     * @param $data
+     * @return bool|string
+     * @throws \Exception
+     */
+    public function generateHeaderTempFile($data)
+    {
+        $content = View::make('pdf.purchase-orders.header', compact('data'))
+            ->render();
+
+        // '@' to suppress an exception that tempnam throws when it creates a file.
+        $fileLocation = @tempnam(sys_get_temp_dir(), 'cla');
+        rename($fileLocation, $fileLocation .= '.html');
+        str_replace('.tmp', '.html', $fileLocation);
+
+        $writeAttempt = File::put($fileLocation, $content);
+
+        if(! $writeAttempt) {
+            throw new \Exception('Failed writing to: ' . $fileLocation);
+        }
+
+        return $fileLocation;
+    }
 }

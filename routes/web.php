@@ -41,6 +41,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
             Route::get('committed', 'PurchaseOrderController@committed')->name('committed');
             Route::get('void', 'PurchaseOrderController@void')->name('void');
         });
+        Route::get('purchase-orders/{id}/pdf', 'PurchaseOrderController@pdf')->name('purchase-orders.pdf');
         Route::post('purchase-orders/{id}/save', 'PurchaseOrderController@save')->name('purchase-orders.save');
         Route::resource('purchase-orders', 'PurchaseOrderController');
 
