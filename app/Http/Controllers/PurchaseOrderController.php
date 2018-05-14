@@ -206,8 +206,8 @@ class PurchaseOrderController extends Controller
     public function save($id)
     {
         if(!$this->service->isReadyToSave($id)) {
-            session()->flash('status', 'warning');
-            session()->flash('message', 'Purchase order has missing tokens. Fields must be completed first.');
+            session()->flash('status', 'is-warning');
+            session()->flash('messages', ['Purchase order has missing tokens. Fields must be completed first.']);
             return redirect()->back();
         }
 
