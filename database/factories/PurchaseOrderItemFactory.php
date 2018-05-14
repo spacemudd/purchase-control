@@ -15,22 +15,30 @@ use App\Models\PurchaseOrdersItem;
 
 $factory->define(PurchaseOrdersItem::class, function (Faker $faker) {
 
-    static $asset_template_id;
+    static $item_template_id;
     static $manufacturer_serial_number;
     static $system_tag_number;
     static $finance_tag_number;
     static $unit_price;
     static $warranty_expiry_date;
 
+    if(!$item_template_id) {
+        $item_template = factory(\App\Models\ItemTemplate::class)->create();
+    } else {
+        $item_template = \App\Models\ItemTemplate::find($item_template_id);
+    }
+
+    $unit_price_minor = $faker->numberBetween(0, 5000);
+    $qty = $faker->numberBetween(0, 10);
+    $total = $unit_price_minor * $qty;
+
     return [
         'purchase_order_id' => factory(PurchaseOrder::class)->create()->id,
-        'asset_template_id' => $asset_template_id ? $asset_template_id : factory(\App\Models\ItemTemplate::class)->create()->id,
-        'manufacturer_serial_number' => $manufacturer_serial_number ?: $faker->unique()->isbn10,
-        'system_tag_number' => $system_tag_number ?: $faker->unique()->isbn10,
-        'finance_tag_number' => $finance_tag_number ?: $faker->unique()->isbn13,
-        'rfid' => null,
-        'unit_price' => $unit_price ?: $faker->randomFloat(),
-        'warranty_expiry_date' => $warranty_expiry_date ?: $faker->dateTimeThisYear(),
-        'received_at' => $faker->dateTime(),
+        'item_template_id' => $item_template->id,
+        'code' => $item_template->code,
+        'description' => $item_template->name,
+        'unit_price_minor' => $unit_price_minor,
+        'qty' => $qty,
+        'total_minor' => $total,
     ];
 });
