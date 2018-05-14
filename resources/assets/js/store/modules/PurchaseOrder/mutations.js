@@ -2,6 +2,9 @@ export default {
     setPo(state, payload) {
         state.po = payload;
     },
+    togglePreviewPdf(state) {
+        state.previewPdf = ! state.previewPdf;
+    },
     /**
      * Set the modal on/off.
      *

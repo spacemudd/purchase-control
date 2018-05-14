@@ -2,6 +2,9 @@ export default {
     po(state) {
         return state.po;
     },
+    previewPdf(state) {
+        return state.previewPdf;
+    },
     showNewModal(state) {
         return state.showNewModal;
     },

@@ -6,6 +6,8 @@ export default {
     state: {
         po: null,
 
+        previewPdf: false,
+
         'currentView': 'form',
         'showNewModal': false,
         'mainOrderNumber': null,
