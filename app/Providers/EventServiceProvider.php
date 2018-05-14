@@ -25,8 +25,11 @@ class EventServiceProvider extends ServiceProvider
         //'App\Events\Event' => [
         //    'App\Listeners\EventListener',
         //],
-        'Adldap\Laravel\Events\AuthenticationSuccessful' => [
-            'App\Listeners\Adldap\AdldapAuthenticationSuccessful'
+        //'Adldap\Laravel\Events\AuthenticationSuccessful' => [
+        //    'App\Listeners\Adldap\AdldapAuthenticationSuccessful'
+        //],
+        'App\Events\PurchaseOrderSaved' => [
+            'App\Listeners\RecalculatePurchaseOrdersTotals',
         ],
     ];
 
