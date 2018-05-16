@@ -13,7 +13,7 @@ CREATING_APPROVER<template>
             </div>
 
             <form @submit.prevent="save()">
-                <b-field label="Employee Code">
+                <b-field label="Code">
                     <input v-if="selectedEmployee"
                            type="text"
                            class="input"

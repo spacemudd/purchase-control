@@ -27,8 +27,8 @@
     <div class="box">
         <div class="columns">
             <div class="column is-6">
-                <h1 class="title">{{ $approver->id }}</h1>
-                <p class="subtitle is-6">Employee Code</p>
+                <h1 class="title">{{ $approver->code }}</h1>
+                <p class="subtitle is-6">Code</p>
             </div>
             <div class="column is-6 has-text-right">
                 <delete-dialog url="{{ route('api.approvers.destroy', ['id' => $approver->id]) }}"
@@ -38,10 +38,12 @@
                     <span class="icon is-small"><i class="fa fa-pencil"></i></span>
                     <span>Edit</span>
                 </a>
+                {{--
                 <a href="{{ route('employees.show', ['id' => $approver->id]) }}" class="button is-small">
                     <span class="icon is-small"><i class="fa fa-pencil"></i></span>
                     <span>Employee Page</span>
                 </a>
+                --}}
             </div>
         </div>
 
@@ -53,7 +55,7 @@
                     <tbody>
                     <tr>
                         <td><strong>{{ __('words.code') }}</strong></td>
-                        <td>{{ $approver->id }}</td>
+                        <td>{{ $approver->code }}</td>
                     </tr>
                     <tr>
                         <td><strong>{{ __('words.name') }}</strong></td>
