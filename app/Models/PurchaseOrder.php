@@ -210,6 +210,11 @@ class PurchaseOrder extends Model implements AuditableContract
         }
     }
 
+    public function getDisplayNameAttribute()
+    {
+        return $this->number ? $this->number : $this->id;
+    }
+
     public function getCurrencyAttribute($value)
     {
         if($value) {

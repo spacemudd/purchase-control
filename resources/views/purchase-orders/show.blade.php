@@ -60,6 +60,13 @@
                             <toggle-preview-purchase-order></toggle-preview-purchase-order>
                         @endif
 
+						@if(!$purchase_order->is_draft)
+								<a href="{{ route('purchase-orders.sub.create', ['id' => $purchase_order->id]) }}"
+								   class="button is-small">
+									New Sub-PO
+								</a>
+						@endif
+
                         @can('create-purchase-orders')
                             @if($purchase_order->is_draft)
                                 <form class="button is-warning is-small" action="{{ route('purchase-orders.save', ['id' => $purchase_order->id]) }}" method="post">
