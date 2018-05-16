@@ -99,6 +99,11 @@ class PurchaseRequisition extends Model implements AuditableContract
         return $this->hasMany(PurchaseRequisitionItem::class);
     }
 
+    public function simple_items()
+    {
+        return $this->hasMany(PurchaseRequisitionSimpleItem::class);
+    }
+
     public function approved_by()
     {
         return $this->belongsTo(Employee::class);

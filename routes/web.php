@@ -31,6 +31,9 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::get('purchase-requisitions/by-status/{status_slug}', 'PurchaseRequisitionsController@paginatedByStatus')->name('purchase-requisitions.by-status');
         Route::resource('purchase-requisitions', 'PurchaseRequisitionsController');
 
+        // Purchase Requisitions Simple Items.
+        Route::resource('purchase-requisition.simple-items', 'PurchaseRequisitionSimpleItemsController');
+
         // Items.
         Route::get('items/browse', 'ItemController@browse')->name('items.browse');
         Route::resource('items', 'ItemController');
@@ -234,8 +237,13 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('purchase-requisitions/{purchase_requisition_id}/items', 'Api\PurchaseRequisitionItemsController@store')->name('purchase-requisitions.items');
     Route::delete('purchase-requisitions/{purchase_requisition_id}/items/{id}', 'Api\PurchaseRequisitionItemsController@delete')->name('purchase-requisitions.delete');
 
-    Route::post('purchase-requisition-items', 'Api\PurchaseRequisitionItemsController@store')->name('api.purchase-requisitions.store');
-    Route::delete('purchase-requisition-items/{id}', 'Api\PurchaseRequisitionItemsController@delete')->name('api.purchase-requisitions.delete');
+    // Purchase Requisition simple items.
+    Route::get('purchase-requisitions/{purchase_requisition_id}/simple-items', 'Api\PurchaseRequisitionSimpleItemsController@index')->name('api.purchase-requisition.simple-items');
+    Route::post('purchase-requisitions-simple-items', 'Api\PurchaseRequisitionSimpleItemsController@store')->name('api.purchase-requisition.simple-items.store');
+    Route::delete('purchase-requisitions-simple-items/{id}', 'Api\PurchaseRequisitionSimpleItemsController@delete')->name('api.purchase-requisition.simple-items.delete');
+
+    Route::post('purchase-requisition-items', 'Api\PurchaseRequisitionItemsController@store');
+    Route::delete('purchase-requisition-items/{id}', 'Api\PurchaseRequisitionItemsController@delete');
 
     // Items.
     Route::post('items', 'Api\ItemsController@store')->name('items.store');

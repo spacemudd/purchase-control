@@ -12,7 +12,7 @@
         </b-modal>
 
         <div class="columns">
-            <div class="column"><p class="title is-4">{{ $t('words.requisition-items') }}</p></div>
+            <div class="column"><p class="title is-4">{{ $t('words.requisition-items') }} - ITAM</p></div>
             <div class="column has-text-right">
                 <button class="button has-icon"
                         v-if="this.getPermissions()['create-purchase-requisition-item'] && inDraft"
@@ -32,7 +32,8 @@
                         <col style="width:1%;">
                         <col style="width:20%;">
                         <col style="width:40%">
-                        <col style="width:10%">
+                        <col style="width:1%">
+                        <col style="width:1%">
                         <col>
                     </colgroup>
                     <thead>

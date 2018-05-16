@@ -220,6 +220,7 @@ Vue.component('select-purchase-requisition', require('./components/SelectPurchas
 Vue.component('purchase-order-items', require('./components/PurchaseOrderItems/PurchaseOrderItems'));
 Vue.component('toggle-preview-purchase-order', require('./components/TogglePreviewPurchaseOrder/TogglePreviewPurchaseOrder'));
 Vue.component('preview-pdf-container', require('./components/PreviewPdfContainer/PreviewPdfContainer'));
+Vue.component('purchase-requisition-simple-items', require('./components/PurchaseRequisitionSimpleItems/PurchaseRequisitionSimpleItems'));
 
 /**
  * API/App settings
@@ -227,9 +228,9 @@ Vue.component('preview-pdf-container', require('./components/PreviewPdfContainer
 const apiVersion = '1';
 
 // if(process.env.NODE_ENV === 'production') {
-    var envUrl = window.location.origin + '/PMS';
+//     var envUrl = window.location.origin + '/PMS';
 // } else {
-//     var envUrl = window.location.origin;
+    var envUrl = window.location.origin;
 // }
 
 Vue.mixin({

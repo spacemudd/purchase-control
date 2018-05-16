@@ -201,26 +201,24 @@ class CreatePurchaseRequisitionTest extends TestCase
         $this->actingAs($user)->get($url)->assertSee($purpose);
     }
 
-    public function test_adding_adhoc_item_description_to_requisition()
+    public function test_adding_simple_item_description_to_requisition()
     {
-        $user = factory(User::class)->create()->givePermissionTo([
-            'update-purchase-requisitions',
-        ]);
+        $user = factory(User::class)->create();
 
         $pr = factory(PurchaseRequisition::class)->create([
             'status' => PurchaseRequisition::DRAFT,
         ]);
 
-        $adhoc_item = [
-            'pr_id' => $pr->id,
+        $simple_item = [
+            'purchase_requisition_id' => $pr->id,
             'description' => $this->faker->name,
             'qty' => 2,
         ];
 
-        $url = route('purchase-requisition.adhoc-items.store');
+        $url = route('api.purchase-requisition.simple-items.store');
 
-        $this->actingAs($user)->post($url, $adhoc_item);
+        $this->actingAs($user)->post($url, $simple_item);
 
-        $this->assertDatabaseHas('purchase_requisitions_adhoc_items', $adhoc_item);
+        $this->assertDatabaseHas('purchase_requisition_simple_items', $simple_item);
     }
 }

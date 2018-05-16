@@ -87,10 +87,10 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($data->items as $counter => $item)
+            @foreach($data->simple_items as $counter => $item)
                 <tr>
                     <td class="center">{{ ++$counter }}</td>
-                    <td>{{ $item->name }}</td>
+                    <td>{{ $item->description }}</td>
                     <td class="center">{{ $item->qty }}</td>
                 </tr>
             @endforeach
