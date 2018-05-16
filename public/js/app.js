@@ -30547,6 +30547,7 @@ Vue.component('select-purchase-requisition', __webpack_require__(662));
 Vue.component('purchase-order-items', __webpack_require__(665));
 Vue.component('toggle-preview-purchase-order', __webpack_require__(668));
 Vue.component('preview-pdf-container', __webpack_require__(671));
+Vue.component('purchase-requisition-simple-items', __webpack_require__(681));
 
 /**
  * API/App settings
@@ -103796,6 +103797,7 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
 
 exports.default = {
     props: {
@@ -103919,7 +103921,7 @@ var render = function() {
       _c("div", { staticClass: "columns" }, [
         _c("div", { staticClass: "column" }, [
           _c("p", { staticClass: "title is-4" }, [
-            _vm._v(_vm._s(_vm.$t("words.requisition-items")))
+            _vm._v(_vm._s(_vm.$t("words.requisition-items")) + " - ITAM")
           ])
         ]),
         _vm._v(" "),
@@ -103960,7 +103962,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("col", { staticStyle: { width: "40%" } }),
                       _vm._v(" "),
-                      _c("col", { staticStyle: { width: "10%" } }),
+                      _c("col", { staticStyle: { width: "1%" } }),
+                      _vm._v(" "),
+                      _c("col", { staticStyle: { width: "1%" } }),
                       _vm._v(" "),
                       _c("col")
                     ]),
@@ -106406,11 +106410,6 @@ exports.default = {
         url: {
             type: String,
             required: true
-        },
-        show: {
-            type: Boolean,
-            required: false,
-            default: false
         }
     },
     data: function data() {
@@ -106420,9 +106419,9 @@ exports.default = {
     },
 
     computed: {
-        // show() {
-        //     return this.$store.getters['PurchaseRequisition/previewPdf'];
-        // }
+        show: function show() {
+            return this.$store.getters['PurchaseRequisition/previewPdf'];
+        }
     },
     methods: {
         loaded: function loaded() {
@@ -106896,7 +106895,7 @@ var render = function() {
         [
           _c(
             "b-field",
-            { attrs: { label: "Employee Code" } },
+            { attrs: { label: "Code" } },
             [
               _vm.selectedEmployee
                 ? _c("input", {
@@ -111634,6 +111633,461 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 677 */,
+/* 678 */,
+/* 679 */,
+/* 680 */,
+/* 681 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(682)
+/* template */
+var __vue_template__ = __webpack_require__(683)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\PurchaseRequisitionSimpleItems\\PurchaseRequisitionSimpleItems.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4bca1735", Component.options)
+  } else {
+    hotAPI.reload("data-v-4bca1735", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 682 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        requisitionId: {
+            type: Number,
+            required: true
+        },
+        inDraft: {
+            type: Number,
+            required: true
+        },
+        isApproved: {
+            type: Number,
+            required: true
+        }
+    },
+    data: function data() {
+        return {
+            newItemModal: false,
+            isAdding: false,
+
+            items: [],
+
+            form: {
+                purchase_requisition_id: this.requisitionId,
+                description: '',
+                qty: 1
+            }
+        };
+    },
+
+    computed: {
+        showAttachItemToPoItemModal: {
+            get: function get() {
+                return this.$store.getters['PurchaseRequisitionItem/showModal'];
+            },
+            set: function set(value) {
+                this.$store.commit('PurchaseRequisitionItem/showModal', value);
+            }
+        }
+    },
+    mounted: function mounted() {
+        this.getItems();
+    },
+
+    methods: {
+        getItems: function getItems() {
+            var _this = this;
+
+            axios.get(this.apiUrl() + ('/purchase-requisitions/' + this.requisitionId + '/simple-items')).then(function (response) {
+                _this.items = response.data;
+                _this.$endLoading('DELETING_SIMPLE_ITEM');
+            });
+        },
+
+        /**
+         * @param item Object
+         */
+        deleteItem: function deleteItem(item) {
+            var _this2 = this;
+
+            this.$startLoading('DELETING_SIMPLE_ITEM');
+            axios.delete(this.apiUrl() + ('/purchase-requisitions-simple-items/' + item.id)).then(function (response) {
+                _this2.getItems();
+            });
+        },
+
+        /**
+         * Attach a Purchase Requisition item to a PO.
+         *
+         * @param item Object
+         */
+        attachItemToPo: function attachItemToPo(item) {
+            this.$store.commit('PurchaseRequisitionItem/setItem', item);
+            this.$store.commit('PurchaseRequisitionItem/showModal', true);
+        },
+        saveNewItem: function saveNewItem(item) {
+            var _this3 = this;
+
+            this.$startLoading('SAVING_NEW_PR_SIMPLE_ITEM');
+            axios.post(this.apiUrl() + '/purchase-requisitions-simple-items', this.form).then(function (response) {
+                _this3.items.push(response.data);
+                _this3.form.description = '';
+                _this3.form.qty = 1;
+                _this3.$endLoading('SAVING_NEW_PR_SIMPLE_ITEM');
+            }).catch(function (error) {
+                alert(error.response.data.message);
+                _this3.$endLoading('SAVING_NEW_PR_SIMPLE_ITEM');
+            });
+        }
+    }
+};
+
+/***/ }),
+/* 683 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "columns" }, [
+      _c("div", { staticClass: "column" }, [
+        _c("p", { staticClass: "title is-4" }, [
+          _vm._v(_vm._s(_vm.$t("words.requisition-items")))
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "column has-text-right" }, [
+        this.getPermissions()["create-purchase-requisition-item"] && _vm.inDraft
+          ? _c(
+              "button",
+              {
+                staticClass: "button has-icon",
+                on: {
+                  click: function($event) {
+                    _vm.isAdding = !_vm.isAdding
+                  }
+                }
+              },
+              [_vm._m(0), _vm._v(" "), _c("span", [_vm._v("New Item")])]
+            )
+          : _vm._e()
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "columns" }, [
+      _c(
+        "div",
+        { staticClass: "column" },
+        [
+          _vm.$isLoading("DELETING_SIMPLE_ITEM")
+            ? _c("loading-screen")
+            : _c(
+                "table",
+                { staticClass: "table is-fullwidth is-bordered is-size-7" },
+                [
+                  _c("colgroup", [
+                    _c("col", { staticStyle: { width: "1%" } }),
+                    _vm._v(" "),
+                    _c("col", { staticStyle: { width: "40%" } }),
+                    _vm._v(" "),
+                    _c("col", { staticStyle: { width: "1%" } }),
+                    _vm._v(" "),
+                    _c("col", { staticStyle: { width: "1%" } }),
+                    _vm._v(" "),
+                    _c("col")
+                  ]),
+                  _vm._v(" "),
+                  _c("thead", [
+                    _c("tr", [
+                      _c("th", [_vm._v("#")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Description")]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "has-text-right" }, [
+                        _vm._v("Quantity")
+                      ]),
+                      _vm._v(" "),
+                      _vm.inDraft ? _c("th") : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    [
+                      _vm._l(_vm.items, function(item, key) {
+                        return _c("tr", [
+                          _c("td", [_vm._v(_vm._s(++key))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.description))]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "has-text-right" }, [
+                            _vm._v(_vm._s(item.qty))
+                          ]),
+                          _vm._v(" "),
+                          _vm.inDraft
+                            ? _c("td", { staticClass: "has-text-centered" }, [
+                                _vm.inDraft
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "button is-outlined is-danger has-icon is-small",
+                                        on: {
+                                          click: function($event) {
+                                            _vm.deleteItem(item)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "span",
+                                          { staticClass: "icon is-small" },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-times"
+                                            })
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e()
+                              ])
+                            : _vm._e()
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _vm.isAdding
+                        ? _c("tr", [
+                            _c("td"),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              {
+                                on: {
+                                  keyup: function($event) {
+                                    if (
+                                      !("button" in $event) &&
+                                      _vm._k(
+                                        $event.keyCode,
+                                        "enter",
+                                        13,
+                                        $event.key,
+                                        "Enter"
+                                      )
+                                    ) {
+                                      return null
+                                    }
+                                    return _vm.saveNewItem($event)
+                                  }
+                                }
+                              },
+                              [
+                                _c("b-input", {
+                                  attrs: { autofocus: "" },
+                                  model: {
+                                    value: _vm.form.description,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.form, "description", $$v)
+                                    },
+                                    expression: "form.description"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              [
+                                _c("b-input", {
+                                  model: {
+                                    value: _vm.form.qty,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.form, "qty", $$v)
+                                    },
+                                    expression: "form.qty"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "has-text-centered" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "button is-primary is-small",
+                                  class: {
+                                    "is-loading": _vm.$isLoading(
+                                      "SAVING_NEW_PR_SIMPLE_ITEM"
+                                    )
+                                  },
+                                  on: { click: _vm.saveNewItem }
+                                },
+                                [
+                                  _vm._v(
+                                    "?\n                                Save\n                            "
+                                  )
+                                ]
+                              )
+                            ])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.items.length === 0
+                        ? _c("tr", { staticClass: "has-text-centered" }, [
+                            _c("td", { attrs: { colspan: "5" } }, [
+                              _c("p", { staticClass: "has-text-centered" }, [
+                                _c("i", [_vm._v("No items")])
+                              ])
+                            ])
+                          ])
+                        : _vm._e()
+                    ],
+                    2
+                  )
+                ]
+              )
+        ],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon" }, [
+      _c("i", { staticClass: "fa fa-plus" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4bca1735", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
