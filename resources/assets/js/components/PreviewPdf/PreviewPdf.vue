@@ -24,11 +24,6 @@
                 type: String,
                 required: true,
             },
-            show: {
-                type: Boolean,
-                required: false,
-                default: false,
-            }
         },
         data() {
             return {
@@ -36,9 +31,9 @@
             }
         },
         computed: {
-            // show() {
-            //     return this.$store.getters['PurchaseRequisition/previewPdf'];
-            // }
+            show() {
+                return this.$store.getters['PurchaseRequisition/previewPdf'];
+            }
         },
         methods: {
             loaded() {
