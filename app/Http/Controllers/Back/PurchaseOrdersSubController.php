@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use App\Clarimount\Service\SubPurchaseOrdersService;
 use App\Clarimount\Service\VendorBankService;
+use App\Model\PurchaseTermsType;
 use App\Models\PurchaseOrder;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +18,19 @@ class PurchaseOrdersSubController extends Controller
     {
         $this->service = $service;
         $this->vendorBankService = $vendorBankService;
+    }
+
+    /**
+     * Returns a list of the sub purchase orders.
+     *
+     * @param $purchase_order_id Main PO ID.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index($purchase_order_id)
+    {
+        $purchaseOrder = PurchaseOrder::where('id', $purchase_order_id)->with('sub_purchase_orders')->firstOrFail();
+
+        return view('sub-purchase-orders.index', compact('purchaseOrder'));
     }
 
     public function create($purchase_order_id)
@@ -52,7 +66,9 @@ class PurchaseOrdersSubController extends Controller
      */
     public function save($purchase_order_id, $id)
     {
-        return $this->service->save($id);
+        $subPo = $this->service->save($id);
+
+        return redirect()->route('purchase-orders.sub.show', ['purchase_order_id' => $purchase_order_id, 'id' => $subPo->id]);
     }
 
     public function show($purchase_order_id, $id)
@@ -62,6 +78,8 @@ class PurchaseOrdersSubController extends Controller
             ->with('main_purchase_order')
             ->firstOrFail();
 
-        return view('sub-purchase-orders.show', compact('subPurchaseOrder'));
+        $purchaseTermsTypes = PurchaseTermsType::get();
+
+        return view('sub-purchase-orders.show', compact('subPurchaseOrder', 'purchaseTermsTypes'));
     }
 }

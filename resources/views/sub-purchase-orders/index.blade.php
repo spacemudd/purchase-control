@@ -9,11 +9,23 @@
                     <span>{{ trans('words.dashboard') }}</span>
                 </a>
             </li>
-            <li class="is-active">
-                <a href="{{ route('purchase-requisitions') }}">
-                    <span class="icon is-small"><i class="fa fa-file"></i></span>
-                    <span>{{ __('words.requests') }}</span>
+            <li>
+                <a href="{{ route('purchase-orders.index') }}">
+                    <span class="icon is-small"><i class="fa fa-shopping-cart"></i></span>
+                    <span>{{ trans('words.purchase-orders') }}</span>
                 </a>
+            </li>
+            <li>
+                <a href="{{ route('purchase-orders.show', ['id' => $purchaseOrder->id]) }}">
+                    @if($purchaseOrder->number)
+                        {{ $purchaseOrder->number }}
+                    @else
+                        {{ $purchaseOrder->id }}
+                    @endif
+                </a>
+            </li>
+            <li class="is-active">
+                <a href="#">Sub Purchase Orders</a>
             </li>
         </ul>
     </nav>
@@ -21,58 +33,60 @@
 
 @section('content')
 
-    {{-- Counts for the purchase-requisitions --}}
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title is-5">Sub Purchase Orders</h1>
+            </div>
+        </div>
+    </section>
     <div class="columns">
-        <div class="column is-4">
-            <p class="title is-6">
-                Draft Requests
-            </p>
-
-            <a href="{{ route('requests.by-status', ['status' => 'draft']) }}">
-                <div class="notification is-warning">
-                    <p class="subtitle is-7">
-                        <b>{{ $draftCounter }}</b>
-                    </p>
-                </div>
-            </a>
-        </div>
-
-        <div class="column is-4">
-            <p class="title is-6">
-                Saved Requests
-            </p>
-
-            <a href="{{ route('requests.by-status', ['status' => 'saved']) }}">
-                <div class="notification is-success">
-                    <p class="subtitle is-7">
-                        <b>{{ $savedCounter }}</b>
-                    </p>
-                </div>
-            </a>
-        </div>
-
-
-        <div class="column is-4">
-            <p class="title is-6">
-                Void Requests
-            </p>
-
-            <a href="{{ route('requests.by-status', ['status' => 'void']) }}">
-                <div class="notification is-danger">
-                    <p class="subtitle is-7">
-                        <b>{{ $voidCounter }}</b>
-                    </p>
-                </div>
-            </a>
-        </div>
-    </div>
-
-    <div class="columns">
-        <div class="column is-6">
-
-        </div>
-        <div class="column is-6 has-text-right">
-            <a href="{{ route('requests.create') }}" class="button is-primary">New Request</a>
+        <div class="column is-12">
+            <table class="table is-fullwidth is-narrow is-size-7">
+                <colgroup>
+                    <col style="width:1%">
+                    <col style="width:5%">
+                    <col style="width:20%">
+                    <col style="width:5%">
+                    <col style="width:5%">
+                    <col style="width:5%">
+                    <col style="width:1%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>System ID</th>
+                    <th>Number</th>
+                    <th>Supplier</th>
+                    <th>Created by</th>
+                    <th>Created at</th>
+                    <th>Updated at</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @if( ! $purchaseOrder->items()->count())
+                    <tr>
+                        <td class="has-text-centered" style="line-height:50px;" colspan="6">No data to display</td>
+                    </tr>
+                @endif
+                @foreach($purchaseOrder->sub_purchase_orders as $subPo)
+                    <tr>
+                        <td>
+                            <a href="{{ route('purchase-orders.sub.show', ['purchase_order_id' => $purchaseOrder->id, 'id' => $subPo->id]) }}">{{ $subPo->id }}</a>
+                        </td>
+                        <td>{{ $subPo->number }}</td>
+                        <td>{{ $subPo->vendor->name }}</td>
+                        <td>{{ optional($subPo->created_by)->username . ' - ' . optional($subPo->created_by)->name }}</td>
+                        <td>{{ $subPo->created_at }}</td>
+                        <td>{{ $subPo->updated_at }}</td>
+                        <td>
+                            <a href="{{ route('purchase-orders.sub.show', ['purchase_order_id' => $purchaseOrder->id, 'id' => $subPo->id]) }}"
+                               class="button is-small is-primary">View</a>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 

@@ -103,6 +103,24 @@ class SubPurchaseOrdersService
                 }
 
                 $subPo->number = $mainPo->number.'-'.$letters;
+            } else {
+
+                // Increment the last PO's lettering if available.
+                $lastNumberedSubPo = $mainPo
+                    ->sub_purchase_orders()
+                    ->where('vendor_id', $mainPo->vendor_id)
+                    ->where('number', '!=', null)
+                    ->orderBy('created_at', 'asc')
+                    ->first();
+
+                if($lastNumberedSubPo) {
+                    $foundNumbers = substr($lastNumberedSubPo->number, strrpos($lastNumberedSubPo->number, '-') + 1);
+                    $numbers = ++$foundNumbers;
+                } else {
+                    $numbers = '1';
+                }
+
+                $subPo->number = $mainPo->number.'-'.$numbers;
             }
 
             $subPo->status = PurchaseOrder::SAVED;

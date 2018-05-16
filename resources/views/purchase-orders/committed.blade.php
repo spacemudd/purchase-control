@@ -40,6 +40,7 @@
             <table class="table is-fullwidth is-narrow is-size-7">
                 <thead>
                 <tr>
+                    <th>System ID</th>
                     <th>Purchase Order Number</th>
                     <th>Department</th>
                     <th>Employee</th>
@@ -57,11 +58,14 @@
                 @foreach($data as $record)
                     <tr>
                         <td>
-                            <a href="{{ route('purchase-orders.show', ['id' => $record->id]) }}">{{ $record->order_number }}</a>
+                            <a href="{{ route('purchase-orders.show', ['id' => $record->id]) }}">{{ $record->id }}</a>
                         </td>
-                        <td>{{ $record->department->department_human }}</td>
-                        <td>{{ $record->employee->display_name }}</td>
-                        <td>{{ $record->created_by->display_name }}</td>
+                        <td>
+                            <a href="{{ route('purchase-orders.show', ['id' => $record->id]) }}">{{ $record->number }}</a>
+                        </td>
+                        <td>{{ optional($record->department)->department_human }}</td>
+                        <td>{{ optional($record->employee)->display_name }}</td>
+                        <td>{{ optional($record->created_by)->display_name }}</td>
                         <td>{{ $record->created_at }}</td>
                         <td>{{ $record->updated_at }}</td>
                     </tr>

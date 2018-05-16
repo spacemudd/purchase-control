@@ -104,11 +104,13 @@
     </div>
 </div>
 
+@if($data->delivery_date)
 <div class="row">
     <div class="col-12-sm">
         <p>Reference to your Quotation, you are authorized to provide / supply the following not later than <u>{{ optional($data->delivery_date)->format('d-m-Y') }}</u>.</p>
     </div>
 </div>
+@endif
 
 {{-- Items --}}
 <div>
