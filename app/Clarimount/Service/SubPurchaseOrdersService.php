@@ -68,4 +68,54 @@ class SubPurchaseOrdersService
             'currency' => 'required|string|max:3',
         ]);
     }
+
+    /**
+     * Saves & generates an ID for the sub purchase order.
+     *
+     * If multi-vendors, it appends '-A' and increments the lettering.
+     * If multi-requests, it appends '-1' and increments.
+     *
+     * @param $id
+     */
+    public function save($id)
+    {
+        $subPo = DB::transaction(function() use ($id) {
+            $subPo = PurchaseOrder::where('id', $id)->sharedLock()->firstOrFail();
+            $mainPo = PurchaseOrder::where('id', $subPo->purchase_order_main_id)->sharedLock()->firstOrFail();
+
+            // todo: validation.
+            $multiVendor = $this->isPoMultiVendor($subPo);
+
+            if($multiVendor) {
+                // Increment the last PO's lettering if available.
+                $lastSubPo = $mainPo
+                    ->sub_purchase_orders()
+                    ->where('vendor_id', '!=', $mainPo->vendor_id)
+                    ->where('number', '!=', null)
+                    ->orderBy('created_at', 'asc')
+                    ->first();
+
+                if($lastSubPo) {
+                    $foundLetters = substr($lastSubPo->number, strrpos($lastSubPo->number, '-') + 1);
+                    $letters = ++$foundLetters;
+                } else {
+                    $letters = 'A';
+                }
+
+                $subPo->number = $mainPo->number.'-'.$letters;
+            }
+
+            $subPo->status = PurchaseOrder::SAVED;
+            $subPo->save();
+
+            return $subPo;
+        });
+
+        return $subPo;
+    }
+
+    public function isPoMultiVendor($purchaseOrder)
+    {
+        return $purchaseOrder->vendor_id != $purchaseOrder->main_purchase_order->vendor_id;
+    }
 }

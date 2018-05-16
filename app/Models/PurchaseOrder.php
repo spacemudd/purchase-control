@@ -179,6 +179,16 @@ class PurchaseOrder extends Model implements AuditableContract
         return $this->belongsToMany(PurchaseTerm::class);
     }
 
+    public function main_purchase_order()
+    {
+        return $this->belongsTo(PurchaseOrder::class, 'purchase_order_main_id', 'id');
+    }
+
+    public function sub_purchase_orders()
+    {
+        return $this->hasMany(PurchaseOrder::class, 'purchase_order_main_id');
+    }
+
     public function getDateStringAttribute()
     {
         if($this->date) {

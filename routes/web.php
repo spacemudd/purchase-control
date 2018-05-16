@@ -51,6 +51,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         // Purchase Order Sub-PO
         Route::get('purchase-orders/{purchase_order_id}/sub-po/create', 'Back\PurchaseOrdersSubController@create')->name('purchase-orders.sub.create');
         Route::post('purchase-orders/{purchase_order_id}/sub-po', 'Back\PurchaseOrdersSubController@store')->name('purchase-orders.sub.store');
+        Route::post('purchase-orders/{purchase_order_id}/sub-po/{id}', 'Back\PurchaseOrdersSubController@save')->name('purchase-orders.sub.save');
 
         // Employees.
         Route::resource('employees', 'EmployeeController', ['except' => ['create', 'store', 'delete']]);

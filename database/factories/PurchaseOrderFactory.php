@@ -14,13 +14,14 @@ use Faker\Generator as Faker;
 $factory->define(App\Models\PurchaseOrder::class, function (Faker $faker) {
     static $purchase_order_main_id;
     static $status;
+    static $number;
 
     return [
         'department_id' => factory(\App\Models\Department::class)->create()->id,
         'employee_id' => factory(\App\Models\Employee::class)->create()->id,
         'vendor_id' => factory(\App\Models\Vendor::class)->create()->id,
         'purchase_order_main_id' => $purchase_order_main_id,
-        'number' => $faker->unique()->randomNumber(),
+        'number' => $number ? $number : $faker->unique()->randomNumber(),
         'date' => $faker->dateTimeBetween('-10 years', '+10 years'),
         'delivery_number' => $faker->randomNumber(6),
         'delivery_date' => $faker->date(),
