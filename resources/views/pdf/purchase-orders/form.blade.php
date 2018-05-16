@@ -193,7 +193,7 @@
     <div class="col-6-sm">
         <strong>arab national bank Saudi Stock Co. Paid up Capital S.R. 10,000 Million</strong><br/>
         P.O. Box 56921, Riyadh 11564 - Kingdom of Saudi Arabia<br/>
-        TEl +966 11 402 9000 Fax +966 11 402 7747<br/>
+        Tel +966 11 402 9000 Fax +966 11 402 7747<br/>
     </div>
     <div class="col-6-sm right" dir="rtl">
         <strong>البنك العربي الوطني شركة مساهمة سعودية رأس المال المدفوع 10,000 مليون ريال</strong><br/>

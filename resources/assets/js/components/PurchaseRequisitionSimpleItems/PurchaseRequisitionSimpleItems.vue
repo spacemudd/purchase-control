@@ -29,7 +29,7 @@
                             <th>#</th>
                             <th>Description</th>
                             <th class="has-text-right">Quantity</th>
-                            <th></th>
+                            <th v-if="inDraft"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,18 +37,10 @@
                             <td>{{ ++key }}</td>
                             <td>{{ item.description }}</td>
                             <td class="has-text-right">{{ item.qty }}</td>
-                            <td class="has-text-centered">
-                                <button v-if="inDraft"
-                                        @click="deleteItem(item)"
+                            <td class="has-text-centered" v-if="inDraft">
+                                <button v-if="inDraft" @click="deleteItem(item)"
                                         class="button is-outlined is-danger has-icon is-small">
                                     <span class="icon is-small"><i class="fa fa-times"></i></span>
-                                </button>
-
-                                <button v-if="isApproved"
-                                        @click="attachItemToPo(item)"
-                                        class="button is-small is-primary has-icon">
-                                    <span class="icon is-small"><i class="fa fa-plus"></i></span>
-                                    <span>Choose PO</span>
                                 </button>
                             </td>
                         </tr>
