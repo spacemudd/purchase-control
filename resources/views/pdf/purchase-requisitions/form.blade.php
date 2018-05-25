@@ -89,7 +89,7 @@
             <tr style="height:50px;">
                 <td>{{ $data->requested_by->display_name }}</td>
                 <td>{{ optional($data->recommended_by)->display_name }}</td>
-                <td></td>
+                <td>{{ optional($data->approved_by)->display_name }}</td>
             </tr>
     	</tbody>
     </table>

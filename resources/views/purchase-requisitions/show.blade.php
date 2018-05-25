@@ -106,10 +106,6 @@
                                     <td>{{ $request->created_at->format('Y-m-d') }}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Approved by</strong></td>
-                                    <td>{{ optional($request->approved_by)->display_name }}</td>
-                                </tr>
-                                <tr>
                                     <td><strong>Requested by</strong><br/>Employee</td>
                                     <td>{{ $request->requested_by->code }} - {{ $request->requested_by->name }}</td>
                                 </tr>
@@ -182,6 +178,23 @@
                                                           recommended-by-id="{{ $request->recommended_by_id }}"
                             >
                             </edit-pr-recommended-by-token>
+                        </div>
+                    </div>
+
+                    <div class="column is-4">
+                        <div class="box">
+                            <p class="title is-7 is-spaced">
+                                <strong>Approved by</strong>
+                                <span class="has-text-weight-light has-text-grey">
+                                    <b-tooltip label="Having financial authority"><span class="icon is-small"><i class="fa fa-question-circle"></i></span></b-tooltip>
+                                </span>
+                            </p>
+                            <edit-pr-approved-by-token employee-name="{{ optional($request->approved_by)->display_name }}"
+                                                       url="{{ route('api.purchase-requisitions.update', ['id' => $request->id]) }}"
+                                                       :can-edit="{{ $request->is_approved ? 'false' : 'true' }}"
+                                                       approved-by-id="{{ $request->approved_by_id }}"
+                            >
+                            </edit-pr-approved-by-token>
                         </div>
                     </div>
                 </div>
