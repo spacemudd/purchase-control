@@ -142,6 +142,38 @@ class PurchaseRequisitionsController extends Controller
     }
 
     /**
+     * Updates the request.
+     *
+     * @param $id
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update($id, Request $request)
+    {
+        $request->validate([
+            'recommended_by_id' => 'nullable|exists:employees,id',
+        ]);
+
+        $pr = $this->service->find($id);
+
+        if($pr->is_approved) {
+            return response()->json(['errors' => [
+                'The purchase requisition is already approved',
+            ]], 422);
+        }
+
+        $data = $request->except('_token');
+
+        $pr->update($data);
+        $pr->save();
+
+        // To update the relations.
+        $pr = $this->service->find($id);
+
+        return $pr;
+    }
+
+    /**
      * @return mixed
      */
     public function searchSaved()

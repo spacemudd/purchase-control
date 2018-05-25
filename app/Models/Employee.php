@@ -23,7 +23,7 @@ class Employee extends Model implements AuditableContract
 
 	protected $fillable = ['code', 'department_id', 'staff_type_id', 'name', 'email', 'phone'];
 
-	protected $appends = ['link', 'edit_link', 'approver_link'];
+	protected $appends = ['link', 'edit_link', 'approver_link', 'display_name'];
 
 	public function department()
 	{

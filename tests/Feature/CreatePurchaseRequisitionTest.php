@@ -246,4 +246,23 @@ class CreatePurchaseRequisitionTest extends TestCase
         $url = route('purchase-requisitions.show', ['id' => $pr->id]);
         $this->actingAs($user)->get($url)->assertSee($purpose);
     }
+
+    public function test_updating_recommended_by_requisition()
+    {
+        $user = factory(User::class)->create()->givePermissionTo([
+            'update-purchase-requisitions',
+        ]);
+
+        $pr = factory(PurchaseRequisition::class)->create([
+            'status' => PurchaseRequisition::SAVED,
+        ]);
+
+        $employee = factory(Employee::class)->create();
+
+        $url = route('api.purchase-requisitions.update', ['id' => $pr->id]);
+        $this->actingAs($user)->put($url, ['recommended_by_id' => $employee->id])->assertSessionMissing('errors');
+
+        $url = route('purchase-requisitions.show', ['id' => $pr->id]);
+        $this->actingAs($user)->get($url)->assertSee($employee->name);
+    }
 }

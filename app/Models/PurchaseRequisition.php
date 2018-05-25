@@ -79,6 +79,12 @@ class PurchaseRequisition extends Model implements AuditableContract
         return $this->belongsTo(Employee::class);
     }
 
+    public function recommended_by()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
+
     public function cost_center_for()
     {
         return $this->belongsTo(Department::class);

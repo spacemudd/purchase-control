@@ -170,6 +170,21 @@
                         </edit-requisition-remarks>
                     </div>
                 </div>
+
+                {{-- Signatures block --}}
+                <div class="columns">
+                    <div class="column is-4">
+                        <div class="box">
+                            <p class="title is-7">Recommended by</p>
+                            <edit-pr-recommended-by-token employee-name="{{ optional($request->recommended_by)->display_name }}"
+                                                          url="{{ route('api.purchase-requisitions.update', ['id' => $request->id]) }}"
+                                                          :can-edit="{{ $request->is_approved ? 'false' : 'true' }}"
+                                                          recommended-by-id="{{ $request->recommended_by_id }}"
+                            >
+                            </edit-pr-recommended-by-token>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {{-- Simple Items --}}

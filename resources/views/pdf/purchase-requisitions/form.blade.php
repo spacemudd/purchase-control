@@ -87,8 +87,8 @@
                 <td class="narrow"><strong>APPROVED BY</strong> (Having Financial Authority)</td>
             </tr>
             <tr style="height:50px;">
-                <td>{{ $data->requested_by->name }}</td>
-                <td></td>
+                <td>{{ $data->requested_by->display_name }}</td>
+                <td>{{ optional($data->recommended_by)->display_name }}</td>
                 <td></td>
             </tr>
     	</tbody>

@@ -46,6 +46,7 @@ class PurchaseRequisitionsRepository
                 'cost_center_for',
                 'created_by',
                 'approved_by',
+                'recommended_by',
             ])
             ->with(['purchase_requisition_items'])
             ->firstOrFail();
