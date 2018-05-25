@@ -173,10 +173,12 @@
             </div>
 
             {{-- Simple Items --}}
+            {{-- Removed because it is now automated, or so the ITAM manager have said.
             <purchase-requisition-simple-items :requisition-id="{{ $request->id }}"
                                                 :is-approved.number="{{ $request->is_approved ? '1' : 0 }}"
                                                 :in-draft.number="{{ $request->canAddItems ? '1' : '0' }}">
             </purchase-requisition-simple-items>
+            --}}
 
             {{-- ITAM Items --}}
             <purchase-requisition-items :requisition-id="{{ $request->id }}"

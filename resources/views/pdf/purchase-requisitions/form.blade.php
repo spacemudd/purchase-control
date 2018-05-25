@@ -82,8 +82,8 @@
         </colgroupd>
     	<tbody>
             <tr>
-                <td class="narrow"><strong>REQUESTED BY</td>
-                <td class="narrow"><strong>RECOMMENDED BY</td>
+                <td class="narrow"><strong>REQUESTED BY</strong></td>
+                <td class="narrow"><strong>RECOMMENDED BY</strong></td>
                 <td class="narrow"><strong>APPROVED BY</strong> (Having Financial Authority)</td>
             </tr>
             <tr style="height:50px;">
@@ -128,7 +128,7 @@
         <tbody>
         <tr style="height:40px;">
             <td><b>Remarks</b></td>
-            <td></td>
+            <td>{{ $data->itam_remarks }}</td>
         </tr>
         </tbody>
     </table>
