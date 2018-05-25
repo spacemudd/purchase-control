@@ -226,6 +226,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('purchase-requisitions/{id}/unsubscribe', 'Api\PurchaseRequisitionsController@unsubscribe')->name('api.purchase-requisitions.unsubscribe');
     Route::post('purchase-requisitions/{id}/approve', 'Api\PurchaseRequisitionsController@approve')->name('api.purchase-requisitions.approve');
     Route::put('purchase-requisitions/{id}/purpose', 'Api\PurchaseRequisitionsController@updatePurpose')->name('api.purchase-requisitions.purpose');
+    Route::put('purchase-requisitions/{id}/remarks', 'Api\PurchaseRequisitionsController@updateRemarks')->name('api.purchase-requisitions.remarks');
 
     // Notes.
     Route::post('purchase-requisition/notes', 'Api\PurchaseRequisitionNotes@store')->name('api.purchase-requisition.notes');

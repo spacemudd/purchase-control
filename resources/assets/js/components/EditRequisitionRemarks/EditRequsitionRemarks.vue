@@ -1,17 +1,17 @@
 <template>
     <div>
-        <p class="title is-6">Purpose</p>
+        <p class="title is-6">Remarks</p>
         <p class="transparent-highlighter-bg" @click="edit">
-            {{ form.purpose }}
-            <span v-if="!form.purpose"><i>[Purpose of request]</i></span>
+            {{ form.remarks }}
+            <span v-if="!form.remarks"><i>[Remarks of request]</i></span>
         </p>
         <div v-if="is_editing" style="margin-top:20px">
             <div class="field">
                 <textarea  class="textarea is-small"
                            rows="4"
-                           :class="{'is-loading': $isLoading('SAVING_PURPOSE')}"
+                           :class="{'is-loading': $isLoading('SAVING_REMARKS')}"
                            type="text"
-                           v-model="form.purpose"
+                           v-model="form.remarks"
                            @keyup.enter="save"
                            @keyup.esc="rollback">
                 </textarea>
@@ -20,7 +20,7 @@
                 <div class="control has-text-right">
                     <button class="button is-small is-text" @click="rollback">{{ $t('words.cancel') }}</button>
                     <button class="button is-small is-primary"
-                            :class="{'is-loading': $isLoading('SAVING_PURPOSE')}"
+                            :class="{'is-loading': $isLoading('SAVING_REMARKS')}"
                             @click="save">Save</button>
                 </div>
             </div>
@@ -32,9 +32,9 @@
     export default {
         props: {
             /**
-             * Purpose text.
+             * Remarks text.
              */
-            purposeText: {
+            remarksText: {
                 type: String,
                 required: false,
             },
@@ -55,35 +55,35 @@
             return {
                 is_editing: false,
 
-                old_value: this.purposeText,
+                old_value: this.remarksText,
 
                 form: {
-                    purpose: '',
+                    remarks: '',
 
                     errors: [],
                 },
             }
         },
         mounted() {
-            this.form.purpose = this.purposeText;
+            this.form.remarks = this.remarksText;
         },
         methods: {
             edit() {
                 if(this.canEdit) {
-                    this.old_value = this.form.purpose;
+                    this.old_value = this.form.remarks;
                     this.is_editing = true;
                 }
             },
             save() {
-                this.$startLoading('SAVING_PURPOSE');
+                this.$startLoading('SAVING_REMARKS');
 
                 this.form.errors = [];
 
                 axios.put(this.url, this.form)
                     .then(response => {
-                        this.$endLoading('SAVING_PURPOSE');
+                        this.$endLoading('SAVING_REMARKS');
                         this.is_editing = false;
-                        this.form.purpose = response.data.purpose;
+                        this.form.remarks = response.data.itam_remarks;
 
                         this.$toast.open({
                             message: 'Saved',
@@ -91,7 +91,7 @@
                         });
                     })
                     .catch(error => {
-                        this.$endLoading('SAVING_PURPOSE')
+                        this.$endLoading('SAVING_REMARKS')
 
                         if (typeof error.response.data === 'object') {
                             this.form.errors = _.flatten(_.toArray(error.response.data.errors));
@@ -108,7 +108,7 @@
                     });
             },
             rollback() {
-                this.form.purpose = this.old_value;
+                this.form.remarks = this.old_value;
                 this.is_editing = false;
             },
         }

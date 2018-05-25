@@ -115,6 +115,33 @@ class PurchaseRequisitionsController extends Controller
     }
 
     /**
+     * Updates remarks of the request.
+     *
+     * @param $id
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateRemarks($id, Request $request)
+    {
+        $request->validate([
+            'remarks' => 'nullable|string|max:255',
+        ]);
+
+        $pr = $this->service->find($id);
+
+        if($pr->is_approved) {
+            return response()->json(['errors' => [
+                'The purchase requisition is already approved',
+            ]], 422);
+        }
+
+        $pr->itam_remarks = $request->remarks;
+        $pr->save();
+
+        return $pr;
+    }
+
+    /**
      * @return mixed
      */
     public function searchSaved()

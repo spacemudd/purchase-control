@@ -161,13 +161,13 @@
 
                 <div class="columns">
                     <div class="column">
-                        <edit-requisition-purpose :id.number="{{ $request->id }}"
+                        <edit-requisition-remarks :id.number="{{ $request->id }}"
                                                   :can-edit.number="{{ $request->is_approved ? 0 : 1 }}"
-                                                  purpose-text="{{ $request->purpose }}"
-                                                  url="{{ route('api.purchase-requisitions.purpose', ['id' => $request->id]) }}"
+                                                  remarks-text="{{ $request->itam_remarks }}"
+                                                  url="{{ route('api.purchase-requisitions.remarks', ['id' => $request->id]) }}"
                                                   style="margin-left: 10px;"
                         >
-                        </edit-requisition-purpose>
+                        </edit-requisition-remarks>
                     </div>
                 </div>
             </div>
