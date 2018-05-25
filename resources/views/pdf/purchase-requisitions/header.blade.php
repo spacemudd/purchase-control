@@ -16,17 +16,8 @@
     </div>
     <div class="col-7-sm">
         <strong>
-            PREMISES AND ADMINISTRATION<br/>
-            IT HARDWARE / SOFTWARE REQUEST FORM
-        </strong>
-        <p>Please send your complete filled form in original after obtaining the authorized signature to: <strong>&rarr;</strong></p>
-    </div>
-    <div class="col-3-sm">
-        <strong style="font-size:11px;letter-spacing: 0.7px">
-            Mohammed Yaqub Khan,<br/>
-            ITG-IT Assets Management,<br/>
-            Head Office, 1st Floor,<br/>
-            New Tower, Ext - 8259
+            ITG - IT Asset Management<br/>
+            HARDWARE / SOFTWARE REQUISITION FORM
         </strong>
     </div>
 </div>
@@ -37,14 +28,15 @@
 </colgroup>
 <thead>
 <tr style="background-color:black;color:white">
-	<th style="color:white;">TO BE USED BY PREMISES &amp; ADMIN ONLY.</th>
-    <th style="color:white;">TO BE FILLED ONLY BY I.T. ASSETS MANAGEMENT SECTION</th>
+	{{--<th style="color:white;">TO BE USED BY PREMISES &amp; ADMIN ONLY.</th>--}}
+    {{--<th style="color:white;">TO BE FILLED ONLY BY I.T. ASSETS MANAGEMENT SECTION</th>--}}
 </tr>
 </thead>
 	<tbody>
 			<tr>
+                {{--
 				<td>
-                    {{-- PMA section --}}
+                    {{-- PMA section --
                     <table class="pure-table pure-table-bordered">
                     <thead>
                     </thead>
@@ -65,18 +57,20 @@
                     	</tbody>
                     </table>
                 </td>
+                --}}
                 <td>
 
                     {{-- ITAM section --}}
                     <table class="pure-table pure-table-bordered">
                         <colgroup>
-                            <col style="width:40%;">
+                            <col style="width:20%;">
                         </colgroup>
                         <thead>
                         </thead>
                         <tbody>
                         <tr>
-                            <td colspan="4"><strong>Received on:</strong></td>
+                            <td colspan="2"><strong>Date</strong></td>
+                            <td colspan="2">{{ $data->created_at->format('d-m-Y') }}</td>
                         </tr>
                         <tr>
                             <td colspan="2"><strong>IT Reference No.</strong></td>

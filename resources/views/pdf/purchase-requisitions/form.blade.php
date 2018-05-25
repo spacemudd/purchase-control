@@ -18,7 +18,7 @@
         </colgroup>
         <thead>
         <tr style="background-color:black;">
-            <th colspan="4" style="color:white;">REQUESTER INFORMATION (To be filled by the Requester all fields are mandatory and must be filled)</th>
+            <th colspan="4" style="color:white;">REQUISITION DETAILS</th>
         </tr>
         </thead>
         <tbody>
@@ -74,42 +74,6 @@
 
 {{-- Items --}}
 <div style="padding-top:15px;">
-    <table class="pure-table pure-table-bordered tight-table">
-        <colgroup>
-            <col style='width:1%;'>
-            <col style='width:99%;'>
-        </colgroup>
-        <thead>
-            <tr style="background-color:black;">
-                <th style="color:white;" class="center">S.NO.</th>
-                <th style="color:white;" class="center">ITEM DESCRIPTION</th>
-                <th style="color:white;" class="center">QUANTITY</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($data->simple_items as $counter => $item)
-                <tr>
-                    <td class="center">{{ ++$counter }}</td>
-                    <td>{{ $item->description }}</td>
-                    <td class="center">{{ $item->qty }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    {{-- Purpose of request --}}
-    <table class="pure-table pure-table-bordered tight-table">
-        <colgrop>
-            <col style="width:15%;">
-        </colgrop>
-        <tbody>
-        <tr>
-            <td><b>Purpose of Request</b></td>
-            <td>{{ $data->purpose }}</td>
-        </tr>
-        </tbody>
-    </table>
-
     {{-- Signatures of requests --}}
     <table class="pure-table tight-table" style="margin-top:20px;">
         <colgroupd>
@@ -118,25 +82,21 @@
         </colgroupd>
     	<tbody>
             <tr>
-                <td class="narrow"><strong>REQUESTED BY<br>NAME</strong></td>
-                <td class="narrow"><strong>RECOMMENDED BY<br>NAME</strong></td>
-                <td class="narrow"><strong>APPROVED BY</strong> (Having Financial Authority)<br><strong>NAME</strong></td>
+                <td class="narrow"><strong>REQUESTED BY</td>
+                <td class="narrow"><strong>RECOMMENDED BY</td>
+                <td class="narrow"><strong>APPROVED BY</strong> (Having Financial Authority)</td>
             </tr>
-            <tr style="height:80px;">
+            <tr style="height:50px;">
+                <td>{{ $data->requested_by->name }}</td>
                 <td></td>
                 <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><strong>SIGNATURE</strong></td>
-                <td><strong>SIGNATURE</strong></td>
-                <td><strong>SIGNATURE</strong></td>
             </tr>
     	</tbody>
     </table>
 </div>
 
 <div style="padding-top:15px;">
+    <p style="font-size:12px;">ITG Item Recommendation</p>
     <table class="pure-table pure-table-bordered tight-table">
         <colgroup>
             <col style='width:1%;'>
@@ -145,7 +105,7 @@
         <thead>
         <tr style="background-color:black;">
             <th style="color:white;" class="center">S.NO.</th>
-            <th style="color:white;" class="center">TO BE FILLED ONLY BY IT ASSETS MANAGEMENT SECTION <br/> ITEM DESCRIPTION</th>
+            <th style="color:white;" class="center">ITEM DESCRIPTION</th>
             <th style="color:white;" class="center">QUANTITY</th>
         </tr>
         </thead>
@@ -153,7 +113,7 @@
             @foreach($data->items as $counter => $item)
                 <tr>
                     <td class="center">{{ ++$counter }}</td>
-                    <td>{{ $item->name }}</td>
+                    <td style="padding:5px;">{{ $item->name }}</td>
                     <td class="center">{{ $item->qty }}</td>
                 </tr>
             @endforeach
@@ -166,8 +126,8 @@
             <col style="width:15%;">
         </colgrop>
         <tbody>
-        <tr>
-            <td><b>Remarks (if any)</b></td>
+        <tr style="height:40px;">
+            <td><b>Remarks</b></td>
             <td></td>
         </tr>
         </tbody>
@@ -181,19 +141,20 @@
         <tbody>
         <tr>
             <td class="narrow"><strong>CHECKED AND REGISTERED BY</strong></td>
-            <td class="narrow"><strong>VERIFIED AND APPROVED BY</strong> (Head of IT Assets Management)</td>
+            <td class="narrow"><strong>APPROVED BY</strong> (Head of IT Assets Management)</td>
         </tr>
         <tr style="height:50px;">
             <td></td><td></td>
         </tr>
         <tr>
-            <td><strong>SIGNATURE</strong></td>
-            <td><strong>SIGNATURE</strong></td>
+            <td></td>
+            <td></td>
         </tr>
         </tbody>
     </table>
 </div>
 
+{{--
 <div style="padding-top:15px;">
     <table class="pure-table tight-table">
         <colgroupd>
@@ -220,6 +181,7 @@
         </tbody>
     </table>
 </div>
+--}}
 
 </body>
 </html>
