@@ -156,7 +156,7 @@
 </div>
 
 {{-- Terms --}}
-<div>
+<div style="border:1px solid #cbcbcb;padding:10px;margin:20px 0;">
     @foreach($data->terms_json as  $type => $terms)
         <h4>{{ $type }}</h4>
         <ul>
