@@ -43,6 +43,19 @@
                             @if(!$request->number)
                                 <b-tooltip label="Generated when saved"><span class="icon is-small"><i class="fa fa-question-circle"></i></span></b-tooltip>
                             @endif
+                            <br/>
+                            <span class="is-capitalized">
+                                {{ $request->status_name }}
+                                @if($request->canAddItems)
+                                    <span class="circle is-warning"></span>
+                                @endif
+                                @if($request->isSaved)
+                                    <span class="circle is-warning"></span>
+                                @endif
+                                @if($request->isApproved)
+                                    <span class="circle is-success"></span>
+                                @endif
+                            </span>
                         </p>
                     </div>
 
@@ -126,21 +139,6 @@
                                 <td><strong>Created by</strong></td>
                                 <td>{{ $request->created_by->username }} - {{ $request->created_by->name }}</td>
                             </tr>
-                            <tr>
-                                <td><strong>Status</strong></td>
-                                <td class="is-capitalized">
-                                    {{ $request->status_name }}
-                                    @if($request->canAddItems)
-                                        <span class="circle is-warning"></span>
-                                    @endif
-                                    @if($request->isSaved)
-                                        <span class="circle is-warning"></span>
-                                    @endif
-                                    @if($request->isApproved)
-                                        <span class="circle is-success"></span>
-                                    @endif
-                                </td>
-                            </tr>
 
                             <tr>
                                 <td><strong>Requested for</strong><br/>Employee</td>
@@ -155,23 +153,11 @@
                     </div>
                 </div>
 
-                <div class="columns">
-                    <div class="column">
-                        <edit-requisition-remarks :id.number="{{ $request->id }}"
-                                                  :can-edit.number="{{ $request->is_approved ? 0 : 1 }}"
-                                                  remarks-text="{{ $request->itam_remarks }}"
-                                                  url="{{ route('api.purchase-requisitions.remarks', ['id' => $request->id]) }}"
-                                                  style="margin-left: 10px;"
-                        >
-                        </edit-requisition-remarks>
-                    </div>
-                </div>
-
                 {{-- Signatures block --}}
                 <div class="columns">
-                    <div class="column is-4">
+                    <div class="column is-6">
                         <div class="box">
-                            <p class="title is-7">Recommended by</p>
+                            <p class="title is-7">Recommended by<br/><br/></p>
                             <edit-pr-recommended-by-token employee-name="{{ optional($request->recommended_by)->display_name }}"
                                                           url="{{ route('api.purchase-requisitions.update', ['id' => $request->id]) }}"
                                                           :can-edit="{{ $request->is_approved ? 'false' : 'true' }}"
@@ -181,13 +167,12 @@
                         </div>
                     </div>
 
-                    <div class="column is-4">
+                    <div class="column is-6">
                         <div class="box">
                             <p class="title is-7 is-spaced">
                                 <strong>Approved by</strong>
-                                <span class="has-text-weight-light has-text-grey">
-                                    <b-tooltip label="Having financial authority"><span class="icon is-small"><i class="fa fa-question-circle"></i></span></b-tooltip>
-                                </span>
+                                <br/>
+                                <span class="has-text-weight-light has-text-grey">Having financial authority</span>
                             </p>
                             <edit-pr-approved-by-token employee-name="{{ optional($request->approved_by)->display_name }}"
                                                        url="{{ route('api.purchase-requisitions.update', ['id' => $request->id]) }}"
@@ -196,6 +181,53 @@
                             >
                             </edit-pr-approved-by-token>
                         </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="columns">
+                    <div class="column is-6">
+                        <div class="box">
+                            <p class="title is-7">Checked and registered by<br/><br/></p>
+                            {{--<p class="subtitle is-7"></p>--}}
+                            <edit-pr-recommended-by-token employee-name="{{ optional($request->recommended_by)->display_name }}"
+                                                          url="{{ route('api.purchase-requisitions.update', ['id' => $request->id]) }}"
+                                                          :can-edit="{{ $request->is_approved ? 'false' : 'true' }}"
+                                                          recommended-by-id="{{ $request->recommended_by_id }}"
+                            >
+                            </edit-pr-recommended-by-token>
+                        </div>
+                    </div>
+
+                    <div class="column is-6">
+                        <div class="box">
+                            <p class="title is-7">
+                                <strong>Approved by</strong>
+                                <br/>
+                                <span class="has-text-weight-light has-text-grey">Head of IT Assets Management</span>
+                            </p>
+                            <edit-pr-approved-by-token employee-name="{{ optional($request->approved_by)->display_name }}"
+                                                       url="{{ route('api.purchase-requisitions.update', ['id' => $request->id]) }}"
+                                                       :can-edit="{{ $request->is_approved ? 'false' : 'true' }}"
+                                                       approved-by-id="{{ $request->approved_by_id }}"
+                            >
+                            </edit-pr-approved-by-token>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="columns">
+                    <div class="column">
+                        <edit-requisition-remarks :id.number="{{ $request->id }}"
+                                                  :can-edit.number="{{ $request->is_approved ? 0 : 1 }}"
+                                                  remarks-text="{{ $request->itam_remarks }}"
+                                                  url="{{ route('api.purchase-requisitions.remarks', ['id' => $request->id]) }}"
+                                                  style="margin-left: 10px;"
+                        >
+                        </edit-requisition-remarks>
                     </div>
                 </div>
             </div>
