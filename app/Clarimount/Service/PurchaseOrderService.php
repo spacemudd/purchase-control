@@ -340,7 +340,7 @@ class PurchaseOrderService
      * @return mixed
      */
     public function calculateAndSavePurchaseOrderCosts($id)
-{
+    {
         $po = DB::transaction(function() use ($id) {
             $po = PurchaseOrder::where('id', $id)->sharedLock()->firstOrFail();
 

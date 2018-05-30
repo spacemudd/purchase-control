@@ -15,6 +15,7 @@ use App\Models\PurchaseOrdersItem;
 
 $factory->define(PurchaseOrdersItem::class, function (Faker $faker) {
 
+    static $purchase_order_id;
     static $item_template_id;
     static $manufacturer_serial_number;
     static $system_tag_number;
@@ -39,7 +40,7 @@ $factory->define(PurchaseOrdersItem::class, function (Faker $faker) {
     $total = $subtotal + $tax_amount_1;
 
     return [
-        'purchase_order_id' => factory(PurchaseOrder::class)->create()->id,
+        'purchase_order_id' => $purchase_order_id ? $purchase_order_id : factory(PurchaseOrder::class)->create()->id,
         'item_template_id' => $item_template->id,
         'code' => $item_template->code,
         'description' => $item_template->name,

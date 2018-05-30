@@ -2,9 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Clarimount\Service\PurchaseOrderService;
+use App\Events\PurchaseOrderSaved;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrdersItem;
 use App\Models\User;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 use App\Models\Vendor;
 use App\Models\Address;
@@ -113,5 +116,9 @@ class CreatePurchaseOrderTest extends TestCase
             'tax_amount_1_minor' => $taxAmount,
             'total_minor' => $subTotal + $taxAmount,
         ]);
+
+        $formattedTotal = number_format(($subTotal+$taxAmount) / 100, 2);
+        $po = PurchaseOrder::find(1);
+        $this->assertEquals($formattedTotal, $po->total);
     }
 }

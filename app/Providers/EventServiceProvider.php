@@ -11,6 +11,8 @@
 
 namespace App\Providers;
 
+use App\Events\PurchaseOrderSaved;
+use App\Listeners\RecalculatePurchaseOrdersTotals;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -28,7 +30,7 @@ class EventServiceProvider extends ServiceProvider
         //'Adldap\Laravel\Events\AuthenticationSuccessful' => [
         //    'App\Listeners\Adldap\AdldapAuthenticationSuccessful'
         //],
-        'App\Events\PurchaseOrderSaved' => [
+        PurchaseOrderSaved::class => [
             'App\Listeners\RecalculatePurchaseOrdersTotals',
         ],
     ];
