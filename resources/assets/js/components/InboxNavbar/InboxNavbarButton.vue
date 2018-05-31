@@ -8,6 +8,7 @@
                 <div class="modal-content">
                     <loading-screen v-if="$isLoading('LOADING_INBOX_MESSAGES')"></loading-screen>
                     <ul v-else>
+                        <p v-if="messages.length === 0" class="has-text-centered"><i>No messages</i></p>
                         <template v-for="message in messages">
                             <inbox-navbar-item
                                                :item-seen-at="message.seen_at"
