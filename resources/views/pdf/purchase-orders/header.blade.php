@@ -24,7 +24,7 @@
         <strong>Date: {{ optional($data->date)->format('d-m-y') }}</strong>
     </div>
     <div class="col-6-sm" style="text-align: right">
-        <strong>Purchase Order Number: {{ $data->number }}</strong>
+        <strong>Purchase Order Number:</strong> {{ $data->number ? $data->number : 'DRAFT' }}
     </div>
 </div>
 
