@@ -56,9 +56,7 @@
 
 					{{-- Options --}}
 					<div class="column has-text-right">
-                        @if(!$purchase_order->is_draft)
-                            <toggle-preview-purchase-order></toggle-preview-purchase-order>
-                        @endif
+                        <toggle-preview-purchase-order></toggle-preview-purchase-order>
 
 						@if(!$purchase_order->is_draft)
 								<a href="{{ route('purchase-orders.sub.create', ['id' => $purchase_order->id]) }}"

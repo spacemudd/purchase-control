@@ -156,16 +156,18 @@
 </div>
 
 {{-- Terms --}}
-<div style="border:1px solid #cbcbcb;padding:10px;margin:20px 0;">
-    @foreach($data->terms_json as  $type => $terms)
-        <h4>{{ $type }}</h4>
-        <ul>
-            @foreach($terms as $term)
-                <li>{{ $term->value }}</li>
+@if($data->terms_json)
+    <div style="border:1px solid #cbcbcb;padding:10px;margin:20px 0;">
+            @foreach($data->terms_json as $type => $terms)
+                <h4>{{ $type }}</h4>
+                <ul>
+                    @foreach($terms as $term)
+                        <li>{{ $term->value }}</li>
+                    @endforeach
+                </ul>
             @endforeach
-        </ul>
-    @endforeach
-</div>
+    </div>
+@endif
 
 {{-- Signatures block --}}
 <div>

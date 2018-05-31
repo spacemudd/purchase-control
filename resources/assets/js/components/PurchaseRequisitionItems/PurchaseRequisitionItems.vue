@@ -58,12 +58,14 @@
                                 <span class="icon is-small"><i class="fa fa-times"></i></span>
                             </button>
 
+                            <!--
                             <button v-if="isApproved"
                                     @click="attachItemToPo(item)"
                                     class="button is-small is-primary has-icon">
                                 <span class="icon is-small"><i class="fa fa-plus"></i></span>
                                 <span>Choose PO</span>
                             </button>
+                            -->
                         </td>
                     </tr>
                     <tr class="has-text-centered" v-if="items.length === 0">
