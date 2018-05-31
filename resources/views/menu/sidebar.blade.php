@@ -144,6 +144,10 @@
                                             </sidebar-links-group>
                                         @endcan
 
+                                        <sidebar-links-group link="{{ route('purchasing-terms.index') }}"
+                                                             icon="tree" title="PO Terms">
+                                        </sidebar-links-group>
+
                                         @can('view-item-templates')
                                             <sidebar-links-group link="{{ route('item-templates.index') }}"
                                                                  icon="file-text-o" title="{{ __('words.item-templates') }}">
