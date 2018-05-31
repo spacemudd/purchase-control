@@ -47,6 +47,7 @@ class PurchaseRequisitionsRepository
                 'created_by',
                 'approved_by',
                 'recommended_by',
+                'f_auth_by',
             ])
             ->with(['purchase_requisition_items'])
             ->firstOrFail();

@@ -174,12 +174,12 @@
                                 <br/>
                                 <span class="has-text-weight-light has-text-grey">Having financial authority</span>
                             </p>
-                            <edit-pr-approved-by-token employee-name="{{ optional($request->approved_by)->display_name }}"
+                            <edit-pr-financial-approved-by-token employee-name="{{ optional($request->f_auth_by_id)->display_name }}"
                                                        url="{{ route('api.purchase-requisitions.update', ['id' => $request->id]) }}"
                                                        :can-edit="{{ $request->is_approved ? 'false' : 'true' }}"
-                                                       approved-by-id="{{ $request->approved_by_id }}"
+                                                       f-approved-by-id="{{ $request->f_auth_by_id }}"
                             >
-                            </edit-pr-approved-by-token>
+                            </edit-pr-financial-approved-by-token>
                         </div>
                     </div>
                 </div>

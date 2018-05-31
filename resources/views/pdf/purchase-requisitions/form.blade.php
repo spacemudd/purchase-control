@@ -89,7 +89,7 @@
             <tr style="height:50px;">
                 <td>{{ $data->requested_by->display_name }}</td>
                 <td>{{ optional($data->recommended_by)->display_name }}</td>
-                <td>{{ optional($data->approved_by)->display_name }}</td>
+                <td>{{ optional($data->f_auth_by)->display_name }}</td>
             </tr>
     	</tbody>
     </table>
@@ -144,7 +144,8 @@
             <td class="narrow"><strong>APPROVED BY</strong> (Head of IT Assets Management)</td>
         </tr>
         <tr style="height:50px;">
-            <td></td><td></td>
+            <td>{{ optional($data->checked_by)->display_name }}</td>
+            <td>{{ optional($data->approved_by)->display_name }}</td>
         </tr>
         <tr>
             <td></td>

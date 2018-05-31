@@ -115,6 +115,11 @@ class PurchaseRequisition extends Model implements AuditableContract
         return $this->belongsTo(Employee::class);
     }
 
+    public function f_auth_by()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
     /**
      * Get all the notes owned by this requisition.
      *

@@ -152,6 +152,7 @@ class PurchaseRequisitionsController extends Controller
     {
         $request->validate([
             'recommended_by_id' => 'nullable|exists:employees,id',
+            'f_auth_by_id' => 'nullable|exists:employees,id',
         ]);
 
         $pr = $this->service->find($id);
