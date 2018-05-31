@@ -177,7 +177,14 @@
                     Head of Administration Services Center</strong>
             </div>
         </div>
-        <div class="col-4-sm"></div>
+        <div class="col-4-sm center">
+            <div style="border-top:2px solid black;width:100%;font-size:11px;">
+                <strong>
+                    Hatem al-Ahmadi<br/>
+                    Head of Purchasing IT
+                </strong>
+            </div>
+        </div>
         <div class="col-4-sm center">
             <div style="border-top:2px solid black;width:100%;font-size:11px;">
                 <strong>Mahmoud H. Al-Enezi<br/>
@@ -191,6 +198,7 @@
 </div>
 
 {{-- Footer --}}
+{{--
 <div class="row" style="font-size:11px;">
     <div class="col-6-sm">
         <strong>arab national bank Saudi Stock Co. Paid up Capital S.R. 10,000 Million</strong><br/>
@@ -203,6 +211,7 @@
         تلفون <span dir="ltr">+966 11 402 9000</span> فاكس <span dir="ltr">+966 11 402 7747</span>
     </div>
 </div>
+--}}
 
 </body>
 </html>
