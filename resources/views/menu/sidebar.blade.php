@@ -2,6 +2,7 @@
     <div class="sidebar-wrapper" style="width: 304px;">
         <div class="sidebar-inner-wrapper">
             <div class="sidebar-small-wrapper">
+                {{--
                 <div class="sidebar-small">
                     <div class="top-container">
                         <div class="nav-content">
@@ -21,7 +22,7 @@
                                         </span>
                                     </button>
                                 </div>
-                                --}}
+                                -- }}
                                 <div class="item">
                                     <button class="button-wrapper" @click="showNewResourceSidebar">
                                         <span>
@@ -40,18 +41,20 @@
                         <button class='button is-primary' @click="showSettingsSidebar">
                             <span class="icon"><i class="fa fa-cog"></i></span>
                         </button>
-                        --}}
+                        -- }}
 
                         <personal-user-list username="{{ auth()->user()->name }}">
                         </personal-user-list>
                     </div>
                 </div>
+                --}}
 
                 <div class="sidebar-big">
                     <div class="wrapper">
                         <div class="logo">
                             <div class="logo-image">
-                                <span>ANB - Purchase Department</span>
+                                <img src="{{ asset('img/brand/sidebar_logo.svg') }}">
+                                <div style="height:90px;display: inline;">Purchase Department</div>
                             </div>
                         </div>
                         <div class="content-wrapper">
