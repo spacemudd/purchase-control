@@ -110,12 +110,37 @@ class PurchaseRequisition extends Model implements AuditableContract
         return $this->hasMany(PurchaseRequisitionSimpleItem::class);
     }
 
+    /**
+     * Returns the person who clicked 'approved by' in the system.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function approved_by()
     {
         return $this->belongsTo(Employee::class);
     }
 
+    /**
+     * Returns the financial authority (person) who approved the requisition.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function f_auth_by()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
+    public function checked_by()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
+    /**
+     * Returns the ITAM manager who approved the requisition.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function head_of_itam()
     {
         return $this->belongsTo(Employee::class);
     }
@@ -162,6 +187,11 @@ class PurchaseRequisition extends Model implements AuditableContract
     public function getIsSavedAttribute()
     {
         return $this->status == self::SAVED;
+    }
+
+    public function getHasBeenSavedAttribute()
+    {
+        return ($this->status <= self::SAVED);
     }
 
     public function getIsApprovedAttribute()

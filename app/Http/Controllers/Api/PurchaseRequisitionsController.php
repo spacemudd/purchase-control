@@ -153,13 +153,14 @@ class PurchaseRequisitionsController extends Controller
         $request->validate([
             'recommended_by_id' => 'nullable|exists:employees,id',
             'f_auth_by_id' => 'nullable|exists:employees,id',
+            'checked_by_id' => 'nullable|exists:employees,id',
         ]);
 
         $pr = $this->service->find($id);
 
-        if($pr->is_approved) {
+        if($pr->has_been_saved) {
             return response()->json(['errors' => [
-                'The purchase requisition is already approved',
+                'The purchase requisition cannot be edited after being saved',
             ]], 422);
         }
 

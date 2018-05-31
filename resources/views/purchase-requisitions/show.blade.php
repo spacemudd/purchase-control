@@ -50,7 +50,7 @@
                                     <span class="circle is-warning"></span>
                                 @endif
                                 @if($request->isSaved)
-                                    <span class="circle is-warning"></span>
+                                    <span class="circle is-success"></span>
                                 @endif
                                 @if($request->isApproved)
                                     <span class="circle is-success"></span>
@@ -84,12 +84,14 @@
                         @endif
 
                         @can('approve-purchase-requisitions')
+                            {{--
                             @if($request->is_saved)
                                 <approve-requisition url="{{ route('api.purchase-requisitions.approve', ['id' => $request->id]) }}"
                                                      search-approvers-url="{{ route('api.search.approvers') }}"
                                 >
                                 </approve-requisition>
                             @endif
+                            --}}
                             {{--
                             @if($request->is_saved)
                                 <form class="button is-warning is-small" action="{{ route('purchase-requisitions.approve', ['id' => $request->id]) }}" method="post">
@@ -160,7 +162,7 @@
                             <p class="title is-7">Recommended by<br/><br/></p>
                             <edit-pr-recommended-by-token employee-name="{{ optional($request->recommended_by)->display_name }}"
                                                           url="{{ route('api.purchase-requisitions.update', ['id' => $request->id]) }}"
-                                                          :can-edit="{{ $request->is_approved ? 'false' : 'true' }}"
+                                                          :can-edit="{{ $request->has_been_saved ? 'false' : 'true' }}"
                                                           recommended-by-id="{{ $request->recommended_by_id }}"
                             >
                             </edit-pr-recommended-by-token>
@@ -174,10 +176,10 @@
                                 <br/>
                                 <span class="has-text-weight-light has-text-grey">Having financial authority</span>
                             </p>
-                            <edit-pr-financial-approved-by-token employee-name="{{ optional($request->f_auth_by_id)->display_name }}"
-                                                       url="{{ route('api.purchase-requisitions.update', ['id' => $request->id]) }}"
-                                                       :can-edit="{{ $request->is_approved ? 'false' : 'true' }}"
-                                                       f-approved-by-id="{{ $request->f_auth_by_id }}"
+                            <edit-pr-financial-approved-by-token employee-name="{{ optional($request->f_auth_by)->display_name }}"
+                                                                 url="{{ route('api.purchase-requisitions.update', ['id' => $request->id]) }}"
+                                                                 :can-edit="{{ $request->has_been_saved ? 'false' : 'true' }}"
+                                                                 f-approved-by-id="{{ $request->f_auth_by_id }}"
                             >
                             </edit-pr-financial-approved-by-token>
                         </div>
@@ -191,12 +193,12 @@
                         <div class="box">
                             <p class="title is-7">Checked and registered by<br/><br/></p>
                             {{--<p class="subtitle is-7"></p>--}}
-                            <edit-pr-recommended-by-token employee-name="{{ optional($request->recommended_by)->display_name }}"
+                            <edit-pr-checked-by-token employee-name="{{ optional($request->checked_by)->display_name }}"
                                                           url="{{ route('api.purchase-requisitions.update', ['id' => $request->id]) }}"
-                                                          :can-edit="{{ $request->is_approved ? 'false' : 'true' }}"
-                                                          recommended-by-id="{{ $request->recommended_by_id }}"
+                                                          :can-edit="{{ $request->has_been_saved ? 'false' : 'true' }}"
+                                                          checked-by-id="{{ $request->checked_by_id }}"
                             >
-                            </edit-pr-recommended-by-token>
+                            </edit-pr-checked-by-token>
                         </div>
                     </div>
 
@@ -207,12 +209,12 @@
                                 <br/>
                                 <span class="has-text-weight-light has-text-grey">Head of IT Assets Management</span>
                             </p>
-                            <edit-pr-approved-by-token employee-name="{{ optional($request->approved_by)->display_name }}"
+                            <edit-pr-itam-approved-by-token employee-name="{{ optional($request->head_of_itam)->display_name }}"
                                                        url="{{ route('api.purchase-requisitions.update', ['id' => $request->id]) }}"
-                                                       :can-edit="{{ $request->is_approved ? 'false' : 'true' }}"
-                                                       approved-by-id="{{ $request->approved_by_id }}"
+                                                       :can-edit="{{ $request->has_been_saved ? 'false' : 'true' }}"
+                                                       head-of-itam-id="{{ $request->head_of_itam_id }}"
                             >
-                            </edit-pr-approved-by-token>
+                            </edit-pr-itam-approved-by-token>
                         </div>
                     </div>
                 </div>
@@ -222,7 +224,7 @@
                 <div class="columns">
                     <div class="column">
                         <edit-requisition-remarks :id.number="{{ $request->id }}"
-                                                  :can-edit.number="{{ $request->is_approved ? 0 : 1 }}"
+                                                  :can-edit.number="{{ $request->has_been_saved ? 0 : 1 }}"
                                                   remarks-text="{{ $request->itam_remarks }}"
                                                   url="{{ route('api.purchase-requisitions.remarks', ['id' => $request->id]) }}"
                                                   style="margin-left: 10px;"
@@ -235,14 +237,14 @@
             {{-- Simple Items --}}
             {{-- Removed because it is now automated, or so the ITAM manager have said.
             <purchase-requisition-simple-items :requisition-id="{{ $request->id }}"
-                                                :is-approved.number="{{ $request->is_approved ? '1' : 0 }}"
+                                                :is-approved.number="{{ $request->has_been_saved ? '1' : 0 }}"
                                                 :in-draft.number="{{ $request->canAddItems ? '1' : '0' }}">
             </purchase-requisition-simple-items>
             --}}
 
             {{-- ITAM Items --}}
             <purchase-requisition-items :requisition-id="{{ $request->id }}"
-                                        :is-approved.number="{{ $request->is_approved ? '1' : 0 }}"
+                                        :is-approved.number="{{ $request->has_been_saved ? '1' : 0 }}"
                                         :in-draft.number="{{ $request->canAddItems ? '1' : '0' }}">
             </purchase-requisition-items>
         </div>

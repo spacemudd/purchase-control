@@ -145,7 +145,7 @@
         </tr>
         <tr style="height:50px;">
             <td>{{ optional($data->checked_by)->display_name }}</td>
-            <td>{{ optional($data->approved_by)->display_name }}</td>
+            <td>{{ optional($data->head_of_itam)->display_name }}</td>
         </tr>
         <tr>
             <td></td>
