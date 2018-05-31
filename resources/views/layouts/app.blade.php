@@ -29,6 +29,17 @@
                                     @yield('header')
                                 </div>
                                 <div class="level-right has-text-right">
+                                    @if(!Auth::guest())
+                                        {{ auth()->user()->name }} -
+                                            <a class="navbar-item" href="{{ route('logout') }}"
+                                                                            onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                                                {{ trans('auth.logout') }}
+                                            </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                {{ csrf_field() }}
+                                            </form>
+                                    @endif
                                     <nav class="actions-nav">
                                         <inbox-navbar-button></inbox-navbar-button>
                                     </nav>
