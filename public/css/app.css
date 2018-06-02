@@ -11735,6 +11735,7 @@ label.panel-block:hover {
   flex-shrink: 0;
   -ms-flex-negative: 0;
   -webkit-flex-shrink: 0;
+  width: 100%;
 }
 
 .sidebar-small-wrapper .sidebar-small {
@@ -12431,7 +12432,7 @@ body {
 }
 
 .actions-nav {
-  min-width: 200px;
+  min-width: 60px;
 }
 
 .inbox-container {

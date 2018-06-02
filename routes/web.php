@@ -96,6 +96,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         // Addresses.
         Route::prefix('settings')->group(function() {
             Route::resource('addresses', 'AddressesController');
+            Route::get('purchase-terms', 'PurchaseingTerms@index')->name('purchasing-terms.index');
         });
 
         Route::get('search', 'SearchController@index')->name('search.index');

@@ -20,7 +20,7 @@ if (mix.inProduction()) {
 
     mix.webpackConfig({
         output: {
-            publicPath: '/ITAM',
+            publicPath: '/PMS',
             // publicPath: '',
         },
         plugins: [

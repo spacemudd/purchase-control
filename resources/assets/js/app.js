@@ -205,7 +205,7 @@ Vue.component('create-approver-page', require('./components/CreateApproverPage/C
 Vue.component('delete-dialog', require('./components/DeleteDialog/DeleteDialog'));
 Vue.component('approve-requisition', require('./components/ApproveRequisition/ApproveRequisition'));
 Vue.component('approve-requisition-modal', require('./components/ApproveRequisitionModal/ApproveRequisitionModal'));
-Vue.component('edit-requisition-purpose', require('./components/EditRequisitionPurpose/EditRequsitionPurpose'));
+Vue.component('edit-requisition-remarks', require('./components/EditRequisitionRemarks/EditRequsitionRemarks'));
 Vue.component('pr-item-to-po-modal', require('./components/PrItemToPoModal/PrItemToPoModal'));
 Vue.component('select-purchase-orders', require('./components/SelectPurchaseOrder/SelectPurchaseOrder'));
 Vue.component('select-vendors', require('./components/SelectVendors/SelectVendors'));
@@ -221,6 +221,10 @@ Vue.component('purchase-order-items', require('./components/PurchaseOrderItems/P
 Vue.component('toggle-preview-purchase-order', require('./components/TogglePreviewPurchaseOrder/TogglePreviewPurchaseOrder'));
 Vue.component('preview-pdf-container', require('./components/PreviewPdfContainer/PreviewPdfContainer'));
 Vue.component('purchase-requisition-simple-items', require('./components/PurchaseRequisitionSimpleItems/PurchaseRequisitionSimpleItems'));
+Vue.component('edit-pr-recommended-by-token', require('./components/EditPrRecommendedByToken/EditPrRecommendedByToken'));
+Vue.component('edit-pr-itam-approved-by-token', require('./components/EditPrItamApprovedByToken/EditPrItamApprovedByToken'));
+Vue.component('edit-pr-financial-approved-by-token', require('./components/EditPrFinancialApprovedByToken/EditPrFinancialApprovedByToken'));
+Vue.component('edit-pr-checked-by-token', require('./components/EditPrCheckedByToken/EditPrCheckedByToken'));
 
 /**
  * API/App settings

@@ -30294,7 +30294,7 @@ module.exports = Symbol;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(150);
-module.exports = __webpack_require__(676);
+module.exports = __webpack_require__(691);
 
 
 /***/ }),
@@ -30532,7 +30532,7 @@ Vue.component('create-approver-page', __webpack_require__(609));
 Vue.component('delete-dialog', __webpack_require__(614));
 Vue.component('approve-requisition', __webpack_require__(617));
 Vue.component('approve-requisition-modal', __webpack_require__(620));
-Vue.component('edit-requisition-purpose', __webpack_require__(623));
+Vue.component('edit-requisition-remarks', __webpack_require__(623));
 Vue.component('pr-item-to-po-modal', __webpack_require__(626));
 Vue.component('select-purchase-orders', __webpack_require__(629));
 Vue.component('select-vendors', __webpack_require__(632));
@@ -30547,7 +30547,11 @@ Vue.component('select-purchase-requisition', __webpack_require__(662));
 Vue.component('purchase-order-items', __webpack_require__(665));
 Vue.component('toggle-preview-purchase-order', __webpack_require__(668));
 Vue.component('preview-pdf-container', __webpack_require__(671));
-Vue.component('purchase-requisition-simple-items', __webpack_require__(681));
+Vue.component('purchase-requisition-simple-items', __webpack_require__(676));
+Vue.component('edit-pr-recommended-by-token', __webpack_require__(679));
+Vue.component('edit-pr-itam-approved-by-token', __webpack_require__(682));
+Vue.component('edit-pr-financial-approved-by-token', __webpack_require__(685));
+Vue.component('edit-pr-checked-by-token', __webpack_require__(688));
 
 /**
  * API/App settings
@@ -95190,6 +95194,7 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
 
 exports.default = {
     data: function data() {
@@ -95300,6 +95305,12 @@ var render = function() {
                     : _c(
                         "ul",
                         [
+                          _vm.messages.length === 0
+                            ? _c("p", { staticClass: "has-text-centered" }, [
+                                _c("i", [_vm._v("No messages")])
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
                           _vm._l(_vm.messages, function(message) {
                             return [
                               _c("inbox-navbar-item", {
@@ -103798,6 +103809,8 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
 
 exports.default = {
     props: {
@@ -104023,30 +104036,6 @@ var render = function() {
                                           })
                                         ]
                                       )
-                                    ]
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _vm.isApproved
-                                ? _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "button is-small is-primary has-icon",
-                                      on: {
-                                        click: function($event) {
-                                          _vm.attachItemToPo(item)
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "span",
-                                        { staticClass: "icon is-small" },
-                                        [_c("i", { staticClass: "fa fa-plus" })]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("span", [_vm._v("Choose PO")])
                                     ]
                                   )
                                 : _vm._e()
@@ -107679,7 +107668,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\EditRequisitionPurpose\\EditRequsitionPurpose.vue"
+Component.options.__file = "resources\\assets\\js\\components\\EditRequisitionRemarks\\EditRequsitionRemarks.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -107688,9 +107677,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-31950e3a", Component.options)
+    hotAPI.createRecord("data-v-6a2ea9b8", Component.options)
   } else {
-    hotAPI.reload("data-v-31950e3a", Component.options)
+    hotAPI.reload("data-v-6a2ea9b8", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -107747,9 +107736,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 exports.default = {
     props: {
         /**
-         * Purpose text.
+         * Remarks text.
          */
-        purposeText: {
+        remarksText: {
             type: String,
             required: false
         },
@@ -107770,44 +107759,44 @@ exports.default = {
         return {
             is_editing: false,
 
-            old_value: this.purposeText,
+            old_value: this.remarksText,
 
             form: {
-                purpose: '',
+                remarks: '',
 
                 errors: []
             }
         };
     },
     mounted: function mounted() {
-        this.form.purpose = this.purposeText;
+        this.form.remarks = this.remarksText;
     },
 
     methods: {
         edit: function edit() {
             if (this.canEdit) {
-                this.old_value = this.form.purpose;
+                this.old_value = this.form.remarks;
                 this.is_editing = true;
             }
         },
         save: function save() {
             var _this = this;
 
-            this.$startLoading('SAVING_PURPOSE');
+            this.$startLoading('SAVING_REMARKS');
 
             this.form.errors = [];
 
             axios.put(this.url, this.form).then(function (response) {
-                _this.$endLoading('SAVING_PURPOSE');
+                _this.$endLoading('SAVING_REMARKS');
                 _this.is_editing = false;
-                _this.form.purpose = response.data.purpose;
+                _this.form.remarks = response.data.itam_remarks;
 
                 _this.$toast.open({
                     message: 'Saved',
                     type: 'is-success'
                 });
             }).catch(function (error) {
-                _this.$endLoading('SAVING_PURPOSE');
+                _this.$endLoading('SAVING_REMARKS');
 
                 if (_typeof(error.response.data) === 'object') {
                     _this.form.errors = _.flatten(_.toArray(error.response.data.errors));
@@ -107824,7 +107813,7 @@ exports.default = {
             });
         },
         rollback: function rollback() {
-            this.form.purpose = this.old_value;
+            this.form.remarks = this.old_value;
             this.is_editing = false;
         }
     }
@@ -107839,15 +107828,15 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("p", { staticClass: "title is-6" }, [_vm._v("Purpose")]),
+    _c("p", { staticClass: "title is-6" }, [_vm._v("Remarks")]),
     _vm._v(" "),
     _c(
       "p",
       { staticClass: "transparent-highlighter-bg", on: { click: _vm.edit } },
       [
-        _vm._v("\n        " + _vm._s(_vm.form.purpose) + "\n        "),
-        !_vm.form.purpose
-          ? _c("span", [_c("i", [_vm._v("[Purpose of request]")])])
+        _vm._v("\n        " + _vm._s(_vm.form.remarks) + "\n        "),
+        !_vm.form.remarks
+          ? _c("span", [_c("i", [_vm._v("[Remarks of request]")])])
           : _vm._e()
       ]
     ),
@@ -107860,14 +107849,14 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.form.purpose,
-                  expression: "form.purpose"
+                  value: _vm.form.remarks,
+                  expression: "form.remarks"
                 }
               ],
               staticClass: "textarea is-small",
-              class: { "is-loading": _vm.$isLoading("SAVING_PURPOSE") },
+              class: { "is-loading": _vm.$isLoading("SAVING_REMARKS") },
               attrs: { rows: "4", type: "text" },
-              domProps: { value: _vm.form.purpose },
+              domProps: { value: _vm.form.remarks },
               on: {
                 keyup: [
                   function($event) {
@@ -107893,7 +107882,7 @@ var render = function() {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.$set(_vm.form, "purpose", $event.target.value)
+                  _vm.$set(_vm.form, "remarks", $event.target.value)
                 }
               }
             })
@@ -107914,7 +107903,7 @@ var render = function() {
                 "button",
                 {
                   staticClass: "button is-small is-primary",
-                  class: { "is-loading": _vm.$isLoading("SAVING_PURPOSE") },
+                  class: { "is-loading": _vm.$isLoading("SAVING_REMARKS") },
                   on: { click: _vm.save }
                 },
                 [_vm._v("Save")]
@@ -107931,7 +107920,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-31950e3a", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-6a2ea9b8", module.exports)
   }
 }
 
@@ -111630,24 +111619,14 @@ if (false) {
 
 /***/ }),
 /* 676 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 677 */,
-/* 678 */,
-/* 679 */,
-/* 680 */,
-/* 681 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(682)
+var __vue_script__ = __webpack_require__(677)
 /* template */
-var __vue_template__ = __webpack_require__(683)
+var __vue_template__ = __webpack_require__(678)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -111686,7 +111665,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 682 */
+/* 677 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -111857,7 +111836,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 683 */
+/* 678 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -112042,7 +112021,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "?\n                                Save\n                            "
+                                    "\n                                Save\n                            "
                                   )
                                 ]
                               )
@@ -112088,6 +112067,1094 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-4bca1735", module.exports)
   }
 }
+
+/***/ }),
+/* 679 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(680)
+/* template */
+var __vue_template__ = __webpack_require__(681)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\EditPrRecommendedByToken\\EditPrRecommendedByToken.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0c36cb75", Component.options)
+  } else {
+    hotAPI.reload("data-v-0c36cb75", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 680 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        /**
+         * Employee name.
+         */
+        employeeName: {
+            type: String,
+            required: false
+        },
+        recommendedById: {
+            required: false
+        },
+        /**
+         * Saving endpoint.
+         */
+        url: {
+            type: String,
+            required: true
+        },
+        canEdit: {
+            type: Boolean,
+            default: false
+        }
+    },
+    data: function data() {
+        return {
+            is_editing: false,
+
+            old_value: this.employeeName,
+
+            form: {
+                recommended_by_id: '',
+
+                errors: []
+            }
+        };
+    },
+    mounted: function mounted() {
+        this.form.recommended_by_id = this.recommendedById;
+    },
+
+    methods: {
+        edit: function edit() {
+            if (this.canEdit) {
+                // this.old_value = this.form.recommended_by_id;
+                this.is_editing = true;
+            }
+        },
+        employeeIsSelected: function employeeIsSelected(employee) {
+            this.form.recommended_by_id = employee.id;
+        },
+        save: function save() {
+            var _this = this;
+
+            this.$startLoading('SAVING_RECOMMENDED_BY');
+
+            this.form.errors = [];
+            var data = { recommended_by_id: this.form.recommended_by_id };
+            axios.put(this.url, data).then(function (response) {
+                _this.$endLoading('SAVING_RECOMMENDED_BY');
+                _this.is_editing = false;
+                _this.form.recommended_by_id = response.data.recommended_by_id;
+                _this.old_value = response.data.recommended_by ? response.data.recommended_by.display_name : '';
+
+                _this.$toast.open({
+                    message: 'Saved',
+                    type: 'is-success'
+                });
+            }).catch(function (error) {
+                _this.$endLoading('SAVING_RECOMMENDED_BY');
+
+                if (_typeof(error.response.data) === 'object') {
+                    _this.form.errors = _.flatten(_.toArray(error.response.data.errors));
+                } else {
+                    _this.form.errors = ['Something went wrong. Please try again.'];
+                }
+
+                _this.$dialog.alert({
+                    message: _this.form.errors,
+                    type: 'is-danger'
+                });
+
+                throw error;
+            });
+        },
+        rollback: function rollback() {
+            // this.form.recommended_by_id = this.old_value;
+            this.is_editing = false;
+        },
+        clearRecommendedBy: function clearRecommendedBy() {
+            this.form.recommended_by_id = null;
+            this.save();
+        }
+    }
+};
+
+/***/ }),
+/* 681 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "p",
+      {
+        staticClass: "transparent-highlighter-bg is-size-7",
+        on: { click: _vm.edit }
+      },
+      [
+        _vm._v("\n        " + _vm._s(_vm.old_value) + "\n        "),
+        !_vm.form.recommended_by_id
+          ? _c("span", [_c("i", [_vm._v("[Recommended by]")])])
+          : _vm._e()
+      ]
+    ),
+    _vm._v(" "),
+    _vm.is_editing
+      ? _c("div", { staticStyle: { "margin-top": "20px" } }, [
+          _c(
+            "div",
+            { staticClass: "field" },
+            [
+              _c("select-employee", {
+                attrs: { url: _vm.apiUrl() + "/search/employees" },
+                on: { selected: _vm.employeeIsSelected }
+              }),
+              _vm._v(" "),
+              _c("p", { staticClass: "help" }, [
+                _vm._v("Search by code or name")
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "field" }, [
+            _c("div", { staticClass: "control has-text-right" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "button is-small is-text",
+                  on: { click: _vm.clearRecommendedBy }
+                },
+                [_vm._v("Clear")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "button is-small is-text",
+                  on: { click: _vm.rollback }
+                },
+                [_vm._v(_vm._s(_vm.$t("words.cancel")))]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "button is-small is-primary",
+                  class: {
+                    "is-loading": _vm.$isLoading("SAVING_RECOMMENDED_BY")
+                  },
+                  on: { click: _vm.save }
+                },
+                [_vm._v("Save")]
+              )
+            ])
+          ])
+        ])
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-0c36cb75", module.exports)
+  }
+}
+
+/***/ }),
+/* 682 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(683)
+/* template */
+var __vue_template__ = __webpack_require__(684)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\EditPrItamApprovedByToken\\EditPrItamApprovedByToken.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-bd9e5626", Component.options)
+  } else {
+    hotAPI.reload("data-v-bd9e5626", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 683 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        /**
+         * Employee name.
+         */
+        employeeName: {
+            type: String,
+            required: false
+        },
+        headOfItamId: {
+            required: false
+        },
+        /**
+         * Saving endpoint.
+         */
+        url: {
+            type: String,
+            required: true
+        },
+        canEdit: {
+            type: Boolean,
+            default: false
+        }
+    },
+    data: function data() {
+        return {
+            is_editing: false,
+
+            old_value: this.employeeName,
+
+            form: {
+                head_of_itam_id: '',
+
+                errors: []
+            }
+        };
+    },
+    mounted: function mounted() {
+        this.form.head_of_itam_id = this.headOfItamId;
+    },
+
+    methods: {
+        edit: function edit() {
+            if (this.canEdit) {
+                // this.old_value = this.form.head_of_itam_id;
+                this.is_editing = true;
+            }
+        },
+        employeeIsSelected: function employeeIsSelected(employee) {
+            this.form.head_of_itam_id = employee.id;
+        },
+        save: function save() {
+            var _this = this;
+
+            this.$startLoading('SAVING_RECOMMENDED_BY');
+
+            this.form.errors = [];
+            var data = { head_of_itam_id: this.form.head_of_itam_id };
+            axios.put(this.url, data).then(function (response) {
+                _this.$endLoading('SAVING_RECOMMENDED_BY');
+                _this.is_editing = false;
+                _this.form.head_of_itam_id = response.data.head_of_itam_id;
+                _this.old_value = response.data.head_of_itam ? response.data.head_of_itam.display_name : '';
+
+                _this.$toast.open({
+                    message: 'Saved',
+                    type: 'is-success'
+                });
+            }).catch(function (error) {
+                _this.$endLoading('SAVING_RECOMMENDED_BY');
+
+                if (_typeof(error.response.data) === 'object') {
+                    _this.form.errors = _.flatten(_.toArray(error.response.data.errors));
+                } else {
+                    _this.form.errors = ['Something went wrong. Please try again.'];
+                }
+
+                _this.$dialog.alert({
+                    message: _this.form.errors,
+                    type: 'is-danger'
+                });
+
+                throw error;
+            });
+        },
+        rollback: function rollback() {
+            // this.form.head_of_itam_id = this.old_value;
+            this.is_editing = false;
+        },
+        clearApprovedBy: function clearApprovedBy() {
+            this.form.head_of_itam_id = null;
+            this.save();
+        }
+    }
+};
+
+/***/ }),
+/* 684 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "p",
+      {
+        staticClass: "transparent-highlighter-bg is-size-7",
+        on: { click: _vm.edit }
+      },
+      [
+        _vm._v("\n        " + _vm._s(_vm.old_value) + "\n        "),
+        !_vm.form.head_of_itam_id
+          ? _c("span", [_c("i", [_vm._v("[Approved by]")])])
+          : _vm._e()
+      ]
+    ),
+    _vm._v(" "),
+    _vm.is_editing
+      ? _c("div", { staticStyle: { "margin-top": "20px" } }, [
+          _c(
+            "div",
+            { staticClass: "field" },
+            [
+              _c("select-employee", {
+                attrs: { url: _vm.apiUrl() + "/search/approvers" },
+                on: { selected: _vm.employeeIsSelected }
+              }),
+              _vm._v(" "),
+              _c("p", { staticClass: "help" }, [
+                _vm._v("Search by code or name")
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "field" }, [
+            _c("div", { staticClass: "control has-text-right" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "button is-small is-text",
+                  on: { click: _vm.clearApprovedBy }
+                },
+                [_vm._v("Clear")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "button is-small is-text",
+                  on: { click: _vm.rollback }
+                },
+                [_vm._v(_vm._s(_vm.$t("words.cancel")))]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "button is-small is-primary",
+                  class: {
+                    "is-loading": _vm.$isLoading("SAVING_RECOMMENDED_BY")
+                  },
+                  on: { click: _vm.save }
+                },
+                [_vm._v("Save")]
+              )
+            ])
+          ])
+        ])
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-bd9e5626", module.exports)
+  }
+}
+
+/***/ }),
+/* 685 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(686)
+/* template */
+var __vue_template__ = __webpack_require__(687)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\EditPrFinancialApprovedByToken\\EditPrFinancialApprovedByToken.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-20844bd5", Component.options)
+  } else {
+    hotAPI.reload("data-v-20844bd5", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 686 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        /**
+         * Employee name.
+         */
+        employeeName: {
+            type: String,
+            required: false
+        },
+        fApprovedById: {
+            required: false
+        },
+        /**
+         * Saving endpoint.
+         */
+        url: {
+            type: String,
+            required: true
+        },
+        canEdit: {
+            type: Boolean,
+            default: false
+        }
+    },
+    data: function data() {
+        return {
+            is_editing: false,
+
+            old_value: this.employeeName,
+
+            form: {
+                f_auth_by_id: '',
+
+                errors: []
+            }
+        };
+    },
+    mounted: function mounted() {
+        this.form.f_auth_by_id = this.fApprovedById;
+    },
+
+    methods: {
+        edit: function edit() {
+            if (this.canEdit) {
+                // this.old_value = this.form.approved_by_id;
+                this.is_editing = true;
+            }
+        },
+        employeeIsSelected: function employeeIsSelected(employee) {
+            this.form.f_auth_by_id = employee.id;
+        },
+        save: function save() {
+            var _this = this;
+
+            this.$startLoading('SAVING_RECOMMENDED_BY');
+
+            this.form.errors = [];
+            var data = { f_auth_by_id: this.form.f_auth_by_id };
+            axios.put(this.url, data).then(function (response) {
+                _this.$endLoading('SAVING_RECOMMENDED_BY');
+                _this.is_editing = false;
+                _this.form.f_auth_by_id = response.data.f_auth_by_id;
+                _this.old_value = response.data.f_auth_by ? response.data.f_auth_by.display_name : '';
+
+                _this.$toast.open({
+                    message: 'Saved',
+                    type: 'is-success'
+                });
+            }).catch(function (error) {
+                _this.$endLoading('SAVING_RECOMMENDED_BY');
+
+                if (_typeof(error.response.data) === 'object') {
+                    _this.form.errors = _.flatten(_.toArray(error.response.data.errors));
+                } else {
+                    _this.form.errors = ['Something went wrong. Please try again.'];
+                }
+
+                _this.$dialog.alert({
+                    message: _this.form.errors,
+                    type: 'is-danger'
+                });
+
+                throw error;
+            });
+        },
+        rollback: function rollback() {
+            // this.form.approved_by_id = this.old_value;
+            this.is_editing = false;
+        },
+        clearApprovedBy: function clearApprovedBy() {
+            this.form.f_auth_by_id = null;
+            this.save();
+        }
+    }
+};
+
+/***/ }),
+/* 687 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "p",
+      {
+        staticClass: "transparent-highlighter-bg is-size-7",
+        on: { click: _vm.edit }
+      },
+      [
+        _vm._v("\n        " + _vm._s(_vm.old_value) + "\n        "),
+        !_vm.form.f_auth_by_id
+          ? _c("span", [_c("i", [_vm._v("[Approved by]")])])
+          : _vm._e()
+      ]
+    ),
+    _vm._v(" "),
+    _vm.is_editing
+      ? _c("div", { staticStyle: { "margin-top": "20px" } }, [
+          _c(
+            "div",
+            { staticClass: "field" },
+            [
+              _c("select-employee", {
+                attrs: { url: _vm.apiUrl() + "/search/approvers" },
+                on: { selected: _vm.employeeIsSelected }
+              }),
+              _vm._v(" "),
+              _c("p", { staticClass: "help" }, [
+                _vm._v("Search by code or name")
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "field" }, [
+            _c("div", { staticClass: "control has-text-right" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "button is-small is-text",
+                  on: { click: _vm.clearApprovedBy }
+                },
+                [_vm._v("Clear")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "button is-small is-text",
+                  on: { click: _vm.rollback }
+                },
+                [_vm._v(_vm._s(_vm.$t("words.cancel")))]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "button is-small is-primary",
+                  class: {
+                    "is-loading": _vm.$isLoading("SAVING_RECOMMENDED_BY")
+                  },
+                  on: { click: _vm.save }
+                },
+                [_vm._v("Save")]
+              )
+            ])
+          ])
+        ])
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-20844bd5", module.exports)
+  }
+}
+
+/***/ }),
+/* 688 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(689)
+/* template */
+var __vue_template__ = __webpack_require__(690)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\EditPrCheckedByToken\\EditPrCheckedByToken.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-72059175", Component.options)
+  } else {
+    hotAPI.reload("data-v-72059175", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 689 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        /**
+         * Employee name.
+         */
+        employeeName: {
+            type: String,
+            required: false
+        },
+        checkedById: {
+            required: false
+        },
+        /**
+         * Saving endpoint.
+         */
+        url: {
+            type: String,
+            required: true
+        },
+        canEdit: {
+            type: Boolean,
+            default: false
+        }
+    },
+    data: function data() {
+        return {
+            is_editing: false,
+
+            old_value: this.employeeName,
+
+            form: {
+                checked_by_id: '',
+
+                errors: []
+            }
+        };
+    },
+    mounted: function mounted() {
+        this.form.checked_by_id = this.checkedById;
+    },
+
+    methods: {
+        edit: function edit() {
+            if (this.canEdit) {
+                // this.old_value = this.form.checked_by_id;
+                this.is_editing = true;
+            }
+        },
+        employeeIsSelected: function employeeIsSelected(employee) {
+            this.form.checked_by_id = employee.id;
+        },
+        save: function save() {
+            var _this = this;
+
+            this.$startLoading('SAVING_CHECKED_BY');
+
+            this.form.errors = [];
+            var data = { checked_by_id: this.form.checked_by_id };
+            axios.put(this.url, data).then(function (response) {
+                _this.$endLoading('SAVING_CHECKED_BY');
+                _this.is_editing = false;
+                _this.form.checked_by_id = response.data.checked_by_id;
+                _this.old_value = response.data.checked_by ? response.data.checked_by.display_name : '';
+
+                _this.$toast.open({
+                    message: 'Saved',
+                    type: 'is-success'
+                });
+            }).catch(function (error) {
+                _this.$endLoading('SAVING_CHECKED_BY');
+
+                if (_typeof(error.response.data) === 'object') {
+                    _this.form.errors = _.flatten(_.toArray(error.response.data.errors));
+                } else {
+                    _this.form.errors = ['Something went wrong. Please try again.'];
+                }
+
+                _this.$dialog.alert({
+                    message: _this.form.errors,
+                    type: 'is-danger'
+                });
+
+                throw error;
+            });
+        },
+        rollback: function rollback() {
+            // this.form.checked_by_id = this.old_value;
+            this.is_editing = false;
+        },
+        clearApprovedBy: function clearApprovedBy() {
+            this.form.checked_by_id = null;
+            this.save();
+        }
+    }
+};
+
+/***/ }),
+/* 690 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "p",
+      {
+        staticClass: "transparent-highlighter-bg is-size-7",
+        on: { click: _vm.edit }
+      },
+      [
+        _vm._v("\n        " + _vm._s(_vm.old_value) + "\n        "),
+        !_vm.form.checked_by_id
+          ? _c("span", [_c("i", [_vm._v("[Checked and registered by]")])])
+          : _vm._e()
+      ]
+    ),
+    _vm._v(" "),
+    _vm.is_editing
+      ? _c("div", { staticStyle: { "margin-top": "20px" } }, [
+          _c(
+            "div",
+            { staticClass: "field" },
+            [
+              _c("select-employee", {
+                attrs: { url: _vm.apiUrl() + "/search/employees" },
+                on: { selected: _vm.employeeIsSelected }
+              }),
+              _vm._v(" "),
+              _c("p", { staticClass: "help" }, [
+                _vm._v("Search by code or name")
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "field" }, [
+            _c("div", { staticClass: "control has-text-right" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "button is-small is-text",
+                  on: { click: _vm.clearApprovedBy }
+                },
+                [_vm._v("Clear")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "button is-small is-text",
+                  on: { click: _vm.rollback }
+                },
+                [_vm._v(_vm._s(_vm.$t("words.cancel")))]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "button is-small is-primary",
+                  class: { "is-loading": _vm.$isLoading("SAVING_CHECKED_BY") },
+                  on: { click: _vm.save }
+                },
+                [_vm._v("Save")]
+              )
+            ])
+          ])
+        ])
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-72059175", module.exports)
+  }
+}
+
+/***/ }),
+/* 691 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
