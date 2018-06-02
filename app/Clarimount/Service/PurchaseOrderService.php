@@ -12,6 +12,7 @@
 namespace App\Clarimount\Service;
 
 use App\Events\PurchaseOrderSaved;
+use App\Model\PurchaseTerm;
 use Brick\Math\RoundingMode;
 use Brick\Money\Money;
 use Carbon\Carbon;
@@ -93,9 +94,32 @@ class PurchaseOrderService
 
         $purchase_order['created_by_id'] = auth()->user()->id;
 
+        $po = DB::transaction(function() use ($purchase_order) {
+            $po = $this->repository->create($purchase_order);
+            $this->saveTermsToPo($po->id);
+            return $po;
+        }, 2);
 
+		return $po;
+	}
 
-		return $this->repository->create($purchase_order);
+    /**
+     *
+     * @param $id Purchase order ID.
+     */
+	public function saveTermsToPo($id)
+	{
+        $currentAvailableTerms = PurchaseTerm::get();
+
+        $confirmTermsInJson = [];
+        foreach($currentAvailableTerms as $term) {
+            $confirmTermsInJson[$term->type->name][] = [
+                'value' => $term,
+                'on' => false,
+            ];
+        }
+
+        $this->repository->find($id)->terms_json = $confirmTermsInJson;
 	}
 
     public function attachments()

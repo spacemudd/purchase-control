@@ -162,7 +162,7 @@
                 <h4>{{ $type }}</h4>
                 <ul>
                     @foreach($terms as $term)
-                        <li>{{ $term->value }}</li>
+                        <li>{{ $term->value }}: No [ ] <b>Yes [X]</b></li>
                     @endforeach
                 </ul>
             @endforeach
