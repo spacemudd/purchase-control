@@ -121,4 +121,27 @@ class CreatePurchaseOrderTest extends TestCase
         $po = PurchaseOrder::find(1);
         $this->assertEquals($formattedTotal, $po->total);
     }
+
+    /**
+     * test_create_purchase_order originally required addresses and other
+     * fields to be required.
+     *
+     * Everything will be null at initial creation except for currency.
+     *
+     */
+    public function test_create_draft_purchase_order()
+    {
+        $user = factory(User::class)->create()->givePermissionTo([
+            'create-purchase-orders',
+        ]);
+
+        $url = route('purchase-orders.store');
+        $this->actingAs($user)
+            ->post($url);
+
+        $this->assertDatabaseHas('purchase_orders', [
+            'created_by_id' => $user->id,
+            'currency' => 'SAR', // The default currency.
+        ]);
+    }
 }

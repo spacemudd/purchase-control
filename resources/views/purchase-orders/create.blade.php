@@ -26,81 +26,81 @@
 	<form action="{{ route('purchase-orders.store') }}" method="post">
 		{{ csrf_field() }}
 		{{-- Suppliers --}}
-		<div class="columns">
-			<div class="column is-3">
-				<p class="title is-5">Supplier</p>
-			</div>
-			<div class="column is-4">
-				<div class="field">
-					<label for="supplier_id" class="label">Supplier</label>
+		{{--<div class="columns">--}}
+			{{--<div class="column is-3">--}}
+				{{--<p class="title is-5">Supplier</p>--}}
+			{{--</div>--}}
+			{{--<div class="column is-4">--}}
+				{{--<div class="field">--}}
+					{{--<label for="supplier_id" class="label">Supplier</label>--}}
 
-					<div class="control">
-						<select-vendors name="vendor_id"
-										url="{{ route('api.search.vendor') }}">
-						</select-vendors>
+					{{--<div class="control">--}}
+						{{--<select-vendors name="vendor_id"--}}
+										{{--url="{{ route('api.search.vendor') }}">--}}
+						{{--</select-vendors>--}}
 
-						<span class="help">Search by code or name</span>
-						@if ($errors->has('supplier_id'))
-							<span class="help is-danger">
-								{{ $errors->first('supplier_id') }}
-							</span>
-						@endif
-					</div>
-				</div>
-				<hr>
-			</div>
-		</div>
+						{{--<span class="help">Search by code or name</span>--}}
+						{{--@if ($errors->has('supplier_id'))--}}
+							{{--<span class="help is-danger">--}}
+								{{--{{ $errors->first('supplier_id') }}--}}
+							{{--</span>--}}
+						{{--@endif--}}
+					{{--</div>--}}
+				{{--</div>--}}
+				{{--<hr>--}}
+			{{--</div>--}}
+		{{--</div>--}}
 
 
 		{{-- Shipping Address --}}
-		<div class="columns">
-			<div class="column is-3">
-				<p class="title is-5">Shipping Address</p>
-			</div>
-			<div class="column is-4">
-				<div class="field">
-					<label for="shipping_address_id" class="label">Shipping Address</label>
+		{{--<div class="columns">--}}
+			{{--<div class="column is-3">--}}
+				{{--<p class="title is-5">Shipping Address</p>--}}
+			{{--</div>--}}
+			{{--<div class="column is-4">--}}
+				{{--<div class="field">--}}
+					{{--<label for="shipping_address_id" class="label">Shipping Address</label>--}}
 
-					<p class="control">
-						<select-address name="shipping_address_id"
-										url="{{ route('api.search.shipping-addresses') }}">
-						</select-address>
+					{{--<p class="control">--}}
+						{{--<select-address name="shipping_address_id"--}}
+										{{--url="{{ route('api.search.shipping-addresses') }}">--}}
+						{{--</select-address>--}}
 
-						@if ($errors->has('shipping_address_id'))
-							<span class="help is-danger">
-								{{ $errors->first('shipping_address_id') }}
-							</span>
-						@endif
-					</p>
-				</div>
-				<hr>
-			</div>
-		</div>
+						{{--@if ($errors->has('shipping_address_id'))--}}
+							{{--<span class="help is-danger">--}}
+								{{--{{ $errors->first('shipping_address_id') }}--}}
+							{{--</span>--}}
+						{{--@endif--}}
+					{{--</p>--}}
+				{{--</div>--}}
+				{{--<hr>--}}
+			{{--</div>--}}
+		{{--</div>--}}
 
 		{{-- Billing Address --}}
-		<div class="columns">
-			<div class="column is-3">
-				<p class="title is-5">Billing Address</p>
-			</div>
-			<div class="column is-4">
-				<div class="field">
-					<label for="billing_address_id" class="label">Billing Address</label>
+		{{--<div class="columns">--}}
+			{{--<div class="column is-3">--}}
+				{{--<p class="title is-5">Billing Address</p>--}}
+			{{--</div>--}}
+			{{--<div class="column is-4">--}}
+				{{--<div class="field">--}}
+					{{--<label for="billing_address_id" class="label">Billing Address</label>--}}
 
-					<p class="control">
-						<select-address name="billing_address_id"
-										url="{{ route('api.search.billing-addresses') }}">
-						</select-address>
+					{{--<p class="control">--}}
+						{{--<select-address name="billing_address_id"--}}
+										{{--url="{{ route('api.search.billing-addresses') }}">--}}
+						{{--</select-address>--}}
 
-						@if ($errors->has('billing_address_id'))
-							<span class="help is-danger">
-								{{ $errors->first('billing_address_id') }}
-							</span>
-						@endif
-					</p>
-				</div>
-				<hr>
-			</div>
-		</div>
+						{{--@if ($errors->has('billing_address_id'))--}}
+							{{--<span class="help is-danger">--}}
+								{{--{{ $errors->first('billing_address_id') }}--}}
+							{{--</span>--}}
+						{{--@endif--}}
+					{{--</p>--}}
+				{{--</div>--}}
+				{{--<hr>--}}
+			{{--</div>--}}
+		{{--</div>--}}
 
 		{{-- Currency --}}
 		<div class="columns">

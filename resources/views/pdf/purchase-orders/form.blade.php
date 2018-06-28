@@ -70,11 +70,11 @@
         <table class="pure-table pure-table-bordered tight-table" style="width:100%;">
             <tbody>
             <tr><td><strong>Ship To</strong></td></tr>
-            <tr><td>{{ $data->shipping_address_json->location }}</td></tr>
-            <tr><td>{{ $data->shipping_address_json->department }}</td></tr>
-            <tr><td>{{ $data->shipping_address_json->contact_name }}</td></tr>
-            <tr><td>{{ $data->shipping_address_json->phone }}</td></tr>
-            <tr><td>{{ $data->shipping_address_json->email }}</td></tr>
+            <tr><td>{{ optional($data->shipping_address_json)->location }}</td></tr>
+            <tr><td>{{ optional($data->shipping_address_json)->department }}</td></tr>
+            <tr><td>{{ optional($data->shipping_address_json)->contact_name }}</td></tr>
+            <tr><td>{{ optional($data->shipping_address_json)->phone }}</td></tr>
+            <tr><td>{{ optional($data->shipping_address_json)->email }}</td></tr>
             </tbody>
         </table>
     </div>
@@ -82,11 +82,11 @@
         <table class="pure-table pure-table-bordered tight-table" style="width:100%;">
             <tbody>
             <tr><td><strong>Bill To</strong></td></tr>
-            <tr><td>{{ $data->billing_address_json->location }}</td></tr>
-            <tr><td>{{ $data->billing_address_json->department }}</td></tr>
-            <tr><td>{{ $data->billing_address_json->contact_name }}</td></tr>
-            <tr><td>{{ $data->billing_address_json->phone }}</td></tr>
-            <tr><td>{{ $data->billing_address_json->email }}</td></tr>
+            <tr><td>{{ optional($data->billing_address_json)->location }}</td></tr>
+            <tr><td>{{ optional($data->billing_address_json)->department }}</td></tr>
+            <tr><td>{{ optional($data->billing_address_json)->contact_name }}</td></tr>
+            <tr><td>{{ optional($data->billing_address_json)->phone }}</td></tr>
+            <tr><td>{{ optional($data->billing_address_json)->email }}</td></tr>
             </tbody>
         </table>
     </div>

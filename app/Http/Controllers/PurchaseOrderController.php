@@ -102,10 +102,9 @@ class PurchaseOrderController extends Controller
     {
         $this->authorize('create-purchase-orders');
 
-        $po = $this->service->store();
+        $request = request()->except('_token');
 
-        session()->flash('status', 'success');
-        session()->flash('message', trans('statements.successfully-saved'));
+        $po = $this->service->store($request);
 
         return redirect()->route('purchase-orders.show', ['id' => $po->id]);
     }

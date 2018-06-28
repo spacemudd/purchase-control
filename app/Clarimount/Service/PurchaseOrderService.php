@@ -72,9 +72,9 @@ class PurchaseOrderService
 		}
 	}
 
-	public function store()
+	public function store(array $data)
 	{
-		$purchase_order = request()->except(['_token']);
+		$purchase_order = $data;
 
 		$this->validate($purchase_order)->validate();
 
@@ -90,6 +90,10 @@ class PurchaseOrderService
 
         if(isset($purchase_order['vendor_id'])) {
             $purchase_order['vendor_json'] = Vendor::where('id', $purchase_order['vendor_id'])->firstOrFail();;
+        }
+
+        if( ! array_key_exists('currency', $purchase_order)) {
+            $purchase_order['currency'] = 'SAR';
         }
 
         $purchase_order['created_by_id'] = auth()->user()->id;
@@ -236,7 +240,7 @@ class PurchaseOrderService
 	public function validate(array $data)
 	{
 		$validator = Validator::make($data, [
-            'vendor_id' => 'required|exists:vendors,id',
+            'vendor_id' => 'nullable|exists:vendors,id',
             'shipping_address_id' => 'nullable|exists:addresses,id',
             'billing_address_id' => 'nullable|exists:addresses,id',
             'currency' => 'nullable|string|max:255',

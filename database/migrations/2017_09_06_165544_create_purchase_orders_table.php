@@ -24,14 +24,10 @@ class CreatePurchaseOrdersTable extends Migration
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('department_id')->unsigned();
-            $table->foreign('department_id')->references('id')->on('departments');
-            $table->integer('employee_id')->unsigned();
-            $table->foreign('employee_id')->references('id')->on('employees');
-            $table->integer('vendor_id')->unsigned();
-            $table->foreign('vendor_id')->references('id')->on('vendors');
+            $table->integer('department_id')->unsigned()->nullable();
+            $table->integer('employee_id')->unsigned()->nullable();
+            $table->integer('vendor_id')->unsigned()->nullable();
             $table->integer('purchase_order_main_id')->unsigned()->nullable();
-            $table->foreign('purchase_order_main_id')->references('id')->on('purchase_orders');
             $table->string('number')->nullable();
             $table->date('date')->nullable();
             $table->string('delivery_number')->nullable();
@@ -41,9 +37,13 @@ class CreatePurchaseOrdersTable extends Migration
             $table->dateTime('completed_at')->nullable();
             $table->tinyInteger('type')->nullable(); // @see \App\Models\PurchaseOrder
             $table->integer('approved_by_id')->unsigned()->nullable();
-            $table->foreign('approved_by_id')->references('id')->on('users');
             $table->timestamps(4);
 
+            $table->foreign('department_id')->references('id')->on('departments');
+            $table->foreign('employee_id')->references('id')->on('employees');
+            $table->foreign('vendor_id')->references('id')->on('vendors');
+            $table->foreign('purchase_order_main_id')->references('id')->on('purchase_orders');
+            $table->foreign('approved_by_id')->references('id')->on('users');
             /**
              * Added columns from different migrations.
              *
