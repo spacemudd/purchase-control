@@ -54,21 +54,23 @@ class PurchaseOrderService
 
 	public function destroy($id)
 	{
-		$this->failIfNotDraft($id);
-		return $this->repository->destroy($id);
+        $this->failIfNotDraft($id);
+        return $this->repository->destroy($id);
 	}
 
-	/**
-	 * Gives 404 if the purchase order is committed.
-	 * @param  int $id purchase order id
-	 * @return \Illuminate\Http\Response
-	 */
+    /**
+     * Gives 404 if the purchase order is committed.
+     *
+     * @param  int $id purchase order id
+     * @return void
+     * @throws \Exception
+     */
 	public function failIfNotDraft($id)
 	{
 		$status = PurchaseOrder::where('id', $id)->firstOrFail()->status;
 
-		if($status != 'draft') {
-			return abort(404);
+		if($status != PurchaseOrder::NEW) {
+		    throw new \Exception('A non-draft PO cannot be deleted');
 		}
 	}
 

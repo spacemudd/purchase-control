@@ -144,4 +144,24 @@ class CreatePurchaseOrderTest extends TestCase
             'currency' => 'SAR', // The default currency.
         ]);
     }
+    
+    public function test_deleting_po()
+    {
+        $user = factory(User::class)->create()->givePermissionTo([
+            'delete-purchase-orders',
+        ]);
+
+        $po = factory(PurchaseOrder::class)->create(['status' => PurchaseOrder::NEW]);
+        factory(PurchaseOrdersItem::class, 5)->create([
+            'purchase_order_id' => $po->id,
+        ]);
+
+        $url = route('purchase-orders.destroy', ['id' => $po->id]);
+        $this->actingAs($user)->delete($url);
+
+        $this->assertDatabaseHas('purchase_orders', [
+            'id' => $po->id,
+            'deleted_at' => now(),
+        ]);
+    }
 }

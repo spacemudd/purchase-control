@@ -38,6 +38,7 @@ class CreatePurchaseOrdersTable extends Migration
             $table->tinyInteger('type')->nullable(); // @see \App\Models\PurchaseOrder
             $table->integer('approved_by_id')->unsigned()->nullable();
             $table->timestamps(4);
+            $table->softDeletes();
 
             $table->foreign('department_id')->references('id')->on('departments');
             $table->foreign('employee_id')->references('id')->on('employees');

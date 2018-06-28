@@ -44,15 +44,7 @@ class PurchaseOrderRepository
 
 	public function destroy($id)
 	{
-        $oldJson = PurchaseOrdersItem::where('id', $id)->first();
-
-        if(count($oldJson)) {
-            $oldJson = json_encode($oldJson->toArray());
-        } else {
-            $oldJson = null;
-        }
-
-		return $this->model->where('id', $id)->delete();
+        return $this->model->where('id', $id)->delete();
 	}
 
 	public function create($model)

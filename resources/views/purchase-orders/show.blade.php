@@ -65,6 +65,16 @@
 								</a>
 						@endif
 
+						@can('delete-purchase-orders')
+							@if($purchase_order->is_draft)
+								<form class="button is-danger is-small" action="{{ route('purchase-orders.destroy', ['id' => $purchase_order->id]) }}" method="post">
+									{{ csrf_field() }}
+									<input type="hidden" name="_method" value="delete">
+									<button type="submit" class="button is-danger is-small">Delete</button>
+								</form>
+							@endif
+						@endcan
+
                         @can('create-purchase-orders')
                             @if($purchase_order->is_draft)
                                 <form class="button is-warning is-small" action="{{ route('purchase-orders.save', ['id' => $purchase_order->id]) }}" method="post">
@@ -72,7 +82,7 @@
                                     <button type="submit" class="button is-warning is-small">Save</button>
                                 </form>
                             @endif
-                        @endif
+                        @endcan
 					</div>
 				</div>
 

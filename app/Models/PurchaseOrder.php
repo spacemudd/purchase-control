@@ -14,13 +14,14 @@ namespace App\Models;
 use App\Model\PurchaseTerm;
 use App\Traits\HasFiles;
 use Brick\Money\Money;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
 
 class PurchaseOrder extends Model implements AuditableContract
 {
-    use Auditable, HasFiles;
+    use Auditable, HasFiles, SoftDeletes;
 
     /**
      * Multi vendors, 1 employee purchase orders' sub-POs will increment as:
