@@ -95,6 +95,11 @@ class PermissionsTableSeeder extends Seeder
             'view-approvers',
             'edit-approvers',
             'delete-approvers',
+
+            'create-po-terms',
+            'view-po-terms',
+            'edit-po-terms',
+            'delete-po-terms',
         ];
 
         // Creating a super admin role.

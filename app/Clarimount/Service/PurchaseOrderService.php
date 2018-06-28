@@ -104,8 +104,10 @@ class PurchaseOrderService
 	}
 
     /**
+     * Saves the terms to the PO.
      *
      * @param $id Purchase order ID.
+     * @return \App\Models\PurchaseOrder
      */
 	public function saveTermsToPo($id)
 	{
@@ -119,7 +121,11 @@ class PurchaseOrderService
             ];
         }
 
-        $this->repository->find($id)->terms_json = $confirmTermsInJson;
+        $po = $this->repository->find($id);
+        $po->terms_json = $confirmTermsInJson;
+        $po->save();
+
+        return $po;
 	}
 
     public function attachments()

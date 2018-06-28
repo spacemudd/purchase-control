@@ -2,16 +2,15 @@
 
 namespace Tests\Feature;
 
-use App\Model\PurchaseTerm;
-use App\Model\PurchaseTermsType;
-use App\Models\Address;
-use App\Models\PurchaseOrder;
-use App\Models\User;
-use App\Models\Vendor;
-use Illuminate\Support\Facades\Artisan;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Artisan;
+use App\Model\PurchaseTermsType;
+use App\Model\PurchaseTerm;
+use App\Models\Address;
+use App\Models\Vendor;
+use App\Models\User;
+use Tests\TestCase;
 
 class CreatePurchaseOrderTermsTest extends TestCase
 {
@@ -23,10 +22,34 @@ class CreatePurchaseOrderTermsTest extends TestCase
         Artisan::call('db:seed');
     }
 
+    public function test_user_can_see_terms_from_settings()
+    {
+        factory(PurchaseTermsType::class)->create()->each(function($termType) {
+            factory(PurchaseTerm::class)->create([
+                'type_id' => $termType->id,
+            ]);
+        });
+
+        $term = PurchaseTerm::first()->value;
+
+        $user = factory(User::class)->create()->givePermissionTo([
+            'create-po-terms',
+            'view-po-terms',
+            'edit-po-terms',
+            'delete-po-terms',
+        ]);
+
+        $url = route('purchasing-terms.index');
+
+        $this->actingAs($user)->get($url)
+            ->assertSuccessful()
+            ->assertSeeText($term);
+    }
+
     public function test_saving_terms_with_booleans_on_creating_po()
     {
-        factory(PurchaseTermsType::class, 2)->create()->each(function($termType) {
-            factory(PurchaseTerm::class, 4)->create([
+        factory(PurchaseTermsType::class)->create()->each(function($termType) {
+            factory(PurchaseTerm::class)->create([
                 'type_id' => $termType->id,
             ]);
         });

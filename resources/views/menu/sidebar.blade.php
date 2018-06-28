@@ -96,6 +96,14 @@
                                         </sidebar-links-group>
                                     @endcan
 
+                                    @can('view-item-templates')
+                                        <sidebar-links-group selected="{{ (request()->route()->getName() === 'item-templates.index') }}"
+                                                             icon="tags"
+                                                             title="{{ __('words.item-catalog') }}"
+                                                             link="{{ route('item-templates.index') }}">
+                                        </sidebar-links-group>
+                                    @endcan
+
 
                                     {{--
                                     <sidebar-links-group selected="{{ (request()->route()->getName() === 'reports.index') }}"
@@ -144,12 +152,6 @@
                                         @can('view-employees')
                                             <sidebar-links-group link="{{ route('approvers.index') }}"
                                                                  icon="address-book" title="Approvers">
-                                            </sidebar-links-group>
-                                        @endcan
-
-                                        @can('view-item-templates')
-                                            <sidebar-links-group link="{{ route('item-templates.index') }}"
-                                                                 icon="tags" title="{{ __('words.item-catalog') }}">
                                             </sidebar-links-group>
                                         @endcan
 
