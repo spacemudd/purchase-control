@@ -27,11 +27,13 @@
         <div class="column is-4">
             <p class="title is-6"><b>Item Catalog</b></p>
 
-            <div class="notification is-success">
-                <p class="subtitle is-7">
-                    <b>{{ $itemTemplatesCounter }}</b>
-                </p>
-            </div>
+            <a href="{{ route('item-templates.all') }}">
+                <div class="notification is-success">
+                    <p class="subtitle is-7">
+                        <b>{{ $itemTemplatesCounter }}</b>
+                    </p>
+                </div>
+            </a>
         </div>
     </div>
 

@@ -78,6 +78,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         ]);
 
         // Items.
+        Route::get('item-templates/all', 'ItemTemplateController@all')->name('item-templates.all');
         Route::resource('item-templates', 'ItemTemplateController', ['except' => 'store']);
 
         // Roles.

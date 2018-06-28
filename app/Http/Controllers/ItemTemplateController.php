@@ -14,10 +14,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\ItemTemplate;
 use App\Models\Manufacturer;
-use App\Models\MaxNumber;
-use Brick\Money\Money;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Brick\Money\Money;
 
 class ItemTemplateController extends Controller
 {
@@ -30,6 +28,15 @@ class ItemTemplateController extends Controller
         return view('item-templates.index', compact(
             'itemTemplatesCounter'
             ));
+    }
+
+    public function all()
+    {
+        $this->authorize('view-item-templates');
+
+        $itemTemplates = ItemTemplate::latest()->paginate(100);
+
+        return view('item-templates.all', compact('itemTemplates'));
     }
 
     public function create()

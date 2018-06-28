@@ -43,7 +43,7 @@ class Manufacturer extends Model implements AuditableContract
 
     public function getDisplayNameAttribute()
     {
-    	return $this->code . ' - ' . $this->description;
+    	return $this->name;
     }
 
     public function getLinkAttribute()

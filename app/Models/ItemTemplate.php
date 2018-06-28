@@ -38,13 +38,16 @@ class ItemTemplate extends Model implements AuditableContract
         return $this->belongsTo(Manufacturer::class);
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     public function getUnitPriceAttribute()
     {
         if($this->default_unit_price_minor) {
             return Money::ofMinor($this->default_unit_price_minor, 'SAR')->getAmount();
         }
-
-        return null;
     }
 
     public function getLinkAttribute()
