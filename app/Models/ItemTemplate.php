@@ -23,7 +23,9 @@ class ItemTemplate extends Model implements AuditableContract
 
     protected $fillable = [
         'code',
+        'name',
         'model_number',
+        'category_id',
         'manufacturer_id',
         'eol',
         'default_unit_price_minor',

@@ -78,7 +78,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         ]);
 
         // Items.
-        Route::resource('item-templates', 'ItemTemplateController');
+        Route::resource('item-templates', 'ItemTemplateController', ['except' => 'store']);
 
         // Roles.
         Route::resource('roles', 'RoleController');
@@ -253,7 +253,8 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::delete('purchase-requisition-items/{id}', 'Api\PurchaseRequisitionItemsController@delete');
 
     // Items.
-    Route::post('items', 'Api\ItemsController@store')->name('items.store');
+    // Route::post('items', 'Api\ItemsController@store')->name('items.store');
+    Route::post('item-templates', 'Api\ItemTemplateController@store')->name('api.item-templates.store');
 
     Route::prefix('search')->group(function() {
         Route::get('items', 'Api\ItemController@search');

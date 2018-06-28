@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->longText('eula_text')->nullable();
             $table->softDeletes('deleted_at', 4);
+            $table->nestedSet();
             $table->timestamps(4);
         });
     }

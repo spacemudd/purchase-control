@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionsSecondGroupTableSeeder::class);
         $this->call(PurchaseTermsTableSeeder::class);
 
+        $this->call(CategoriesTableSeeder::class);
+
         // Faker.
         factory(\App\Models\Vendor::class, 2)->create();
         factory(\App\Models\Employee::class, 2)->create();

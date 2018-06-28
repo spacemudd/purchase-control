@@ -61,9 +61,16 @@ class ItemTemplateController extends Controller
 
     public function store()
     {
-        $this->service->store();
+        $this->authorize('create-item-templates');
 
-        return response()->json(['status' => '200', 'message' => 'saved']);
+        $request = request()->except('_token');
+
+        $data = $this->service->store($request);
+
+        return response()->json([
+            'data' => $data,
+            'redirect' => route('item-templates.show', ['id' => $data->id]),
+        ]);
     }
 
     /**

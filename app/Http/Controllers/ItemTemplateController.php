@@ -37,7 +37,7 @@ class ItemTemplateController extends Controller
         $this->authorize('create-item-templates');
 
         $manufacturers = Manufacturer::get();
-        $categories = Category::get();
+        $categories = Category::get()->toTree();
 
         return view('item-templates.create', compact('manufacturers', 'categories'));
     }
@@ -96,63 +96,5 @@ class ItemTemplateController extends Controller
             ->findOrFail($id);
 
         return view('item-templates.show', compact('itemTemplate'));
-    }
-
-    public function store(Request $request)
-    {
-        $this->authorize('create-item-templates');
-
-        $request->validate([
-           'name' => 'required|string|max:255',
-           'model_number' => 'nullable|string|max:255',
-           'category_id' => 'nullable|exists:categories,id',
-           'manufacturer_id' => 'nullable|exists:manufacturers,id',
-           'eol' => 'nullable|numeric',
-           'unit_price' => 'nullable|numeric',
-        ]);
-
-        if($request->unit_price) {
-            $unitPrice = Money::of($request->unit_price, 'SAR')->getAmount()->toInt();
-        } else {
-            $unitPrice = null;
-        }
-
-        $itemTemplate = DB::transaction(function() use ($request, $unitPrice) {
-
-            $strippedName = preg_replace('/\s+/', '', $request->name);
-            $nameCode = mb_substr($strippedName, 0, 3);
-
-            // Add to the maxnumber string.
-            $maxNumberName = $nameCode;
-
-            $category = Category::where('id', $request->category_id)->first();
-            if($category) {
-                $strippedCategoryName = preg_replace('/\s+/', '', $category->name);
-                $categoryCode = mb_substr($strippedCategoryName, 0, 3);
-
-                // Add to the maxnumber string.
-                $maxNumberName .= '-' . $categoryCode;
-            }
-
-            $maxNumber = MaxNumber::firstOrCreate([
-                'name' => $maxNumberName,
-            ], [
-                'name' => $maxNumberName,
-                'value' => '1001',
-            ]);
-
-            $itemTemplate = new ItemTemplate();
-            $itemTemplate->code = $maxNumber->code; // Laptop Asus UX305UA -> {3 letters of name}-{3 letters of category}-1005;
-            $itemTemplate->name = $request->name;
-            $itemTemplate->model_number = $request->model_number;
-            $itemTemplate->manufacturer_id = $request->manufacturer_id;
-            $itemTemplate->eol = $request->eol;
-            $itemTemplate->default_unit_price_minor = $unitPrice;
-            $itemTemplate->save();
-
-            return $itemTemplate;
-        }, 2);
-
-        return redirect()->route('item-templates.show', ['id' => $itemTemplate->id]);
     }
 }

@@ -59,8 +59,8 @@
                         </div>
                         <div class="content-wrapper">
 
-                            <div class="content">
-                                <div class="items">
+                            <div class="content" style="overflow-y:overlay">
+                                <div class="items" style="width:90%">
                                     <sidebar-links-group selected="{{ (request()->route()->getName() === 'dashboard.index') }}"
                                                          icon="inbox"
                                                          title="{{ __('words.dashboard') }}"
@@ -75,11 +75,11 @@
                                     </sidebar-links-group>
                                     --}}
 
-                                    <sidebar-links-group selected="{{ (request()->route()->getName() === 'items.index') }}"
-                                                         icon="barcode"
-                                                         title="{{ __('words.items') }}"
-                                                         link="{{ route('items.index') }}">
-                                    </sidebar-links-group>
+                                    {{--<sidebar-links-group selected="{{ (request()->route()->getName() === 'items.index') }}"--}}
+                                                         {{--icon="barcode"--}}
+                                                         {{--title="{{ __('words.items') }}"--}}
+                                                         {{--link="{{ route('items.index') }}">--}}
+                                    {{--</sidebar-links-group>--}}
 
                                     <sidebar-links-group selected="{{ (request()->route()->getName() === 'purchase-requisitions.index') }}"
                                                          icon="file"
@@ -147,15 +147,15 @@
                                             </sidebar-links-group>
                                         @endcan
 
+                                        @can('view-item-templates')
+                                            <sidebar-links-group link="{{ route('item-templates.index') }}"
+                                                                 icon="tags" title="{{ __('words.item-catalog') }}">
+                                            </sidebar-links-group>
+                                        @endcan
+
                                         <sidebar-links-group link="{{ route('purchasing-terms.index') }}"
                                                              icon="tree" title="PO Terms">
                                         </sidebar-links-group>
-
-                                        @can('view-item-templates')
-                                            <sidebar-links-group link="{{ route('item-templates.index') }}"
-                                                                 icon="file-text-o" title="{{ __('words.item-templates') }}">
-                                            </sidebar-links-group>
-                                        @endcan
 
                                         @can('create-addresses')
                                             <sidebar-links-group link="{{ route('addresses.index') }}"
