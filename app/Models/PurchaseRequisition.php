@@ -43,9 +43,6 @@ class PurchaseRequisition extends Model implements AuditableContract
             case self::SAVED:
                 return 'saved';
                 break;
-            case self::DRAFT:
-                return 'draft';
-                break;
             case self::APPROVED:
                 return 'approved';
                 break;
@@ -191,7 +188,7 @@ class PurchaseRequisition extends Model implements AuditableContract
 
     public function getHasBeenSavedAttribute()
     {
-        return ($this->status <= self::SAVED);
+        return ! ($this->status === self::DRAFT || $this->status === self::UNSET);
     }
 
     public function getIsApprovedAttribute()

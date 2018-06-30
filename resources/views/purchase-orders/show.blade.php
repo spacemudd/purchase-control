@@ -169,6 +169,35 @@
 										@endif
 									</td>
 								</tr>
+								<tr>
+									<td><strong>Billing Address</strong></td>
+									<td>
+										<address-field-token :id.number="{{ $purchase_order->id }}"
+															 name="billing_address_id"
+															 value="{{ optional($purchase_order->billing_address_json)->location }}"
+															 :highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+															 placeholder="BILLING ADDRESS"
+															 url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+															 search-url="{{ route('api.search.billing-addresses') }}"
+															 :is-billing="true"
+															 :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+										></address-field-token>
+									</td>
+								</tr>
+								<tr>
+									<td><strong>Shipping Address</strong></td>
+									<td>
+										<address-field-token :id.number="{{ $purchase_order->id }}"
+															 name="shipping_address_id"
+															 value="{{ optional($purchase_order->shipping_address_json)->location }}"
+															 :highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+															 placeholder="SHIPPING ADDRESS"
+															 url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+															 search-url="{{ route('api.search.shipping-addresses') }}"
+															 :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+										></address-field-token>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>

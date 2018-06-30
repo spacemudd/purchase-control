@@ -84,6 +84,9 @@ class PurchaseOrderService
 
         if(isset($purchase_order['billing_address_id'])) {
             $purchase_order['billing_address_json'] = Address::where('id', $purchase_order['billing_address_id'])->firstOrFail();
+        } else {
+            $firstBillingAddress = Address::billing()->first();
+            $purchase_order['billing_address_json'] = $firstBillingAddress;
         }
 
         if(isset($purchase_order['shipping_address_id'])) {

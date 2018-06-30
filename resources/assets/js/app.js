@@ -49,7 +49,6 @@ Vue.use(Buefy, {
 import Notify from 'notifyjs';
 
 Vue.component('avatar', require('vue-avatar/src/Avatar'));
-Vue.component('asset-categories-list', require('./components/Assets/AssetCategories/Treelist.vue'));
 Vue.component('confirm-modal', require('./components/Modals/ConfirmModal/ConfirmModal.vue'));
 
 Vue.component('importing-ad-groups', require('./components/ImportingAdGroups/ImportingAdGroups.vue'));
@@ -154,6 +153,11 @@ Vue.component('inbox-navbar-item', require('./components/InboxNavbar/InboxItem.v
 // Vue.component('stock-status-report-page', require('./components/Reports/Stock/StatusPage'));
 // Vue.component('stock-item-fuse-search', require('./components/StockItemFuseSearch/StockItemFuseSearch.vue'));
 // Vue.component('build-stock-by-item-report', require('./components/StockByItemReport/StockByItemReport.vue'));
+
+Vue.component('item-template-form', require('./components/ItemTemplateForm/ItemTemplateForm'));
+
+Vue.component('address-field-token', require('./components/AddressFieldToken/AddressFieldToken'));
+Vue.component('choose-address-modal', require('./components/AddressFieldToken/ChooseAddressModal'));
 
 Vue.component('icon', require('./components/Brand/icon.vue'));
 

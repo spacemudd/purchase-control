@@ -41,11 +41,11 @@
             <tbody>
             <tr>
                 <td>
-                    {{ $data->vendor->name }}<br/>
-                    {{ $data->vendor->telephone_number }}<br/>
+                    {{ optional($data->vendor)->name }}<br/>
+                    {{ optional($data->vendor)->telephone_number }}<br/>
                     <br/>
-                    {{ $data->vendor->address }}<br/>
-                    Email: {{ $data->vendor->email }}<br/>
+                    {{ optional($data->vendor)->address }}<br/>
+                    Email: {{ optional($data->vendor)->email }}<br/>
                 </td>
             </tr>
             </tbody>
@@ -162,7 +162,9 @@
                 <h4>{{ $type }}</h4>
                 <ul>
                     @foreach($terms as $term)
-                        <li>{{ $term->value }}: No [ ] <b>Yes [X]</b></li>
+                        @if($term->value)
+                            <li>{{ $term->value }}: No [ ] <b>Yes [X]</b></li>
+                        @endif
                     @endforeach
                 </ul>
             @endforeach
