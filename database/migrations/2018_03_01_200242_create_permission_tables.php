@@ -29,14 +29,14 @@ class CreatePermissionTables extends Migration
             $table->string('name');
             $table->string('guard_name');
             $table->string('type');
-            $table->timestamps();
+            $table->timestamps(4);
         });
 
         Schema::create($tableNames['roles'], function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('guard_name');
-            $table->timestamps();
+            $table->timestamps(4);
         });
 
         Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames) {
