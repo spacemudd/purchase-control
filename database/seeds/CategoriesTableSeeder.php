@@ -21,7 +21,8 @@ class CategoriesTableSeeder extends Seeder
                 ['name' => 'Printer'],
                 ['name' => 'Barcode Reader'],
                 ['name' => 'Multifunction Device'],
-            ],
+            ]]);
+        \App\Models\Category::create([
             'name' => 'Communication Devices',
             'children' => [
                 ['name' => 'Routers'],
@@ -32,20 +33,25 @@ class CategoriesTableSeeder extends Seeder
                 ['name' => 'Cards'],
                 ['name' => 'Other Comms Devices'],
                 ['name' => 'Comms Rack'],
-            ],
+            ]]);
+
+        \App\Models\Category::create([
             'name' => 'Systems Devices',
             'children' => [
                 ['name' => 'Servers'],
                 ['name' => 'Rack for Server'],
                 ['name' => 'Components for Servers'],
                 ['name' => 'Other Systems Device'],
-            ],
+            ]]);
+        \App\Models\Category::create([
             'name' => 'Accessories',
             'children' => [
                 ['name' => 'Keyboard'],
                 ['name' => 'Mouse'],
                 ['name' => 'Cables'],
-            ],
+            ]]);
+
+        \App\Models\Category::create([
             'name' => 'Other Devices',
             'children' => [
                 ['name' => 'Software'],
