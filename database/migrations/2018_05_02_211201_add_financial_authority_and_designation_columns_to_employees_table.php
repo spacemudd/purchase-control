@@ -14,7 +14,7 @@ class AddFinancialAuthorityAndDesignationColumnsToEmployeesTable extends Migrati
     public function up()
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->boolean('approver')->default(false);
+            $table->boolean('approver');
             $table->unsignedBigInteger('financial_auth')->nullable();
             $table->char('financial_auth_currency', 3)->nullable();
             $table->string('designation')->nullable();

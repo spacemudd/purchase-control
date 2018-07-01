@@ -64,6 +64,8 @@ class EmployeeService
 
         $this->validate($employee)->validate();
 
+        $employee['approver'] = false;
+
         return $this->repository->create($employee);
     }
 

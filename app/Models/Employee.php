@@ -21,7 +21,7 @@ class Employee extends Model implements AuditableContract
 {
     use Auditable, SoftDeletes;
 
-	protected $fillable = ['code', 'department_id', 'staff_type_id', 'name', 'email', 'phone'];
+	protected $fillable = ['code', 'department_id', 'staff_type_id', 'name', 'email', 'phone', 'approver'];
 
 	protected $appends = ['link', 'edit_link', 'approver_link', 'display_name'];
 
