@@ -81,11 +81,11 @@
                                                          {{--link="{{ route('items.index') }}">--}}
                                     {{--</sidebar-links-group>--}}
 
-                                    <sidebar-links-group selected="{{ (request()->route()->getName() === 'purchase-requisitions.index') }}"
-                                                         icon="file"
-                                                         title="{{ __('words.purchase-requisitions') }}"
-                                                         link="{{ route('purchase-requisitions.index') }}">
-                                    </sidebar-links-group>
+                                    {{--<sidebar-links-group selected="{{ (request()->route()->getName() === 'purchase-requisitions.index') }}"--}}
+                                                         {{--icon="file"--}}
+                                                         {{--title="{{ __('words.purchase-requisitions') }}"--}}
+                                                         {{--link="{{ route('purchase-requisitions.index') }}">--}}
+                                    {{--</sidebar-links-group>--}}
 
 
                                     @can('view-purchase-orders')
@@ -149,11 +149,11 @@
                                                                  {{--icon="bookmark" title="{{ __('words.categories') }}">--}}
                                             {{--</sidebar-links-group>--}}
                                         {{--@endcan--}}
-                                        @can('view-employees')
-                                            <sidebar-links-group link="{{ route('approvers.index') }}"
-                                                                 icon="address-book" title="Approvers">
-                                            </sidebar-links-group>
-                                        @endcan
+                                        {{--@can('view-employees')--}}
+                                            {{--<sidebar-links-group link="{{ route('approvers.index') }}"--}}
+                                                                 {{--icon="address-book" title="Approvers">--}}
+                                            {{--</sidebar-links-group>--}}
+                                        {{--@endcan--}}
 
                                         <sidebar-links-group link="{{ route('purchasing-terms.index') }}"
                                                              icon="tree" title="PO Terms">

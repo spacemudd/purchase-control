@@ -58,7 +58,7 @@
                         <td>
                             <a href="{{ route('purchase-orders.show', ['id' => $po->id]) }}">{{ $po->id }}</a>
                         </td>
-                        <td>{{ $po->vendor->name }}</td>
+                        <td>{{ optional($po->vendor)->name }}</td>
                         <td>{{ optional($po->created_by)->username . ' - ' . optional($po->created_by)->name }}</td>
                         <td>{{ $po->created_at }}</td>
                         <td>{{ $po->updated_at }}</td>

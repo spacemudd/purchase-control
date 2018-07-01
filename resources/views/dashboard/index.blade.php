@@ -24,9 +24,6 @@
 		<div class="column is-4">
 			<div class="panel">
 				<p class="panel-heading">My Queue</p>
-				@foreach(\App\Models\PurchaseRequisition::take(10)->get() as $pr)
-					<a href="{{ $pr->link }}" class="panel-block">{{ $pr->number }}</a>
-				@endforeach
 			</div>
 		</div>
 	</div>

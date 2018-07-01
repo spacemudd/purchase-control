@@ -96,8 +96,8 @@
             <div class="card">
                 <header class="card-header">
                     <p class="card-header-title">
-                        Vendors
-                        <b-tooltip label="Vendors who provide this manufacturer">
+                        Suppliers
+                        <b-tooltip label="Suppliers who provide this manufacturer">
                             <span class="has-icon has-text-grey is-small title-text-icon"><i class="fa fa-question-circle-o"></i></span>
                         </b-tooltip>
                     </p>
