@@ -81,16 +81,26 @@ class PurchaseOrderService
 		$this->validate($purchase_order)->validate();
 
         $purchase_order['status'] = PurchaseOrder::NEW;
+        $purchase_order['date'] = now();
 
         if(isset($purchase_order['billing_address_id'])) {
             $purchase_order['billing_address_json'] = Address::where('id', $purchase_order['billing_address_id'])->firstOrFail();
         } else {
             $firstBillingAddress = Address::billing()->first();
-            $purchase_order['billing_address_json'] = $firstBillingAddress;
+            if($firstBillingAddress) {
+                $purchase_order['billing_address_id'] = $firstBillingAddress->id;
+                $purchase_order['billing_address_json'] = $firstBillingAddress;
+            }
         }
 
         if(isset($purchase_order['shipping_address_id'])) {
             $purchase_order['shipping_address_json'] = Address::where('id', $purchase_order['shipping_address_id'])->firstOrFail();
+        } else {
+            $shippingAddress = Address::shipping()->first();
+            if($shippingAddress) {
+                $purchase_order['shipping_address_id'] = $shippingAddress->id;
+                $purchase_order['shipping_address_json'] = $shippingAddress;
+            }
         }
 
         if(isset($purchase_order['vendor_id'])) {
