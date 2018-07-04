@@ -11,14 +11,19 @@ class SalesTaxesPermissionsSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Permission::insert([
-            [
-                'name' => 'view-sales-taxes',
+        $permissions = [
+            'view-sales-taxes',
+            'create-sales-taxes',
+        ];
+
+        foreach($permissions as $permission) {
+            \App\Models\Permission::create([
+                'name' => $permission,
                 'guard_name' => 'web',
                 'type' => 'system',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
-        ]);
+            ]);
+        }
     }
 }

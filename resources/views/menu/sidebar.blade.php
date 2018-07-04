@@ -155,6 +155,13 @@
                                             {{--</sidebar-links-group>--}}
                                         {{--@endcan--}}
 
+                                        @can('view-sales-taxes')
+                                            <sidebar-links-group link="{{ route('purchasing-terms.index') }}"
+                                                                 icon="balance-scale"
+                                                                 title="Sales Taxes">
+                                            </sidebar-links-group>
+                                        @endcan
+
                                         <sidebar-links-group link="{{ route('purchasing-terms.index') }}"
                                                              icon="tree" title="PO Terms">
                                         </sidebar-links-group>

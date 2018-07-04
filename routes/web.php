@@ -99,6 +99,8 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
             Route::resource('addresses', 'AddressesController');
 
             Route::get('purchase-terms', 'PurchasingTermsController@index')->name('purchasing-terms.index');
+
+            Route::resource('sales-taxes', 'SalesTaxesController');
         });
 
         Route::get('search', 'SearchController@index')->name('search.index');
