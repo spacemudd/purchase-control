@@ -328,6 +328,25 @@
 		<div class="column is-12">
 			<div class="panel">
 				<p class="panel-heading">
+					Sales Taxes
+				</p>
+				@foreach([
+				    'view-sales-taxes',
+				] as $permission)
+					<div class="panel-block">
+						<toggle-permission :role-id.number="{{ $role->id }}"
+										   :enabled-prop.number="{{ $role->hasPermissionTo($permission) ? 'true' : 'false' }}"
+										   permission-name="{{ $permission }}">
+							<span class="is-capitalized">{{ str_replace('-', ' ', $permission) }}</span>
+						</toggle-permission>
+					</div>
+				@endforeach
+			</div>
+		</div>
+
+		<div class="column is-12">
+			<div class="panel">
+				<p class="panel-heading">
 					Purchase orders
 				</p>
 				@foreach([
@@ -344,13 +363,13 @@
 					'edit-po-terms',
 					'delete-po-terms',
 				] as $permission)
-				<div class="panel-block">
-					<toggle-permission :role-id.number="{{ $role->id }}"
-									   :enabled-prop.number="{{ $role->hasPermissionTo($permission) ? 'true' : 'false' }}"
-									   permission-name="{{ $permission }}">
-						<span class="is-capitalized">{{ str_replace('-', ' ', $permission) }}</span>
-					</toggle-permission>
-				</div>
+					<div class="panel-block">
+						<toggle-permission :role-id.number="{{ $role->id }}"
+										   :enabled-prop.number="{{ $role->hasPermissionTo($permission) ? 'true' : 'false' }}"
+										   permission-name="{{ $permission }}">
+							<span class="is-capitalized">{{ str_replace('-', ' ', $permission) }}</span>
+						</toggle-permission>
+					</div>
 				@endforeach
 			</div>
 		</div>
