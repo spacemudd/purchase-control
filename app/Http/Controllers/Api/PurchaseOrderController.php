@@ -141,8 +141,18 @@ class PurchaseOrderController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'value' => 'nullable|max:255',
+            'value' => 'nullable|max:1000',
         ]);
+
+        if($request->name === 'other_terms') {
+            $po = PurchaseOrder::where('id', $id)->firstOrFail();
+            $terms = $po->terms_json;
+            $terms->Others = $request->value; // Add 'Others'.
+            $po->terms_json = $terms;
+            $po->save();
+
+            return $po;
+        }
 
         $data[$request->name] = $request->value;
 

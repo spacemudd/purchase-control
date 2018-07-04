@@ -75,6 +75,7 @@ class PermissionsTableSeeder extends Seeder
             'update-purchase-orders',
             'delete-purchase-orders',
             'approve-purchase-orders',
+            'reject-purchase-orders',
             'upload-purchase-orders',
             'void-purchase-orders',
 

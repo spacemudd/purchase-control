@@ -19,14 +19,17 @@ class PurchaseOrdersTermsController extends Controller
         $po = PurchaseOrder::find($request->purchase_order_id);
         $term = PurchaseTerm::find($request->term_id);
 
-        $po->terms()->attach($term);
+        $poTerms = $po->terms_json;
 
-        $savedTerms = [];
-        foreach($po->terms()->get() as $term) {
-            $savedTerms[$term->type->name][] = $term;
+        foreach($poTerms as $type => &$jsonTerms) {
+            foreach($jsonTerms as $jsonTerm) {
+                if($jsonTerm->value->id === $term->id) {
+                    $jsonTerm->enabled = true;
+                }
+            }
         }
 
-        $po->terms_json = $savedTerms;
+        $po->terms_json = $poTerms;
         $po->save();
 
         return $po;
@@ -42,14 +45,17 @@ class PurchaseOrdersTermsController extends Controller
         $po = PurchaseOrder::find($request->purchase_order_id);
         $term = PurchaseTerm::find($request->term_id);
 
-        $po->terms()->detach($term);
+        $poTerms = $po->terms_json;
 
-        $savedTerms = [];
-        foreach($po->terms()->get() as $term) {
-            $savedTerms[$term->type->name][] = $term;
+        foreach($poTerms as $type => &$jsonTerms) {
+            foreach($jsonTerms as $jsonTerm) {
+                if($jsonTerm->value->id === $term->id) {
+                    $jsonTerm->enabled = false;
+                }
+            }
         }
 
-        $po->terms_json = $savedTerms;
+        $po->terms_json = $poTerms;
         $po->save();
 
         return $po;

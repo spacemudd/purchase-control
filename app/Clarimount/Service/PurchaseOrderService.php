@@ -78,7 +78,7 @@ class PurchaseOrderService
 	{
 		$purchase_order = $data;
 
-		$this->validate($purchase_order)->validate();
+        $this->validate($purchase_order)->validate();
 
         $purchase_order['status'] = PurchaseOrder::NEW;
         $purchase_order['date'] = now();
@@ -119,8 +119,8 @@ class PurchaseOrderService
             return $po;
         }, 2);
 
-		return $po;
-	}
+        return $po;
+    }
 
     /**
      * Saves the terms to the PO.
@@ -136,7 +136,7 @@ class PurchaseOrderService
         foreach($currentAvailableTerms as $term) {
             $confirmTermsInJson[$term->type->name][] = [
                 'value' => $term,
-                'on' => false,
+                'enabled' => false,
             ];
         }
 

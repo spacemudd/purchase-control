@@ -45,7 +45,7 @@
                     {{ optional($data->vendor)->telephone_number }}<br/>
                     <br/>
                     {{ optional($data->vendor)->address }}<br/>
-                    Email: {{ optional($data->vendor)->email }}<br/>
+                    {{ optional($data->vendor)->email }}<br/>
                 </td>
             </tr>
             </tbody>
@@ -70,11 +70,11 @@
         <table class="pure-table pure-table-bordered tight-table" style="width:100%;">
             <tbody>
             <tr><td><strong>Ship To</strong></td></tr>
-            <tr><td>{{ optional($data->shipping_address_json)->location }}</td></tr>
-            <tr><td>{{ optional($data->shipping_address_json)->department }}</td></tr>
-            <tr><td>{{ optional($data->shipping_address_json)->contact_name }}</td></tr>
-            <tr><td>{{ optional($data->shipping_address_json)->phone }}</td></tr>
-            <tr><td>{{ optional($data->shipping_address_json)->email }}</td></tr>
+            <tr><td>{{ optional($data->shipping_address_json)->location }}&nbsp;</td></tr>
+            <tr><td>{{ optional($data->shipping_address_json)->department }}&nbsp;</td></tr>
+            <tr><td>{{ optional($data->shipping_address_json)->contact_name }}&nbsp;</td></tr>
+            <tr><td>{{ optional($data->shipping_address_json)->phone }}&nbsp;</td></tr>
+            <tr><td>{{ optional($data->shipping_address_json)->email }}&nbsp;</td></tr>
             </tbody>
         </table>
     </div>
@@ -82,11 +82,11 @@
         <table class="pure-table pure-table-bordered tight-table" style="width:100%;">
             <tbody>
             <tr><td><strong>Bill To</strong></td></tr>
-            <tr><td>{{ optional($data->billing_address_json)->location }}</td></tr>
-            <tr><td>{{ optional($data->billing_address_json)->department }}</td></tr>
-            <tr><td>{{ optional($data->billing_address_json)->contact_name }}</td></tr>
-            <tr><td>{{ optional($data->billing_address_json)->phone }}</td></tr>
-            <tr><td>{{ optional($data->billing_address_json)->email }}</td></tr>
+            <tr><td>{{ optional($data->billing_address_json)->location }}&nbsp;</td></tr>
+            <tr><td>{{ optional($data->billing_address_json)->department }}&nbsp;</td></tr>
+            <tr><td>{{ optional($data->billing_address_json)->contact_name }}&nbsp;</td></tr>
+            <tr><td>{{ optional($data->billing_address_json)->phone }}&nbsp;</td></tr>
+            <tr><td>{{ optional($data->billing_address_json)->email }}&nbsp;</td></tr>
             </tbody>
         </table>
     </div>
@@ -113,57 +113,74 @@
 @endif
 
 {{-- Items --}}
-<div>
-    <table class="pure-table pure-table-bordered tight-table">
-        <colgroup>
-            <col style='width:1%;'>
-            <col style='width:50%;'>
-            <col style='width:10%;'>
-            <col style='width:10%;'>
-        </colgroup>
-        <thead>
-        <tr>
-            <th class="center">Item</th>
-            <th class="center">Description of items to be supplied</th>
-            <th class="center">Qty</th>
-            <th class="center">
-                Currency: <u>SR</u><br/>
-                Total Price
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($data->items as $counter => $item)
+<div class="row">
+    <div class="col-12-sm">
+        <table class="pure-table pure-table-bordered tight-table">
+            <colgroup>
+                <col style='width:1%;'>
+                <col style='width:50%;'>
+                <col style='width:10%;'>
+                <col style='width:10%;'>
+            </colgroup>
+            <thead>
             <tr>
-                <td class="center" rowspan="2">{{ ++$counter }}</td>
-                <td rowspan="2">{{ $item->description }}</td>
-                <td class="center">{{ $item->qty }}</td>
-                <td class="right">
-                    {{ $item->subtotal }}<br/>
-                </td>
+                <th class="center">Item</th>
+                <th class="center">Description of items to be supplied</th>
+                <th class="center">Qty</th>
+                <th class="center">
+                    Currency: <u>SR</u><br/>
+                    Total Price
+                </th>
             </tr>
+            </thead>
+            <tbody>
+            @foreach($data->items as $counter => $item)
+                <tr>
+                    <td class="center" rowspan="2">{{ ++$counter }}</td>
+                    <td rowspan="2">{{ $item->description }}</td>
+                    <td class="center">{{ $item->qty }}</td>
+                    <td class="right">
+                        {{ $item->subtotal }}<br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="center">VAT</td>
+                    <td class="right">{{ $item->tax_amount_1 }}</td>
+                </tr>
+            @endforeach
             <tr>
-                <td class="center">VAT</td>
-                <td class="right">{{ $item->tax_amount_1 }}</td>
+                <td colspan="3" class="right"><strong>Total after VAT</strong></td>
+                <td class="right"><strong>{{ $data->total }}</strong></td>
             </tr>
-        @endforeach
-        <tr>
-            <td colspan="3" class="right"><strong>Total after VAT</strong></td>
-            <td class="right"><strong>{{ $data->total }}</strong></td>
-        </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 {{-- Terms --}}
 @if($data->terms_json)
-    <div style="border:1px solid #cbcbcb;padding:10px;margin:20px 0;">
+    <div style="padding:10px;margin:20px 0;">
+        @if(isset($data->terms_json->Others))
+            <h4>Other Terms</h4>
+            <p style="margin-left: 29px;">
+                {!! nl2br($data->terms_json->Others) !!}
+            </p>
+        @endif
             @foreach($data->terms_json as $type => $terms)
+                @if($type === 'Others')
+                    @break
+                @endif
                 <h4>{{ $type }}</h4>
                 <ul>
                     @foreach($terms as $term)
                         @if($term->value)
-                            <li>{{ $term->value }}: No [ ] <b>Yes [X]</b></li>
+                            <li>{{ $term->value->value }}:
+                                @if(isset($term->enabled) && $term->enabled)
+                                    No ☐ <b>Yes ☒</b>
+                                @else
+                                    No ☒ <b>Yes ☐</b>
+                                @endif
+                            </li>
                         @endif
                     @endforeach
                 </ul>
@@ -182,12 +199,7 @@
             </div>
         </div>
         <div class="col-4-sm center">
-            <div style="border-top:2px solid black;width:100%;font-size:11px;">
-                <strong>
-                    Hatem al-Ahmadi<br/>
-                    Head of Purchasing IT
-                </strong>
-            </div>
+
         </div>
         <div class="col-4-sm center">
             <div style="border-top:2px solid black;width:100%;font-size:11px;">

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\PurchaseOrder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
@@ -76,7 +77,7 @@ class CreatePurchaseOrderTermsTest extends TestCase
         foreach($terms as $term) {
             $confirmTermsInJson[$term->type->name][] = [
                 'value' => $term,
-                'on' => false,
+                'enabled' => false,
                 ];
         }
 
@@ -90,57 +91,77 @@ class CreatePurchaseOrderTermsTest extends TestCase
      * @return void
      */
 
-    //public function test_saving_terms()
-    //{
-    //    $user = factory(User::class)->create();
-    //
-    //    $term_type = PurchaseTermsType::firstOrCreate([
-    //        'name' => 'Payment Terms',
-    //        'order' => 1,
-    //    ], [
-    //        'name' => 'Payment Terms',
-    //    ]);
-    //
-    //    $term = PurchaseTerm::create([
-    //        'type_id' => $term_type->id,
-    //        'value' => 'Upon Delivery',
-    //    ]);
-    //
-    //    $po = factory(PurchaseOrder::class)->create();
-    //
-    //    $url = route('api.purchase-orders.terms.attach');
-    //    $this->actingAs($user)->post($url, [
-    //        'purchase_order_id' => $po->id,
-    //        'term_id' => $term->id,
-    //    ])->assertSuccessful();
-    //
-    //    $terms = $po->terms()->get();
-    //
-    //    $confirmTermsInJson = [];
-    //    foreach($terms as $term) {
-    //        $confirmTermsInJson[$term->type->name][] = $term;
-    //    }
-    //
-    //    $this->assertDatabaseHas('purchase_orders', [
-    //        'terms_json' => json_encode($confirmTermsInJson),
-    //    ]);
-    //
-    //    // The removing part.
-    //    $url = route('api.purchase-orders.terms.detach');
-    //    $this->actingAs($user)->post($url, [
-    //        'purchase_order_id' => $po->id,
-    //        'term_id' => $term->id,
-    //    ])->assertSuccessful();
-    //
-    //    $terms = $po->terms()->get();
-    //
-    //    $confirmTermsInJson = [];
-    //    foreach($terms as $term) {
-    //        $confirmTermsInJson[$term->type->name][] = $term;
-    //    }
-    //
-    //    $this->assertDatabaseHas('purchase_orders', [
-    //        'terms_json' => json_encode($confirmTermsInJson),
-    //    ]);
-    //}
+    public function test_saving_terms()
+    {
+        $user = factory(User::class)->create();
+        $user->givePermissionTo(['create-purchase-orders']);
+
+        $this->actingAs($user)->post(route('purchase-orders.store'), [
+            'currency' => 'SAR',
+        ])->assertRedirect();
+
+        $po = PurchaseOrder::where('id', 1)->firstOrFail();
+
+        $internalTerm = PurchaseTerm::find(3);
+
+        $url = route('api.purchase-orders.terms.attach');
+        $this->actingAs($user)->post($url, [
+            'purchase_order_id' => $po->id,
+            'term_id' => $internalTerm->id,
+        ])->assertSuccessful();
+
+        $po->refresh();
+
+        $termToAssert = null;
+        foreach($po->terms_json as $type => $terms) {
+            foreach($terms as $term) {
+                if($term->value->id == $internalTerm->id) {
+                    $termToAssert = $term;
+                    break;
+                }
+            }
+        }
+
+        $this->assertTrue($termToAssert->enabled);
+    }
+
+    public function test_removing_term()
+    {
+        $user = factory(User::class)->create();
+        $user->givePermissionTo(['create-purchase-orders']);
+
+        $this->actingAs($user)->post(route('purchase-orders.store'), [
+            'currency' => 'SAR',
+        ])->assertRedirect();
+
+        $po = PurchaseOrder::where('id', 1)->firstOrFail();
+
+        $internalTerm = PurchaseTerm::find(3);
+
+        $url = route('api.purchase-orders.terms.attach');
+        $this->actingAs($user)->post($url, [
+            'purchase_order_id' => $po->id,
+            'term_id' => $internalTerm->id,
+        ])->assertSuccessful();
+
+        $url = route('api.purchase-orders.terms.detach');
+        $this->actingAs($user)->post($url, [
+            'purchase_order_id' => $po->id,
+            'term_id' => $internalTerm->id,
+        ])->assertSuccessful();
+
+        $po->refresh();
+
+        $termToAssert = null;
+        foreach($po->terms_json as $type => $terms) {
+            foreach($terms as $term) {
+                if($term->value->id == $internalTerm->id) {
+                    $termToAssert = $term;
+                    break;
+                }
+            }
+        }
+
+        $this->assertFalse($termToAssert->enabled);
+    }
 }

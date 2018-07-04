@@ -71,7 +71,9 @@ class PurchaseOrder extends Model implements AuditableContract
 
     protected $dates = ['date', 'delivery_date'];
 
-    protected $appends = ['date_human', 'delivery_date_human', 'link', 'date_string', 'delivery_date_string', 'status_name'];
+    protected $appends = ['date_human', 'delivery_date_human', 'link', 'date_string', 'delivery_date_string', 'status_name',
+        'other_terms',
+        ];
 
     protected $casts = [
         'vendor_json' => 'object',
@@ -122,6 +124,15 @@ class PurchaseOrder extends Model implements AuditableContract
 
             default:
                 return '';
+        }
+    }
+
+    public function getOtherTermsAttribute()
+    {
+        $terms = $this->terms_json;
+
+        if(isset($terms->Others)) {
+            return $terms->Others;
         }
     }
 

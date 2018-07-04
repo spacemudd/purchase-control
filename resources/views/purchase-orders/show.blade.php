@@ -225,34 +225,48 @@
 	{{-- Delivery & Terms --}}
     <div class="columns">
         <div class="column is-4">
-            <h2 class="title is-5 has-text-weight-light">Delivery &amp; Terms</h2>
+            <h2 class="title is-5 has-text-weight-light">Purchase Terms</h2>
         </div>
     </div>
     <div class="columns">
         <div class="column is-8">
-            <div class="box">
-                @foreach($purchaseTermsTypes as $key => $type)
+            <div class="box purchase-terms">
+				<div class="columns">
+					<div class="column is-4">
+						<p class="title is-7">Other Terms</p>
+					</div>
+					<div class="column">
+						<other-terms-token :id.number="{{ $purchase_order->id }}"
+											name="other_terms"
+											value="{{ $purchase_order->other_terms  }}"
+											placeholder="OTHER TERMS"
+										    url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+										    :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+						></other-terms-token>
+					</div>
+				</div>
+                @foreach($purchase_order->terms_json as $key => $terms)
+					@if($key === 'Others')
+						@break
+					@endif
                     <div class="columns">
                         <div class="column is-4">
-                            <p class="title is-7">{{ $type->name }}</p>
+                            <p class="title is-7">{{ $key }}</p>
                         </div>
                         <div class="column">
-                            @foreach($type->terms()->get() as $term)
+                            @foreach($terms as $term)
                                 <ul>
-                                    <toggle-purchase-term :term-id.number="{{ $term->id }}"
+                                    <toggle-purchase-term :term-id.number="{{ $term->value->id }}"
                                                           :po-id.number="{{ $purchase_order->id }}"
-                                                          :enabled-prop.number="{{ $purchase_order->terms->contains($term->id) ? 'true' : 'false' }}"
+                                                          :enabled-prop.number="{{ $term->enabled ? 'true' : 'false' }}"
                                                           :can-toggle="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
                                     >
-                                        {{ $term->value }}
+                                        {{ $term->value->value }}
                                     </toggle-purchase-term>
                                 </ul>
                             @endforeach
                         </div>
                     </div>
-                    @if(!($key === count($purchaseTermsTypes) - 1))
-                        <hr>
-                    @endif
                 @endforeach
             </div>
         </div>
