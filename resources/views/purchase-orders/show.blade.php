@@ -135,6 +135,33 @@
 										></delivery-date-token>
 									</td>
 								</tr>
+								<tr>
+									<td><strong>Billing Address</strong></td>
+									<td>
+										<address-field-token :id.number="{{ $purchase_order->id }}"
+															 name="billing_address_id"
+															 :value="{{ json_encode(collect($purchase_order->billing_address_json)->toArray()) }}"
+															 placeholder="BILLING ADDRESS"
+															 url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+															 search-url="{{ route('api.search.billing-addresses') }}"
+															 :is-billing="true"
+															 :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+										></address-field-token>
+									</td>
+								</tr>
+								<tr>
+									<td><strong>Shipping Address</strong></td>
+									<td>
+										<address-field-token :id.number="{{ $purchase_order->id }}"
+															 name="shipping_address_id"
+															 :value="{{ json_encode(collect($purchase_order->shipping_address_json)->toArray()) }}"
+															 placeholder="SHIPPING ADDRESS"
+															 url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+															 search-url="{{ route('api.search.shipping-addresses') }}"
+															 :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+										></address-field-token>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -169,35 +196,6 @@
 										@endif
 									</td>
 								</tr>
-								<tr>
-									<td><strong>Billing Address</strong></td>
-									<td>
-										<address-field-token :id.number="{{ $purchase_order->id }}"
-															 name="billing_address_id"
-															 value="{{ optional($purchase_order->billing_address_json)->location }}"
-															 :highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-															 placeholder="BILLING ADDRESS"
-															 url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
-															 search-url="{{ route('api.search.billing-addresses') }}"
-															 :is-billing="true"
-															 :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-										></address-field-token>
-									</td>
-								</tr>
-								<tr>
-									<td><strong>Shipping Address</strong></td>
-									<td>
-										<address-field-token :id.number="{{ $purchase_order->id }}"
-															 name="shipping_address_id"
-															 value="{{ optional($purchase_order->shipping_address_json)->location }}"
-															 :highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-															 placeholder="SHIPPING ADDRESS"
-															 url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
-															 search-url="{{ route('api.search.shipping-addresses') }}"
-															 :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-										></address-field-token>
-									</td>
-								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -222,56 +220,6 @@
 
 	</div>
 
-	{{-- Delivery & Terms --}}
-    <div class="columns">
-        <div class="column is-4">
-            <h2 class="title is-5 has-text-weight-light">Purchase Terms</h2>
-        </div>
-    </div>
-    <div class="columns">
-        <div class="column is-8">
-            <div class="box purchase-terms">
-				<div class="columns">
-					<div class="column is-4">
-						<p class="title is-7">Other Terms</p>
-					</div>
-					<div class="column">
-						<other-terms-token :id.number="{{ $purchase_order->id }}"
-											name="other_terms"
-											value="{{ $purchase_order->other_terms  }}"
-											placeholder="OTHER TERMS"
-										    url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
-										    :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-						></other-terms-token>
-					</div>
-				</div>
-                @foreach($purchase_order->terms_json as $key => $terms)
-					@if($key === 'Others')
-						@break
-					@endif
-                    <div class="columns">
-                        <div class="column is-4">
-                            <p class="title is-7">{{ $key }}</p>
-                        </div>
-                        <div class="column">
-                            @foreach($terms as $term)
-                                <ul>
-                                    <toggle-purchase-term :term-id.number="{{ $term->value->id }}"
-                                                          :po-id.number="{{ $purchase_order->id }}"
-                                                          :enabled-prop.number="{{ $term->enabled ? 'true' : 'false' }}"
-                                                          :can-toggle="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-                                    >
-                                        {{ $term->value->value }}
-                                    </toggle-purchase-term>
-                                </ul>
-                            @endforeach
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-
 	{{-- Items --}}
 	<div class="columns">
 		<div class="column is-8">
@@ -290,6 +238,57 @@
             <div class="box">
                 <purchase-order-items :po-id.number="{{ $purchase_order->id }}"></purchase-order-items>
             </div>
+		</div>
+	</div>
+
+
+	{{-- Delivery & Terms --}}
+	<div class="columns">
+		<div class="column is-4">
+			<h2 class="title is-5 has-text-weight-light">Purchase Terms</h2>
+		</div>
+	</div>
+	<div class="columns">
+		<div class="column is-8">
+			<div class="box purchase-terms">
+				<div class="columns">
+					<div class="column is-4">
+						<p class="title is-7">Other Terms</p>
+					</div>
+					<div class="column">
+						<other-terms-token :id.number="{{ $purchase_order->id }}"
+										   name="other_terms"
+										   value="{{ $purchase_order->other_terms  }}"
+										   placeholder="OTHER TERMS"
+										   url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+										   :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+						></other-terms-token>
+					</div>
+				</div>
+				@foreach($purchase_order->terms_json as $key => $terms)
+					@if($key === 'Others')
+						@break
+					@endif
+					<div class="columns">
+						<div class="column is-4">
+							<p class="title is-7">{{ $key }}</p>
+						</div>
+						<div class="column">
+							@foreach($terms as $term)
+								<ul>
+									<toggle-purchase-term :term-id.number="{{ $term->value->id }}"
+														  :po-id.number="{{ $purchase_order->id }}"
+														  :enabled-prop.number="{{ $term->enabled ? 'true' : 'false' }}"
+														  :can-toggle="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+									>
+										{{ $term->value->value }}
+									</toggle-purchase-term>
+								</ul>
+							@endforeach
+						</div>
+					</div>
+				@endforeach
+			</div>
 		</div>
 	</div>
 

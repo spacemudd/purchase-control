@@ -3,9 +3,9 @@
         <b-modal v-if="canEdit" :active.sync="showModal">
             <choose-address-modal :search-url="searchUrl" @save="saveToken"></choose-address-modal>
         </b-modal>
-        <div :class="{'transparent-highlighter-bg': highlighted}" @click="editToken">
-            <span v-if="!address_json"><i>[{{ placeholder }}]</i></span>
-            <span v-if="address_json">{{ address_json.location }}</span>
+        <div :class="{'transparent-highlighter-bg': canEdit}" @click="editToken">
+            <span v-if="!address"><i>[{{ placeholder }}]</i></span>
+            <span v-if="address">{{ address.location }}</span>
         </div>
     </div>
 </template>
@@ -16,10 +16,6 @@
             id: {
                 type: Number,
                 required: true,
-            },
-            highlighted: {
-                type: Boolean,
-                default: false,
             },
             /**
              * An HTTP PUT method URL to save/upaddress_json the token.
@@ -39,7 +35,7 @@
              * The value.
              */
             value: {
-                type: String,
+                type: Object,
                 required: false,
             },
             placeholder: {
@@ -63,7 +59,7 @@
                 is_editing: false,
                 showModal: false,
 
-                address_json: null,
+                address: null,
             }
         },
         mounted() {
@@ -91,9 +87,9 @@
                     this.showModal = false;
 
                     if (this.isBilling) {
-                      this.address_json = response.data.billing_address_json;
+                      this.address = response.data.billing_address_json;
                     } else {
-                      this.address_json = response.data.shipping_address_json;
+                      this.address = response.data.shipping_address_json;
                     }
 
                   })
