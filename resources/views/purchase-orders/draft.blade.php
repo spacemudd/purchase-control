@@ -43,8 +43,8 @@
                     <th>System ID</th>
                     <th>Supplier</th>
                     <th>Created by</th>
-                    <th>Created at</th>
                     <th>Updated at</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -60,8 +60,8 @@
                         </td>
                         <td>{{ optional($po->vendor)->name }}</td>
                         <td>{{ optional($po->created_by)->username . ' - ' . optional($po->created_by)->name }}</td>
-                        <td>{{ $po->created_at }}</td>
                         <td>{{ $po->updated_at }}</td>
+                        <td class="has-text-centered"><a href="{{ route('purchase-orders.show', ['id' => $po->id]) }}" class="button is-small is-primary">Show</a></td>
                     </tr>
                 @endforeach
                 </tbody>

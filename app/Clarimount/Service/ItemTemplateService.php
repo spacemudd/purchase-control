@@ -64,11 +64,10 @@ class ItemTemplateService
 
         return ItemTemplate::create([
             'code' => $data['code'],
-            'name' => $data['name'],
+            'description' => $data['description'],
             'category_id' => $data['category_id'],
-            'model_number' => $data['model_number'],
+            'model_details' => $data['model_details'],
             'manufacturer_id' => $data['manufacturer_id'],
-            'eol' => $data['eol'],
             'default_unit_price_minor' => $data['unit_price'],
         ]);
     }
@@ -76,12 +75,11 @@ class ItemTemplateService
     public function validate(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
             'code' => 'required|string|max:255|unique:item_templates',
-            'model_number' => 'nullable|string|max:255',
+            'model_details' => 'nullable|string|max:255',
             'category_id' => 'nullable|exists:categories,id',
             'manufacturer_id' => 'nullable|exists:manufacturers,id',
-            'eol' => 'nullable|numeric',
             'unit_price' => 'nullable|numeric|min:0',
         ]);
     }

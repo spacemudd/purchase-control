@@ -40,12 +40,11 @@
             <table class="table is-fullwidth is-narrow is-size-7">
                 <thead>
                 <tr>
-                    <th>Name</th>
                     <th>Code</th>
+                    <th>Description</th>
                     <th>Category</th>
-                    <th>Model Number</th>
                     <th>Manufacturer</th>
-                    <th class="has-text-right">Price</th>
+                    <th class="has-text-right">Unit Price (Default)</th>
                     <th class="has-text-right">Updated at</th>
                     <th class="has-text-right">Actions</th>
                 </tr>
@@ -58,15 +57,14 @@
                 @endif
                 @foreach($itemTemplates as $itemTemplate)
                     <tr>
-                        <td>{{ $itemTemplate->name }}</td>
                         <td>{{ $itemTemplate->code }}</td>
+                        <td>{{ $itemTemplate->description }}</td>
                         <td>{{ optional($itemTemplate->category)->name }}</td>
-                        <td>{{ $itemTemplate->model_number }}</td>
                         <td>{{ optional($itemTemplate->manufacturer)->display_name }}</td>
                         <td class="has-text-right">{{ $itemTemplate->unit_price }}</td>
                         <td class="has-text-right">{{ optional($itemTemplate->updated_at)->format('d-m-Y') }}</td>
                         <td class="has-text-right">
-                            <a href="{{ route('item-templates.show', ['id' => $itemTemplate->id]) }}" class="button is-small has-icon">
+                            <a href="{{ route('item-templates.show', ['id' => $itemTemplate->id]) }}" class="button is-small is-primary has-icon">
                                 <span class="icon">
                                     <i class="fa fa-eye"></i>
                                 </span>

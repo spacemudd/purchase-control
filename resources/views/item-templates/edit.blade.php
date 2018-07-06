@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => trans('words.create') . ' ' . trans('words.assets')])
+@extends('layouts.app', ['title' => $itemTemplate->code . ' - Edit - Item Catalog'])
 
 
 @section('header')
@@ -13,7 +13,7 @@
 			<li>
 				<a href="{{ route('item-templates.index') }}">
 					<span class="icon is-small"><i class="fa fa-building"></i></span>
-					<span>{{ trans('words.item-templates') }}</span>
+					<span>Item Catalog</span>
 				</a>
 			</li>
 			<li>
@@ -60,17 +60,17 @@
 
 					<div class="column is-6">
 						<div class="field">
-							<label for="model_number" class="label">Model Number / Description</label>
+							<label for="description" class="label">Description</label>
 
 							<p class="control">
-								<input id="model_number" type="text"
-									   class="input {{ $errors->has('model_number') ? ' is-danger' : '' }}"
-									   name="model_number"
-									   value="{{ $itemTemplate->model_number }}">
+								<input id="description" type="text"
+									   class="input {{ $errors->has('description') ? ' is-danger' : '' }}"
+									   name="description"
+									   value="{{ $itemTemplate->description }}">
 
-								@if ($errors->has('model_number'))
+								@if ($errors->has('description'))
 									<span class="help is-danger">
-										{{ $errors->first('model_number') }}
+										{{ $errors->first('description') }}
 									</span>
 								@endif
 							</p>
@@ -86,7 +86,7 @@
 									<select name="manufacturer_id" class="{{ $errors->has('manufacturer_id') ? ' is-danger' : '' }}">
 										<option value=""></option>
 										@foreach($manufacturers as $manufacturer)
-											<option value="{{ $manufacturer->id }}">{{ $manufacturer->name }}</option>
+											<option value="{{ $manufacturer->id }}"{{ $manufacturer->id == $itemTemplate->manufacturer_id ? ' selected' : null }}>{{ $manufacturer->name }}</option>
 										@endforeach
 									</select>
 								</div>
@@ -111,43 +111,14 @@
 									   class="input {{ $errors->has('unit_price') ? ' is-danger' : '' }}"
 									   name="unit_price" value="{{ $itemTemplate->unit_price }}">
 
-							<p class="help">Auto-fills when creating PO items</p>
-							@if ($errors->has('unit_price'))
-								<span class="help is-danger">
-							            {{ $errors->first('unit_price') }}
-							        </span>
+								@if ($errors->has('unit_price'))
+									<span class="help is-danger">
+										{{ $errors->first('unit_price') }}
+									</span>
 								@endif
-								</p>
+							</p>
 						</div>
 					</div>
-
-					<div class="column is-6">
-						<div class="field">
-							<label for="eol" class="label">End-of-life (EOL)</label>
-
-							<p class="control">
-							<div class="select is-fullwidth">
-								<select name="eol">
-									<option value=""></option>
-									<option value="12"{{ $itemTemplate->eol === 12 ? ' selected' : '' }}>1 year</option>
-									<option value="24"{{ $itemTemplate->eol === 24 ? ' selected' : '' }}>2 year</option>
-									<option value="36"{{ $itemTemplate->eol === 36 ? ' selected' : '' }}>3 years</option>
-									<option value="48"{{ $itemTemplate->eol === 48 ? ' selected' : '' }}>4 years</option>
-									<option value="60"{{ $itemTemplate->eol === 60 ? ' selected' : '' }}>5 years</option>
-								</select>
-							</div>
-
-							<p class="help">On purchase, EOL will be calculated automatically.</p>
-
-							@if ($errors->has('eol'))
-								<span class="help is-danger">
-						            {{ $errors->first('eol') }}
-						        </span>
-								@endif
-								</p>
-						</div>
-					</div>
-
 
 					<div class="column is-12 has-text-right">
 						<a class="button is-text" href="{{ route('item-templates.index') }}">{{ __('words.cancel') }}</a>

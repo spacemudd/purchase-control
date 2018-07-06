@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => $itemTemplate->code . ' - ' . trans('words.item-templates')])
+@extends('layouts.app', ['title' => $itemTemplate->code . ' - Item Catalog'])
 
 
 @section('header')
@@ -13,7 +13,7 @@
             <li>
                 <a href="{{ route('item-templates.index') }}">
                     <span class="icon is-small"><i class="fa fa-bars"></i></span>
-                    <span>{{ trans('words.item-templates') }}</span>
+                    <span>Item Catalog</span>
                 </a>
             </li>
             <li class="is-active">
@@ -31,7 +31,7 @@
         <div class="columns">
             <div class="column is-6">
                 <h1 class="title">{{ $itemTemplate->code }}</h1>
-                <p class="subtitle is-6">Item Template Code</p>
+                <p class="subtitle is-6">Item Catalog Code</p>
             </div>
             <div class="column is-6 has-text-right">
                 @can('update-item-templates')
@@ -54,27 +54,34 @@
                         <td>{{ $itemTemplate->code }}</td>
                     </tr>
                     <tr>
-                        <td><strong>Model Number / Description</strong></td>
-                        <td>{{ $itemTemplate->model_number }}</td>
-                    </tr>
-
-                    <tr>
-                        <td><strong>End-of-Life (EOL)</strong></td>
-                        <td>
-                            @if($itemTemplate->eol)
-                                {{ $itemTemplate->eol }} months
-                            @endif
-                        </td>
+                        <td><strong>Description</strong></td>
+                        <td>{{ $itemTemplate->description }}</td>
                     </tr>
                     <tr>
                         <td><strong>Default Unit Price</strong></td>
                         <td>{{ $itemTemplate->unit_price }}</td>
                     </tr>
+                    <tr>
+                        <td><strong>Model Details</strong></td>
+                        <td>{{ $itemTemplate->model_details }}</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
             <div class="column is-6">
-
+                <table class="table is-fullwidth is-size-7">
+                    <tbody>
+                    <tr>
+                        <td><strong>{{ __('words.category') }}</strong></td>
+                        <td>
+                            @if(optional($itemTemplate->category)->parent)
+                                {{ $itemTemplate->category->parent->name }} →
+                            @endif
+                            {{ $itemTemplate->category->name }}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

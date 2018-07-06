@@ -17,9 +17,9 @@
 
             <div class="column is-6">
                 <div class="field">
-                    <label class="label">Name <span class="has-text-danger">*</span></label>
+                    <label class="label">Description <span class="has-text-danger">*</span></label>
                     <div class="control">
-                        <b-input name="name" v-model="name" required></b-input>
+                        <b-input name="description" v-model="description" required></b-input>
                     </div>
                 </div>
             </div>
@@ -68,16 +68,6 @@
 
             <div class="column is-6">
                 <div class="field">
-                    <label class="label">Model Number</label>
-
-                    <div class="control">
-                        <input type="text" v-model="modelNumber" class="input">
-                    </div>
-                </div>
-            </div>
-
-            <div class="column is-6">
-                <div class="field">
                     <label class="label">Manufacturer</label>
                     <div class="control">
                         <div class="select is-fullwidth">
@@ -104,21 +94,16 @@
                 </div>
             </div>
 
-            <div class="column is-6">
+            <div class="column is-12">
                 <div class="field">
-                    <label for="eol" class="label">End-of-life Notice (EOL)</label>
-                    <p class="control">
-                    <div class="select is-fullwidth">
-                        <select name="eol" v-model="eol">
-                            <option :value="null"></option>
-                            <option value="12">1 year</option>
-                            <option value="24">2 year</option>
-                            <option value="36">3 years</option>
-                            <option value="48">4 years</option>
-                            <option value="60">5 years</option>
-                        </select>
+                    <label class="label">Model Details</label>
+
+                    <div class="control">
+                        <b-input type="textarea"
+                                 maxlength="191"
+                                 v-model="modelDetails">
+                        </b-input>
                     </div>
-                    <p class="help">On purchase, EOL will be calculated automatically.</p>
                 </div>
             </div>
 
@@ -151,8 +136,8 @@
       }
     },
     watch: {
-      name(newName, oldName) {
-        this.code = newName.substring(0, 3).toUpperCase()
+      description(newDescription, oldDescription) {
+        this.code = newDescription.substring(0, 3).toUpperCase()
           .replace(/[^\w ]+/g,'')
           .replace(/ +/g,'-');
       },
@@ -172,11 +157,11 @@
             .replace(/ +/g,'-');
         }
 
-        let nameSlug = this.name.substring(0, 3).toUpperCase()
+        let descriptionSlug = this.description.substring(0, 3).toUpperCase()
           .replace(/[^\w ]+/g,'')
           .replace(/ +/g,'-');
 
-       this.code = nameSlug + categorySlug;
+       this.code = descriptionSlug + categorySlug;
 
       },
     },
@@ -188,11 +173,10 @@
 
         mainCategorySelected: null,
 
-        name: null,
+        description: null,
         code: null,
         unitPrice: null,
-        modelNumber: null,
-        eol: null,
+        modelDetails: '',
         selectedCategory: null,
         manufacturerId: null,
       }
@@ -205,11 +189,10 @@
         this.$startLoading('SENDING_FORM');
 
         axios.post(this.action, {
-          name: this.name,
+          description: this.description,
           code: this.code,
           unit_price: this.unitPrice,
-          model_number: this.modelNumber,
-          eol: this.eol,
+          model_details: this.modelDetails,
           category_id: this.selectedCategory,
           manufacturer_id: this.manufacturerId,
         }).then(response => {

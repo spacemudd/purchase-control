@@ -47,6 +47,7 @@
                     <th>Created by</th>
                     <th>Created at</th>
                     <th>Updated at</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -66,8 +67,8 @@
                         <td>{{ optional($record->department)->department_human }}</td>
                         <td>{{ optional($record->employee)->display_name }}</td>
                         <td>{{ optional($record->created_by)->display_name }}</td>
-                        <td>{{ $record->created_at }}</td>
                         <td>{{ $record->updated_at }}</td>
+                        <td class="has-text-centered"><a href="{{ route('purchase-orders.show', ['id' => $record->id]) }}" class="button is-small is-primary">Show</a></td>
                     </tr>
                 @endforeach
                 </tbody>

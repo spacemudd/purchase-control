@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => trans('words.create') . ' Item Template'])
+@extends('layouts.app', ['title' => trans('words.create') . ' Item Catalog'])
 
 
 @section('header')

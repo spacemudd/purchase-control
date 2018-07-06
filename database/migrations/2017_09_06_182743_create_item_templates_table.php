@@ -16,7 +16,7 @@ class CreateItemTemplatesTable extends Migration
         Schema::create('item_templates', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code')->unique();
-            $table->string('name');
+            $table->string('name'); // Changed to description future migration.
             $table->string('model_number')->nullable();
             $table->integer('category_id')->unsigned()->nullable();
             $table->foreign('category_id')->references('id')->on('categories');

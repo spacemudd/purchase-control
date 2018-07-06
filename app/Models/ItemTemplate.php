@@ -23,15 +23,14 @@ class ItemTemplate extends Model implements AuditableContract
 
     protected $fillable = [
         'code',
-        'name',
-        'model_number',
+        'description',
+        'model_details',
         'category_id',
         'manufacturer_id',
-        'eol',
         'default_unit_price_minor',
     ];
 
-    protected $appends = ['link'];
+    protected $appends = ['link', 'display_name'];
 
     public function manufacturer()
     {
@@ -41,6 +40,11 @@ class ItemTemplate extends Model implements AuditableContract
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function getDisplayNameAttribute()
+    {
+        return $this->code . ' - ' . $this->description;
     }
 
     public function getUnitPriceAttribute()
