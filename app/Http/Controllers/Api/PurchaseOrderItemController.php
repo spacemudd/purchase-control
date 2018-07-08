@@ -13,6 +13,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Clarimount\Service\PurchaseOrderItemService;
 use App\Http\Controllers\Controller;
+use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrdersItem;
+use Brick\Math\RoundingMode;
+use Brick\Money\Money;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseOrderItemController extends Controller
 {
@@ -97,5 +103,61 @@ class PurchaseOrderItemController extends Controller
 	public function receiveServiceItem()
 	{
         return $this->service->receiveServiceItem();
+	}
+
+    /**
+     * Deletes all the PO's items and inserts the new set.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param $poId
+     * @return \Illuminate\Http\JsonResponse
+     */
+	public function itemsUpdate(Request $request, $poId)
+	{
+	    $po = PurchaseOrder::draft()->where('id', $poId)->firstOrFail();
+
+	    DB::transaction(function() use ($po, $request) {
+
+            PurchaseOrdersItem::where('purchase_order_id', $po->id)->delete();
+
+            $currency = trim($po->currency) ?: 'SAR';
+
+            foreach($request->items as $item) {
+                // todo: make this in the event listener.
+
+                $total = Money::of(0, $po->currency);
+
+                $unitPrice = Money::of($item['unit_price'], $currency);
+                $subtotal = $unitPrice->multipliedBy($item['qty'], RoundingMode::HALF_UP);
+                $data = [
+                    'purchase_order_id' => $po->id,
+                    'item_template_id' => $item['item_catalog']['id'],
+                    'qty' => $item['qty'],
+                    'unit_price_minor' => $unitPrice->getMinorAmount()->toInt(),
+                    'subtotal_minor' => $subtotal->getMinorAmount()->toInt(),
+                ];
+
+                $total = $total->plus($subtotal, RoundingMode::HALF_UP);
+
+                if($item['taxes']) {
+                    foreach ($item['taxes'] as $tax) {
+                        $taxAmount = $subtotal->multipliedBy($tax['current_tax_rate'] / 100, RoundingMode::HALF_UP);
+                        $tax['amount'] = $taxAmount->getMinorAmount()->toInt();
+
+                        $total = $total->plus($taxAmount, RoundingMode::HALF_UP);
+
+                        // Add the tax object to the item with teh amount...
+                        $data['taxes'][] = $tax;
+                    }
+                }
+
+                $data['total_minor'] = $total->getMinorAmount()->toInt();
+
+                return PurchaseOrdersItem::create($data);
+            }
+
+        }, 2);
+
+	    return $po;
 	}
 }

@@ -204,7 +204,8 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     // PO Items
     Route::post('purchase-orders/items/partial-edit', 'Api\PurchaseOrderItemController@partialUpdate');
     Route::post('purchase-orders/{purchase_order_id}/items', 'Api\PurchaseOrderItemController@store');
-    Route::get('procedures/purchase-orders/{purchase_order_id}/items', 'Api\PurchaseOrderItemController@index');
+    Route::get('purchase-orders/{purchase_order_id}/items', 'Api\PurchaseOrderItemController@index');
+    Route::post('purchase-orders/{purchase_order_id}/items/update', 'Api\PurchaseOrderItemController@itemsUpdate'); // This one takes all the items array from js.
     Route::delete('procedures/purchase-orders/{purchase_order_id}/items/{item_id}/delete', 'Api\PurchaseOrderItemController@delete');
     Route::post('procedures/purchase-orders/{purchase_order_id}/items/{item_id}/received', 'Api\PurchaseOrderItemController@attemptToReceiveItem');
 
@@ -259,6 +260,10 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     // Items.
     // Route::post('items', 'Api\ItemsController@store')->name('items.store');
     Route::post('item-templates', 'Api\ItemTemplateController@store')->name('api.item-templates.store');
+
+    // Sales Taxes
+    Route::get('sales-taxes', 'Api\SalesTaxesController@index')->name('api.sales-taxes');
+    Route::post('sales-taxes/calc', 'Api\SalesTaxesController@calculate')->name('api.sales-taxes.calculate');
 
     Route::prefix('search')->group(function() {
         Route::get('items', 'Api\ItemController@search');

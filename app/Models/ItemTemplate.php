@@ -30,7 +30,7 @@ class ItemTemplate extends Model implements AuditableContract
         'default_unit_price_minor',
     ];
 
-    protected $appends = ['link', 'display_name'];
+    protected $appends = ['link', 'display_name', 'unit_price'];
 
     public function manufacturer()
     {

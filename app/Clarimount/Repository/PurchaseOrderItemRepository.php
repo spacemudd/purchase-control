@@ -30,9 +30,10 @@ class PurchaseOrderItemRepository
 	public function index($purchase_order_id)
 	{
 		return PurchaseOrdersItem::where('purchase_order_id', $purchase_order_id)
-									->with('purchase_order')
-                                    ->with('item')
-									->get();
+            ->with('item_catalog')
+            ->with('purchase_order')
+            ->with('item')
+            ->get();
 	}
 
 	public function getPurchaseOrderBy($column, $id)

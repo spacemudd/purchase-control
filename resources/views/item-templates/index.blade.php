@@ -1,5 +1,5 @@
 @extends('layouts.app', [
-    'title' => trans('words.item-templates')
+    'title' => 'Item Catalog',
 ])
 
 @section('header')

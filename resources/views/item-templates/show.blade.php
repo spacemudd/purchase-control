@@ -77,7 +77,7 @@
                             @if(optional($itemTemplate->category)->parent)
                                 {{ $itemTemplate->category->parent->name }} →
                             @endif
-                            {{ $itemTemplate->category->name }}
+                            {{ optional($itemTemplate->category)->name }}
                         </td>
                     </tr>
                     </tbody>

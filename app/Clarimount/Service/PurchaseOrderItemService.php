@@ -86,6 +86,12 @@ class PurchaseOrderItemService
 	    return PurchaseOrdersLine::where('id', $request['id'])->delete();
 	}
 
+    /**
+     * This is deprecated in favor of itemsUpdate @ Api/PurchaseOrderItemController.php
+     *
+     * @param $purchase_order_id
+     * @return mixed
+     */
 	public function store($purchase_order_id)
 	{
 		$data = request()->except(['_token']);
@@ -93,20 +99,22 @@ class PurchaseOrderItemService
 
 		$this->validate($data)->validate();
 
-        $unitPrice = Money::of($data['unit_price'], 'SAR');
+		$poCurrency = trim(PurchaseOrder::where('id', $purchase_order_id)->firstOrFail()->currency);
+
+        $unitPrice = Money::of($data['unit_price'], $poCurrency ?: 'SAR');
         $total = $unitPrice->multipliedBy($data['qty'], RoundingMode::HALF_UP);
         $data['unit_price_minor'] = $unitPrice->getMinorAmount()->toInt();
         $data['total_minor'] = $total->getMinorAmount()->toInt();
 
-        // Create an item template if it doesnt exist.
-        if( ! $data['item_id'] ) {
-            $newItem = $data;
-            $newItem['code'] = $data['name'];
-            $newItem['description'] = $data['name'];
-            $newItem['default_unit_price'] = $data['unit_price_minor'];
-
-            $data['item_id'] = Item::create($newItem)->id;
-        }
+        //// Create an item template if it doesnt exist.
+        //if( ! $data['item_id'] ) {
+        //    $newItem = $data;
+        //    $newItem['code'] = $data['name'];
+        //    $newItem['description'] = $data['name'];
+        //    $newItem['default_unit_price'] = $data['unit_price_minor'];
+        //
+        //    $data['item_id'] = Item::create($newItem)->id;
+        //}
 
         return $this->repository->create($data);
 	}

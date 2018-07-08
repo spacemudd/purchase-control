@@ -8112,7 +8112,7 @@ vue-resize@^0.4.3:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/vue-resize/-/vue-resize-0.4.4.tgz#dee9b8dd1b189e7e3f6ec47f86c60694a241bb17"
 
-vue-select@^2.3.0:
+vue-select@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/vue-select/-/vue-select-2.4.0.tgz#ef06547fe857f3259841ab2f3d29c5d8a1e52630"
 

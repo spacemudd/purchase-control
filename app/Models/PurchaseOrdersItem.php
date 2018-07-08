@@ -43,17 +43,27 @@ class PurchaseOrdersItem extends Model implements AuditableContract
         'subtotal_minor',
         'tax_rate1',
         'tax_amount_1_minor',
+        'taxes',
     ];
 
 	protected $dates = ['created_at', 'updated_at', 'date', 'received_at', 'warranty_expires_at'];
 
-    protected $hidden = ['unit_price_minor', 'total_minor'];
+    // protected $hidden = ['unit_price_minor', 'total_minor'];
 
     protected $appends = ['unit_price', 'total', 'subtotal', 'discount_flat'];
+
+    protected $casts = [
+        'taxes' => 'object',
+    ];
 
 	public function purchase_order()
 	{
 		return $this->belongsTo(PurchaseOrder::class);
+	}
+
+	public function item_catalog()
+	{
+	    return $this->belongsTo(ItemTemplate::class, 'item_template_id');
 	}
 
 	public function item()

@@ -81,8 +81,7 @@ class ItemTemplateController extends Controller
         $search = request()->input('q');
 
         $results = ItemTemplate::where('code', 'LIKE', '%' . $search . '%')
-            ->orWhere('name', 'LIKE', '%' . $search . '%')
-            ->orWhere('model_number', 'LIKE', '%' . $search . '%')
+            ->orWhere('description', 'LIKE', '%' . $search . '%')
             ->paginate(10);
 
         return $results;

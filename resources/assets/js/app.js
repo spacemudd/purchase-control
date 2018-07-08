@@ -230,6 +230,8 @@ Vue.component('edit-pr-itam-approved-by-token', require('./components/EditPrItam
 Vue.component('edit-pr-financial-approved-by-token', require('./components/EditPrFinancialApprovedByToken/EditPrFinancialApprovedByToken'));
 Vue.component('edit-pr-checked-by-token', require('./components/EditPrCheckedByToken/EditPrCheckedByToken'));
 
+Vue.component('other-terms-token', require('./components/OtherTermsToken/OtherTermsToken'));
+
 /**
  * API/App settings
  */

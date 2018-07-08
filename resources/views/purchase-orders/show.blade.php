@@ -34,7 +34,7 @@
 	{{--<purchase-order-show :purchase-order-id.number="{{ $purchase_order->id  }}"></purchase-order-show>--}}
 
 	<div class="columns">
-		<div class="column is-8">
+		<div class="column is-9">
 			<div class="box">
 				<div class="columns">
 					<div class="column is-6">
@@ -222,16 +222,18 @@
 
 	{{-- Items --}}
 	<div class="columns">
-		<div class="column is-8">
+		<div class="column is-9">
             <div class="columns">
                 <div class="column">
                     <h2 class="title is-5 has-text-weight-light">Items</h2>
                 </div>
+				{{--
                 <div class="column has-text-right">
                     @if($purchase_order->is_draft)
                         <new-po-item-from-pr-button :po-id.number="{{ $purchase_order->id }}"></new-po-item-from-pr-button>
                     @endif
                 </div>
+                --}}
             </div>
 
             {{-- Items --}}
