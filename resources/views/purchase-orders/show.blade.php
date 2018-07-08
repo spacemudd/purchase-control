@@ -238,7 +238,78 @@
 
             {{-- Items --}}
             <div class="box">
-                <purchase-order-items :po-id.number="{{ $purchase_order->id }}"></purchase-order-items>
+				@if($purchase_order->is_draft)
+                	<purchase-order-items :po-id.number="{{ $purchase_order->id }}"></purchase-order-items>
+				@else
+					<table class="table is-fullwidth">
+					<thead>
+					<tr>
+						<th>Item</th>
+						<th class="has-text-right">Quantity</th>
+						<th class="has-text-right">Unit Price</th>
+						<th>Tax</th>
+						<th class="has-text-right">Subtotal</th>
+					</tr>
+					</thead>
+						<tbody>
+							@foreach($purchase_order->items as $item)
+								<tr>
+									<td>{{ $item->item_catalog->display_name }}</td>
+									<td class="has-text-right">{{ $item->qty }}</td>
+									<td class="has-text-right">{{ $item->unit_price }}</td>
+									<td>
+										@if($item->taxes)
+											<div class="tags">
+												@foreach($item->taxes as $tax)
+													<span class="tag">{{ $tax->display_name }}</span>
+												@endforeach
+											</div>
+										@endif
+									</td>
+									<td class="has-text-right">{{ $item->subtotal }}</td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
+					<div class="columns">
+						<div class="column">
+							<table class="table invoice-bill-totals pull-right"><thead>
+								<tr>
+									<td class="has-text-right">Subtotal:</td>
+									<td class="has-text-right"><span class="js-subtotal">{{ $purchase_order->subtotal }}</span></td>
+								</tr>
+								</thead>
+
+								<tbody>
+								@foreach($purchase_order->taxes_totals as $taxName => $minorAmount)
+									<tr>
+										<td class="has-text-right">{{ $taxName }}:</td>
+										<td class="has-text-right">{{ \Brick\Money\Money::ofMinor($minorAmount, $purchase_order->currency) }}</td>
+									</tr>
+								</tbody>
+								@endforeach
+
+								<tfoot>
+								<tr>
+									<td class="has-text-right">Total (<span class="js-currency">{{ $purchase_order->currency }}</span>):</td>
+									<td class="has-text-right"><span class="js-total">{{ $purchase_order->total }}</span></td>
+								</tr>
+								{{--
+								<tr class="js-native-currency-total hide">
+									<td>
+										<small>Total (<span class="js-business-currency">SAR</span>
+											at <span class="js-exchange-rate">1</span>):</small>
+									</td>
+									<td class="align-right">
+										<small class="js-business-total">﷼10,227.84</small>
+									</td>
+								</tr>
+								--}}
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				@endif
             </div>
 		</div>
 	</div>
@@ -251,7 +322,7 @@
 		</div>
 	</div>
 	<div class="columns">
-		<div class="column is-8">
+		<div class="column is-9">
 			<div class="box purchase-terms">
 				<div class="columns">
 					<div class="column is-4">

@@ -137,7 +137,7 @@
             @foreach($data->items as $counter => $item)
                 <tr>
                     <td class="center" rowspan="2">{{ ++$counter }}</td>
-                    <td rowspan="2">{{ $item->description }}</td>
+                    <td rowspan="2">{{ optional($item->item_catalog)->display_name }}</td>
                     <td class="center">{{ $item->qty }}</td>
                     <td class="right">
                         {{ $item->subtotal }}<br/>
@@ -145,7 +145,7 @@
                 </tr>
                 <tr>
                     <td class="center">VAT</td>
-                    <td class="right">{{ $item->tax_amount_1 }}</td>
+                    <td class="right">{{ $item->total_taxes_amount }}</td>
                 </tr>
             @endforeach
             <tr>

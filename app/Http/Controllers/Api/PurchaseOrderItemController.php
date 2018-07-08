@@ -124,7 +124,6 @@ class PurchaseOrderItemController extends Controller
 
             foreach($request->items as $item) {
                 // todo: make this in the event listener.
-
                 $total = Money::of(0, $po->currency);
 
                 $unitPrice = Money::of($item['unit_price'], $currency);
@@ -153,7 +152,7 @@ class PurchaseOrderItemController extends Controller
 
                 $data['total_minor'] = $total->getMinorAmount()->toInt();
 
-                return PurchaseOrdersItem::create($data);
+                $createdItem = PurchaseOrdersItem::create($data);
             }
 
         }, 2);

@@ -242,11 +242,38 @@ class PurchaseOrder extends Model implements AuditableContract
      * @return mixed
      * @throws \Brick\Money\Exception\UnknownCurrencyException
      */
+    //public function getTotalAttribute()
+    //{
+    //    if($this->total_minor) {
+    //        return number_format(Money::ofMinor($this->total_minor, $this->currency)->getAmount()->toFloat(), 2);
+    //    }
+    //}
+
     public function getTotalAttribute()
     {
-        if($this->total_minor) {
-            return number_format(Money::ofMinor($this->total_minor, $this->currency)->getAmount()->toFloat(), 2);
+        return Money::ofMinor($this->items()->sum('total_minor'), $this->currency);
+    }
+
+    public function getSubtotalAttribute()
+    {
+        return Money::ofMinor($this->items()->sum('subtotal_minor'), $this->currency);
+    }
+
+    public function getTaxesTotalsAttribute()
+    {
+        $taxes = [];
+
+        foreach($this->items as $item) {
+            foreach($item->taxes as $tax) {
+                if(key_exists($tax->display_name, $taxes)) {
+                    $taxes[$tax->display_name] += $tax->amount;
+                } else {
+                    $taxes[$tax->display_name] = $tax->amount;
+                }
+            }
         }
+
+        return $taxes;
     }
 
     public function scopeDraft($q)

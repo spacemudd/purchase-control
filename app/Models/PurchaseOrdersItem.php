@@ -54,6 +54,7 @@ class PurchaseOrdersItem extends Model implements AuditableContract
 
     protected $casts = [
         'taxes' => 'object',
+        'subtotal_minor' => 'integer',
     ];
 
 	public function purchase_order()
@@ -95,10 +96,44 @@ class PurchaseOrdersItem extends Model implements AuditableContract
         }
     }
 
+    /**
+     * Deprecated.
+     *
+     * @return \Brick\Math\BigDecimal
+     * @throws \Brick\Money\Exception\UnknownCurrencyException
+     */
     public function getTaxAmount1Attribute()
     {
         if($this->tax_amount_1_minor) {
             return Money::ofMinor($this->tax_amount_1_minor, 'SAR')->getAmount();
         }
+    }
+
+    /**
+     * Calculates the total amount of taxes applied.
+     *
+     */
+    public function getTotalTaxesAmountAttribute()
+    {
+        $taxAmount = 0;
+
+        if($this->taxes) {
+            foreach($this->taxes as $tax) {
+                $taxAmount += $tax->amount;
+            }
+        }
+
+        return Money::ofMinor($taxAmount, $this->purchase_order->currency)->getAmount();
+    }
+
+    /**
+     * To remove useless zeroes.
+     *
+     * @param $qty
+     * @return float
+     */
+    public function getQtyAttribute($qty)
+    {
+        return floatval($qty);
     }
 }

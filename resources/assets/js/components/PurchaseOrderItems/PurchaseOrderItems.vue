@@ -5,7 +5,7 @@
         <tr>
             <!--<th></th>-->
         	<th>Item</th>
-            <th class="has-text-right">qty</th>
+            <th class="has-text-right">Quantity</th>
             <th class="has-text-right">Price</th>
             <th class="has-text-right">Tax</th>
             <th class="has-text-right">Subtotal</th>
@@ -256,7 +256,12 @@
             if(!item.qty) {
               item.qty = 1;
             }
-            item.unit_price = option.unit_price;
+
+            if( ! item.unit_price) {
+              if(option.unit_price) {
+                item.unit_price = option.unit_price;
+              }
+            }
           },
           save() {
             this.$startLoading('SAVING_PO_ITEMS');

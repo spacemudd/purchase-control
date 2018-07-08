@@ -22,7 +22,7 @@ class SalesTax extends Model
 
     public function getDisplayNameAttribute()
     {
-        return $this->abbreviation . '('. number_format($this->current_tax_rate, 2) .'%)';
+        return $this->abbreviation . ' ('. floatval($this->current_tax_rate) .'%)';
     }
 
     public function company_journal()
