@@ -36,7 +36,7 @@
 
 					<div class="control">
 						<div class="select is-fullwidth">
-							<select name="currency{{ $errors->has('currency') ? ' is-danger' : '' }}">
+							<select tabindex="0" name="currency{{ $errors->has('currency') ? ' is-danger' : '' }}" autofocus>
 								<option value=""></option>
 								@foreach($currencies as $currencyCode => $description)
 									<option value="{{ $currencyCode }}"{{ $currencyCode === 'SAR' ? ' selected' : '' }}>{{ $currencyCode }} - {{ $description }}</option>
@@ -49,6 +49,43 @@
 								{{ $errors->first('currency') }}
 							</span>
 						@endif
+					</div>
+				</div>
+				<hr>
+			</div>
+		</div>
+
+		{{-- Requested for --}}
+		<div class="columns">
+			<div class="column is-3"><p class="title is-5">Request Information</p></div>
+			<div class="column is-4">
+				<div class="field">
+					<label for="supplier_id" class="label">Employee (Requested for)</label>
+
+					<div class="control">
+						<select-employee name="requested_for_employee_id"
+										 url="{{ route('api.search.employee') }}"
+										 tabindex="1"
+						>
+						</select-employee>
+					</div>
+				</div>
+				<div class="field">
+					<label for="supplier_id" class="label">Employee (Requested by)</label>
+
+					<div class="control">
+						<select-employee name="requested_by_employee_id"
+										 url="{{ route('api.search.employee') }}">
+						</select-employee>
+					</div>
+				</div>
+				<div class="field">
+					<label for="supplier_id" class="label">Charged Cost Center</label>
+
+					<div class="control">
+						<select-department name="cost_center_id"
+										   url="{{ route('api.search.department') }}">
+						</select-department>
 					</div>
 				</div>
 				<hr>
@@ -93,7 +130,6 @@
 				<hr>
 			</div>
 		</div>
-
 
 		 {{--Shipping Address --}}
 		{{--
