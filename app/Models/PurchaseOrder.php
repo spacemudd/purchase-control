@@ -67,6 +67,9 @@ class PurchaseOrder extends Model implements AuditableContract
         'created_by_id',
         'vendor_json',
         'purchase_order_main_id',
+        'requested_for_employee_id',
+        'requested_by_employee_id',
+        'cost_center_id',
     ];
 
     protected $dates = ['date', 'delivery_date'];
@@ -117,6 +120,8 @@ class PurchaseOrder extends Model implements AuditableContract
         switch($this->status) {
             case self::NEW:
                 return 'draft';
+            case self::SAVED:
+                return 'saved';
             case self::APPROVED:
                 return 'approved';
             case self::VOID:
@@ -234,6 +239,21 @@ class PurchaseOrder extends Model implements AuditableContract
         } else {
             return 'SAR';
         }
+    }
+
+    public function requested_for_employee()
+    {
+        return $this->belongsTo(Employee::class, 'requested_for_employee_id');
+    }
+
+    public function requested_by_employee()
+    {
+        return $this->belongsTo(Employee::class, 'requested_by_employee_id');
+    }
+
+    public function cost_center()
+    {
+        return $this->belongsTo(Department::class, 'cost_center_id');
     }
 
     /**

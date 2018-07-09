@@ -22,7 +22,7 @@ class Department extends Model implements AuditableContract
 
     protected $fillable = ['code', 'description','head_department'];
 
-    protected $appends = ['department_human', 'link', 'edit_link'];
+    protected $appends = ['department_human', 'link', 'edit_link', 'display_name'];
 
     public function employees()
     {

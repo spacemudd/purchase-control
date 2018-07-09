@@ -156,11 +156,17 @@ class PurchaseOrderController extends Controller
 
         $data[$request->name] = $request->value;
 
-        $po = PurchaseOrder::where('id', $id)->firstOrFail();
+        $po = PurchaseOrder::where('id', $id)
+            ->with('requested_for_employee')
+            ->with('requested_by_employee')
+            ->with('cost_center')
+            ->firstOrFail();
 
         $po->update($data);
 
         $this->service->updateHistoricalData($id);
+
+        $po->refresh();
 
         return $po;
     }

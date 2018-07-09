@@ -1,8 +1,8 @@
 <template>
     <div>
-        <p class="transparent-highlighter-bg is-size-7" @click="edit">
+        <p class="is-size-7" :class="{'transparent-highlighter-bg': canEdit}" @click="edit">
             {{ old_value }}
-            <span v-if="!form.requested_by_employee_id"><i>[Employee]</i></span>
+            <span v-if="!employee_id"><i>[Employee]</i></span>
         </p>
         <div v-if="is_editing" style="margin-top:20px">
             <div class="field">
@@ -34,11 +34,11 @@
             /**
              * Employee name.
              */
-            employeeName: {
+            value: {
                 type: String,
                 required: false,
             },
-            requestedByEmployeeId: {
+            propEmployeeId: {
                 required: false,
             },
           /**
@@ -63,18 +63,12 @@
         data() {
             return {
                 is_editing: false,
-
-                old_value: this.employeeName,
-
-                form: {
-                    requested_by_employee_id: '',
-
-                    errors: [],
-                },
+                old_value: this.value,
+                employee_id: null,
             }
         },
         mounted() {
-            this.form.requested_by_employee_id = this.requestedByEmployeeId;
+            this.employee_id = this.propEmployeeId;
         },
         methods: {
             edit() {
@@ -84,52 +78,61 @@
                 }
             },
             employeeIsSelected(employee) {
-                this.form.requested_by_employee_id = employee.id;
+              this.employee_id = employee.id;
             },
             save() {
                 this.$startLoading('SAVING_REQUESTED_BY_TOKEN');
 
-                this.form.errors = [];
+                // this.form.errors = [];
                   axios.put(this.apiUrl() + '/purchase-orders/' + this.id + '/tokens', {
                     'name': this.name,
-                    'value': this.form.requested_by_employee_id,
+                    'value': this.employee_id,
                   })
                     .then(response => {
                         this.$endLoading('SAVING_REQUESTED_BY_TOKEN');
                         this.is_editing = false;
-                        this.form.requested_by_employee_id = response.data.requested_by_employee_id;
-                        console.log(response.data.requested_by_employee);
-                        this.old_value = response.data.requested_by_employee ? response.data.requested_by_employee.display_name : '';
-                        console.log(this.old_value);
+
+                        if(this.name === 'requested_by_employee_id') {
+                          console.log(this.name);
+                          this.employee_id = response.data.requested_by_employee_id;
+                          this.old_value = response.data.requested_by_employee ? response.data.requested_by_employee.display_name : '';
+                        }
+
+                        if(this.name === 'requested_for_employee_id') {
+                          console.log(this.name);
+                          this.employee_id = response.data.requested_for_employee_id;
+                          this.old_value = response.data.requested_for_employee ? response.data.requested_for_employee.display_name : '';
+                          console.log(this.old_value);
+                        }
 
                         this.$toast.open({
                             message: 'Saved',
                             type: 'is-success',
                         });
                     })
-                    .catch(error => {
-                        this.$endLoading('SAVING_REQUESTED_BY_TOKEN')
-
-                        if (typeof error.response.data === 'object') {
-                            this.form.errors = _.flatten(_.toArray(error.response.data.errors));
-                        } else {
-                            this.form.errors = ['Something went wrong. Please try again.'];
-                        }
-
-                        this.$dialog.alert({
-                            message: this.form.errors,
-                            type: 'is-danger',
-                        });
-
-                        throw error;
-                    });
+                    // .catch(error => {
+                    //     this.$endLoading('SAVING_REQUESTED_BY_TOKEN')
+                    //
+                    //     if (typeof error.response.data === 'object') {
+                    //         this.form.errors = _.flatten(_.toArray(error.response.data.errors));
+                    //     } else {
+                    //         this.form.errors = ['Something went wrong. Please try again.'];
+                    //     }
+                    //
+                    //     this.$dialog.alert({
+                    //         message: this.form.errors,
+                    //         type: 'is-danger',
+                    //     });
+                    //
+                    //     throw error;
+                    // });
             },
             rollback() {
                 // this.form.requested_for_employee_id = this.old_value;
                 this.is_editing = false;
             },
             clearEmployee() {
-                this.form.requested_by_employee_id = null;
+                this.employee_id = null;
                 this.old_value = false;
                 this.save();
             },

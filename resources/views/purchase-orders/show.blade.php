@@ -196,6 +196,46 @@
 										@endif
 									</td>
 								</tr>
+								<tr>
+									<td><strong>Cost Center</strong></td>
+									<td class="is-capitalized">
+										<edit-department-token  :id.number="{{ $purchase_order->id }}"
+																prop-department-id="{{ $purchase_order->cost_center_id }}"
+																value="{{ optional($purchase_order->cost_center)->display_name }}"
+																name="cost_center_id"
+																url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+																:can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+										>
+										</edit-department-token>
+									</td>
+								</tr>
+								<tr>
+									<td><strong>Requested for</strong></td>
+									<td class="is-capitalized">
+										<edit-employee-token  :id.number="{{ $purchase_order->id }}"
+															  prop-employee-id="{{ $purchase_order->requested_for_employee_id }}"
+															  value="{{ optional($purchase_order->requested_for_employee)->display_name }}"
+															  name="requested_for_employee_id"
+															  url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+															  :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+										>
+										</edit-employee-token>
+									</td>
+								</tr>
+								<tr>
+									<td><strong>Requested by</strong></td>
+									<td class="is-capitalized">
+										<edit-employee-token  :id.number="{{ $purchase_order->id }}"
+															  prop-employee-id="{{ $purchase_order->requested_by_employee_id }}"
+															  value="{{ optional($purchase_order->requested_by_employee)->display_name }}"
+															  name="requested_by_employee_id"
+															  url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+															  :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+										>
+										</edit-employee-token>
+									</td>
+								</tr>
+
 							</tbody>
 						</table>
 					</div>

@@ -232,6 +232,9 @@ Vue.component('edit-pr-checked-by-token', require('./components/EditPrCheckedByT
 
 Vue.component('other-terms-token', require('./components/OtherTermsToken/OtherTermsToken'));
 
+Vue.component('edit-employee-token', require('./components/EditEmployeeToken/EditEmployeeToken'));
+Vue.component('edit-department-token', require('./components/EditDepartmentToken/EditDepartmentToken'));
+
 /**
  * API/App settings
  */

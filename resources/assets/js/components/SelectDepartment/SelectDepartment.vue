@@ -16,7 +16,7 @@
                     :loading="isLoading"
                     field="code"
                     @input="getData"
-                    @select="option => selected = option">
+                    @select="selectDepartment">
             <template slot="empty" v-if="!isLoading">No results found</template>
             <template slot-scope="props">
                 <a class="dropdown-item">
@@ -56,6 +56,10 @@
 
         },
         methods: {
+          selectDepartment(department) {
+            this.selected = department;
+            this.$emit('selected', department);
+          },
             getData: debounce(function () {
                 this.records = []
                 this.isLoading = true

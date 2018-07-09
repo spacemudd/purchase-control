@@ -63,7 +63,7 @@
             }
         },
         mounted() {
-          if(this.value.length) {
+          if(this.value) {
             this.address = this.value;
           } else {
             this.address = null;

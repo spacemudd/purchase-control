@@ -12514,6 +12514,15 @@ body {
   margin-top: 30px;
 }
 
+.purchase-terms .columns {
+  border-bottom: 1px solid #dbdbdb;
+  margin: 1.5rem 0;
+}
+
+.purchase-terms .columns:last-child {
+  border-bottom: none;
+}
+
 [dir="rtl"] .search-input .dropdown-menu {
   left: unset;
 }
