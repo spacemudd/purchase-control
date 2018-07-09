@@ -13,6 +13,8 @@ namespace App\Clarimount\Service;
 
 use App\Events\PurchaseOrderSaved;
 use App\Model\PurchaseTerm;
+use App\Models\CompanyJournal;
+use App\Models\SalesTax;
 use Brick\Math\RoundingMode;
 use Brick\Money\Money;
 use Carbon\Carbon;
@@ -21,9 +23,11 @@ use App\Models\Address;
 use App\Models\PurchaseOrder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
 use App\Clarimount\Repository\PurchaseOrderRepository;
+use Money\Currency;
 
 class PurchaseOrderService
 {
@@ -77,6 +81,16 @@ class PurchaseOrderService
 	public function store(array $data)
 	{
 		$purchase_order = $data;
+
+		if(array_key_exists('delivery_date', $data) && $data['delivery_date']) {
+		    try {
+		        Log::info('Attempting to parse: ' . $data['delivery_date']);
+		        Log::info('Cleaned date: ' . str_replace('/','-', $data['delivery_date']));
+                $purchase_order['delivery_date'] = Carbon::parse(str_replace('/','-', $data['delivery_date']));
+            } catch (\Exception $error) {
+		        Log::error('Failed parsing delivery date: ' . $data['delivery_date']);
+            }
+        }
 
         $this->validate($purchase_order)->validate();
 
@@ -202,9 +216,13 @@ class PurchaseOrderService
             throw new \Exception('The PO must be in draft mode to be saved.');
         }
 
-        $po = $this->repository->save($purchase_order['id']);
+        $po = DB::transaction(function() use ($purchase_order) {
+            $po = $this->repository->save($purchase_order['id']);
 
-        event(new PurchaseOrderSaved($po));
+            event(new PurchaseOrderSaved($po));
+
+            return $po;
+        });
 
         return $po;
     }
@@ -391,17 +409,48 @@ class PurchaseOrderService
     public function calculateAndSavePurchaseOrderCosts($id)
     {
         $po = DB::transaction(function() use ($id) {
+            Log::info('Beginning to calculate PO totals');
+
             $po = PurchaseOrder::where('id', $id)->sharedLock()->firstOrFail();
 
             $total_subtotal = Money::of(0, $po->currency);
             $total_vat_amount = Money::of(0, $po->currency);
             $total = Money::of(0, $po->currency);
 
+            Log::info('Calculating the items for PO ID: ' . $po->id);
+
             foreach($po->items()->get() as $item) {
+
+                Log::info('Adding subtotal: ' . $item->subtotal);
+
                 $total_subtotal = $total_subtotal->plus($item->subtotal);
-                if($item->tax_amount_1) {
-                    $total_vat_amount = $total_vat_amount->plus($item->tax_amount_1);
+
+                // Add the taxes.
+                if($item->taxes) {
+                    Log::info('Beginning to add taxes');
+                    foreach($item->taxes as $tax) {
+                        Log::info('Adding tax amount: ' . $tax->amount);
+                        $total_vat_amount = $total_vat_amount->plus($tax->amount, RoundingMode::HALF_UP);
+
+                        // Posting to the tax's account ID.
+                        Log::info('Posting to the sales tax account with the minor amount: ' . $tax->amount);
+                        $minorAmount = new \Money\Money($tax->amount, new Currency($po->currency));
+                        $taxAccount = SalesTax::where('id', $tax->id)->firstOrFail()
+                            ->company_journal;
+
+                        Log::info('Preparing company journal to post: '. $taxAccount->id . ' - ' . $taxAccount->name);
+
+                        $taxJournal = $taxAccount->journal;
+
+                        Log::info('Preparing to debit the tax journal ID: ' . $taxJournal->id);
+
+                        // TODO: Some error about debiting account because of IDENTITY COLUMN.
+                        // DB::statement('SET IDENTITY_INSERT pur_accounting_journal_transactions ON');
+                        // $taxJournal->debit($minorAmount, 'PO ' . $po->code);
+                    }
                 }
+
+                Log::info('Adding item total: ' . $item->total);
                 $total = $total->plus($item->total);
             }
 

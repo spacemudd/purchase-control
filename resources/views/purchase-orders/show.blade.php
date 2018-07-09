@@ -140,7 +140,7 @@
 									<td>
 										<address-field-token :id.number="{{ $purchase_order->id }}"
 															 name="billing_address_id"
-															 :value="{{ json_encode(collect($purchase_order->billing_address_json)->toArray()) }}"
+															 :value="{{ $purchase_order->billing_address_json ? collect($purchase_order->billing_address_json)->toJson() : null }}"
 															 placeholder="BILLING ADDRESS"
 															 url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
 															 search-url="{{ route('api.search.billing-addresses') }}"
@@ -154,7 +154,7 @@
 									<td>
 										<address-field-token :id.number="{{ $purchase_order->id }}"
 															 name="shipping_address_id"
-															 :value="{{ json_encode(collect($purchase_order->shipping_address_json)->toArray()) }}"
+															 :value="{{ $purchase_order->shipping_address_json ? collect($purchase_order->shipping_address_json)->toJson() : null }}"
 															 placeholder="SHIPPING ADDRESS"
 															 url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
 															 search-url="{{ route('api.search.shipping-addresses') }}"

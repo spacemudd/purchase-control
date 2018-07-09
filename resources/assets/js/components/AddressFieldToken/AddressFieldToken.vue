@@ -35,7 +35,7 @@
              * The value.
              */
             value: {
-                type: Object,
+                // type: Object,
                 required: false,
             },
             placeholder: {
@@ -63,7 +63,11 @@
             }
         },
         mounted() {
+          if(this.value.length) {
             this.address = this.value;
+          } else {
+            this.address = null;
+          }
         },
         methods: {
             editToken() {
