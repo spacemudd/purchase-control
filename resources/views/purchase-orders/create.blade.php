@@ -60,6 +60,15 @@
 			<div class="column is-3"><p class="title is-5">Request Information</p></div>
 			<div class="column is-4">
 				<div class="field">
+					<label for="supplier_id" class="label">Employee (Requested by)</label>
+
+					<div class="control">
+						<select-employee name="requested_by_employee_id"
+										 url="{{ route('api.search.employee') }}">
+						</select-employee>
+					</div>
+				</div>
+				<div class="field">
 					<label for="supplier_id" class="label">Employee (Requested for)</label>
 
 					<div class="control">
@@ -71,21 +80,13 @@
 					</div>
 				</div>
 				<div class="field">
-					<label for="supplier_id" class="label">Employee (Requested by)</label>
-
-					<div class="control">
-						<select-employee name="requested_by_employee_id"
-										 url="{{ route('api.search.employee') }}">
-						</select-employee>
-					</div>
-				</div>
-				<div class="field">
 					<label for="supplier_id" class="label">Charged Cost Center</label>
 
 					<div class="control">
 						<select-department name="cost_center_id"
 										   url="{{ route('api.search.department') }}">
 						</select-department>
+						<p class="help">Search by department code or name</p>
 					</div>
 				</div>
 				<hr>
