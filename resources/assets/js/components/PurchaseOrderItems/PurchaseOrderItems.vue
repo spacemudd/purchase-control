@@ -24,7 +24,12 @@
                     </td>
                     -->
                     <td style="width:250px">
-                        <v-select :options="itemsCatalog" label="display_name" v-model="item.item_catalog" @input="option => itemCatalogSelected(item, option)" @search="onSearch">
+                        <v-select :options="itemsCatalog"
+                                  label="display_name"
+                                  v-model="item.item_catalog"
+                                  @input="option => itemCatalogSelected(item, option)"
+                                  @search="onSearch"
+                                  autofocus>
                             <template slot="no-options">
                                 Type to search for items
                             </template>
@@ -171,7 +176,7 @@
           getPoItems() {
             axios.get(this.apiUrl() + `/purchase-orders/${this.poId}/items`)
               .then(response => {
-                this.items = response.data;
+                  this.items = response.data;
               })
           },
           getTaxesOptions() {

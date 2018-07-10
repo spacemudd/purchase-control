@@ -37,7 +37,7 @@
 @section('content')
 
     <div class="columns">
-        <div class="column is-8">
+        <div class="column is-9">
             <div class="box">
                 <div class="columns">
                     <div class="column is-6">
@@ -126,6 +126,37 @@
                                     ></delivery-date-token>
                                 </td>
                             </tr>
+                            <tr>
+                                <td><strong>Billing Address</strong></td>
+                                <td>
+                                    <address-field-token :id.number="{{ $subPurchaseOrder->id }}"
+                                                         name="billing_address_id"
+                                                         @if($subPurchaseOrder->billing_address_json)
+                                                         :value="{{ $subPurchaseOrder->billing_address_json ? collect($subPurchaseOrder->billing_address_json)->toJson() : null }}"
+                                                         @endif
+                                                         placeholder="BILLING ADDRESS"
+                                                         url="{{ route('purchase-orders.tokens', ['id' => $subPurchaseOrder->id]) }}"
+                                                         search-url="{{ route('api.search.billing-addresses') }}"
+                                                         :is-billing="true"
+                                                         :can-edit="{{ $subPurchaseOrder->is_draft ? 'true' : 'false' }}"
+                                    ></address-field-token>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Shipping Address</strong></td>
+                                <td>
+                                    <address-field-token :id.number="{{ $subPurchaseOrder->id }}"
+                                                         name="shipping_address_id"
+                                                         @if($subPurchaseOrder->shipping_address_json)
+                                                         :value="{{ $subPurchaseOrder->shipping_address_json ? collect($subPurchaseOrder->shipping_address_json)->toJson() : null }}"
+                                                         @endif
+                                                         placeholder="SHIPPING ADDRESS"
+                                                         url="{{ route('purchase-orders.tokens', ['id' => $subPurchaseOrder->id]) }}"
+                                                         search-url="{{ route('api.search.shipping-addresses') }}"
+                                                         :can-edit="{{ $subPurchaseOrder->is_draft ? 'true' : 'false' }}"
+                                    ></address-field-token>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -184,59 +215,149 @@
 
     </div>
 
-    {{-- Delivery & Terms --}}
-    <div class="columns">
-        <div class="column is-4">
-            <h2 class="title is-5 has-text-weight-light">Delivery &amp; Terms</h2>
-        </div>
-    </div>
-    <div class="columns">
-        <div class="column is-8">
-            <div class="box">
-                @foreach($purchaseTermsTypes as $key => $type)
-                    <div class="columns">
-                        <div class="column is-4">
-                            <p class="title is-7">{{ $type->name }}</p>
-                        </div>
-                        <div class="column">
-                            @foreach($type->terms()->get() as $term)
-                                <ul>
-                                    <toggle-purchase-term :term-id.number="{{ $term->id }}"
-                                                          :po-id.number="{{ $subPurchaseOrder->id }}"
-                                                          :enabled-prop.number="{{ $subPurchaseOrder->terms->contains($term->id) ? 'true' : 'false' }}"
-                                                          :can-toggle="{{ $subPurchaseOrder->is_draft ? 'true' : 'false' }}"
-                                    >
-                                        {{ $term->value }}
-                                    </toggle-purchase-term>
-                                </ul>
-                            @endforeach
-                        </div>
-                    </div>
-                    @if(!($key === count($purchaseTermsTypes) - 1))
-                        <hr>
-                    @endif
-                @endforeach
-            </div>
-        </div>
-    </div>
-
     {{-- Items --}}
     <div class="columns">
-        <div class="column is-8">
+        <div class="column is-9">
             <div class="columns">
                 <div class="column">
                     <h2 class="title is-5 has-text-weight-light">Items</h2>
                 </div>
+                {{--
                 <div class="column has-text-right">
                     @if($subPurchaseOrder->is_draft)
                         <new-po-item-from-pr-button :po-id.number="{{ $subPurchaseOrder->id }}"></new-po-item-from-pr-button>
                     @endif
                 </div>
+                --}}
             </div>
 
             {{-- Items --}}
             <div class="box">
-                <purchase-order-items :po-id.number="{{ $subPurchaseOrder->id }}"></purchase-order-items>
+                @if($subPurchaseOrder->is_draft)
+                    <purchase-order-items :po-id.number="{{ $subPurchaseOrder->id }}"></purchase-order-items>
+                @else
+                    <table class="table is-fullwidth">
+                        <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th class="has-text-right">Quantity</th>
+                            <th class="has-text-right">Unit Price</th>
+                            <th>Tax</th>
+                            <th class="has-text-right">Subtotal</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($subPurchaseOrder->items as $item)
+                            <tr>
+                                <td>{{ $item->item_catalog->display_name }}</td>
+                                <td class="has-text-right">{{ $item->qty }}</td>
+                                <td class="has-text-right">{{ $item->unit_price }}</td>
+                                <td>
+                                    @if($item->taxes)
+                                        <div class="tags">
+                                            @foreach($item->taxes as $tax)
+                                                <span class="tag">{{ $tax->display_name }}</span>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </td>
+                                <td class="has-text-right">{{ $item->subtotal }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                    <div class="columns">
+                        <div class="column">
+                            <table class="table invoice-bill-totals pull-right"><thead>
+                                <tr>
+                                    <td class="has-text-right">Subtotal:</td>
+                                    <td class="has-text-right"><span class="js-subtotal">{{ $subPurchaseOrder->subtotal }}</span></td>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                @foreach($subPurchaseOrder->taxes_totals as $taxName => $minorAmount)
+                                    <tr>
+                                        <td class="has-text-right">{{ $taxName }}:</td>
+                                        <td class="has-text-right">{{ \Brick\Money\Money::ofMinor($minorAmount, $subPurchaseOrder->currency) }}</td>
+                                    </tr>
+                                </tbody>
+                                @endforeach
+
+                                <tfoot>
+                                <tr>
+                                    <td class="has-text-right">Total (<span class="js-currency">{{ $subPurchaseOrder->currency }}</span>):</td>
+                                    <td class="has-text-right"><span class="js-total">{{ $subPurchaseOrder->total }}</span></td>
+                                </tr>
+                                {{--
+                                <tr class="js-native-currency-total hide">
+                                    <td>
+                                        <small>Total (<span class="js-business-currency">SAR</span>
+                                            at <span class="js-exchange-rate">1</span>):</small>
+                                    </td>
+                                    <td class="align-right">
+                                        <small class="js-business-total">﷼10,227.84</small>
+                                    </td>
+                                </tr>
+                                --}}
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+
+
+    {{-- Delivery & Terms --}}
+    <div class="columns">
+        <div class="column is-4">
+            <h2 class="title is-5 has-text-weight-light">Purchase Terms</h2>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column is-9">
+            <div class="box purchase-terms">
+                @if($subPurchaseOrder->is_draft || $subPurchaseOrder->other_terms)
+                    <div class="columns">
+                        <div class="column is-4">
+                            <p class="title is-7">Other Terms</p>
+                        </div>
+                        <div class="column">
+                            <other-terms-token :id.number="{{ $subPurchaseOrder->id }}"
+                                               name="other_terms"
+                                               value="{{ $subPurchaseOrder->other_terms  }}"
+                                               placeholder="OTHER TERMS"
+                                               url="{{ route('purchase-orders.tokens', ['id' => $subPurchaseOrder->id]) }}"
+                                               :can-edit="{{ $subPurchaseOrder->is_draft ? 'true' : 'false' }}"
+                            ></other-terms-token>
+                        </div>
+                    </div>
+                @endif
+                @foreach($subPurchaseOrder->terms_json as $key => $terms)
+                    @if($key === 'Others')
+                        @break
+                    @endif
+                    <div class="columns">
+                        <div class="column is-4">
+                            <p class="title is-7">{{ $key }}</p>
+                        </div>
+                        <div class="column">
+                            @foreach($terms as $term)
+                                <ul>
+                                    <toggle-purchase-term :term-id.number="{{ $term->value->id }}"
+                                                          :po-id.number="{{ $subPurchaseOrder->id }}"
+                                                          :enabled-prop.number="{{ $term->enabled ? 'true' : 'false' }}"
+                                                          :can-toggle="{{ $subPurchaseOrder->is_draft ? 'true' : 'false' }}"
+                                    >
+                                        {{ $term->value->value }}
+                                    </toggle-purchase-term>
+                                </ul>
+                            @endforeach
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>

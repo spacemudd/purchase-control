@@ -21,11 +21,11 @@ class PurchaseOrdersTermsController extends Controller
 
         $poTerms = $po->terms_json;
 
-        foreach($poTerms as $type => &$jsonTerms) {
-            if($type == 'Others') break;
+        foreach ($poTerms as $type => &$jsonTerms) {
+            if ($type == 'Others') break;
 
-            foreach($jsonTerms as $jsonTerm) {
-                if($jsonTerm->value->id === $term->id) {
+            foreach ($jsonTerms as $jsonTerm) {
+                if ($jsonTerm->value->id === $term->id) {
                     $jsonTerm->enabled = true;
                 }
             }
@@ -51,12 +51,11 @@ class PurchaseOrdersTermsController extends Controller
 
         foreach($poTerms as $type => &$jsonTerms) {
             if($type == 'Others') break;
-            
-            foreach($jsonTerms as $jsonTerm) {
-                if($jsonTerm->value->id === $term->id) {
-                    $jsonTerm->enabled = false;
+                foreach ($jsonTerms as $jsonTerm) {
+                    if ($jsonTerm->value->id === $term->id) {
+                        $jsonTerm->enabled = false;
+                    }
                 }
-            }
         }
 
         $po->terms_json = $poTerms;

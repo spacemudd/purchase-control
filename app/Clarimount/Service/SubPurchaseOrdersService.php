@@ -12,10 +12,12 @@ use Illuminate\Support\Facades\Validator;
 class SubPurchaseOrdersService
 {
     protected $poRepository;
+    protected $poService;
 
-    public function __construct(PurchaseOrderRepository $poRepository)
+    public function __construct(PurchaseOrderRepository $poRepository, PurchaseOrderService $poService)
     {
         $this->poRepository = $poRepository;
+        $this->poService = $poService;
     }
 
     /**
@@ -53,7 +55,11 @@ class SubPurchaseOrdersService
 
             $data['created_by_id'] = auth()->user()->id;
 
-            return PurchaseOrder::create($data);
+            $po = PurchaseOrder::create($data);
+
+            $this->poService->saveTermsToPo($po->id);
+
+            return $po;
         });
 
         return $newSubPo;

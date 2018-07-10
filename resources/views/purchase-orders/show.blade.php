@@ -358,7 +358,6 @@
 		</div>
 	</div>
 
-
 	{{-- Delivery & Terms --}}
 	<div class="columns">
 		<div class="column is-4">
@@ -368,20 +367,22 @@
 	<div class="columns">
 		<div class="column is-9">
 			<div class="box purchase-terms">
-				<div class="columns">
-					<div class="column is-4">
-						<p class="title is-7">Other Terms</p>
+				@if($purchase_order->is_draft || $purchase_order->other_terms)
+					<div class="columns">
+						<div class="column is-4">
+							<p class="title is-7">Other Terms</p>
+						</div>
+						<div class="column">
+							<other-terms-token :id.number="{{ $purchase_order->id }}"
+											   name="other_terms"
+											   value="{{ $purchase_order->other_terms  }}"
+											   placeholder="OTHER TERMS"
+											   url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+											   :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+							></other-terms-token>
+						</div>
 					</div>
-					<div class="column">
-						<other-terms-token :id.number="{{ $purchase_order->id }}"
-										   name="other_terms"
-										   value="{{ $purchase_order->other_terms  }}"
-										   placeholder="OTHER TERMS"
-										   url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
-										   :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-						></other-terms-token>
-					</div>
-				</div>
+				@endif
 				@foreach($purchase_order->terms_json as $key => $terms)
 					@if($key === 'Others')
 						@break
