@@ -36,7 +36,7 @@
 
 					<div class="control">
 						<div class="select is-fullwidth">
-							<select tabindex="0" name="currency{{ $errors->has('currency') ? ' is-danger' : '' }}" autofocus>
+							<select tabindex="0" name="currency" class="{{ $errors->has('currency') ? ' is-danger' : '' }}" autofocus>
 								<option value=""></option>
 								@foreach($currencies as $currencyCode => $description)
 									<option value="{{ $currencyCode }}"{{ $currencyCode === 'SAR' ? ' selected' : '' }}>{{ $currencyCode }} - {{ $description }}</option>

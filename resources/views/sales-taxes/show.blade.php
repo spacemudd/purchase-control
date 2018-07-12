@@ -1,5 +1,4 @@
-@extends('layouts.app', ['title' => $address->location])
-
+@extends('layouts.app', ['title' => $salesTax->display_name . ' - Sales Taxes'])
 
 @section('header')
     <nav class="breadcrumb" aria-label="breadcrumbs">
@@ -11,14 +10,14 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('addresses.index') }}">
-                    <span class="icon is-small"><i class="fa fa-map-marker"></i></span>
-                    <span>{{ trans('words.addresses') }}</span>
+                <a href="{{ route('sales-taxes.index') }}">
+                    <span class="icon is-small"><i class="fa fa-balance-scale"></i></span>
+                    <span>Sales Taxes</span>
                 </a>
             </li>
-            <li class="is-active">
-                <a href="{{ route('addresses.show', ['id' => $address->id]) }}">
-                    {{ $address->location }}
+            <li>
+                <a href="#">
+                    {{ $salesTax->display_name }}
                 </a>
             </li>
         </ul>
@@ -29,35 +28,40 @@
 
     <div class="columns">
         <div class="column is-6 is-offset-3 has-text-right">
-            <form action="{{ route('addresses.destroy', ['id' => $address->id]) }}" method="post" class="is-inline">
+            <form action="{{ route('sales-taxes.destroy', ['id' => $salesTax->id]) }}" method="post" class="is-inline">
                 {{ csrf_field() }}
                 <input type="hidden" name="_method" value="delete">
                 <button class="button is-small is-danger">Archive</button>
             </form>
-            {{--
-            <a href="{{ route('addresses.edit', ['id' => $address->id]) }}"
-               class="button is-warning is-small"
-               style="margin-left:30px;"
-            >Edit</a>
-            --}}
         </div>
     </div>
 
     <div class="columns">
-        <div class="column is-6 is-offset-3">
-            <div class="content">
-                <h1 class="title">Type</h1>
-                <p>{{ $address->type_human }}</p>
-                <h1 class="title">Location</h1>
-                <p>{!! nl2br(e($address->location)) !!}</p>
-                <h1 class="title">Department</h1>
-                <p>{{ $address->department }}</p>
-                <h1 class="title">Contact Name</h1>
-                <p>{{ $address->contact_name }}</p>
-                <h1 class="title">Phone</h1>
-                <p>{{ $address->phone }}</p>
-                <h2 class="title">Email</h2>
-                <p>{{ $address->email }}</p>
+        <div class="column is-4 is-offset-4">
+            <div class="panel">
+                <div class="panel-heading">{{ $salesTax->display_name }}</div>
+                <div class="panel-block">
+                    <table class="table is-fullwidth">
+                    	<tbody>
+                        <tr>
+                            <td><strong>Tax Name</strong></td>
+                            <td class="has-text-right">{{ $salesTax->tax_name }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Abbreviation</strong></td>
+                            <td class="has-text-right">{{ $salesTax->abbreviation }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Description</strong></td>
+                            <td class="has-text-right">{{ $salesTax->description }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Current Tax Rate</strong></td>
+                            <td class="has-text-right">{{ $salesTax->clean_tax_rate }}</td>
+                        </tr>
+                    	</tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

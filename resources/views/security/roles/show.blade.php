@@ -332,6 +332,7 @@
 				</p>
 				@foreach([
 				    'view-sales-taxes',
+				    'create-sales-taxes',
 				] as $permission)
 					<div class="panel-block">
 						<toggle-permission :role-id.number="{{ $role->id }}"

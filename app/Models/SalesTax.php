@@ -29,4 +29,13 @@ class SalesTax extends Model
     {
         return $this->belongsTo(CompanyJournal::class, 'tax_account_id');
     }
+
+    /**
+     * Just to remove the useless 0s.
+     *
+     */
+    public function getCleanTaxRateAttribute()
+    {
+        return floatval($this->current_tax_rate) . '%';
+    }
 }

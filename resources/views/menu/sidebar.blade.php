@@ -156,7 +156,7 @@
                                         {{--@endcan--}}
 
                                         @can('view-sales-taxes')
-                                            <sidebar-links-group link="{{ route('purchasing-terms.index') }}"
+                                            <sidebar-links-group link="{{ route('sales-taxes.index') }}"
                                                                  icon="balance-scale"
                                                                  title="Sales Taxes">
                                             </sidebar-links-group>
