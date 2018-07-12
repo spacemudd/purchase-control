@@ -5,7 +5,7 @@
         <input v-if="selected"
                type="text"
                class="input"
-               :value="selected.code + ' - ' + selected.name"
+               :value="selected.code + ' - ' + selected.description"
                @click="selected=search=null"
                readonly>
         <!-- When searching -->
@@ -20,7 +20,7 @@
             <template slot="empty" v-if="!isLoading">No results found</template>
             <template slot-scope="props">
                 <a class="dropdown-item">
-                    {{ props.option.code }} - {{ props.option.name }}
+                    {{ props.option.code }} - {{ props.option.description }}
                 </a>
             </template>
         </b-autocomplete>
