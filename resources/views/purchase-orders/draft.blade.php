@@ -56,12 +56,12 @@
                 @foreach($purchaseOrders as $po)
                     <tr>
                         <td>
-                            <a href="{{ route('purchase-orders.show', ['id' => $po->id]) }}">{{ $po->id }}</a>
+                            <a href="{{ $po->link }}">{{ $po->id }}</a>
                         </td>
                         <td>{{ optional($po->vendor)->name }}</td>
                         <td>{{ optional($po->created_by)->username . ' - ' . optional($po->created_by)->name }}</td>
                         <td>{{ $po->updated_at }}</td>
-                        <td class="has-text-centered"><a href="{{ route('purchase-orders.show', ['id' => $po->id]) }}" class="button is-small is-primary">Show</a></td>
+                        <td class="has-text-centered"><a href="{{ $po->link }}" class="button is-small is-primary">Show</a></td>
                     </tr>
                 @endforeach
                 </tbody>

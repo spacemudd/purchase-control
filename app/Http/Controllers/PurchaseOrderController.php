@@ -122,6 +122,8 @@ class PurchaseOrderController extends Controller
 
         $purchase_order = $this->service->show($id);
 
+        if($purchase_order->purchase_order_main_id) return abort(404);
+
         $purchaseTermsTypes = PurchaseTermsType::get();
 
         return view('purchase-orders.show', compact('purchase_order', 'purchaseTermsTypes'));

@@ -59,10 +59,10 @@
                 @foreach($data as $record)
                     <tr>
                         <td>
-                            <a href="{{ route('purchase-orders.show', ['id' => $record->id]) }}">{{ $record->id }}</a>
+                            <a href="{{ $record->link }}">{{ $record->id }}</a>
                         </td>
                         <td>
-                            <a href="{{ route('purchase-orders.show', ['id' => $record->id]) }}">{{ $record->number }}</a>
+                            <a href="{{ $record->link }}">{{ $record->number }}</a>
                         </td>
                         <td>{{ optional($record->department)->department_human }}</td>
                         <td>{{ optional($record->employee)->display_name }}</td>

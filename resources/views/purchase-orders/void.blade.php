@@ -57,14 +57,14 @@
                 @foreach($data as $record)
                     <tr>
                         <td>
-                            <a href="{{ route('purchase-orders.show', ['id' => $record->id]) }}">{{ $record->order_number }}</a>
+                            <a href="{{ $record->link }}">{{ $record->order_number }}</a>
                         </td>
                         <td>{{ $record->department->department_human }}</td>
                         <td>{{ $record->employee->display_name }}</td>
                         <td>{{ $record->created_by->display_name }}</td>
                         <td>{{ $record->created_at }}</td>
                         <td>{{ $record->updated_at }}</td>
-                        <td class="has-text-centered"><a href="{{ route('purchase-orders.show', ['id' => $record->id]) }}" class="button is-small is-primary">Show</a></td>
+                        <td class="has-text-centered"><a href="{{ $record->link }}" class="button is-small is-primary">Show</a></td>
                     </tr>
                 @endforeach
                 </tbody>

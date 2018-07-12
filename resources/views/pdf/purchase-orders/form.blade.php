@@ -128,7 +128,7 @@
                 <th class="center">Description of items to be supplied</th>
                 <th class="center">Qty</th>
                 <th class="center">
-                    Currency: <u>SR</u><br/>
+                    Currency: <u>{{ $data->currency }}</u><br/>
                     Total Price
                 </th>
             </tr>

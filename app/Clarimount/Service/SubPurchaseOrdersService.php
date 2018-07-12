@@ -34,19 +34,29 @@ class SubPurchaseOrdersService
         $newSubPo = DB::transaction(function() use ($data, $po_id) {
 
             $mainPo = PurchaseOrder::where('id', $po_id)->sharedLock()->firstOrFail();
-            $mainPo->vendor_id === $data['vendor_id'] ?
-                $data['type'] = PurchaseOrder::TYPE_MULTI_EMPLOYEES :
-                $data['type'] = PurchaseOrder::TYPE_MULTI_VENDORS;
 
             $data['status'] = PurchaseOrder::NEW;
+            $data['date'] = now();
             $data['purchase_order_main_id'] = $mainPo->id;
 
             if(isset($data['billing_address_id'])) {
                 $data['billing_address_json'] = Address::where('id', $data['billing_address_id'])->firstOrFail();
+            } else {
+                $firstBillingAddress = Address::billing()->first();
+                if($firstBillingAddress) {
+                    $data['billing_address_id'] = $firstBillingAddress->id;
+                    $data['billing_address_json'] = $firstBillingAddress;
+                }
             }
 
             if(isset($data['shipping_address_id'])) {
                 $data['shipping_address_json'] = Address::where('id', $data['shipping_address_id'])->firstOrFail();
+            } else {
+                $shippingAddress = Address::shipping()->first();
+                if($shippingAddress) {
+                    $data['shipping_address_id'] = $shippingAddress->id;
+                    $data['shipping_address_json'] = $shippingAddress;
+                }
             }
 
             if(isset($data['vendor_id'])) {
@@ -68,9 +78,9 @@ class SubPurchaseOrdersService
     public function validate(array $data)
     {
         return Validator::make($data, [
-            'vendor_id' => 'required|exists:vendors,id',
-            'shipping_address_id' => 'required|exists:addresses,id',
-            'billing_address_id' => 'required|exists:addresses,id',
+            'vendor_id' => 'nullable|exists:vendors,id',
+            'shipping_address_id' => 'nullable|exists:addresses,id',
+            'billing_address_id' => 'nullable|exists:addresses,id',
             'currency' => 'required|string|max:3',
         ]);
     }
@@ -82,12 +92,19 @@ class SubPurchaseOrdersService
      * If multi-requests, it appends '-1' and increments.
      *
      * @param $id
+     * @return mixed
      */
     public function save($id)
     {
         $subPo = DB::transaction(function() use ($id) {
             $subPo = PurchaseOrder::where('id', $id)->sharedLock()->firstOrFail();
             $mainPo = PurchaseOrder::where('id', $subPo->purchase_order_main_id)->sharedLock()->firstOrFail();
+
+            $mainPo->vendor_id === $subPo->vendor_id ?
+                $subPo->update(['type' => PurchaseOrder::TYPE_MULTI_EMPLOYEES]) :
+                $subPo->update(['type' => PurchaseOrder::TYPE_MULTI_VENDORS]);
+
+            $subPo->refresh();
 
             // todo: validation.
             $multiVendor = $this->isPoMultiVendor($subPo);

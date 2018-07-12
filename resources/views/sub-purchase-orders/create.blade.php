@@ -33,96 +33,16 @@
 
 @section('content')
     <div class="columns">
-        <div class="column">
-
-            <p class="title is-4">{{ $purchaseOrder->number }}</p>
-            <p class="subtitle">{{ $purchaseOrder->vendor->name }}</p>
-
+        <div class="column is-8">
             <form action="{{ route('purchase-orders.sub.store', ['id' => $purchaseOrder->id]) }}" method="post">
                 {{ csrf_field() }}
 
-                {{-- Suppliers --}}
-                <div class="columns">
-                    <div class="column is-3">
-                        <p class="title is-5">Supplier</p>
-                    </div>
-                    <div class="column is-4">
-                        <div class="field">
-                            <label for="supplier_id" class="label">Supplier</label>
-
-                            <div class="control">
-                                <select-vendors name="vendor_id"
-                                                url="{{ route('api.search.vendor') }}">
-                                </select-vendors>
-
-                                <span class="help">Search by code or name</span>
-                                @if ($errors->has('supplier_id'))
-                                    <span class="help is-danger">
-								{{ $errors->first('supplier_id') }}
-							</span>
-                                @endif
-                            </div>
-                        </div>
-                        <hr>
-                    </div>
-                </div>
-
-                {{-- Shipping Address --}}
-                <div class="columns">
-                    <div class="column is-3">
-                        <p class="title is-5">Shipping Address</p>
-                    </div>
-                    <div class="column is-4">
-                        <div class="field">
-                            <label for="shipping_address_id" class="label">Shipping Address</label>
-
-                            <p class="control">
-                                <select-address name="shipping_address_id"
-                                                url="{{ route('api.search.shipping-addresses') }}">
-                                </select-address>
-
-                                @if ($errors->has('shipping_address_id'))
-                                    <span class="help is-danger">
-								{{ $errors->first('shipping_address_id') }}
-							</span>
-                                @endif
-                            </p>
-                        </div>
-                        <hr>
-                    </div>
-                </div>
-
-                {{-- Billing Address --}}
-                <div class="columns">
-                    <div class="column is-3">
-                        <p class="title is-5">Billing Address</p>
-                    </div>
-                    <div class="column is-4">
-                        <div class="field">
-                            <label for="billing_address_id" class="label">Billing Address</label>
-
-                            <p class="control">
-                                <select-address name="billing_address_id"
-                                                url="{{ route('api.search.billing-addresses') }}">
-                                </select-address>
-
-                                @if ($errors->has('billing_address_id'))
-                                    <span class="help is-danger">
-								{{ $errors->first('billing_address_id') }}
-							</span>
-                                @endif
-                            </p>
-                        </div>
-                        <hr>
-                    </div>
-                </div>
-
                 {{-- Currency --}}
                 <div class="columns">
-                    <div class="column is-3">
+                    <div class="column is-4">
                         <p class="title is-5">Purchase Currency</p>
                     </div>
-                    <div class="column is-4">
+                    <div class="column is-6">
                         <div class="field">
                             <label for="currency" class="label">Currency</label>
 
@@ -143,6 +63,70 @@
                                 @endif
                             </div>
                         </div>
+                        <hr>
+                    </div>
+                </div>
+
+                {{-- Requested for --}}
+                <div class="columns">
+                    <div class="column is-4"><p class="title is-5">Request Information</p></div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="supplier_id" class="label">Employee (Requested by)</label>
+
+                            <div class="control">
+                                <select-employee name="requested_by_employee_id"
+                                                 url="{{ route('api.search.employee') }}">
+                                </select-employee>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="supplier_id" class="label">Employee (Requested for)</label>
+
+                            <div class="control">
+                                <select-employee name="requested_for_employee_id"
+                                                 url="{{ route('api.search.employee') }}"
+                                                 tabindex="1"
+                                >
+                                </select-employee>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="supplier_id" class="label">Charged Cost Center</label>
+
+                            <div class="control">
+                                <select-department name="cost_center_id"
+                                                   url="{{ route('api.search.department') }}">
+                                </select-department>
+                                <p class="help">Search by department code or name</p>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+
+                {{-- Suppliers --}}
+                <div class="columns">
+                    <div class="column is-4">
+                        <p class="title is-5">Supplier</p>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="supplier_id" class="label">Supplier</label>
+
+                            <div class="control">
+                                <select-vendors name="vendor_id"
+                                                url="{{ route('api.search.vendor') }}">
+                                </select-vendors>
+
+                                <span class="help">Search by code or name</span>
+                                @if ($errors->has('supplier_id'))
+                                    <span class="help is-danger">
+								{{ $errors->first('supplier_id') }}
+							</span>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -152,7 +136,14 @@
                     <button type="submit" class="button is-primary">Save</button>
                 </div>
             </form>
-
+        </div>
+        <div class="column">
+            <div class="notification">
+                <p class="help">Main PO</p>
+                <p><strong>{{ $purchaseOrder->number }}</strong></p>
+                <p class="help">Main Supplier</p>
+                <p><strong>{{ $purchaseOrder->vendor->name }}</strong></p>
+            </div>
         </div>
     </div>
 @stop

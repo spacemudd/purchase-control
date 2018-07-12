@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Clarimount\Service\PurchaseOrderService;
 use App\Clarimount\Service\SubPurchaseOrdersService;
 use App\Clarimount\Service\VendorBankService;
 use App\Model\PurchaseTermsType;
 use App\Models\PurchaseOrder;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
 
 class PurchaseOrdersSubController extends Controller
 {
     protected $service;
     protected $vendorBankService;
+    protected $poService;
 
-    public function __construct(SubPurchaseOrdersService $service, VendorBankService $vendorBankService)
+    public function __construct(SubPurchaseOrdersService $service, VendorBankService $vendorBankService, PurchaseOrderService $poService)
     {
         $this->service = $service;
         $this->vendorBankService = $vendorBankService;
+        $this->poService = $poService;
     }
 
     /**
@@ -66,6 +68,19 @@ class PurchaseOrdersSubController extends Controller
      */
     public function save($purchase_order_id, $id)
     {
+        // todo: make this api/json friendly.
+        if(!$this->poService->isReadyToSave($id)) {
+            session()->flash('status', 'is-warning');
+            session()->flash('messages', ['Purchase order has missing tokens. Fields must be completed first.']);
+            return redirect()->back();
+        }
+
+        if(!$this->poService->show($id)->items()->count()) {
+            session()->flash('status', 'is-warning');
+            session()->flash('messages', ['There are no items attached.']);
+            return redirect()->back();
+        }
+
         $subPo = $this->service->save($id);
 
         return redirect()->route('purchase-orders.sub.show', ['purchase_order_id' => $purchase_order_id, 'id' => $subPo->id]);

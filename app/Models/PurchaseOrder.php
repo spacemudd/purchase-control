@@ -168,6 +168,13 @@ class PurchaseOrder extends Model implements AuditableContract
 
     public function getLinkAttribute()
     {
+        if($this->purchase_order_main_id) {
+            return route('purchase-orders.sub.show', [
+                'purchase_order_id' => $this->purchase_order_main_id,
+                'id' => $this->id,
+                ]);
+        }
+
         return route('purchase-orders.show', ['id' => $this->id]);
     }
 

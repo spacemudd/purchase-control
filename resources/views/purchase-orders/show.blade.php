@@ -239,7 +239,6 @@
 										</edit-employee-token>
 									</td>
 								</tr>
-
 							</tbody>
 						</table>
 					</div>
