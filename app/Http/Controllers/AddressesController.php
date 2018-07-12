@@ -12,12 +12,14 @@ class AddressesController extends Controller
         $deletedAddressesCounter = Address::onlyTrashed()->count();
         $activeAddressesCounter = Address::count();
 
-        $addresses = Address::get();
+        $shippingAddresses = Address::shipping()->get();
+        $billingAddresses = Address::billing()->get();
 
         return view('addresses.index', compact(
             'deletedAddressesCounter',
             'activeAddressesCounter',
-            'addresses'
+            'shippingAddresses',
+            'billingAddresses'
             ));
     }
 
