@@ -24,6 +24,11 @@
 		<div class="column is-4">
 			<div class="panel">
 				<p class="panel-heading">My Queue</p>
+				<div class="panel-block">
+					<div style="width:100%;" class="is-full has-text-centered is-fullwidth is-italic">
+						<p class="has-text-grey">All clear!</p>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
