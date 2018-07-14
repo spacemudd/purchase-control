@@ -150,7 +150,7 @@ class PurchaseOrderService
         foreach($currentAvailableTerms as $term) {
             $confirmTermsInJson[$term->type->name][] = [
                 'value' => $term,
-                'enabled' => false,
+                'enabled' => $term->enabled,
             ];
         }
 

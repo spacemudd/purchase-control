@@ -265,6 +265,10 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::get('sales-taxes', 'Api\SalesTaxesController@index')->name('api.sales-taxes');
     Route::post('sales-taxes/calc', 'Api\SalesTaxesController@calculate')->name('api.sales-taxes.calculate');
 
+    // Terms.
+    Route::post('terms/enable', 'PurchasingTermsController@enable')->name('api.terms.enable');
+    Route::post('terms/disable', 'PurchasingTermsController@disable')->name('api.terms.disable');
+
     Route::prefix('search')->group(function() {
         Route::get('items', 'Api\ItemController@search');
         Route::get('item-templates', 'Api\ItemTemplateController@search')->name('api.search.item-templates');

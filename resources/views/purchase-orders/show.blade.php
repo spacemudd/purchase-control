@@ -371,7 +371,7 @@
 						<div class="column is-4">
 							<p class="title is-7">Other Terms</p>
 						</div>
-						<div class="column">
+						<div class="column is-size-7">
 							<other-terms-token :id.number="{{ $purchase_order->id }}"
 											   name="other_terms"
 											   value="{{ $purchase_order->other_terms  }}"

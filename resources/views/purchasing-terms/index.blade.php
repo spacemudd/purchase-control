@@ -36,10 +36,18 @@
                     @foreach($purchasingTypes as $type)
                         <tr>
                             <td><strong>{{ $type->name }}</strong></td>
+                            <td></td>
                         </tr>
                         @foreach($type->terms as $term)
                             <tr>
                                 <td><span style="padding-left:1rem">{{ $term->value }}</span></td>
+                                <td>
+                                    <toggle-default-purchase-term :term-id.number="{{ $term->id }}"
+                                                          :enabled-prop.number="{{ $term->enabled ? 'true' : 'false' }}"
+                                    >
+                                        Enabled by default
+                                    </toggle-default-purchase-term>
+                                </td>
                             </tr>
                         @endforeach
                     @endforeach

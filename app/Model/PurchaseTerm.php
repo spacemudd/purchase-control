@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PurchaseTerm extends Model
 {
-    protected $fillable = ['type_id', 'name', 'value'];
+    protected $fillable = ['type_id', 'name', 'value', 'enabled'];
 
     public function purchase_order()
     {
