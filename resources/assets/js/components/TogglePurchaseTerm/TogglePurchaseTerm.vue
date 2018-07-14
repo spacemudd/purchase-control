@@ -1,7 +1,7 @@
 <template>
     <div class="field" @click.prevent="toggle()">
         <div class="button is-outlined is-link is-small is-loading" v-if="isLoading"></div>
-        <b-checkbox v-model="enabled" v-else>
+        <b-checkbox v-model="enabled" size="is-small" v-else>
             <slot></slot>
         </b-checkbox>
     </div>

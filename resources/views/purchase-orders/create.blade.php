@@ -115,20 +115,6 @@
 						@endif
 					</div>
 				</div>
-				<div class="field">
-					<label for="delivery_date" class="label">Delivery Date</label>
-
-					<div class="control">
-						<b-datepicker name="delivery_date"></b-datepicker>
-
-						@if ($errors->has('delivery_date'))
-							<span class="help is-danger">
-								{{ $errors->first('delivery_date') }}
-							</span>
-						@endif
-					</div>
-				</div>
-				<hr>
 			</div>
 		</div>
 
