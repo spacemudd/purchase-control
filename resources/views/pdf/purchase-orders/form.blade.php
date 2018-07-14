@@ -136,13 +136,34 @@
             <tbody>
             @foreach($data->items as $counter => $item)
                 <tr>
-                    <td class="center" rowspan="2">{{ ++$counter }}</td>
-                    <td rowspan="2">{{ optional($item->item_catalog)->display_name }}</td>
+                    <td class="center" rowspan="4">{{ ++$counter }}</td>
+                    <td rowspan="4">{{ optional($item->item_catalog)->display_name }}</td>
                     <td class="center">{{ $item->qty }}</td>
                     <td class="right">
-                        {{ $item->subtotal }}<br/>
+                        {{ $item->subtotal_before_discount }}<br/>
                     </td>
                 </tr>
+                @if($item->discount_flat)
+                <tr>
+                    <td class="center">Discount</td>
+                    <td class="right">
+                        -{{ $item->discount_flat }}<br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="center">Subtotal</td>
+                    <td class="right">{{ $item->subtotal }}</td>
+                </tr>
+                @else
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                @endif
                 <tr>
                     <td class="center">VAT</td>
                     <td class="right">{{ $item->total_taxes_amount }}</td>

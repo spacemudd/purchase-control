@@ -291,6 +291,7 @@
                             <th>Item</th>
                             <th class="has-text-right">Quantity</th>
                             <th class="has-text-right">Unit Price</th>
+                            <th class="has-text-right">Discount</th>
                             <th>Tax</th>
                             <th class="has-text-right">Subtotal</th>
                         </tr>
@@ -301,6 +302,7 @@
                                 <td>{{ $item->item_catalog->display_name }}</td>
                                 <td class="has-text-right">{{ $item->qty }}</td>
                                 <td class="has-text-right">{{ $item->unit_price }}</td>
+                                <td class="has-text-right">{{ $item->discount_flat }}</td>
                                 <td>
                                     @if($item->taxes)
                                         <div class="tags">

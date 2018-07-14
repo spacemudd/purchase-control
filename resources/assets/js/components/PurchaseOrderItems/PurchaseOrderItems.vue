@@ -7,6 +7,7 @@
         	<th>Item</th>
             <th class="has-text-right">Quantity</th>
             <th class="has-text-right">Price</th>
+            <th class="has-text-right">Discount</th>
             <th class="has-text-right">Tax</th>
             <th class="has-text-right">Subtotal</th>
             <th></th>
@@ -51,6 +52,12 @@
                     <td style="width:100px">
                         <b-input class="has-text-right" type="number" v-model.number="item.unit_price"></b-input>
                     </td>
+                    <td style="width:100px">
+                        <span v-for="discount in item.discounts">
+                            <!-- if flat -->
+                            <b-input class="has-text-right" type="number" v-model.number="discount.amount"></b-input>
+                        </span>
+                    </td>
                     <td style="width:170px">
                         <v-select multiple :options="taxesOptions" label="display_name" v-model="item.taxes" @input="option => itemTaxesEdit(option, item)">
                             <template slot="no-options">
@@ -69,7 +76,7 @@
                         </v-select>
                     </td>
                     <td style="width:90px" class="has-text-right is-size-5">
-                        <template v-if="item.unit_price">{{ formatPrice(item.unit_price * item.qty) }}</template>
+                        <template v-if="item.unit_price">{{ formatPrice(item.unit_price * item.qty, item.discounts) }}</template>
                     </td>
                     <td style="width:20px;" class="align-middle has-text-centered">
                         <button class="button is-text has-icon"
@@ -92,6 +99,7 @@
                             <span>Add line</span>
                         </button>
                     </td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td class="has-text-right is-size-5">
@@ -148,7 +156,7 @@
               taxesOptions: [],
               itemsCatalog: [],
               po: [],
-              items: [{item_catalog: '', description: '', qty: '', unit_price: '', taxes: []}],
+              items: [{item_catalog: '', description: '', qty: 1, unit_price: 0, discounts: [{'amount': null}], taxes: []}],
 
               taxesCalculated: [],
             }
@@ -156,7 +164,14 @@
       computed: {
         subTotal() {
           return this.items.reduce((total, item) => {
-            return total + Number(item.unit_price * item.qty);
+            let totalDiscount = 0;
+            if(item.discounts && item.discounts.length) {
+              item.discounts.map((discount) => {
+                totalDiscount += discount.amount;
+              })
+            }
+
+            return total + Number(item.unit_price * item.qty - totalDiscount);
           }, 0);
         },
       },
@@ -185,8 +200,17 @@
                 this.taxesOptions = response.data;
               })
           },
-          formatPrice(value) {
-            let val = (value/1).toFixed(2).replace(',', '.')
+          formatPrice(value, discounts) {
+            let totalDiscount = 0;
+            if(discounts && discounts.length) {
+              discounts.map((discount) => {
+                totalDiscount += discount.amount;
+              })
+            }
+
+            let price = value - totalDiscount;
+
+            let val = (price/1).toFixed(2).replace(',', '.')
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
           },
           onSearch(search, loading) {
@@ -230,7 +254,7 @@
             this.items.splice(index, 1);
           },
           addLine() {
-            this.items.push({item_catalog: '', description: '', qty: '', unit_price: '', taxes: []});
+            this.items.push({item_catalog: '', description: '', qty: 1, unit_price: 0, discounts: [{'amount': null}], taxes: []});
           },
           itemTaxesEdit(taxOption, item) {
             // Calculate the new tax.
@@ -280,8 +304,12 @@
 
               this.$endLoading('SAVING_PO_ITEMS');
             })
-              .catch(error => {
+              .catch(errors => {
                 this.$endLoading('SAVING_PO_ITEMS');
+                this.$toast.open({
+                  type: 'is-danger',
+                  message: errors.response.data.message,
+                });
               })
           },
         }

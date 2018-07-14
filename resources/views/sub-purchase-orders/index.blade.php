@@ -58,7 +58,6 @@
                     <th>Number</th>
                     <th>Supplier</th>
                     <th>Created by</th>
-                    <th>Created at</th>
                     <th>Updated at</th>
                     <th></th>
                 </tr>
@@ -75,9 +74,8 @@
                             <a href="{{ route('purchase-orders.sub.show', ['purchase_order_id' => $purchaseOrder->id, 'id' => $subPo->id]) }}">{{ $subPo->id }}</a>
                         </td>
                         <td>{{ $subPo->number }}</td>
-                        <td>{{ $subPo->vendor->name }}</td>
+                        <td>{{ optional($subPo->vendor)->name }}</td>
                         <td>{{ optional($subPo->created_by)->username . ' - ' . optional($subPo->created_by)->name }}</td>
-                        <td>{{ $subPo->created_at }}</td>
                         <td>{{ $subPo->updated_at }}</td>
                         <td>
                             <a href="{{ route('purchase-orders.sub.show', ['purchase_order_id' => $purchaseOrder->id, 'id' => $subPo->id]) }}"

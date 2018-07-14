@@ -15,6 +15,7 @@ use App\Model\PurchaseTerm;
 use App\Traits\HasFiles;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
@@ -291,11 +292,13 @@ class PurchaseOrder extends Model implements AuditableContract
         $taxes = [];
 
         foreach($this->items as $item) {
-            foreach($item->taxes as $tax) {
-                if(key_exists($tax->display_name, $taxes)) {
-                    $taxes[$tax->display_name] += $tax->amount;
-                } else {
-                    $taxes[$tax->display_name] = $tax->amount;
+            if($item->taxes && count($item->taxes)) {
+                foreach($item->taxes as $tax) {
+                    if(key_exists($tax->display_name, $taxes)) {
+                        $taxes[$tax->display_name] += $tax->amount;
+                    } else {
+                        $taxes[$tax->display_name] = $tax->amount;
+                    }
                 }
             }
         }

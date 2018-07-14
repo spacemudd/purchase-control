@@ -11,6 +11,7 @@
 
 namespace App\Models;
 
+use Brick\Math\RoundingMode;
 use Brick\Money\Money;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Illuminate\Database\Eloquent\Model;
@@ -44,6 +45,7 @@ class PurchaseOrdersItem extends Model implements AuditableContract
         'tax_rate1',
         'tax_amount_1_minor',
         'taxes',
+        'discounts',
     ];
 
 	protected $dates = ['created_at', 'updated_at', 'date', 'received_at', 'warranty_expires_at'];
@@ -55,6 +57,7 @@ class PurchaseOrdersItem extends Model implements AuditableContract
     protected $casts = [
         'taxes' => 'object',
         'subtotal_minor' => 'integer',
+        'discounts' => 'object',
     ];
 
 	public function purchase_order()
@@ -135,5 +138,10 @@ class PurchaseOrdersItem extends Model implements AuditableContract
     public function getQtyAttribute($qty)
     {
         return floatval($qty);
+    }
+
+    public function getSubtotalBeforeDiscountAttribute()
+    {
+         return Money::ofMinor($this->unit_price_minor, 'SAR')->multipliedBy($this->getOriginal('qty'))->getAmount();
     }
 }

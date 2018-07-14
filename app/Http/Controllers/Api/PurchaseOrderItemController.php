@@ -19,6 +19,7 @@ use Brick\Math\RoundingMode;
 use Brick\Money\Money;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PurchaseOrderItemController extends Controller
 {
@@ -114,6 +115,16 @@ class PurchaseOrderItemController extends Controller
      */
 	public function itemsUpdate(Request $request, $poId)
 	{
+	    // Validation.
+        foreach($request->items as $item) {
+            if(!$item['item_catalog']) {
+                if($request->wantsJson()) {
+                    return response()->json(['message' => 'Please fill item code'], 422);
+                }
+            }
+        }
+	    // End of validation
+
 	    $po = PurchaseOrder::draft()->where('id', $poId)->firstOrFail();
 
 	    DB::transaction(function() use ($po, $request) {
@@ -128,13 +139,36 @@ class PurchaseOrderItemController extends Controller
 
                 $unitPrice = Money::of($item['unit_price'], $currency);
                 $subtotal = $unitPrice->multipliedBy($item['qty'], RoundingMode::HALF_UP);
+
                 $data = [
                     'purchase_order_id' => $po->id,
                     'item_template_id' => $item['item_catalog']['id'],
                     'qty' => $item['qty'],
                     'unit_price_minor' => $unitPrice->getMinorAmount()->toInt(),
-                    'subtotal_minor' => $subtotal->getMinorAmount()->toInt(),
                 ];
+
+                if(array_key_exists('discounts', $item) && $item['discounts']) {
+                    $itemId = $item['item_catalog']['id'];
+                    Log::info('Calculating discount for item ID: ' . $itemId);
+                    if($item['discounts']) {
+                        Log::info('Item ID #' . $itemId . ': Subtotal before discount ' . $subtotal->getAmount());
+                        $totalDiscount = $this->calculateDiscounts($item['discounts'], $currency);
+                        $data['discount_flat_minor']  = $totalDiscount->getMinorAmount()->toInt();
+                        $subtotal = $subtotal->minus($totalDiscount);
+
+                        foreach($item['discounts'] as $discount) {
+                            $data['discounts'][] = [
+                                'type' => 'flat',
+                                'amount' => $discount['amount'],
+                            ];
+                        }
+
+                        Log::info('Item ID #' . $itemId . ': Total discount ' . $subtotal->getAmount());
+                        Log::info('Item ID #' . $itemId . ': Subtotal after discount ' . $subtotal->getAmount());
+                    }
+                }
+
+                $data['subtotal_minor'] = $subtotal->getMinorAmount()->toInt();
 
                 $total = $total->plus($subtotal, RoundingMode::HALF_UP);
 
@@ -152,11 +186,34 @@ class PurchaseOrderItemController extends Controller
 
                 $data['total_minor'] = $total->getMinorAmount()->toInt();
 
+                Log::info($data);
+
                 $createdItem = PurchaseOrdersItem::create($data);
             }
 
         }, 2);
 
 	    return $po;
+	}
+
+    /**
+     * Calculates the discounts.
+     *
+     * @param array $discounts
+     * @param string $currency
+     * @return \Brick\Money\Money
+     * @throws \Brick\Money\Exception\MoneyMismatchException
+     */
+	public function calculateDiscounts(array $discounts, string $currency)
+	{
+	    $totalDiscount = Money::zero($currency);
+
+        foreach($discounts as $discount) {
+            if(array_key_exists('amount', $discount) && $discount['amount']) {
+                $totalDiscount = $totalDiscount->plus($discount['amount'], RoundingMode::HALF_UP);
+            }
+        }
+
+        return $totalDiscount;
 	}
 }
