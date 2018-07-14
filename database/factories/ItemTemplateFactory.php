@@ -17,8 +17,8 @@ $factory->define(App\Models\ItemTemplate::class, function (Faker $faker) {
 
     return [
         'code' => 'RT-' . $faker->unique()->randomNumber(),
-        'name' => $faker->words(3, true),
-        'model_number' => $faker->numberBetween(500),
+        'description' => $faker->words(3, true),
+        'model_details' => $faker->numberBetween(500),
         'category_id' => null,
         'manufacturer_id' => $manufacturer_id ?: factory(\App\Models\Manufacturer::class)->create()->id,
         'eol' => $faker->randomNumber(),

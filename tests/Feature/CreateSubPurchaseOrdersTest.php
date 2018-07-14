@@ -87,12 +87,6 @@ class CreateSubPurchaseOrdersTest extends TestCase
 
         $mainPo = factory(PurchaseOrder::class)->create(['number' => 'PO-2018-05-00002']);
 
-        $subPo = factory(PurchaseOrder::class)->create([
-            'purchase_order_main_id' => $mainPo->id,
-            'vendor_id' => factory(Vendor::class)->create()->id,
-            'number' => 'PO-2018-05-00002-A',
-        ]);
-
         $lettersToMake = 10;
         $letter = 'A';
         for($i=0; $i<$lettersToMake; ++$i) {
@@ -102,12 +96,18 @@ class CreateSubPurchaseOrdersTest extends TestCase
                 'number' => null,
             ]);
 
-            $url = route('purchase-orders.sub.save', ['purchase_order_id' => $subPo_2->purchase_order_main_id, 'id' => $subPo->id]);
+            factory(PurchaseOrdersItem::class)->create([
+                'purchase_order_id' => $subPo_2->id,
+            ]);
+
+            $url = route('purchase-orders.sub.save', ['purchase_order_id' => $subPo_2->purchase_order_main_id, 'id' => $subPo_2->id]);
             $this->actingAs($user)->post($url);
 
+            //\Log::info('Asserting letter: ' . ++$letter);
+
             $this->assertDatabaseHas('purchase_orders', [
-                'id' => $subPo->id,
-                'number' => 'PO-2018-05-00002-'.++$letter,
+                //'id' => $subPo_2->id,
+                'number' => 'PO-2018-05-00002-'.$letter++,
             ]);
         }
     }

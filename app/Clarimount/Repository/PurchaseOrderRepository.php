@@ -18,6 +18,7 @@ use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrdersItem;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PurchaseOrderRepository
 {
@@ -73,12 +74,13 @@ class PurchaseOrderRepository
     public function save($id)
     {
         $po = DB::transaction(function() use ($id) {
-
             // The locking.
             $po = $this->model->where('id', $id)->lockForUpdate()->first();
 
             // Some validation.
             if($po->status != PurchaseOrder::NEW) throw new \Exception('PO must be in draft mode to be approved.');
+
+            Log::info('Saving PO ID: ' . $id);
 
             // Calculating the new request number.
             $numberPrefix = 'PO-' . Carbon::now()->format('Y-m');
@@ -88,16 +90,24 @@ class PurchaseOrderRepository
                 'value' => 0,
             ]);
 
+            Log::info('Max number for PO ID:'.$id.' is '.$maxNumber->value);
+
             $number = ++$maxNumber->value;
+
+            Log::info('Memory max number for PO ID:'.$id.' is'.$number);
 
             // The updates.
             $po->number = $maxNumber->name . '-' . sprintf('%05d', $number);
             $po->status = PurchaseOrder:: SAVED;
             $po->save();
 
+            Log::info('Updated PO with the number: '.$po->number);
+
             // Save the new number.
             $maxNumber->value = $number;
             $maxNumber->save();
+
+            Log::info('Updated max number ID: '.$maxNumber->id.' with value: ' . $number);
 
             return $po;
         });

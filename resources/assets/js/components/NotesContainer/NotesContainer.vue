@@ -3,7 +3,7 @@
         <div class="resources-sidebar">
             <h3 class="title is-4">{{ $t('words.notes') }}</h3>
             <div>
-                <button class="button" @click="noteBox=true">{{ $t('words.new-note') }}</button>
+                <button class="button is-small is-warning" @click="noteBox=true">{{ $t('words.new-note') }}</button>
             </div>
         </div>
 

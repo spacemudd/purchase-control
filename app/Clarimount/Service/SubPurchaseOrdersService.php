@@ -4,9 +4,12 @@ namespace App\Clarimount\Service;
 
 use App\Clarimount\Repository\PurchaseOrderRepository;
 use App\Models\Address;
+use App\Models\MaxNumber;
 use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrdersItem;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class SubPurchaseOrdersService
@@ -96,7 +99,9 @@ class SubPurchaseOrdersService
      */
     public function save($id)
     {
+        Log::info('saving po id:'.$id);
         $subPo = DB::transaction(function() use ($id) {
+            Log::info('[Saving] Attempting to save SubPO ID: '. $id);
             $subPo = PurchaseOrder::where('id', $id)->sharedLock()->firstOrFail();
             $mainPo = PurchaseOrder::where('id', $subPo->purchase_order_main_id)->sharedLock()->firstOrFail();
 
@@ -111,43 +116,61 @@ class SubPurchaseOrdersService
 
             if($multiVendor) {
                 // Increment the last PO's lettering if available.
-                $lastSubPo = $mainPo
-                    ->sub_purchase_orders()
-                    ->where('vendor_id', '!=', $mainPo->vendor_id)
-                    ->where('number', '!=', null)
-                    ->orderBy('created_at', 'asc')
-                    ->first();
+                Log::info('[Saving] SubPO ID '.$id.': is multi-vendor');
 
-                if($lastSubPo) {
-                    $foundLetters = substr($lastSubPo->number, strrpos($lastSubPo->number, '-') + 1);
-                    $letters = ++$foundLetters;
+                if(MaxNumber::where('name', $mainPo->number.'-LETTER')->exists()) {
+                    $maxNumber = MaxNumber::where('name', $mainPo->number.'-LETTER')->lockForUpdate()->first();
+                    $maxNumber->value = ++$maxNumber->value;
+                    $maxNumber->save();
                 } else {
-                    $letters = 'A';
+                    $maxNumber = MaxNumber::create([
+                        'name' => $mainPo->number.'-LETTER',
+                        'value' => 'A',
+                    ]);
                 }
 
-                $subPo->number = $mainPo->number.'-'.$letters;
+                Log::info('[Saving] SubPO ID '.$id.': Assigning number '.$mainPo->number.'-'.$maxNumber->value);
+                $subPo->number = $mainPo->number.'-'.$maxNumber->value;
+
             } else {
+                Log::info('[Saving] SubPO ID: '.$id.' has same vendor as its main PO.');
 
-                // Increment the last PO's lettering if available.
-                $lastNumberedSubPo = $mainPo
-                    ->sub_purchase_orders()
-                    ->where('vendor_id', $mainPo->vendor_id)
-                    ->where('number', '!=', null)
-                    ->orderBy('created_at', 'asc')
-                    ->first();
+                if(MaxNumber::where('name', $mainPo->number.'-NUMBER')->exists()) {
+                    $maxNumber = MaxNumber::lockForUpdate()->firstOrCreate([
+                        'name' => $mainPo->number.'-NUMBER',
+                    ], [
+                        'value' => 1,
+                    ]);
 
-                if($lastNumberedSubPo) {
-                    $foundNumbers = substr($lastNumberedSubPo->number, strrpos($lastNumberedSubPo->number, '-') + 1);
-                    $numbers = ++$foundNumbers;
+                    Log::info('[Saving] SubPO ID: '.$id.' Found latest number ' . $maxNumber->value);
+                    $numbers = ++$maxNumber->value;
+                    Log::info('[Saving] SubPO ID: '.$id.' Assigning ' . $numbers);
                 } else {
-                    $numbers = '1';
+                    $maxNumber = MaxNumber::lockForUpdate()->firstOrCreate([
+                        'name' => $mainPo->number.'-NUMBER',
+                    ], [
+                        'value' => 1,
+                    ]);
+                    Log::info('[Saving] SubPO ID '.$id.': no other saved subPOs. Assigning '.$maxNumber->value.' to this sub PO.');
+                    $numbers =  $maxNumber->value;
+                    Log::info('[Saving] SubPO ID: '.$id.' Assigning 1');
                 }
 
                 $subPo->number = $mainPo->number.'-'.$numbers;
+                Log::info('[Saving] SubPO ID: '.$id.' Final number '.$subPo->number);
+            }
+
+            if(PurchaseOrder::where('number', $subPo->number)->exists()) {
+                //dd(PurchaseOrder::get()->toArray());
+                dd('Exists!'.$subPo->number);
             }
 
             $subPo->status = PurchaseOrder::SAVED;
             $subPo->save();
+
+            $maxNumber->save();
+
+            Log::info('[Saving] SubPO ID: '.$id.' Saved with number '.$subPo->number);
 
             return $subPo;
         });

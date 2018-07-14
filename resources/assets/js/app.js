@@ -235,6 +235,8 @@ Vue.component('other-terms-token', require('./components/OtherTermsToken/OtherTe
 Vue.component('edit-employee-token', require('./components/EditEmployeeToken/EditEmployeeToken'));
 Vue.component('edit-department-token', require('./components/EditDepartmentToken/EditDepartmentToken'));
 
+Vue.component('toggle-default-purchase-term', require('./components/ToggleDefaultPurchaseTerm/ToggleDefaultPurchaseTerm'));
+
 /**
  * API/App settings
  */
@@ -290,6 +292,7 @@ const app = new Vue({
         reportsCollapsed: false,
         securityCollapsed: false,
         settingsCollapsed: false,
+        showNotesAndFilesSidebar: false,
     },
     components: {
         'v-select': vSelect,

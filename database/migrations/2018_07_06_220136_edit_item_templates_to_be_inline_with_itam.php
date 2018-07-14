@@ -15,9 +15,12 @@ class EditItemTemplatesToBeInlineWithItam extends Migration
     {
         Schema::table('item_templates', function (Blueprint $table) {
             $table->renameColumn('name', 'description');
-            $table->renameColumn('model_number', 'model_details');
             $table->integer('item_template_type_id')->unsigned()->nullable();
             $table->foreign('item_template_type_id')->references('id')->on('item_template_types');
+        });
+
+        Schema::table('item_templates', function (Blueprint $table) {
+            $table->renameColumn('model_number', 'model_details');
         });
     }
 
@@ -32,6 +35,10 @@ class EditItemTemplatesToBeInlineWithItam extends Migration
             $table->renameColumn('description', 'name');
             $table->dropForeign(['item_template_type_id']);
             $table->dropColumn('item_template_type_id');
+        });
+
+        Schema::table('item_templates', function (Blueprint $table) {
+            $table->renameColumn('model_details', 'model_number');
         });
     }
 }

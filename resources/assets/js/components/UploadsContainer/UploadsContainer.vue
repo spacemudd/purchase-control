@@ -3,7 +3,7 @@
         <div class="resources-sidebar">
             <h3 class="title is-4">{{ $t('words.files') }}</h3>
             <div>
-                <button class="button" @click="newUploadModal=true">{{ $t('words.new-file') }}</button>
+                <button class="button is-small is-warning" @click="newUploadModal=true">{{ $t('words.new-file') }}</button>
             </div>
         </div>
 

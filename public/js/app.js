@@ -30562,6 +30562,8 @@ Vue.component('other-terms-token', __webpack_require__(696));
 Vue.component('edit-employee-token', __webpack_require__(699));
 Vue.component('edit-department-token', __webpack_require__(702));
 
+Vue.component('toggle-default-purchase-term', __webpack_require__(710));
+
 /**
  * API/App settings
  */
@@ -30611,7 +30613,8 @@ var app = new Vue({
         proceduresCollapsed: false,
         reportsCollapsed: false,
         securityCollapsed: false,
-        settingsCollapsed: false
+        settingsCollapsed: false,
+        showNotesAndFilesSidebar: false
     },
     components: {
         'v-select': _vueSelect2.default,
@@ -105841,7 +105844,7 @@ var render = function() {
           _c(
             "button",
             {
-              staticClass: "button",
+              staticClass: "button is-small is-warning",
               on: {
                 click: function($event) {
                   _vm.noteBox = true
@@ -106336,7 +106339,7 @@ var render = function() {
           _c(
             "button",
             {
-              staticClass: "button",
+              staticClass: "button is-small is-warning",
               on: {
                 click: function($event) {
                   _vm.newUploadModal = true
@@ -110630,6 +110633,7 @@ var render = function() {
         : _c(
             "b-checkbox",
             {
+              attrs: { size: "is-small" },
               model: {
                 value: _vm.enabled,
                 callback: function($$v) {
@@ -111780,7 +111784,7 @@ exports.default = {
       taxesOptions: [],
       itemsCatalog: [],
       po: [],
-      items: [{ item_catalog: '', description: '', qty: '', unit_price: '', taxes: [] }],
+      items: [{ item_catalog: '', description: '', qty: 1, unit_price: 0, discounts: [{ 'amount': null }], taxes: [] }],
 
       taxesCalculated: []
     };
@@ -111789,7 +111793,14 @@ exports.default = {
   computed: {
     subTotal: function subTotal() {
       return this.items.reduce(function (total, item) {
-        return total + Number(item.unit_price * item.qty);
+        var totalDiscount = 0;
+        if (item.discounts && item.discounts.length) {
+          item.discounts.map(function (discount) {
+            totalDiscount += discount.amount;
+          });
+        }
+
+        return total + Number(item.unit_price * item.qty - totalDiscount);
       }, 0);
     }
   },
@@ -111821,8 +111832,17 @@ exports.default = {
         _this2.taxesOptions = response.data;
       });
     },
-    formatPrice: function formatPrice(value) {
-      var val = (value / 1).toFixed(2).replace(',', '.');
+    formatPrice: function formatPrice(value, discounts) {
+      var totalDiscount = 0;
+      if (discounts && discounts.length) {
+        discounts.map(function (discount) {
+          totalDiscount += discount.amount;
+        });
+      }
+
+      var price = value - totalDiscount;
+
+      var val = (price / 1).toFixed(2).replace(',', '.');
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
     onSearch: function onSearch(search, loading) {
@@ -111870,7 +111890,7 @@ exports.default = {
       this.items.splice(index, 1);
     },
     addLine: function addLine() {
-      this.items.push({ item_catalog: '', description: '', qty: '', unit_price: '', taxes: [] });
+      this.items.push({ item_catalog: '', description: '', qty: 1, unit_price: 0, discounts: [{ 'amount': null }], taxes: [] });
     },
     itemTaxesEdit: function itemTaxesEdit(taxOption, item) {
       // Calculate the new tax.
@@ -111922,12 +111942,24 @@ exports.default = {
         });
 
         _this6.$endLoading('SAVING_PO_ITEMS');
-      }).catch(function (error) {
+      }).catch(function (errors) {
         _this6.$endLoading('SAVING_PO_ITEMS');
+        _this6.$toast.open({
+          type: 'is-danger',
+          message: errors.response.data.message
+        });
       });
     }
   }
 }; //
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -112185,6 +112217,30 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "td",
+                { staticStyle: { width: "100px" } },
+                _vm._l(item.discounts, function(discount) {
+                  return _c(
+                    "span",
+                    [
+                      _c("b-input", {
+                        staticClass: "has-text-right",
+                        attrs: { type: "number" },
+                        model: {
+                          value: discount.amount,
+                          callback: function($$v) {
+                            _vm.$set(discount, "amount", _vm._n($$v))
+                          },
+                          expression: "discount.amount"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                })
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
                 { staticStyle: { width: "170px" } },
                 [
                   _c(
@@ -112261,7 +112317,12 @@ var render = function() {
                   item.unit_price
                     ? [
                         _vm._v(
-                          _vm._s(_vm.formatPrice(item.unit_price * item.qty))
+                          _vm._s(
+                            _vm.formatPrice(
+                              item.unit_price * item.qty,
+                              item.discounts
+                            )
+                          )
                         )
                       ]
                     : _vm._e()
@@ -112315,6 +112376,8 @@ var render = function() {
             _vm._v(" "),
             _c("td"),
             _vm._v(" "),
+            _c("td"),
+            _vm._v(" "),
             _c("td", { staticClass: "has-text-right is-size-5" }, [
               _vm._v("\n                    Subtotal:\n                ")
             ]),
@@ -112359,6 +112422,8 @@ var staticRenderFns = [
         _c("th", { staticClass: "has-text-right" }, [_vm._v("Quantity")]),
         _vm._v(" "),
         _c("th", { staticClass: "has-text-right" }, [_vm._v("Price")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "has-text-right" }, [_vm._v("Discount")]),
         _vm._v(" "),
         _c("th", { staticClass: "has-text-right" }, [_vm._v("Tax")]),
         _vm._v(" "),
@@ -115071,6 +115136,203 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 706 */,
+/* 707 */,
+/* 708 */,
+/* 709 */,
+/* 710 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(711)
+/* template */
+var __vue_template__ = __webpack_require__(712)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ToggleDefaultPurchaseTerm\\ToggleDefaultPurchaseTerm.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-a504485e", Component.options)
+  } else {
+    hotAPI.reload("data-v-a504485e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 711 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        termId: {
+            type: Number,
+            required: true
+        },
+        enabledProp: {
+            type: Boolean,
+            required: true
+        }
+    },
+    data: function data() {
+        return {
+            enabled: false,
+            isLoading: false
+        };
+    },
+    mounted: function mounted() {
+        this.enabled = this.enabledProp;
+    },
+
+    methods: {
+        toggle: function toggle() {
+            if (!this.isLoading) {
+                if (this.enabled) {
+                    this.disabled();
+                } else {
+                    this.enable();
+                }
+            }
+        },
+        enable: function enable() {
+            var _this = this;
+
+            this.isLoading = true;
+
+            axios.post(this.apiUrl() + '/terms/enable', {
+                term_id: this.termId
+            }).then(function () {
+                _this.isLoading = false;
+                _this.enabled = true;
+                _this.$toast.open({
+                    duration: 500,
+                    message: 'Term enabled',
+                    type: 'is-success'
+                });
+            }).catch(function () {
+                _this.isLoading = false;
+                alert('Error occurred');
+            });
+        },
+        disabled: function disabled() {
+            var _this2 = this;
+
+            this.isLoading = true;
+
+            axios.post(this.apiUrl() + '/terms/disable', {
+                term_id: this.termId
+            }).then(function () {
+                _this2.isLoading = false;
+                _this2.enabled = false;
+                _this2.$toast.open({
+                    duration: 500,
+                    message: 'Term disabled',
+                    type: 'is-success'
+                });
+            }).catch(function () {
+                alert('Error occurred');
+            });
+        }
+    }
+};
+
+/***/ }),
+/* 712 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "field",
+      on: {
+        click: function($event) {
+          $event.preventDefault()
+          _vm.toggle()
+        }
+      }
+    },
+    [
+      _vm.isLoading
+        ? _c("div", {
+            staticClass: "button is-outlined is-link is-small is-loading"
+          })
+        : _c(
+            "b-checkbox",
+            {
+              attrs: { size: "is-small" },
+              model: {
+                value: _vm.enabled,
+                callback: function($$v) {
+                  _vm.enabled = $$v
+                },
+                expression: "enabled"
+              }
+            },
+            [_vm._t("default")],
+            2
+          )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-a504485e", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
