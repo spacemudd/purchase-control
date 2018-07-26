@@ -1,4 +1,4 @@
-CREATING_APPROVER<template>
+<template>
     <div class="columns">
         <div class="column is-4 is-offset-4">
             <!-- Form Errors -->

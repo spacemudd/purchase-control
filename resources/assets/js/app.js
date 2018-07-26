@@ -237,15 +237,17 @@ Vue.component('edit-department-token', require('./components/EditDepartmentToken
 
 Vue.component('toggle-default-purchase-term', require('./components/ToggleDefaultPurchaseTerm/ToggleDefaultPurchaseTerm'));
 
+Vue.component('item-catalog-create-modal', require('./components/ItemCatalogCreateModal/ItemCatalogCreateModal'));
+
 /**
  * API/App settings
  */
 const apiVersion = '1';
 
 // if(process.env.NODE_ENV === 'production') {
-     var envUrl = window.location.origin + '/PMS';
+//      var envUrl = window.location.origin + '/PMS';
 // } else {
-//    var envUrl = window.location.origin;
+   var envUrl = window.location.origin;
 // }
 
 Vue.mixin({

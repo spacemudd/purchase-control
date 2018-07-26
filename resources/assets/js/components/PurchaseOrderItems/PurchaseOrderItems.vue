@@ -98,6 +98,10 @@
                             <span class="icon"><i class="fa fa-plus"></i></span>
                             <span>Add line</span>
                         </button>
+                        <button class="button is-small is-text has-icon" @click="showCreateItemCatalogModal">
+                            <span class="icon"><i class="fa fa-plus"></i></span>
+                            <span>New Item</span>
+                        </button>
                     </td>
                     <td></td>
                     <td></td>
@@ -291,6 +295,9 @@
                 item.unit_price = option.unit_price;
               }
             }
+          },
+          showCreateItemCatalogModal() {
+            this.$store.commit('itemCatalog/showCreateModal', true);
           },
           save() {
             this.$startLoading('SAVING_PO_ITEMS');
