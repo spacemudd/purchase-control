@@ -76,4 +76,58 @@
 		</div>
 	@endcan
 
+	{{--
+	@can('view-purchase-orders')
+		<div class="columns">
+			<div class="column">
+				<table class="table is-fullwidth is-narrow is-size-7">
+					<colgroup>
+						<col style="width:5%;">
+						<col style="width:15%;">
+						<col style="width:25%;">
+						<col style="width:25%;">
+						<col style="width:15%;">
+						<col style="width:15%;">
+					</colgroup>
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>Purchase Order Number</th>
+						<th>Department</th>
+						<th>Employee</th>
+						<th>Created by</th>
+						<th>Updated at</th>
+						<th></th>
+					</tr>
+					</thead>
+					<tbody>
+					@if($data->total() == 0)
+						<tr>
+							<td class="has-text-centered" style="line-height:50px;" colspan="6">No data to display</td>
+						</tr>
+					@endif
+					@foreach($data as $record)
+						<tr>
+							<td>
+								<a href="{{ $record->link }}">{{ $record->id }}</a>
+							</td>
+							<td>
+								<a href="{{ $record->link }}">{{ $record->number }}</a>
+							</td>
+							<td>{{ optional($record->cost_center)->display_name }}</td>
+							<td>{{ optional($record->requested_by_employee)->display_name }}</td>
+							<td>{{ $record->updated_at }}</td>
+							<td>{{ optional($record->created_by)->display_name }}</td>
+							<td class="has-text-right"><a href="{{ $record->link }}" class="button is-small">Show</a></td>
+						</tr>
+					@endforeach
+					</tbody>
+				</table>
+
+				{{ $data->links('vendor.pagination.bulma') }}
+			</div>
+		</div>
+	@endcan
+	--}}
+
 @endsection

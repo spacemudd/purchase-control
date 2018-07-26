@@ -34,7 +34,8 @@
 					<tr>
 						<th>{{ __('auth.username') }}</th>
 						<th>{{ __('words.name') }}</th>
-						<th>{{ __('words.created-at') }}</th>
+						<th>Role</th>
+						<th>Updated at</th>
 						<th class="has-text-right">{{ __('words.actions') }}</th>
 					</tr>
 				</thead>
@@ -43,7 +44,14 @@
 						<tr>
 							<td>{{ $user->username }}</td>
 							<td>{{ $user->name }}</td>
-							<td>{{ $user->created_at }}</td>
+							<td>
+								<ul>
+								@foreach($user->roles as $role)
+									<li>{{ $role->name }}</li>
+								@endforeach
+								</ul>
+							</td>
+							<td>{{ $user->updated_at }}</td>
 							<td class="has-text-right">
 								@can('edit-roles')
 									<a class="button is-primary is-small" href="{{ route('users.show', ['id' => $user->id]) }}">
