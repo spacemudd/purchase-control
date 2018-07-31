@@ -112,143 +112,37 @@
 </div>
 @endif
 
-{{-- Items --}}
-<div class="row">
-    <div class="col-12-sm">
-        <table class="pure-table pure-table-bordered tight-table">
-            <colgroup>
-                <col style='width:1%;'>
-                <col style='width:50%;'>
-                <col style='width:10%;'>
-                <col style='width:10%;'>
-            </colgroup>
-            <thead>
-            <tr>
-                <th class="center">Item</th>
-                <th class="center">Description of items to be supplied</th>
-                <th class="center">Qty</th>
-                <th class="center">
-                    Currency: <u>{{ $data->currency }}</u><br/>
-                    Total Price
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($data->items as $counter => $item)
-                <tr>
-                    <td class="center" rowspan="4">{{ ++$counter }}</td>
-                    <td rowspan="4">{{ optional($item->item_catalog)->display_name }}</td>
-                    <td class="center">{{ $item->qty }}</td>
-                    <td class="right">
-                        {{ $item->subtotal_before_discount }}<br/>
-                    </td>
-                </tr>
-                @if($item->discount_flat)
-                <tr>
-                    <td class="center">Discount</td>
-                    <td class="right">
-                        -{{ $item->discount_flat }}<br/>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="center">Subtotal</td>
-                    <td class="right">{{ $item->subtotal }}</td>
-                </tr>
-                @else
-                    <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                @endif
-                <tr>
-                    <td class="center">VAT</td>
-                    <td class="right">{{ $item->total_taxes_amount }}</td>
-                </tr>
-            @endforeach
-            <tr>
-                <td colspan="3" class="right"><strong>Total after VAT</strong></td>
-                <td class="right"><strong>{{ $data->total }}</strong></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+@component('pdf.purchase-orders.lines', ['data' => $data])
+@endcomponent
 
-{{-- Terms --}}
-@if($data->terms_json)
-    <div style="padding:10px;margin:20px 0;">
-        @if(isset($data->terms_json->Others))
-            <h4>Other Terms</h4>
-            <p style="margin-left: 29px;">
-                {!! nl2br($data->terms_json->Others) !!}
-            </p>
-        @endif
-            @foreach($data->terms_json as $type => $terms)
-                @if($type === 'Others')
-                    @break
-                @endif
-                <h4>{{ $type }}</h4>
-                <ul>
-                    @foreach($terms as $term)
-                        @if($term->value)
-                            <li>{{ $term->value->value }}:
-                                @if(isset($term->enabled) && $term->enabled)
-                                    No ☐ <b>Yes ☒</b>
-                                @else
-                                    No ☒ <b>Yes ☐</b>
-                                @endif
-                            </li>
-                        @endif
-                    @endforeach
-                </ul>
-            @endforeach
-    </div>
-@endif
+<div style="page-break-inside: avoid !important;">
 
-{{-- Signatures block --}}
-<div>
-    <strong>For and on behalf of Arab National Bank</strong>
-    <div class="row" style="margin-top:100px;">
-        <div class="col-4-sm center">
-            <div style="border-top:2px solid black;width:100%;font-size:11px;">
-                <strong>Abdullah S. Alsowayel<br/>
-                    Head of Administration Services Center</strong>
-            </div>
+    {{-- Terms --}}
+    @component('pdf.purchase-orders.terms', ['data' => $data])
+    @endcomponent
+
+    {{-- Signatures block --}}
+    @component('pdf.purchase-orders.signatures-block', ['data' => $data])
+    @endcomponent
+
+    {{-- Footer --}}
+    {{--
+    <div class="row" style="font-size:11px;">
+        <div class="col-6-sm">
+            <strong>arab national bank Saudi Stock Co. Paid up Capital S.R. 10,000 Million</strong><br/>
+            P.O. Box 56921, Riyadh 11564 - Kingdom of Saudi Arabia<br/>
+            Tel +966 11 402 9000 Fax +966 11 402 7747<br/>
         </div>
-        <div class="col-4-sm center">
-
-        </div>
-        <div class="col-4-sm center">
-            <div style="border-top:2px solid black;width:100%;font-size:11px;">
-                <strong>Mahmoud H. Al-Enezi<br/>
-                    Procurement Manager - Presmises & Admin</strong>
-            </div>
+        <div class="col-6-sm right" dir="rtl">
+            <strong>البنك العربي الوطني شركة مساهمة سعودية رأس المال المدفوع 10,000 مليون ريال</strong><br/>
+            ص.ب. 56921، الـــريـــــــــــاض 11574 - المملــكــة العــربـــيـــة الـسـعـوديـــة<br/>
+            تلفون <span dir="ltr">+966 11 402 9000</span> فاكس <span dir="ltr">+966 11 402 7747</span>
         </div>
     </div>
-    <hr>
-    <p class="center" style="font-size:11px;">The accompanying Terms and Conditions form an integral part of this Purchase Order</p>
-    <p class="center" style="font-size:10px;">Prepared by {{ $data->created_by->username }} - {{ $data->created_by->name }}</p>
-</div>
+    --}}
 
-{{-- Footer --}}
-{{--
-<div class="row" style="font-size:11px;">
-    <div class="col-6-sm">
-        <strong>arab national bank Saudi Stock Co. Paid up Capital S.R. 10,000 Million</strong><br/>
-        P.O. Box 56921, Riyadh 11564 - Kingdom of Saudi Arabia<br/>
-        Tel +966 11 402 9000 Fax +966 11 402 7747<br/>
-    </div>
-    <div class="col-6-sm right" dir="rtl">
-        <strong>البنك العربي الوطني شركة مساهمة سعودية رأس المال المدفوع 10,000 مليون ريال</strong><br/>
-        ص.ب. 56921، الـــريـــــــــــاض 11574 - المملــكــة العــربـــيـــة الـسـعـوديـــة<br/>
-        تلفون <span dir="ltr">+966 11 402 9000</span> فاكس <span dir="ltr">+966 11 402 7747</span>
-    </div>
+{{-- End of page-break-inside: avoid --}}
 </div>
---}}
 
 </body>
 </html>
