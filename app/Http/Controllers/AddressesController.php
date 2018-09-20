@@ -15,7 +15,10 @@ class AddressesController extends Controller
         $shippingAddresses = Address::shipping()->get();
         $billingAddresses = Address::billing()->get();
 
+        $addresses = Address::get();
+
         return view('addresses.index', compact(
+            'addresses',
             'deletedAddressesCounter',
             'activeAddressesCounter',
             'shippingAddresses',

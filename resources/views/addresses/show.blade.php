@@ -34,31 +34,43 @@
                 <input type="hidden" name="_method" value="delete">
                 <button class="button is-small is-danger">Archive</button>
             </form>
-            {{--
             <a href="{{ route('addresses.edit', ['id' => $address->id]) }}"
                class="button is-warning is-small"
                style="margin-left:30px;"
             >Edit</a>
-            --}}
         </div>
     </div>
 
     <div class="columns">
         <div class="column is-6 is-offset-3">
-            <div class="content">
-                <h1 class="title">Type</h1>
-                <p>{{ $address->type_human }}</p>
-                <h1 class="title">Location</h1>
-                <p>{!! nl2br(e($address->location)) !!}</p>
-                <h1 class="title">Department</h1>
-                <p>{{ $address->department }}</p>
-                <h1 class="title">Contact Name</h1>
-                <p>{{ $address->contact_name }}</p>
-                <h1 class="title">Phone</h1>
-                <p>{{ $address->phone }}</p>
-                <h2 class="title">Email</h2>
-                <p>{{ $address->email }}</p>
-            </div>
+            <table class="table is-fullwidth">
+            	<tbody>
+                    <tr>
+                        <th>Type</th>
+                        <td>{{ $address->type_human }}</td>
+                    </tr>
+                    <tr>
+                        <th>Location</th>
+                        <td>{!! nl2br(e($address->location)) !!}</td>
+                    </tr>
+                    <tr>
+                        <th>Department</th>
+                        <td>{{ $address->department }}</td>
+                    </tr>
+                    <tr>
+                        <th>Contact Name</th>
+                        <td>{{ $address->contact_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Phone</th>
+                        <td>{{ $address->phone }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ $address->email }}</td>
+                    </tr>
+            	</tbody>
+            </table>
         </div>
     </div>
 
