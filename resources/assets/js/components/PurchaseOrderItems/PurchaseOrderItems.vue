@@ -75,7 +75,7 @@
                             </template>
                         </v-select>
                     </td>
-                    <td style="width:90px" class="has-text-right is-size-5">
+                    <td style="width:90px" class="has-text-right is-size-7">
                         <template v-if="item.unit_price">{{ formatPrice(item.unit_price * item.qty, item.discounts) }}</template>
                     </td>
                     <td style="width:20px;" class="align-middle has-text-centered">
@@ -106,10 +106,10 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td class="has-text-right is-size-5">
+                    <td class="has-text-right is-size-7">
                         Subtotal:
                     </td>
-                    <td class="has-text-right is-size-5">
+                    <td class="has-text-right is-size-7">
                         {{ formatPrice(subTotal) }}
                     </td>
                 </tr>

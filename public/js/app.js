@@ -113001,7 +113001,7 @@ var render = function() {
               _c(
                 "td",
                 {
-                  staticClass: "has-text-right is-size-5",
+                  staticClass: "has-text-right is-size-7",
                   staticStyle: { width: "90px" }
                 },
                 [
@@ -113078,11 +113078,11 @@ var render = function() {
             _vm._v(" "),
             _c("td"),
             _vm._v(" "),
-            _c("td", { staticClass: "has-text-right is-size-5" }, [
+            _c("td", { staticClass: "has-text-right is-size-7" }, [
               _vm._v("\n                    Subtotal:\n                ")
             ]),
             _vm._v(" "),
-            _c("td", { staticClass: "has-text-right is-size-5" }, [
+            _c("td", { staticClass: "has-text-right is-size-7" }, [
               _vm._v(
                 "\n                    " +
                   _vm._s(_vm.formatPrice(_vm.subTotal)) +
