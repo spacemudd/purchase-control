@@ -1,5 +1,5 @@
 <template>
-    <div v-if="showModal">
+    <div>
         <b-modal :active="showModal" @close="close()">
         <div class="modal-card">
             <div class="modal-card-head">
@@ -115,7 +115,7 @@
             phone: null,
 
             // Loaded by server.
-            staffTypesOptions: [],
+            // staffTypesOptions: [],
 
             // Handled by Vue.
             isLoading: false,
@@ -148,11 +148,11 @@
           },
             close() {
                 this.$store.commit('Employee/setNewEmployeeModal', false);
-                this.reset();
+                // this.reset();
             },
-            reset() {
-                Object.assign(this.$data, initialState());
-            },
+            // reset() {
+            //     Object.assign(this.$data, initialState());
+            // },
             getStaffTypes() {
                 axios.get(this.apiUrl() + '/employees/types').then(response => {
                     this.staffTypesOptions = response.data.types;
@@ -180,7 +180,13 @@
                 }).then(response => {
                     // this.isLoading = false;
                     // this.createdSuccess = true;
-                    window.location = response.data.link;
+                    // window.location = response.data.link;
+                  this.$toast.open({
+                    type: 'is-success',
+                    message: 'Success - ' + this.name,
+                  });
+
+                  this.close();
                 }).catch(error => {
                     alert(error.response.data.message);
                     this.isLoading = false;

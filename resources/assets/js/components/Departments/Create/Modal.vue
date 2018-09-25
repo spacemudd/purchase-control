@@ -1,5 +1,5 @@
 <template>
-    <div v-if="showModal">
+    <div>
         <b-modal :active="showModal" @close="close()">
         <div class="modal-card">
             <div class="modal-card-head">

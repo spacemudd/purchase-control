@@ -66,6 +66,9 @@
 						<select-employee name="requested_by_employee_id"
 										 url="{{ route('api.search.employee') }}">
 						</select-employee>
+						<button type="button" class="is-small button is-text" @click="$store.commit('Employee/setNewEmployeeModal', true)">
+							New
+						</button>
 					</div>
 				</div>
 				<div class="field">
@@ -77,6 +80,9 @@
 										 tabindex="1"
 						>
 						</select-employee>
+						<button type="button" class="is-small button is-text" @click="$store.commit('Employee/setNewEmployeeModal', true)">
+							New
+						</button>
 					</div>
 				</div>
 				<div class="field">
@@ -87,6 +93,9 @@
 										   url="{{ route('api.search.department') }}">
 						</select-department>
 						<p class="help">Search by department code or name</p>
+						<button type="button" class="is-small button is-text" @click="$store.commit('Department/showNewModal', true)">
+							New
+						</button>
 					</div>
 				</div>
 				<hr>
@@ -108,6 +117,11 @@
 						</select-vendors>
 
 						<span class="help">Search by code or name</span>
+
+						<button type="button" class="is-small button is-text" @click="$store.commit('Vendor/setNewModal', true)">
+							New
+						</button>
+
 						@if ($errors->has('supplier_id'))
 							<span class="help is-danger">
 								{{ $errors->first('supplier_id') }}

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="open">
+    <div>
         <b-modal :active="open" @close="close">
             <form @submit.prevent="save()">
                 <div class="modal-card">
@@ -137,8 +137,14 @@
                     email: this.email,
                     website: this.website,
                 }).then(response => {
-                    window.location.href = response.data.link;
+                    // window.location.href = response.data.link;
                     // this.$endLoading('SAVING_VENDOR');
+                      this.$toast.open({
+                        type: 'is-success',
+                        message: 'Success - ' + this.name,
+                      });
+
+                      this.close();
                 }).catch(error => {
                     alert(error.response.data.message);
                     this.$endLoading('SAVING_VENDOR');
