@@ -76044,7 +76044,7 @@ function initialState() {
         phone: null,
 
         // Loaded by server.
-        // staffTypesOptions: [],
+        staffTypesOptions: [],
 
         // Handled by Vue.
         isLoading: false,
