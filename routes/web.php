@@ -154,6 +154,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     // Departments.
     Route::get('departments', 'Api\DepartmentController@index');
     Route::post('departments/show', 'Api\DepartmentController@show');
+    Route::post('departments', 'Api\DepartmentController@store');
 
     // Employees.
     Route::get('employees/paginated/{per_page}', 'Api\EmployeeController@paginatedIndex');

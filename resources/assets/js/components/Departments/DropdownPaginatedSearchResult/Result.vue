@@ -115,5 +115,4 @@
 
         .pointer
             cursor: pointer
-
 </style>

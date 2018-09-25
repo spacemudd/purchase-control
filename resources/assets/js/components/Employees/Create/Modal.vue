@@ -42,6 +42,7 @@
                                             search-endpoint="departments"
                                             @selectedRecord="updateDepartment"
                                     ></simple-search>
+                                    <button type="button" class="button is-text is-small" @click.prevent="newDepartment">New Department</button>
                                 </div>
                             </div>
                         </div>
@@ -141,6 +142,10 @@
             this.getStaffTypes();
         },
         methods: {
+          newDepartment() {
+            this.close();
+            this.$store.commit('Department/showNewModal', true);
+          },
             close() {
                 this.$store.commit('Employee/setNewEmployeeModal', false);
                 this.reset();

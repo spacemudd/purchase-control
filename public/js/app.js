@@ -30399,6 +30399,10 @@ Vue.component('employee-show', __webpack_require__(260));
 Vue.component('create-employee', __webpack_require__(263));
 Vue.component('create-employee-modal', __webpack_require__(266));
 
+// Departments
+Vue.component('create-department', __webpack_require__(724));
+Vue.component('create-department-modal', __webpack_require__(727));
+
 Vue.component('manufacturers', __webpack_require__(269));
 Vue.component('new-manufacturer', __webpack_require__(272));
 // Vue.component('assets', require('./components/Assets/index/index.vue'));
@@ -32865,33 +32869,37 @@ var _state5 = __webpack_require__(165);
 
 var _state6 = _interopRequireDefault(_state5);
 
-var _state7 = __webpack_require__(169);
+var _state7 = __webpack_require__(720);
 
 var _state8 = _interopRequireDefault(_state7);
 
-var _state9 = __webpack_require__(173);
+var _state9 = __webpack_require__(169);
 
 var _state10 = _interopRequireDefault(_state9);
 
-var _state11 = __webpack_require__(177);
+var _state11 = __webpack_require__(173);
 
 var _state12 = _interopRequireDefault(_state11);
 
-var _state13 = __webpack_require__(181);
+var _state13 = __webpack_require__(177);
 
 var _state14 = _interopRequireDefault(_state13);
 
-var _state15 = __webpack_require__(185);
+var _state15 = __webpack_require__(181);
 
 var _state16 = _interopRequireDefault(_state15);
 
-var _state17 = __webpack_require__(189);
+var _state17 = __webpack_require__(185);
 
 var _state18 = _interopRequireDefault(_state17);
 
-var _state19 = __webpack_require__(193);
+var _state19 = __webpack_require__(189);
 
 var _state20 = _interopRequireDefault(_state19);
+
+var _state21 = __webpack_require__(193);
+
+var _state22 = _interopRequireDefault(_state21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32919,19 +32927,22 @@ var store = exports.store = new _vuex2.default.Store({
         'Employee': _extends({
             namespaced: true
         }, _state6.default),
-        'Vendor': _extends({
+        'Department': _extends({
             namespaced: true
         }, _state8.default),
-        'Manufacturer': _extends({
+        'Vendor': _extends({
             namespaced: true
         }, _state10.default),
-        'FileUpload': _extends({
+        'Manufacturer': _extends({
             namespaced: true
         }, _state12.default),
-        'PurchaseRequisition': _extends({ namespaced: true }, _state14.default),
-        'PurchaseRequisitionItem': _extends({ namespaced: true }, _state16.default),
-        'PurchaseOrderItem': _extends({ namespaced: true }, _state18.default),
-        'itemCatalog': _extends({ namespaced: true }, _state20.default)
+        'FileUpload': _extends({
+            namespaced: true
+        }, _state14.default),
+        'PurchaseRequisition': _extends({ namespaced: true }, _state16.default),
+        'PurchaseRequisitionItem': _extends({ namespaced: true }, _state18.default),
+        'PurchaseOrderItem': _extends({ namespaced: true }, _state20.default),
+        'itemCatalog': _extends({ namespaced: true }, _state22.default)
     },
     getters: _helpers2.default
 });
@@ -75911,6 +75922,7 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
 
 function initialState() {
     return {
@@ -75952,6 +75964,10 @@ exports.default = {
     },
 
     methods: {
+        newDepartment: function newDepartment() {
+            this.close();
+            this.$store.commit('Department/showNewModal', true);
+        },
         close: function close() {
             this.$store.commit('Employee/setNewEmployeeModal', false);
             this.reset();
@@ -76150,7 +76166,22 @@ var render = function() {
                                       on: {
                                         selectedRecord: _vm.updateDepartment
                                       }
-                                    })
+                                    }),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "button is-text is-small",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.newDepartment($event)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("New Department")]
+                                )
                               ],
                               1
                             )
@@ -116175,6 +116206,639 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 716 */,
+/* 717 */,
+/* 718 */,
+/* 719 */,
+/* 720 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getters = __webpack_require__(721);
+
+var _getters2 = _interopRequireDefault(_getters);
+
+var _mutations = __webpack_require__(722);
+
+var _mutations2 = _interopRequireDefault(_mutations);
+
+var _actions = __webpack_require__(723);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+  state: {
+    showNewModal: false,
+    form: {
+      code: '',
+      description: '',
+      head_department: ''
+    }
+  },
+
+  getters: _getters2.default,
+  mutations: _mutations2.default,
+  actions: _actions2.default
+};
+
+/***/ }),
+/* 721 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  showNewModal: function showNewModal(state) {
+    return state.showNewModal;
+  },
+  form: function form(state) {
+    return state.form;
+  }
+};
+
+/***/ }),
+/* 722 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    showNewModal: function showNewModal(state, payload) {
+        state.showNewModal = payload;
+    }
+};
+
+/***/ }),
+/* 723 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _vuexLoading = __webpack_require__(6);
+
+var _createActionHelpers = (0, _vuexLoading.createActionHelpers)({
+    moduleName: 'loading'
+}),
+    startLoading = _createActionHelpers.startLoading,
+    endLoading = _createActionHelpers.endLoading;
+
+exports.default = {
+    newDepartment: function newDepartment(context) {
+        var form = this.getters['Department/form'];
+
+        startLoading(context.dispatch, 'CREATING_DEPARTMENT');
+        axios.post(this.getters.apiUrl + '/departments', form).then(function (response) {
+            context.commit('showNewModal', false);
+            endLoading(context.dispatch, 'CREATING_DEPARTMENT');
+        }).catch(function (error) {
+            alert(error.response.data.message);
+            endLoading(context.dispatch, 'CREATING_DEPARTMENT');
+        });
+    }
+};
+
+/***/ }),
+/* 724 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(725)
+/* template */
+var __vue_template__ = __webpack_require__(726)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\Departments\\Create\\Create.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7a9eda8c", Component.options)
+  } else {
+    hotAPI.reload("data-v-7a9eda8c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 725 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: {
+        extraClasses: {
+            type: String,
+            required: false
+        },
+        sidebarLink: {
+            type: Boolean,
+            required: false,
+            default: false
+        }
+    },
+    data: function data() {
+        return {
+            //
+        };
+    },
+    mounted: function mounted() {
+        //
+    },
+
+    methods: {
+        toggleModal: function toggleModal() {
+            this.$emit('openedModal');
+            this.$store.commit('Department/setNewModal', true);
+        }
+    }
+};
+
+/***/ }),
+/* 726 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.sidebarLink
+    ? _c("a", { attrs: { href: "#" }, on: { click: _vm.toggleModal } }, [
+        _c("i", { staticClass: "fa fa-building" }),
+        _vm._v(" "),
+        _c("span", [_c("strong", [_vm._v(_vm._s(_vm.$t("words.department")))])])
+      ])
+    : _c(
+        "button",
+        {
+          staticClass: "button is-primary",
+          class: _vm.extraClasses,
+          on: { click: _vm.toggleModal }
+        },
+        [_vm._v("\n    " + _vm._s(_vm.$t("words.new-department")) + "\n")]
+      )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7a9eda8c", module.exports)
+  }
+}
+
+/***/ }),
+/* 727 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(728)
+/* template */
+var __vue_template__ = __webpack_require__(729)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\Departments\\Create\\Modal.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2a1334df", Component.options)
+  } else {
+    hotAPI.reload("data-v-2a1334df", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 728 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+function initialState() {
+    return {
+        code: '',
+        description: '',
+        head_department: '',
+
+        // Handled by Vue.
+        isLoading: false,
+        createdSuccess: false
+    };
+}
+exports.default = {
+    data: function data() {
+        return initialState();
+    },
+    computed: {
+        showModal: {
+            get: function get() {
+                return this.$store.getters['Department/showNewModal'];
+            }
+        }
+    },
+    mounted: function mounted() {
+        //
+    },
+
+    methods: {
+        close: function close() {
+            this.$store.commit('Department/showNewModal', false);
+            this.reset();
+        },
+        reset: function reset() {
+            Object.assign(this.$data, initialState());
+        },
+        save: function save() {
+            var _this = this;
+
+            this.isLoading = true;
+
+            axios.post(this.apiUrl() + '/departments', {
+                code: this.code,
+                description: this.description,
+                head_department: this.head_department
+            }).then(function (response) {
+                // this.isLoading = false;
+                // this.createdSuccess = true;
+                // window.location = response.data.link;
+                _this.$toast.open({
+                    type: 'is-success',
+                    message: 'New department successfully created'
+                });
+                _this.close();
+            }).catch(function (error) {
+                alert(error.response.data.message);
+                _this.isLoading = false;
+            });
+        }
+    }
+};
+
+/***/ }),
+/* 729 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.showModal
+    ? _c(
+        "div",
+        [
+          _c(
+            "b-modal",
+            {
+              attrs: { active: _vm.showModal },
+              on: {
+                close: function($event) {
+                  _vm.close()
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "modal-card" }, [
+                _c("div", { staticClass: "modal-card-head" }, [
+                  _c("p", { staticClass: "modal-card-title" }, [
+                    _vm._v(
+                      "\n               " +
+                        _vm._s(_vm.$t("words.new-department")) +
+                        "\n            "
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        _vm.save()
+                      }
+                    }
+                  },
+                  [
+                    _c("section", { staticClass: "modal-card-body" }, [
+                      _c("div", { staticClass: "columns is-multiline" }, [
+                        _c("div", { staticClass: "column is-6" }, [
+                          _c("div", { staticClass: "field" }, [
+                            _c("label", { staticClass: "label" }, [
+                              _vm._v(_vm._s(_vm.$t("words.code")) + " "),
+                              _c("span", { staticClass: "has-text-danger" }, [
+                                _vm._v("*")
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("p", { staticClass: "control" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.code,
+                                    expression: "code"
+                                  }
+                                ],
+                                staticClass: "input",
+                                attrs: { required: "" },
+                                domProps: { value: _vm.code },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.code = $event.target.value
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("p", { staticClass: "help" }, [
+                              _vm._v("An identity of the department, e.g. 001.")
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "column is-6" }, [
+                          _c("div", { staticClass: "field" }, [
+                            _c("label", { staticClass: "label" }, [
+                              _vm._v(_vm._s(_vm.$t("words.description")) + " "),
+                              _c("span", { staticClass: "has-text-danger" }, [
+                                _vm._v("*")
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("p", { staticClass: "control" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.description,
+                                    expression: "description"
+                                  }
+                                ],
+                                staticClass: "input",
+                                attrs: { type: "text", required: "" },
+                                domProps: { value: _vm.description },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.description = $event.target.value
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("p", { staticClass: "help" }, [
+                              _vm._v(
+                                "Displayed with the code, e.g. in reports and forms."
+                              )
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "column is-6" }, [
+                          _c("div", { staticClass: "field" }, [
+                            _c("label", { staticClass: "label" }, [
+                              _vm._v(_vm._s(_vm.$t("words.head-of-department")))
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "control" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.head_department,
+                                    expression: "head_department"
+                                  }
+                                ],
+                                staticClass: "input",
+                                attrs: { type: "text" },
+                                domProps: { value: _vm.head_department },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.head_department = $event.target.value
+                                  }
+                                }
+                              })
+                            ])
+                          ])
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("footer", { staticClass: "modal-card-foot" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "button",
+                          attrs: { type: "button" },
+                          on: { click: _vm.close }
+                        },
+                        [_vm._v(_vm._s(_vm.$t("words.cancel")))]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "button is-success",
+                          class: { "is-loading": _vm.isLoading },
+                          attrs: { type: "submit" }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(_vm.$t("words.save")) +
+                              "\n                "
+                          )
+                        ]
+                      )
+                    ])
+                  ]
+                )
+              ])
+            ]
+          )
+        ],
+        1
+      )
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2a1334df", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

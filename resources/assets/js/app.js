@@ -63,6 +63,10 @@ Vue.component('department-show', require('./components/Departments/Show/Show.vue
     Vue.component('create-employee', require('./components/Employees/Create/Create.vue'));
     Vue.component('create-employee-modal', require('./components/Employees/Create/Modal.vue'));
 
+// Departments
+Vue.component('create-department', require('./components/Departments/Create/Create.vue'));
+Vue.component('create-department-modal', require('./components/Departments/Create/Modal.vue'));
+
 Vue.component('manufacturers', require('./components/Manufacturers/Browse/Browse.vue'));
 Vue.component('new-manufacturer', require('./components/Manufacturers/CreateModal/Modal.vue'));
 // Vue.component('assets', require('./components/Assets/index/index.vue'));

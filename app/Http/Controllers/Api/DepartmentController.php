@@ -60,7 +60,13 @@ class DepartmentController extends Controller
 	{
         $this->authorize('create-departments');
 
-		$this->service->store(request());
+        $data = request();
+
+		$department = $this->service->store($data);
+
+		if(request()->expectsJson()) {
+		    return $department;
+        }
 
 		return redirect(route('departments.index'));
 	}
@@ -135,5 +141,4 @@ class DepartmentController extends Controller
 
         return $results;
     }
-
 }

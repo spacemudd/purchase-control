@@ -1,4 +1,5 @@
 {{-- TODO: Remove all of this section or somehow hide it from the view? --}}
+<create-department-modal></create-department-modal>
 <create-employee-modal></create-employee-modal>
 <new-purchase-order></new-purchase-order>
 <new-vendor></new-vendor>
