@@ -38,6 +38,11 @@ class Vendor extends Model implements AuditableContract
 	    return route('vendors.show', ['id' => $this->id]);
 	}
 
+	public function getDisplayNameAttribute()
+	{
+	    return $this->id. ' - ' . $this->name;
+	}
+
 	public function getWebsiteLinkAttribute()
 	{
 	    $url = $this->website;

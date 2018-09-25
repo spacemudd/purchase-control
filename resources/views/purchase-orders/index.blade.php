@@ -76,18 +76,19 @@
 		</div>
 	@endcan
 
-	{{--
+
 	@can('view-purchase-orders')
 		<div class="columns">
 			<div class="column">
 				<table class="table is-fullwidth is-narrow is-size-7">
 					<colgroup>
 						<col style="width:5%;">
-						<col style="width:15%;">
-						<col style="width:25%;">
-						<col style="width:25%;">
+						<col>
 						<col style="width:15%;">
 						<col style="width:15%;">
+						<col style="width:15%;">
+						<col style="width:90px;">
+						<col style="width:90px;">
 					</colgroup>
 					<thead>
 					<tr>
@@ -95,7 +96,7 @@
 						<th>Purchase Order Number</th>
 						<th>Department</th>
 						<th>Employee</th>
-						<th>Created by</th>
+						<th>Supplier</th>
 						<th>Updated at</th>
 						<th></th>
 					</tr>
@@ -116,8 +117,8 @@
 							</td>
 							<td>{{ optional($record->cost_center)->display_name }}</td>
 							<td>{{ optional($record->requested_by_employee)->display_name }}</td>
-							<td>{{ $record->updated_at }}</td>
-							<td>{{ optional($record->created_by)->display_name }}</td>
+							<td>{{ optional($record->vendor)->display_name }}</td>
+							<td>{{ $record->updated_at->format('Y-m-d') }}</td>
 							<td class="has-text-right"><a href="{{ $record->link }}" class="button is-small">Show</a></td>
 						</tr>
 					@endforeach
@@ -128,6 +129,5 @@
 			</div>
 		</div>
 	@endcan
-	--}}
 
 @endsection
