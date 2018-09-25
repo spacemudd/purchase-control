@@ -43,17 +43,25 @@
                         <div class="field">
                             <label class="label">Category</label>
                             <div class="control">
-                                <div class="select is-fullwidth">
-                                    <select v-model="mainCategorySelected">
-                                        <option :value="null"></option>
-                                        <option v-for="category in categories"
-                                                :value="category">{{ category.name }}</option>
-                                    </select>
-                                </div>
+                                <!--<div class="select is-fullwidth">-->
+                                    <!--<select v-model="mainCategorySelected">-->
+                                        <!--<option :value="null"></option>-->
+                                        <!--<option v-for="category in categories"-->
+                                                <!--:value="category">{{ category.name }}</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+                                <b-select v-model="selectedCategory" expanded>
+                                    <optgroup v-for="mainCategory in categories" :label="mainCategory.name">
+                                        <option v-for="category in mainCategory.children" :value="category.id">
+                                            {{ category.name }}
+                                        </option>
+                                    </optgroup>
+                                </b-select>
                             </div>
                         </div>
                     </div>
 
+                    <!--
                     <div class="column is-6">
                         <div class="field">
                             <label class="label">Sub Category</label>
@@ -70,6 +78,7 @@
                             </div>
                         </div>
                     </div>
+                    -->
 
                     <div class="column is-6">
                         <div class="field">
