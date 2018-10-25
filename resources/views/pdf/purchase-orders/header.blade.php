@@ -21,7 +21,7 @@
 
 <div class="row">
     <div class="col-6-sm">
-        <strong>Date: <span style="background-color:yellow;padding:2px;">{{ optional($data->date)->format('d/m/y') }}</span></strong>
+        <strong>Date: <span style="border-bottom:2px solid black;background-color:yellow;padding:2px;">{{ optional($data->date)->format('d/m/y') }}</span></strong>
     </div>
     <div class="col-6-sm" style="text-align: right">
         <strong>Purchase Order Number:</strong> <span style="background-color:yellow;padding:2px;">PreAdm/PO-<b>{{ $data->number ? $data->number : 'DRAFT' }}</b></span>

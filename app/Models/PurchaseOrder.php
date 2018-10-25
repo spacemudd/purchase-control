@@ -71,12 +71,15 @@ class PurchaseOrder extends Model implements AuditableContract
         'requested_for_employee_id',
         'requested_by_employee_id',
         'cost_center_id',
+        'quote_reference_number',
+        'quote_date',
     ];
 
-    protected $dates = ['date', 'delivery_date'];
+    protected $dates = ['date', 'delivery_date', 'quote_date'];
 
     protected $appends = ['date_human', 'delivery_date_human', 'link', 'date_string', 'delivery_date_string', 'status_name',
         'other_terms',
+        'quote_date_string',
         ];
 
     protected $casts = [
@@ -218,6 +221,13 @@ class PurchaseOrder extends Model implements AuditableContract
     {
         if($this->date) {
             return $this->date->toDateString();
+        }
+    }
+
+    public function getQuoteDateStringAttribute()
+    {
+        if($this->quote_date) {
+            return $this->quote_date->toDateString();
         }
     }
 

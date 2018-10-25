@@ -55,7 +55,7 @@
 
 {{-- Shipment and Billing addresses --}}
 <div class="row">
-    <div class="col-2-sm">
+    <div class="col-2-sm" style="margin-right:0px">
         <table class="pure-table pure-table-bordered tight-table" style="width:100%;margin-top:20px;">
             <tbody>
                 <tr><td>Location</td></tr>
@@ -66,7 +66,7 @@
             </tbody>
         </table>
     </div>
-    <div class="col-3-sm">
+    <div class="col-4-sm" style="margin-right:0">
         <table class="pure-table pure-table-bordered tight-table" style="width:100%;">
             <tbody>
             <tr><td><strong>Ship To</strong></td></tr>
@@ -78,7 +78,7 @@
             </tbody>
         </table>
     </div>
-    <div class="col-3-sm">
+    <div class="col-4-sm" style="margin-right:0">
         <table class="pure-table pure-table-bordered tight-table" style="width:100%;">
             <tbody>
             <tr><td><strong>Bill To</strong></td></tr>
@@ -90,8 +90,8 @@
             </tbody>
         </table>
     </div>
-    <div class="col-4-sm">
-        <table class="pure-table pure-table-bordered tight-table" style="width:100%;">
+    <div class="col-2-sm">
+        <table class="pure-table pure-table-bordered tight-table" style="width:180px">
             <tbody>
             <tr><td><strong>Project Code</strong></td></tr>
             <tr style="color:white;"><td style="color:white;">.</td></tr>
@@ -107,7 +107,10 @@
 @if($data->delivery_date)
 <div class="row">
     <div class="col-12-sm">
-        <p>Reference to your Quotation, you are authorized to provide / supply the following not later than <u>{{ optional($data->delivery_date)->format('d-m-Y') }}</u>.</p>
+        <p>Reference to your {!! $data->quote_reference_number ? '<u>Quote Ref. No. '.$data->quote_reference_number.'</u>' : 'Quotation' !!}
+            {!! $data->quote_date_string ? ' dated <u>'.$data->quote_date_string.'</u>' : '' !!},
+            you are authorized to provide / supply the following not later than
+            <u>{{ $data->delivery_date->format('d-m-Y') }}</u> or at your earliest.</p>
     </div>
 </div>
 @endif

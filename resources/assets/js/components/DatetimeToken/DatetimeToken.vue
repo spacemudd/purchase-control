@@ -43,6 +43,14 @@
                 type: String,
                 default: 'TOKEN',
             },
+            displayName: {
+              type: String,
+              default: '',
+            },
+          canEdit: {
+            type: Boolean,
+            default: false,
+          }
         },
         data() {
             return {
@@ -56,15 +64,22 @@
         },
         methods: {
             editToken() {
+              if(this.canEdit) {
                 this.is_editing = true;
                 this.$dialog.prompt({
-                    message: `What's the purchase order date?`,
-                    inputAttrs: {
-                        type: 'date',
-                        placeholder: 'Choose the purchase date',
-                    },
-                    onConfirm: (value) => this.saveToken(value),
+                  message: `What's the purchase order date?`,
+                  inputAttrs: {
+                    type: 'date',
+                    placeholder: 'Choose the purchase date',
+                  },
+                  onConfirm: (value) => this.saveToken(value),
                 })
+              } else {
+                this.$toast.open({
+                  type: 'is-warning',
+                  message: 'PO cant be edited after saving',
+                })
+              }
             },
             saveToken(date) {
                 axios.put(this.apiUrl() + '/purchase-orders/' + this.id + '/tokens', {
@@ -77,7 +92,7 @@
                             message: 'Saved',
                         });
 
-                        this.date = response.data.date_string;
+                        this.date = response.data[this.displayName];
                     })
                     .catch(error => {
                         alert(error.response.data);
