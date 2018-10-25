@@ -11,7 +11,7 @@
 <div class="row big-font">
     <div class="col-2-sm">
         <div class="center" style="width: 225px;">
-            <img style="width: 150px;" src="{{ asset('img/brand/brand_pdf_logo.png') }}">
+            <!--<img style="width: 150px;" src="{{ asset('img/brand/brand_pdf_logo.png') }}">-->
         </div>
     </div>
     <div class="col-8-sm" style="text-align: center">
@@ -21,10 +21,10 @@
 
 <div class="row">
     <div class="col-6-sm">
-        <strong>Date: {{ optional($data->date)->format('d-m-y') }}</strong>
+        <strong>Date: <span style="background-color:yellow;padding:2px;">{{ optional($data->date)->format('d/m/y') }}</span></strong>
     </div>
     <div class="col-6-sm" style="text-align: right">
-        <strong>Purchase Order Number:</strong> {{ $data->number ? $data->number : 'DRAFT' }}
+        <strong>Purchase Order Number:</strong> <span style="background-color:yellow;padding:2px;">PreAdm/PO-<b>{{ $data->number ? $data->number : 'DRAFT' }}</b></span>
     </div>
 </div>
 
