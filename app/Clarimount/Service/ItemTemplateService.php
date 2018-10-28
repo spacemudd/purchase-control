@@ -13,8 +13,12 @@ namespace App\Clarimount\Service;
 
 use App\Clarimount\Repository\ItemTemplateRepository;
 use App\Models\ItemTemplate;
+use App\Models\Manufacturer;
+use App\Models\MaxNumber;
 use Brick\Money\Money;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class ItemTemplateService
 {
@@ -62,25 +66,50 @@ class ItemTemplateService
                 ->toInt();
         }
 
-        return ItemTemplate::create([
-            'code' => $data['code'],
-            'description' => $data['description'],
-            'category_id' => $data['category_id'],
-            'model_details' => $data['model_details'],
-            'manufacturer_id' => $data['manufacturer_id'],
-            'default_unit_price_minor' => $data['unit_price'],
-        ]);
+        $itemTemplate = DB::transaction(function() use ($data) {
+
+            $code = $data['code'] ?: $this
+                ->saveNewCode($data['description'], $data['manufacturer_id'], $data['category_id']);
+
+            $itemTemplate = ItemTemplate::create([
+                'code' => $code,
+                'description' => $data['description'],
+                'category_id' => $data['category_id'],
+                'model_details' => $data['model_details'],
+                'manufacturer_id' => $data['manufacturer_id'],
+                'default_unit_price_minor' => $data['unit_price'],
+            ]);
+
+            return $itemTemplate;
+        });
+
+        return $itemTemplate;
     }
 
     public function validate(array $data)
     {
         return Validator::make($data, [
             'description' => 'required|string|max:255',
-            'code' => 'required|string|max:255|unique:item_templates',
+            'code' => 'nullable|string|max:255|unique:item_templates',
             'model_details' => 'nullable|string|max:255',
             'category_id' => 'nullable|exists:categories,id',
             'manufacturer_id' => 'nullable|exists:manufacturers,id',
             'unit_price' => 'nullable|numeric|min:0',
         ]);
+    }
+
+    public function saveNewCode(string $description, $manufacturer_id, $category_id)
+    {
+        $maxNumber = MaxNumber::firstOrCreate([
+            'name' => Str::words($description, 1),
+        ], [
+            'name' => Str::words($description, 1),
+            'value' => '1001',
+        ]);
+
+        $maxNumber->value = ++$maxNumber->value;
+        $maxNumber->save();
+
+        return $maxNumber->value;
     }
 }

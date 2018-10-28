@@ -1,6 +1,6 @@
 {{-- Items --}}
 <div class="row">
-    <div class="col-12-sm" style="margin-top:-10px;">
+    <div class="col-12-sm">
         <table class="pure-table pure-table-bordered tight-table">
             <colgroup>
                 <col style='width:60px;'>
