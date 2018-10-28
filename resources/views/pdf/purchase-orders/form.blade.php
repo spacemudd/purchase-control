@@ -136,14 +136,17 @@
 @endcomponent
 
 <div style="page-break-inside: avoid !important;">
+    <div class="row">
+        <div class="col-12-sm" style="margin-top:-10px;">
+            {{-- Terms --}}
+            @component('pdf.purchase-orders.terms', ['data' => $data])
+            @endcomponent
 
-    {{-- Terms --}}
-    @component('pdf.purchase-orders.terms', ['data' => $data])
-    @endcomponent
-
-    {{-- Signatures block --}}
-    @component('pdf.purchase-orders.signatures-block', ['data' => $data])
-    @endcomponent
+            {{-- Signatures block --}}
+            @component('pdf.purchase-orders.signatures-block', ['data' => $data])
+            @endcomponent
+        </div>
+    </div>
 
     {{-- Footer --}}
     {{--

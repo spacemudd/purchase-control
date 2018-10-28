@@ -10,7 +10,7 @@
             @if($type === 'Others')
                 @break
             @endif
-            <h4 style="font-size:13px;">{{ $type }}</h4>
+            <h4 style="font-size:12px;margin:5px 0;">{{ $type }}</h4>
             @foreach($terms as $term)
                 <span>
                     {{ $term->value->value }}
