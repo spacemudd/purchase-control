@@ -370,7 +370,7 @@ class PurchaseOrderService
         $pdf->setOption('disable-smart-shrinking', true);
         $pdf->setOption('zoom', 0.78);
         $pdf->setOption('header-html', $this->generateHeaderTempFile($data));
-        $pdf->setOption('footer-html', resource_path('views/pdf/footer.html'));
+        // $pdf->setOption('footer-html', resource_path('views/pdf/footer.html'));
 
         return $pdf->loadView('pdf.purchase-orders.form', compact('data'));
     }
