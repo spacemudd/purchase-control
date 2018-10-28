@@ -32,15 +32,21 @@
 				<div class="columns is-multiline">
 					<div class="column is-12">
 						<div class="field">
-							<label for="type" class="label">Type</label>
-
 							<div class="control">
-								<div class="select">
-									<select name="type" id="type">
-										<option value="0">Shipping Address</option>
-										<option value="1">Billing Address</option>
-									</select>
-								</div>
+								<label class="radio">
+									<input type="radio" name="type" value="0" checked>
+									<span class="icon">
+										<i class="fa fa-truck"></i>
+									</span>
+									Shipping Address
+								</label>
+								<label class="radio">
+									<input type="radio" name="type" value="1">
+									<span class="icon">
+										<i class="fa fa-map-marker"></i>
+									</span>
+									Billing Address
+								</label>
 
 								@if ($errors->has('type'))
 									<span class="help is-danger">
