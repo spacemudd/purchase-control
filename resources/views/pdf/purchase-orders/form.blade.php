@@ -123,8 +123,8 @@
 
 @if($data->delivery_date)
 <div class="row">
-    <div class="col-12-sm">
-        <p>Reference to your {!! $data->quote_reference_number ? '<u>Quote Ref. No. '.$data->quote_reference_number.'</u>' : 'Quotation' !!}
+    <div class="col-12-sm" style="margin-top:-10px;">
+        <p style="font-size:12px;">Reference to your {!! $data->quote_reference_number ? '<u>Quote Ref. No. '.$data->quote_reference_number.'</u>' : 'Quotation' !!}
             {!! $data->quote_date_string ? ' dated <u>'.$data->quote_date_string.'</u>' : '' !!},
             you are authorized to provide / supply the following not later than
             <u>{{ $data->delivery_date->format('d-m-Y') }}</u> or at your earliest.</p>
