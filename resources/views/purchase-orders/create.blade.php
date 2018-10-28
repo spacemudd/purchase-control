@@ -132,6 +132,30 @@
 			</div>
 		</div>
 
+		{{-- Project --}}
+		<div class="columns">
+			<div class="column is-3">
+				<p class="title is-5">Project</p>
+			</div>
+			<div class="column is-4">
+				<div class="field">
+					<label for="project_id" class="label">Project Code</label>
+
+					<div class="control">
+						<select-projects name="project_id"
+										url="{{ route('api.search.projects') }}">
+						</select-projects>
+
+						@if ($errors->has('project_id'))
+							<span class="help is-danger">
+								{{ $errors->first('project_id') }}
+							</span>
+						@endif
+					</div>
+				</div>
+			</div>
+		</div>
+
 		 {{--Shipping Address --}}
 		{{--
 		<div class="columns">
