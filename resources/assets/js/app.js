@@ -244,6 +244,7 @@ Vue.component('toggle-default-purchase-term', require('./components/ToggleDefaul
 Vue.component('item-catalog-create-modal', require('./components/ItemCatalogCreateModal/ItemCatalogCreateModal'));
 
 Vue.component('string-token', require('./components/StringToken/StringToken'));
+Vue.component('item-catalog-create-modal-form', require('./components/ItemCatalogCreateModal/ItemCatalogCreateModalForm'));
 
 /**
  * API/App settings
@@ -251,9 +252,9 @@ Vue.component('string-token', require('./components/StringToken/StringToken'));
 const apiVersion = '1';
 
 // if(process.env.NODE_ENV === 'production') {
-     var envUrl = window.location.origin + '/PMS';
+//      var envUrl = window.location.origin + '/PMS';
 // } else {
-//    var envUrl = window.location.origin;
+   var envUrl = window.location.origin;
 // }
 
 Vue.mixin({
