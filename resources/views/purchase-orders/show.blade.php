@@ -181,6 +181,12 @@
 											></address-field-token>
 										</td>
 									</tr>
+									<tr>
+										<td><strong>Project Code</strong></td>
+										<td>
+											{{ $purchase_order->project->display_name }}
+										</td>
+									</tr>
 									</tbody>
 								</table>
 							</div>

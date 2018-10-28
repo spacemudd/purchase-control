@@ -146,6 +146,10 @@
 										url="{{ route('api.search.projects') }}">
 						</select-projects>
 
+						<button type="button" class="is-small button is-text" @click="$store.commit('Project/setNewModal', true)">
+							New
+						</button>
+
 						@if ($errors->has('project_id'))
 							<span class="help is-danger">
 								{{ $errors->first('project_id') }}

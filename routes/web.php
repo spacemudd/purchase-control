@@ -270,6 +270,9 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('terms/enable', 'PurchasingTermsController@enable')->name('api.terms.enable');
     Route::post('terms/disable', 'PurchasingTermsController@disable')->name('api.terms.disable');
 
+    // Projects.
+    Route::post('projects', 'Api\ProjectsController@store')->name('api.projects.store');
+
     Route::prefix('search')->group(function() {
         Route::get('items', 'Api\ItemController@search');
         Route::get('item-templates', 'Api\ItemTemplateController@search')->name('api.search.item-templates');

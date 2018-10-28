@@ -55,7 +55,16 @@ class PurchaseOrderRepository
 
 	public function find($id)
 	{
-		return $this->model->where('id', $id)->with(['items', 'vendor', 'files', 'department', 'employee'])->firstOrFail();
+		return $this->model->where('id', $id)
+            ->with([
+                'items',
+                'vendor',
+                'files',
+                'department',
+                'employee',
+                'project',
+            ])
+            ->firstOrFail();
 	}
 
     /**

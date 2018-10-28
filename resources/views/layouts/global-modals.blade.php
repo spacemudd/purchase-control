@@ -4,6 +4,7 @@
 <new-purchase-order></new-purchase-order>
 <new-vendor></new-vendor>
 <new-manufacturer></new-manufacturer>
+<projects-create-modal></projects-create-modal>
 <login-dipper :timeout.number="{{ config('session.lifetime', 120) }}"></login-dipper>
 <new-po-item-modal></new-po-item-modal>
 @can('create-item-templates')

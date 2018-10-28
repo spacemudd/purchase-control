@@ -16,7 +16,8 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
             $table->string('location');
-            $table->string('department_id');
+            $table->integer('cost_center_id')->unsigned()->nullable();
+            $table->foreign('cost_center_id')->references('id')->on('departments');
             $table->string('custom_description')->nullable();
             $table->timestamps();
         });

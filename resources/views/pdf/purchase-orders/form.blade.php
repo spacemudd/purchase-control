@@ -61,15 +61,15 @@
                 <tr>
                     <td style="border:1px solid white;border-bottom:1px solid #cbcbcb;"></td>
                     <td style="border-top:1px solid white;border-bottom:1px solid white;"></td>
-                    <td style="border-bottom:1px solid #cbcbcb;">
+                    <td style="border-bottom:1px solid #cbcbcb;width:250px;">
                         <b>Ship To</b>
                     </td>
                     <td style="border-top:1px solid white;border-bottom:1px solid white;"></td>
-                    <td style="border-bottom:1px solid #cbcbcb;">
+                    <td style="border-bottom:1px solid #cbcbcb;width:250px;">
                         <b>Bill To</b>
                     </td>
                     <td style="border-top:1px solid white;border-bottom:1px solid white;"></td>
-                    <td style="border-bottom:1px solid #cbcbcb;">
+                    <td style="border-bottom:1px solid #cbcbcb;width:250px;">
                         <b>Project Code</b>
                     </td>
                 </tr>
@@ -80,8 +80,10 @@
                     <td style="border-bottom:0px;"></td>
                     <td>{{ optional($data->billing_address_json)->location }}</td>
                     <td style="border-bottom:0px;"></td>
-                    <td rowspan="5" style="width:120px;vertical-align: top;">
-                        {{-- TODO: Project code --}}
+                    <td rowspan="5"
+                        style="font-size:12px;vertical-align:top;">
+                        {!! $data->project->location !!}<br/>
+                        <b>Cost Center:</b> {{ $data->project->cost_center->code }}
                     </td>
                 </tr>
                 <tr>

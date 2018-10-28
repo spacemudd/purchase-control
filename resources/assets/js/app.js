@@ -246,6 +246,11 @@ Vue.component('item-catalog-create-modal', require('./components/ItemCatalogCrea
 Vue.component('string-token', require('./components/StringToken/StringToken'));
 Vue.component('item-catalog-create-modal-form', require('./components/ItemCatalogCreateModal/ItemCatalogCreateModalForm'));
 
+Vue.component('select-projects', require('./components/SelectProjects/SelectProjects'));
+
+Vue.component('projects-create-modal', require('./components/ProjectsCreateModal/Modal'));
+Vue.component('projects-create-modal-form', require('./components/ProjectsCreateModal/ProjectsCreateModalForm'));
+
 /**
  * API/App settings
  */

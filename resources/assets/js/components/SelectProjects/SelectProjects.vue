@@ -6,7 +6,7 @@
         <input v-if="selectedProject"
                type="text"
                class="input"
-               :value="selectedProject.location + ' - Cost Center: ' + selectedProject.cost_center.code"
+               :value="selectedProjectDisplayName"
                @click="selectedProject=search=null"
                readonly>
 
@@ -22,7 +22,7 @@
             <template slot="empty" v-if="!isLoading">No results found</template>
             <template slot-scope="props">
                 <a class="dropdown-item">
-                    {{ props.option.location }} - Cost Center: {{ props.option.cost_center.code }}
+                    {{ props.option.location }} <span v-if="props.option.cost_center">- Cost Center: {{ props.option.cost_center.code }}</span>
                 </a>
             </template>
         </b-autocomplete>
@@ -57,6 +57,16 @@
     mounted() {
 
     },
+    computed: {
+      selectedProjectDisplayName() {
+
+        if(this.selectedProject.cost_center) {
+          return this.selectedProject.location + ' - Cost Center: ' + this.selectedProject.cost_center.code;
+        }
+
+        return this.selectedProject.location;
+      },
+    },
     methods: {
       getData: debounce(function () {
         this.projects = []
@@ -74,7 +84,7 @@
       selectProject(project) {
         this.selectedProject = project;
         this.$emit('selected', project);
-      }
+      },
     }
   }
 </script>

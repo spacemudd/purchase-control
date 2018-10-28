@@ -22,6 +22,7 @@ import Department from './modules/Department/state';
 import Vendor from './modules/Vendor/state';
 import Manufacturer from './modules/Manufacturer/state';
 import FileUpload from './modules/FileUpload/state';
+import Project from './modules/Project/state';
 
 import PurchaseRequisition from './modules/PurchaseRequisition/state';
 import PurchaseRequisitionItem from './modules/PurchaseRequisitionItem/state';
@@ -52,6 +53,10 @@ export const store = new Vuex.Store({
         'Vendor': {
             namespaced: true,
             ...Vendor
+        },
+        'Project': {
+            namespaced: true,
+            ...Project,
         },
         'Manufacturer': {
             namespaced: true,

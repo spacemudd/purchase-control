@@ -277,6 +277,7 @@ class PurchaseOrderService
             'shipping_address_id' => 'nullable|exists:addresses,id',
             'billing_address_id' => 'nullable|exists:addresses,id',
             'currency' => 'nullable|string|max:255',
+            'project_id' => 'nullable',
         ]);
 
 		return $validator;

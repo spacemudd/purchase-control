@@ -15,7 +15,6 @@ use App\Model\PurchaseTerm;
 use App\Traits\HasFiles;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Log;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
@@ -73,6 +72,7 @@ class PurchaseOrder extends Model implements AuditableContract
         'cost_center_id',
         'quote_reference_number',
         'quote_date',
+        'project_id',
     ];
 
     protected $dates = ['date', 'delivery_date', 'quote_date'];
@@ -117,6 +117,11 @@ class PurchaseOrder extends Model implements AuditableContract
     public function created_by()
     {
         return $this->belongsTo(User::class, 'created_by_id');
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 
     public function getStatusNameAttribute()
