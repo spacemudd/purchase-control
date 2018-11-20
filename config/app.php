@@ -161,6 +161,7 @@ return [
         Fx3costa\LaravelChartJs\Providers\ChartjsServiceProvider::class,
         Adldap\Laravel\AdldapAuthServiceProvider::class,
         Spacelantern\MssqlToSqlite\ServiceProvider::class,
+        JakubKlapka\LaravelWindowsAuth\Providers\ServiceProvider::class,
 
         /*
          * Application Service Providers...
