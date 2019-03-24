@@ -31,8 +31,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'windows',
-        //'passwords' => 'users',
+        'guard' => 'web',
+        'passwords' => 'users',
     ],
 
     /*

@@ -54,7 +54,7 @@
                         <div class="logo">
                             <div class="logo-image">
                                 <img src="{{ asset('img/brand/sidebar_logo.svg') }}">
-                                <div style="height:90px;display: inline;">Purchase Department</div>
+                                <div style="height:90px;display: inline;">Maintenance Department</div>
                             </div>
                         </div>
                         <div class="content-wrapper">
