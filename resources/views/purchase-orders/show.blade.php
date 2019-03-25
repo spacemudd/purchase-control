@@ -184,7 +184,7 @@
 									<tr>
 										<td><strong>Project Code</strong></td>
 										<td>
-											{{ $purchase_order->project->display_name }}
+											{{ optional($purchase_order->project)->display_name }}
 										</td>
 									</tr>
 									</tbody>

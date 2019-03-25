@@ -19,11 +19,20 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $assetCount = Item::count();
-        $purchaseOrdersCount = PurchaseOrder::count();
-        // $assetStorageCount = Asset::where('status', 'active')->count(); TODO: This will return an error because the Status column was removed.
+        $stockCount = 0;
+        $rfqsCount = 0;
+        $purchaseOrdersCount = 0;
+        $deliveriesCount = 0;
 
-    	return view('dashboard.index', compact('assetCount', 'purchaseOrdersCount'
+        $lowStockCount = 0;
+        $outOfStockCount = 0;
+
+    	return view('dashboard.index', compact('stockCount',
+            'rfqsCount',
+            'purchaseOrdersCount',
+            'deliveriesCount',
+            'lowStockCount',
+            'outOfStockCount'
             ));
     }
 }

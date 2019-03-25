@@ -2,6 +2,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+//import Vue from 'vue';
 
 window.Fuse = require('fuse.js');
 
@@ -61,24 +62,24 @@ Vue.component('department-show', require('./components/Departments/Show/Show.vue
     Vue.component('employees',require('./components/Employees/Browse/Browse.vue'));
     Vue.component('employee-show', require('./components/Employees/Show/Show'));
     Vue.component('create-employee', require('./components/Employees/Create/Create.vue'));
-    Vue.component('create-employee-modal', require('./components/Employees/Create/Modal.vue'));
+    Vue.component('create-employee-modal', require('./components/Employees/Create/Modal.vue').default);
 
 // Departments
 Vue.component('create-department', require('./components/Departments/Create/Create.vue'));
-Vue.component('create-department-modal', require('./components/Departments/Create/Modal.vue'));
+Vue.component('create-department-modal', require('./components/Departments/Create/Modal.vue').default);
 
 Vue.component('manufacturers', require('./components/Manufacturers/Browse/Browse.vue'));
-Vue.component('new-manufacturer', require('./components/Manufacturers/CreateModal/Modal.vue'));
+Vue.component('new-manufacturer', require('./components/Manufacturers/CreateModal/Modal.vue').default);
 // Vue.component('assets', require('./components/Assets/index/index.vue'));
 
 Vue.component('vendors', require('./components/vendors/Browse/Browse.vue'));
-Vue.component('new-vendor', require('./components/vendors/CreateModal/Modal.vue'));
+Vue.component('new-vendor', require('./components/vendors/CreateModal/Modal.vue').default);
 Vue.component('vendor-manufacturers-card', require('./components/VendorManufacturersCard/VendorManufacturersCard'));
 
 Vue.component('purchase-orders', require('./components/PurchaseOrders/Browse/Browse.vue'));
 Vue.component('purchase-order-show', require('./components/PurchaseOrders/Show/Show.vue'));
 Vue.component('purchase-order-items', require('./components/PurchaseOrders/Items/Browse/Browse.vue'));
-Vue.component('new-purchase-order', require('./components/PurchaseOrders/NewPurchaseOrderModal/Modal.vue'));
+Vue.component('new-purchase-order', require('./components/PurchaseOrders/NewPurchaseOrderModal/Modal.vue').default);
 Vue.component('edit-purchase-order-modal', require('./components/PurchaseOrders/EditPurchaseOrderModal/Modal.vue'));
 // Vue.component('asset-issuances', require('./components/AssetIssuances/Browse/Browse.vue'));
 // Vue.component('new-asset-issuance', require('./components/AssetIssuances/NewIssuanceModal/NewModal.vue'));
@@ -110,11 +111,11 @@ Vue.component('simple-search-return-id', require('./components/SimpleSearch/Retu
 Vue.component('simple-search-show', require('./components/SimpleSearchShow/SimpleSearchShow.vue'));
 // Vue.component('asset-issuance-item-revamp', require('./components/AssetIssuances/Items/CreateRevamp/Create.vue'));
 // Vue.component('asset-templates-status-barchart', require('./components/AssetTemplates/StatusBarchart/Graph.vue'));
-Vue.component('new-resource-sidebar', require('./components/Sidebar/NewResourceSidebar/NewResourceSidebar.vue'));
+Vue.component('new-resource-sidebar', require('./components/Sidebar/NewResourceSidebar/NewResourceSidebar.vue').default);
 Vue.component('simple-search', require('./components/SimpleSearch/ReturnIdRevamp/ReturnIdRevamp.vue'));
 Vue.component('loading-screen', require('./components/LoadingAnimations/SvgBrand/SvgBrand.vue'));
 // Vue.component('asset-show', require('./components/Assets/show/show.vue'));
-Vue.component('settings-sidebar-menu', require('./components/Sidebar/SettingsSidebarMenu/Settings.vue'));
+Vue.component('settings-sidebar-menu', require('./components/Sidebar/SettingsSidebarMenu/Settings.vue').default);
 // Vue.component('new-issuance', require('./components/AssetIssuances/NewIssuanceModal/NewModal.vue'));
 // Vue.component('new-issuance-return', require('./components/AssetIssuancesReturns/NewIssuanceReturnModal/NewModal.vue'));
 // Vue.component('location-codes-index', require('./components/LocationCodes/Index.vue'));
@@ -145,13 +146,13 @@ Vue.component('purchase-orders-results', require('./components/PurchaseOrders/Dr
 /**
  * Sidebar components.
  */
-Vue.component('sidebar-links-group', require('./components/Sidebar/SidebarLinksGroup/Group.vue'));
+Vue.component('sidebar-links-group', require('./components/Sidebar/SidebarLinksGroup/Group.vue').default);
 Vue.component('sidebar-sub-link', require('./components/Sidebar/SidebarLinksGroup/SubGroupLink.vue'));
 
 Vue.component('signature-upload-file', require('./components/SignatureUploadFile/SignatureUploadFile.vue'));
 Vue.component('download-media-button', require('./components/DownloadMediaButton/DownloadMediaButton.vue'));
 
-Vue.component('inbox-navbar-button', require('./components/InboxNavbar/InboxNavbarButton.vue'));
+Vue.component('inbox-navbar-button', require('./components/InboxNavbar/InboxNavbarButton.vue').default);
 Vue.component('inbox-navbar-item', require('./components/InboxNavbar/InboxItem.vue'));
 
 // Vue.component('stock-status-report-page', require('./components/Reports/Stock/StatusPage'));
@@ -166,7 +167,7 @@ Vue.component('choose-address-modal', require('./components/AddressFieldToken/Ch
 Vue.component('icon', require('./components/Brand/icon.vue'));
 
 // Login dipper.
-Vue.component('login-dipper', require('./../../../packages/spacelantern/login-dipper/src/login-dipper.vue'));
+Vue.component('login-dipper', require('./../../../packages/spacelantern/login-dipper/src/login-dipper.vue').default);
 
 Vue.component('attachments', require('./components/Attachments/Attachments.vue'));
 Vue.component('scan-documents', require('./components/ScanDocuments/ScanDocuments.vue'));
@@ -199,7 +200,7 @@ Vue.component('autocomplete-select', require('./components/AutocompleteSelect/Au
 Vue.component('datepicker', require('./components/Datepicker/Datepicker.vue'));
 Vue.component('clipboard', require('./components/CopyToClipboard/CopyToClipboard'));
 Vue.component('select-employee', require('./components/SelectEmployee/SelectEmployee'));
-Vue.component('select-department', require('./components/SelectDepartment/SelectDepartment'));
+Vue.component('select-department', require('./components/SelectDepartment/SelectDepartment').default);
 Vue.component('purchase-requisition-items', require('./components/PurchaseRequisitionItems/PurchaseRequisitionItems'));
 Vue.component('new-item-requisition-modal', require('./components/NewItemRequisitionModal/NewItemRequisitionModal'));
 Vue.component('select-item-template', require('./components/SelectItemTemplate/SelectItemTemplate'));
@@ -223,7 +224,7 @@ Vue.component('edit-supplier-token', require('./components/EditSupplierToken/Edi
 Vue.component('delivery-date-token', require('./components/DeliveryDateToken/DeliveryDateToken'));
 Vue.component('toggle-purchase-term', require('./components/TogglePurchaseTerm/TogglePurchaseTerm'));
 Vue.component('new-po-item-from-pr-button', require('./components/NewPoItemFromPrButton/NewPoItemFromPrButton'));
-Vue.component('new-po-item-modal', require('./components/NewPoItemModal/NewPoItemModal'));
+Vue.component('new-po-item-modal', require('./components/NewPoItemModal/NewPoItemModal').default);
 Vue.component('select-purchase-requisition', require('./components/SelectPurchaseRequsition/SelectPurchaseRequisition'));
 Vue.component('purchase-order-items', require('./components/PurchaseOrderItems/PurchaseOrderItems'));
 Vue.component('toggle-preview-purchase-order', require('./components/TogglePreviewPurchaseOrder/TogglePreviewPurchaseOrder'));
@@ -241,15 +242,19 @@ Vue.component('edit-department-token', require('./components/EditDepartmentToken
 
 Vue.component('toggle-default-purchase-term', require('./components/ToggleDefaultPurchaseTerm/ToggleDefaultPurchaseTerm'));
 
-Vue.component('item-catalog-create-modal', require('./components/ItemCatalogCreateModal/ItemCatalogCreateModal'));
+Vue.component('item-catalog-create-modal', require('./components/ItemCatalogCreateModal/ItemCatalogCreateModal').default);
 
 Vue.component('string-token', require('./components/StringToken/StringToken'));
 Vue.component('item-catalog-create-modal-form', require('./components/ItemCatalogCreateModal/ItemCatalogCreateModalForm'));
 
 Vue.component('select-projects', require('./components/SelectProjects/SelectProjects'));
 
-Vue.component('projects-create-modal', require('./components/ProjectsCreateModal/Modal'));
+Vue.component('projects-create-modal', require('./components/ProjectsCreateModal/Modal').default);
 Vue.component('projects-create-modal-form', require('./components/ProjectsCreateModal/ProjectsCreateModalForm'));
+
+
+// @see https://stackoverflow.com/questions/49517519/failed-to-mount-component-template-or-render-function-not-defined-vue-dynamic
+Vue.component('material-request-items-container', require('./components/MaterialRequestItemsContainer/MaterialRequestItemsContainer.vue').default);
 
 /**
  * API/App settings
@@ -313,6 +318,15 @@ const app = new Vue({
         'masked-input': MaskedInput,
     },
     mounted() {
+        console.log('')
+        console.log('')
+        console.log('')
+        console.log('Author - Shafiq al-Shaar <hello@getshafiq.com>')
+        console.log('Project - ANB / Clarastars - Inventory Resource Management')
+        console.log('')
+        console.log('')
+        console.log('')
+
         /**
          * Set vue's lang value depending on the <html lang="?"> value
          */
@@ -331,15 +345,15 @@ const app = new Vue({
                 this.menubarCollapsed = false;
             }
 
-            console.log({
-                message: '[Root] CollapsedMenubar cookie is already initialized',
-                raw: this.$cookie.get('collapsed-menubar'),
-                cookie: menubarCookie
-            })
+            // console.log({
+            //     message: '[Root] CollapsedMenubar cookie is already initialized',
+            //     raw: this.$cookie.get('collapsed-menubar'),
+            //     cookie: menubarCookie
+            // })
 
         } else {
             this.$cookie.set('collapsed-menubar', false);
-            console.log('[Root] CollapsedMenubar cookie was set to false on mount');
+            // console.log('[Root] CollapsedMenubar cookie was set to false on mount');
         }
     },
     methods: {
