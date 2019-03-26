@@ -31,6 +31,9 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         // Material requests
         Route::resource('material-requests', 'MaterialRequestsController');
 
+        // Quotations
+        Route::resource('quotations', 'QuotationsController');
+
         // Purchase Requisitions.
         Route::get('purchase-requisitions/{id}/pdf', 'PurchaseRequisitionsController@pdf')->name('purchase-requisitions.pdf');
         Route::post('purchase-requisitions/{id}/save', 'PurchaseRequisitionsController@save')->name('purchase-requisitions.save');
@@ -175,6 +178,10 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('material-requests/{material_request_id}/items/store', 'MaterialRequestItemsController@store');
     Route::delete('material-requests/{material_request_id}/items/{id}', 'MaterialRequestItemsController@destroy');
 
+    // Quotations items.
+    Route::get('quotations/{quotation_id}/items', 'QuotationItemsController@index');
+    Route::post('quotations/{quotation_id}/items/store', 'QuotationItemsController@store');
+    Route::delete('quotations/{quotation_id}/items/{id}', 'QuotationItemsController@destroy');
 
     // Approvers.
     Route::post('approvers', 'Api\ApproversController@store')->name('api.approvers.store');

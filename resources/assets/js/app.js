@@ -217,7 +217,7 @@ Vue.component('approve-requisition-modal', require('./components/ApproveRequisit
 Vue.component('edit-requisition-remarks', require('./components/EditRequisitionRemarks/EditRequsitionRemarks'));
 Vue.component('pr-item-to-po-modal', require('./components/PrItemToPoModal/PrItemToPoModal'));
 Vue.component('select-purchase-orders', require('./components/SelectPurchaseOrder/SelectPurchaseOrder'));
-Vue.component('select-vendors', require('./components/SelectVendors/SelectVendors'));
+Vue.component('select-vendors', require('./components/SelectVendors/SelectVendors').default);
 Vue.component('select-address', require('./components/SelectAddress/SelectAddress'));
 Vue.component('datetime-token', require('./components/DatetimeToken/DatetimeToken'));
 Vue.component('edit-supplier-token', require('./components/EditSupplierToken/EditSupplierToken'));
@@ -255,6 +255,7 @@ Vue.component('projects-create-modal-form', require('./components/ProjectsCreate
 
 // @see https://stackoverflow.com/questions/49517519/failed-to-mount-component-template-or-render-function-not-defined-vue-dynamic
 Vue.component('material-request-items-container', require('./components/MaterialRequestItemsContainer/MaterialRequestItemsContainer.vue').default);
+Vue.component('quotations-items-container', require('./components/QuotationItemsContainer/QuotationItemsContainer.vue').default);
 
 /**
  * API/App settings

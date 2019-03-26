@@ -93,6 +93,12 @@
                                                          link="{{ route('material-requests.index') }}">
                                     </sidebar-links-group>
 
+                                    <sidebar-links-group selected="{{ (request()->route()->getName() === 'quotations.index') }}"
+                                                         icon="quote-right"
+                                                         title="Quotations"
+                                                         link="{{ route('quotations.index') }}">
+                                    </sidebar-links-group>
+
                                     @can('view-purchase-orders')
                                         <sidebar-links-group selected="{{ (request()->route()->getName() === 'purchase-orders.index') }}"
                                                              icon="shopping-cart"

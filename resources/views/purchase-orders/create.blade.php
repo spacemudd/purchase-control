@@ -88,7 +88,7 @@
 				<div class="field">
 					<label for="supplier_id" class="label">Charged Cost Center</label>
 
-					<div class="control">
+					<div class="control">9
 						<select-department name="cost_center_id"
 										   url="{{ route('api.search.department') }}">
 						</select-department>
