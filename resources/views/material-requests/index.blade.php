@@ -23,7 +23,7 @@
 <div class="columns is-multiline">
     <div class="column is-12">
         <div class="has-text-right">
-            <a href="{{ route('material-requests.create') }}" class="button is-warning is-small">Add new</a>
+            <a href="{{ route('material-requests.create') }}" class="button is-primary is-small">Add new</a>
             <a href="{{ route('material-requests.all-excel') }}" class="button is-small has-icon">
                 <span class="icon"><i class="fa fa-file-excel-o"></i></span>
                 <span>Excel</span>

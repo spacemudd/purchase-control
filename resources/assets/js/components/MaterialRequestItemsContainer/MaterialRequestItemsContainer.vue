@@ -17,7 +17,7 @@
 
         <div class="columns">
             <div class="column">
-                <loading-screen v-if="$isLoading('DELETING_ITEM') || $isLoading('LOADING_ITEMS')"></loading-screen>
+                <loading-screen class="is-small" v-if="$isLoading('DELETING_ITEM') || $isLoading('LOADING_ITEMS')"></loading-screen>
                 <table v-else class="table is-fullwidth is-bordered is-size-7">
                     <thead>
                         <tr>
