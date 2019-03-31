@@ -67,6 +67,11 @@
                         <td colspan="6"><p class="has-text-centered"><i>No items</i></p></td>
                     </tr>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>

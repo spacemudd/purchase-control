@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Classes\MaterialRequestApproval;
 use App\Models\Location;
 use App\Models\MaterialRequest;
 use Carbon\Carbon;
@@ -40,5 +41,19 @@ class MaterialRequestService
         $request['number'] = $date->format('d-m-Y').' - '.$location->name;
 
         return MaterialRequest::where('number', $request['number'])->exists();
+    }
+
+    /**
+     * Marks a material request as approved.
+     *
+     * @param $id
+     * @return \App\Models\MaterialRequest
+     * @throws \Exception
+     */
+    public function approve($id): MaterialRequest
+    {
+        $request = MaterialRequest::where('id', $id)->firstOrFail();
+        $approval = MaterialRequestApproval::new($request);
+        return $approval->save();
     }
 }

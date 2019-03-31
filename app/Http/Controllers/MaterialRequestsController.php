@@ -110,4 +110,16 @@ class MaterialRequestsController extends Controller
     {
         //
     }
+
+    /**
+     *
+     * @param $id
+     * @return mixed
+     * @throws \Exception
+     */
+    public function approve($id)
+    {
+        $mRequest = $this->service->approve($id);
+        return redirect()->route('material-requests.show', ['id' => $mRequest->id]);
+    }
 }

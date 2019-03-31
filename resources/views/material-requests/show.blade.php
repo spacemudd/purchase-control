@@ -28,8 +28,21 @@
 <div class="columns">
     <div class="column is-8 is-offset-2">
         <div class="box">
-            <span style="margin-left:0" class="tag">{{ $mRequest->status_name }}</span>
-            <p class="is-uppercase"><b>Request details</b></p>
+            <div class="columns">
+                <div class="column is-6">
+                    <span style="margin-left:0" class="tag">{{ $mRequest->status_name }}</span>
+                    <p class="is-uppercase"><b>Request details</b></p>
+                </div>
+                <div class="column is-6 has-text-right">
+                    @if (!$mRequest->approved_at)
+                        <form action="{{ route('material-requests.approve', ['id' => $mRequest->id]) }}" method="post">
+                            @csrf
+                            <button class="button is-success is-small" type="submit">Approve</button>
+                        </form>
+                    @endif
+                </div>
+            </div>
+
             <form class="form" style="margin-top:2rem">
                 @csrf
                 <div class="field">

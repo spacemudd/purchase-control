@@ -30,6 +30,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
 
         // Material requests
         Route::resource('material-requests', 'MaterialRequestsController');
+        Route::post('material-requests/{id}/approve', 'MaterialRequestsController@approve')->name('material-requests.approve');
 
         // Quotations
         Route::resource('quotations', 'QuotationsController');

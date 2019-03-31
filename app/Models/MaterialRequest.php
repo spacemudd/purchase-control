@@ -17,6 +17,11 @@ class MaterialRequest extends Model
     const DELIVERED = 1;
 
     /**
+     * @see getStatusNameAttribute
+     */
+    const APPROVED = 2;
+
+    /**
      * @var array
      */
     protected $fillable = [
@@ -71,7 +76,9 @@ class MaterialRequest extends Model
             case self::PENDING:
                 return 'Pending';
             case self::DELIVERED:
-                return 'DELIVERED';
+                return 'Delivered';
+            case self::APPROVED:
+                return 'Approved';
         }
     }
 
@@ -88,6 +95,8 @@ class MaterialRequest extends Model
                 return '';
             case self::DELIVERED:
                 return ' is-success';
+            case self::APPROVED:
+                return ' is-warning';
         }
     }
 

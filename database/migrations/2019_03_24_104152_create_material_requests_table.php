@@ -22,6 +22,9 @@ class CreateMaterialRequestsTable extends Migration
             $table->foreign('cost_center_id')->references('id')->on('departments');
             $table->integer('created_by_id')->unsigned();
             $table->foreign('created_by_id')->references('id')->on('users');
+            $table->timestamp('approved_at')->nullable();
+            $table->integer('approved_by_id')->unsigned()->nullable();
+            $table->foreign('approved_by_id')->references('id')->on('users');
             $table->string('number')->unique();
             $table->tinyInteger('status');
             $table->softDeletes('deleted_at', 4);
