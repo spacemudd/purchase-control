@@ -181,10 +181,10 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('material-requests/{material_request_id}/items/store', 'MaterialRequestItemsController@store');
     Route::delete('material-requests/{material_request_id}/items/{id}', 'MaterialRequestItemsController@destroy');
 
-    // Quotations items.
+    // Quotations items.e
     Route::get('quotations/{quotation_id}/items', 'QuotationItemsController@index');
     Route::post('quotations/{quotation_id}/items/store', 'QuotationItemsController@store');
-    Route::delete('quotations/{quotation_id}/items/{id}', 'QuotationItemsController@destroy');
+    Route::delete('quotations/{quotation_id}/items/{id}', 'QuotationItemsController@delete');
 
     // Approvers.
     Route::post('approvers', 'Api\ApproversController@store')->name('api.approvers.store');

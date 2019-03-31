@@ -7,7 +7,7 @@
             <div class="column has-text-right">
                 <button class="button has-icon is-small is-warning"
                         v-if="canEdit"
-                        @click="isAdding=!isAdding"
+                        @click="openNewItem"
                 >
                     <span class="icon"><i class="fa fa-plus"></i></span>
                     <span>New Item</span>
@@ -21,10 +21,10 @@
                 <table v-else class="table is-fullwidth is-bordered is-size-7">
                     <thead>
                     <tr>
-                        <th width="50px" class="has-text-centered">#</th>
+                        <th width="20px" class="has-text-centered">#</th>
                         <th>Items</th>
-                        <th width="70px" class="has-text-right">Quantity</th>
                         <th width="100px" class="has-text-right">Unit Price</th>
+                        <th width="70px" class="has-text-right">Quantity</th>
                         <th width="100px" class="has-text-right">Amount</th>
                         <th v-if="canEdit" width="50px"></th>
                     </tr>
@@ -33,9 +33,9 @@
                     <tr v-for="(item, key) in items">
                         <td>{{ ++key }}</td>
                         <td>{{ item.description }}</td>
+                        <td class="has-text-right">{{ toMoney(item.unit_price) }}</td>
                         <td class="has-text-right">{{ item.qty }}</td>
-                        <td class="has-text-right">{{ item.unit_price }}</td>
-                        <td class="has-text-right">{{ item.unit_price * item.qty }}</td>
+                        <td class="has-text-right">{{ toMoney(item.unit_price * item.qty) }}</td>
                         <td class="has-text-centered" v-if="canEdit">
                             <button v-if="canEdit"
                                     @click="deleteItem(item, key)"
@@ -46,14 +46,14 @@
                             </button>
                         </td>
                     </tr>
-                    <tr v-if="isAdding">
-                        <td colspan="2" @keyup.enter="saveNewItem">
+                    <tr v-if="isAdding" @keyup.esc="clearNewItemForm" @keyup.enter="saveNewItem">
+                        <td colspan="2">
                             <b-input ref="newItemDescription" size="is-small" v-model="form.description" autofocus></b-input>
                         </td>
+                        <td><b-input @keyup.enter="saveNewItem" size="is-small" type="number" v-model="form.unit_price"></b-input></td>
                         <td><b-input size="is-small" type="number" v-model="form.qty"></b-input></td>
-                        <td><b-input size="is-small" type="number" v-model="form.unit_price"></b-input></td>
                         <td>
-                            <b-input size="is-small" type="number" :value="form.qty * form.unit_price" readonly></b-input>
+                            <input type="text" :value="form.qty * form.unit_price" class="input is-small" style="background-color: #d5d5d5;" readonly>
                         </td>
                         <td class="has-text-centered">
                             <button class="button is-primary is-small"
@@ -69,7 +69,8 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td></td>
+                            <td colspan="4" class="has-text-right">Total Amount</td>
+                            <td class="has-text-right">{{ totalAmount }}</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -116,9 +117,25 @@
         set(value) {
           this.$store.commit('PurchaseRequisitionItem/showModal', value)
         }
+      },
+      totalAmount() {
+        let total = 0;
+        this.items.map(item => {
+          total += item.qty * item.unit_price
+        })
+
+        return this.toMoney(total);
       }
     },
     methods: {
+      toMoney(money) {
+        var formatter = new Intl.NumberFormat('en-SA', {
+          style: 'currency',
+          currency: 'SAR',
+        });
+
+        return formatter.format(money);
+      },
       getItems() {
         axios.get(this.apiUrl() + `/quotations/${this.quotationId}/items`)
           .then(response => {
@@ -146,6 +163,13 @@
         this.$store.commit('PurchaseRequisitionItem/setItem', item);
         this.$store.commit('PurchaseRequisitionItem/showModal', true);
       },
+      openNewItem() {
+        this.isAdding = true;
+        let vm = this;
+        setTimeout(function() {
+          vm.$refs.newItemDescription.focus();
+        }, 200)
+      },
       saveNewItem(item) {
         // Validation
         if (!this.form.description) {
@@ -160,6 +184,7 @@
             this.items.push(response.data);
             this.form.description = '';
             this.form.qty = 1;
+            this.form.unit_price = 1;
             this.$endLoading('SAVING_QUOTATION_ITEM');
             this.$refs.newItemDescription.focus();
           })
@@ -168,6 +193,12 @@
             this.$endLoading('SAVING_QUOTATION_ITEM');
           })
       },
+      clearNewItemForm() {
+        this.form.description = '';
+        this.form.qty = 1;
+        this.form.unit_price = 1;
+        this.isAdding = false;
+      }
     }
   }
 </script>
