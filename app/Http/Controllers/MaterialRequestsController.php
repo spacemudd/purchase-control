@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\MaterialRequestExcel;
 use App\Models\Department;
 use App\Models\Location;
 use App\Models\MaterialRequest;
@@ -121,5 +122,10 @@ class MaterialRequestsController extends Controller
     {
         $mRequest = $this->service->approve($id);
         return redirect()->route('material-requests.show', ['id' => $mRequest->id]);
+    }
+
+    public function excel($id)
+    {
+        return MaterialRequestExcel::find($id)->download();
     }
 }

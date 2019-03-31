@@ -35,11 +35,18 @@
                 </div>
                 <div class="column is-6 has-text-right">
                     @if (!$mRequest->approved_at)
-                        <form action="{{ route('material-requests.approve', ['id' => $mRequest->id]) }}" method="post">
+                        <form action="{{ route('material-requests.approve', ['id' => $mRequest->id]) }}"
+                              method="post"
+                              class="is-inline">
                             @csrf
                             <button class="button is-success is-small" type="submit">Approve</button>
                         </form>
                     @endif
+                    <a href="{{ route('material-requests.excel', ['id' => $mRequest->id]) }}"
+                       class="button has-icon is-small">
+                        <span class="icon"><i class="fa fa-file-excel-o"></i></span>
+                        <span>Excel</span>
+                    </a>
                 </div>
             </div>
 

@@ -17,7 +17,7 @@
 
         <div class="columns">
             <div class="column">
-                <loading-screen v-if="$isLoading('DELETING_ITEM')"></loading-screen>
+                <loading-screen v-if="$isLoading('DELETING_ITEM') || $isLoading('LOADING_ITEMS')"></loading-screen>
                 <table v-else class="table is-fullwidth is-bordered is-size-7">
                     <thead>
                         <tr>
@@ -108,10 +108,11 @@ export default {
     },
     methods: {
         getItems() {
+            this.$startLoading('LOADING_ITEMS');
             axios.get(this.apiUrl() + `/material-requests/${this.materialRequestId}/items`)
                 .then(response => {
                     this.items = response.data;
-                    this.$endLoading('DELETING_ITEM');
+                    this.$endLoading('LOADING_ITEMS');
                 })
         },
         /**

@@ -31,6 +31,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         // Material requests
         Route::resource('material-requests', 'MaterialRequestsController');
         Route::post('material-requests/{id}/approve', 'MaterialRequestsController@approve')->name('material-requests.approve');
+        Route::get('material-requests/{id}/excel', 'MaterialRequestsController@excel')->name('material-requests.excel');
 
         // Quotations
         Route::resource('quotations', 'QuotationsController');
