@@ -35,7 +35,7 @@
             <th>Cost Center</th>
             <th>Location</th>
             <th width="80px">Status</th>
-            <th width="300px"></th>
+            <th width="100px"></th>
         </tr>
         </thead>
         	<tbody>
@@ -45,12 +45,12 @@
                             <td>{{ $request->number }}</td>
                             <td>{{ $request->cost_center->display_name }}</td>
                             <td>{{ $request->location->name }}</td>
-                            <td>{{ $request->status_name }}</td>
-                            <td class="has-text-centered">
-                                {{--<button class="button is-small is-warning">--}}
-                                    {{--<span class="icon"><i class="fa fa-pencil"></i></span>--}}
-                                    {{--<span>Edit</span>--}}
-                                {{--</button>--}}
+                            <td><span class="tag{{ $request->status_css_class }}">{{ $request->status_name }}</span></td>
+                            <td class="has-text-right">
+                                <a href="{{ route('material-requests.show', ['id' => $request->id]) }}" class="button is-small is-warning">
+                                    <span class="icon"><i class="fa fa-eye"></i></span>
+                                    <span>View</span>
+                                </a>
 
                                 {{--<button class="button is-small is-primary">--}}
                                     {{--<span class="icon"><i class="fa fa-inbox"></i></span>--}}

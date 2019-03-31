@@ -76,6 +76,22 @@ class MaterialRequest extends Model
     }
 
     /**
+     * Status CSS Class.
+     *
+     * @return string
+     */
+    public function getStatusCssClassAttribute()
+    {
+        // Space before the class to accommodate for proper html.
+        switch ($this->status) {
+            case self::PENDING:
+                return '';
+            case self::DELIVERED:
+                return ' is-success';
+        }
+    }
+
+    /**
      *
      * @return bool
      */
