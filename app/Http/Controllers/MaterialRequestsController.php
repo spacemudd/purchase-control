@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classes\MaterialRequestExcel;
+use App\Classes\MaterialRequestExcelAll;
 use App\Models\Department;
 use App\Models\Location;
 use App\Models\MaterialRequest;
@@ -127,5 +128,10 @@ class MaterialRequestsController extends Controller
     public function excel($id)
     {
         return MaterialRequestExcel::find($id)->download();
+    }
+
+    public function allExcel()
+    {
+        return MaterialRequestExcelAll::new()->download();
     }
 }

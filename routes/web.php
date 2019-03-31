@@ -29,6 +29,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::resource('locations', 'LocationsController');
 
         // Material requests
+        Route::get('material-requests/excel', 'MaterialRequestsController@allExcel')->name('material-requests.all-excel');
         Route::resource('material-requests', 'MaterialRequestsController');
         Route::post('material-requests/{id}/approve', 'MaterialRequestsController@approve')->name('material-requests.approve');
         Route::get('material-requests/{id}/excel', 'MaterialRequestsController@excel')->name('material-requests.excel');

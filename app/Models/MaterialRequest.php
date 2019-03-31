@@ -108,4 +108,14 @@ class MaterialRequest extends Model
     {
         return (int) $this->status === self::PENDING;
     }
+
+    /**
+     *
+     * @param $q
+     * @return mixed
+     */
+    public function scopePending($q)
+    {
+        return $q->where('status', self::PENDING);
+    }
 }
