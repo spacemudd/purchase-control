@@ -5,11 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Quotation;
 use App\Models\QuotationItem;
 use Brick\Math\RoundingMode;
+use Brick\Money\Context\CustomContext;
 use Brick\Money\Money;
 use Illuminate\Http\Request;
 
 class QuotationItemsController extends Controller
 {
+    /**
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function index($id)
+    {
+        return Quotation::where('id', $id)
+            ->firstOrFail()
+            ->items;
+    }
+
     /**
      *
      * @param \Illuminate\Http\Request $request
@@ -30,7 +43,7 @@ class QuotationItemsController extends Controller
 
         $request['vendor_id'] = Quotation::where('id', $request['quotation_id'])->first()->vendor_id;
 
-        $totalPriceExVat = Money::of($request['unit_price'], 'SAR')
+        $totalPriceExVat = Money::of($request['unit_price'], 'SAR', new CustomContext(2), RoundingMode::HALF_UP)
             ->multipliedBy($request['qty'], RoundingMode::HALF_UP);
 
         $request['total_price_ex_vat'] = $totalPriceExVat->getMinorAmount()->toInt();
@@ -59,7 +72,8 @@ class QuotationItemsController extends Controller
      */
     public function delete($quotationId, $id)
     {
-        QuotationItem::where('id', $id);
+        QuotationItem::where('id', $id)->firstOrFail()->delete();
+
         return [
             'message' => 'Success',
         ];
