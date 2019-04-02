@@ -19,6 +19,8 @@ class CreateQuotationsTable extends Migration
             $table->foreign('material_request_id')->references('id')->on('material_requests');
             $table->integer('vendor_id')->unsigned();
             $table->foreign('vendor_id')->references('id')->on('vendors');
+            $table->integer('cost_center_id')->unsigned();
+            $table->foreign('cost_center_id')->references('id')->on('departments');
             $table->string('vendor_quotation_number');
             $table->tinyInteger('status');
             $table->timestamp('saved_at')->nullable();

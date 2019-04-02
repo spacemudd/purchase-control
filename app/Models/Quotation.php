@@ -26,6 +26,7 @@ class Quotation extends Model
         'vendor_id',
         'vendor_quotation_number',
         'status',
+        'cost_center_id',
     ];
 
     public function material_request()
@@ -41,6 +42,11 @@ class Quotation extends Model
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
+    }
+
+    public function cost_center()
+    {
+        return $this->belongsTo(Department::class);
     }
 
     /**

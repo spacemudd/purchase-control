@@ -57,6 +57,7 @@ class QuotationsController extends Controller
         // TODO: Confirm unique on vendor_id->vendor_quotation_number
 
         $request['status'] = Quotation::DRAFT;
+        $request['cost_center_id'] = MaterialRequest::find($request['material_request_id'])->cost_center_id;
         $quotation = Quotation::create($request->except('_token'));
 
         return redirect()->route('quotations.show', ['id' => $quotation->id]);

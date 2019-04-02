@@ -31,6 +31,7 @@
         <thead>
         <tr>
         	<th width="200px">Code</th>
+            <th>Cost Center</th>
             <th>Vendor</th>
             <th width="100px">Items</th>
             <th width="100px">Total</th>
@@ -43,6 +44,7 @@
                     @foreach ($quotations as $quote)
                         <tr>
                             <td>{{ $quote->vendor_quotation_number }}</td>
+                            <td>{{ $quote->cost_center->display_name }}</td>
                             <td>{{ $quote->vendor->display_name }}</td>
                             <td>{{ $quote->items()->count() }}</td>
                             <td class="has-text-right">{{ $quote->totalCost() }}</td>
