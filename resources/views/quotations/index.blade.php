@@ -23,30 +23,40 @@
 <div class="columns is-multiline">
     <div class="column is-12">
         <div class="has-text-right">
-            <a href="{{ route('quotations.create') }}" class="button is-warning">Add new</a>
+            <a href="{{ route('quotations.create') }}" class="button is-primary is-small">Add new</a>
         </div>
     </div>
     <div class="column">
-        <table class="table is-fullwidth is-bordered is-size-7">
+        <table class="table is-fullwidth is-bordered is-size-7 is-narrow">
         <thead>
         <tr>
-        	<th>Code</th>
+        	<th width="200px">Code</th>
             <th>Vendor</th>
-            <th>Items</th>
-            <th>Total</th>
-            <th width="80px">Status</th>
-            <th width="300px"></th>
+            <th width="100px">Items</th>
+            <th width="100px">Total</th>
+            <th width="100px">Status</th>
+            <th width="100px"></th>
         </tr>
         </thead>
         	<tbody>
                 @if ($quotations)
                     @foreach ($quotations as $quote)
                         <tr>
-                            <td>{{ $request->number }}</td>
-                            <td>{{ $request->cost_center->display_name }}</td>
-                            <td>{{ $request->location->name }}</td>
-                            <td>{{ $request->status_name }}</td>
+                            <td>{{ $quote->vendor_quotation_number }}</td>
+                            <td>{{ $quote->vendor->display_name }}</td>
+                            <td>{{ $quote->items()->count() }}</td>
+                            <td class="has-text-right">{{ $quote->totalCost() }}</td>
+{{--                            <td>{{ $request->cost_center->display_name }}</td>--}}
+                            {{--<td>{{ $request->location->name }}</td>--}}
+                            <td class="has-text-centered">{{ $quote->status_name }}</td>
                             <td class="has-text-centered">
+                                <a href="{{ route('quotations.show', ['id' => $quote->id]) }}"
+                                   class="button is-small is-warning"
+                                   style="height:20px;"
+                                >
+                                    <span class="icon"><i class="fa fa-eye"></i></span>
+                                    <span>View</span>
+                                </a>
                                 {{--<button class="button is-small is-warning">--}}
                                     {{--<span class="icon"><i class="fa fa-pencil"></i></span>--}}
                                     {{--<span>Edit</span>--}}

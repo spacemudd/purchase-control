@@ -20,8 +20,11 @@ class CreateQuotationsTable extends Migration
             $table->integer('vendor_id')->unsigned();
             $table->foreign('vendor_id')->references('id')->on('vendors');
             $table->string('vendor_quotation_number');
+            $table->tinyInteger('status');
+            $table->timestamp('saved_at')->nullable();
+            $table->integer('saved_by_id')->unsigned()->nullable();
+            $table->foreign('saved_by_id')->references('id')->on('users');
             $table->timestamps(4);
-
             $table->unique(['vendor_id', 'vendor_quotation_number']);
         });
     }

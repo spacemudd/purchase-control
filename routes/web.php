@@ -36,6 +36,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
 
         // Quotations
         Route::resource('quotations', 'QuotationsController');
+        Route::post('quotations/{id}/save', 'QuotationsController@save')->name('quotations.save');
 
         // Purchase Requisitions.
         Route::get('purchase-requisitions/{id}/pdf', 'PurchaseRequisitionsController@pdf')->name('purchase-requisitions.pdf');

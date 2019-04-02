@@ -28,7 +28,36 @@
 <div class="columns">
     <div class="column is-8 is-offset-2">
         <div class="box">
-            <p class="is-uppercase"><b>Quotation details</b></p>
+            {{-- Actions --}}
+            <div class="columns">
+                <div class="column is-6">
+                    <span style="margin-left:0" class="tag">{{ $quotation->status_name }}</span>
+                    <p class="is-uppercase"><b>Quotation details</b></p>
+                </div>
+                <div class="column is-6 has-text-right">
+                    @if ((int) $quotation->status != \App\Models\Quotation::SAVED)
+                        <form action="{{ route('quotations.save', ['id' => $quotation->id]) }}"
+                              method="post"
+                              class="is-inline">
+                            @csrf
+                            <button class="button is-success is-small"
+                                    {!! $quotation->items()->count() ? '' : 'disabled' !!}
+                                    type="submit">Save</button>
+                        </form>
+                    @endif
+                    {{--
+                    TODO: Add button to show Excel export.
+                    <a href="{{ route('material-requests.excel', ['id' => $mRequest->id]) }}"
+                       class="button has-icon is-small">
+                        <span class="icon"><i class="fa fa-file-excel-o"></i></span>
+                        <span>Excel</span>
+                    </a>
+                    --}}
+                </div>
+            </div>
+
+
+
             <form class="form" style="margin-top:2rem">
 
                 <div class="field">
@@ -69,8 +98,7 @@
         <div class="box">
             {{-- TODO: Can-edit will be disabled when there is a PO attached to it? --}}
             <quotations-items-container
-                    {{--:can-edit="{{ $quotation->can_edit ? 'true' : 'false' }}"--}}
-                    :can-edit="true"
+                    :can-edit="{{ $quotation->saved_at ? 'false' : 'true' }}"
                     :quotation-id.number="{{ $quotation->id }}">
             </quotations-items-container>
         </div>

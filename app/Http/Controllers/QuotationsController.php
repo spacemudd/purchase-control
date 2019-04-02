@@ -5,10 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\MaterialRequest;
 use App\Models\Quotation;
 use App\Models\Vendor;
+use App\Services\QuotationsService;
 use Illuminate\Http\Request;
 
 class QuotationsController extends Controller
 {
+    protected $service;
+
+    public function __construct(QuotationsService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +24,7 @@ class QuotationsController extends Controller
      */
     public function index()
     {
-        $quotations = [];
+        $quotations = Quotation::latest()->get();
         return view('quotations.index', compact('quotations'));
     }
 
@@ -48,6 +56,7 @@ class QuotationsController extends Controller
 
         // TODO: Confirm unique on vendor_id->vendor_quotation_number
 
+        $request['status'] = Quotation::DRAFT;
         $quotation = Quotation::create($request->except('_token'));
 
         return redirect()->route('quotations.show', ['id' => $quotation->id]);
@@ -97,5 +106,18 @@ class QuotationsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Change status from 'DRAFT' to 'SAVED.
+     * No more changes shall be done to the quotations from now on.
+     *
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function save($id)
+    {
+        $quote = $this->service->save($id);
+        return redirect()->route('quotations.show', ['id' => $quote->id]);
     }
 }

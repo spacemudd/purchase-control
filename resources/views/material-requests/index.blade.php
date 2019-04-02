@@ -34,10 +34,10 @@
         <table class="table is-fullwidth is-bordered is-size-7">
         <thead>
         <tr>
-        	<th>Code</th>
-            {{--<th>Lines</th>--}}
+        	<th width="200px">Code</th>
+            <th>Lines</th>
             <th>Cost Center</th>
-            <th>Location</th>
+            <th width="200px">Location</th>
             <th width="80px">Status</th>
             <th width="100px"></th>
         </tr>
@@ -47,11 +47,15 @@
                     @foreach ($mRequests as $request)
                         <tr>
                             <td>{{ $request->number }}</td>
+                            <td>{{ $request->items()->count() }}</td>
                             <td>{{ $request->cost_center->display_name }}</td>
                             <td>{{ $request->location->name }}</td>
-                            <td><span class="tag{{ $request->status_css_class }}">{{ $request->status_name }}</span></td>
+                            <td class="has-text-centered">{{ $request->status_name }}</td>
                             <td class="has-text-right">
-                                <a href="{{ route('material-requests.show', ['id' => $request->id]) }}" class="button is-small is-warning">
+                                <a href="{{ route('material-requests.show', ['id' => $request->id]) }}"
+                                   class="button is-small is-warning"
+                                   style="height:20px;"
+                                >
                                     <span class="icon"><i class="fa fa-eye"></i></span>
                                     <span>View</span>
                                 </a>
