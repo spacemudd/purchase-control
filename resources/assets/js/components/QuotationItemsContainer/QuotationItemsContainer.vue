@@ -48,7 +48,8 @@
                     </tr>
                     <tr v-if="isAdding" @keyup.esc="clearNewItemForm" @keyup.enter="saveNewItem">
                         <td colspan="2">
-                            <b-input ref="newItemDescription" size="is-small" v-model="form.description" autofocus></b-input>
+                           <!-- <b-input ref="newItemDescription" size="is-small" v-model="form.description" autofocus></b-input> -->
+                            <select-material-request-items v-model="form.material_request_item_id"/>
                         </td>
                         <td><b-input @keyup.enter="saveNewItem" size="is-small" type="number" v-model="form.unit_price"></b-input></td>
                         <td><b-input size="is-small" type="number" v-model="form.qty"></b-input></td>
@@ -103,7 +104,7 @@
         items: [],
 
         form: {
-          description: '',
+          material_request_item_id: '',
           qty: 1,
           unit_price: 1,
         },
@@ -165,28 +166,25 @@
       },
       openNewItem() {
         this.isAdding = true;
-        let vm = this;
-        setTimeout(function() {
-          vm.$refs.newItemDescription.focus();
-        }, 200)
       },
-      saveNewItem(item) {
+      saveNewItem() {
         // Validation
-        if (!this.form.description) {
-          alert('Item description is required');
+        if (!this.form.material_request_item_id) {
+          alert('Please select an item from material requests');
           return;
         }
 
         this.$startLoading('SAVING_QUOTATION_ITEM');
         this.form.quotation_id = this.quotationId;
+
         axios.post(this.apiUrl() + `/quotations/`+this.quotationId+`/items/store`, this.form)
           .then(response => {
             this.items.push(response.data);
-            this.form.description = '';
+            this.form.material_request_item_id = null;
             this.form.qty = 1;
             this.form.unit_price = 1;
             this.$endLoading('SAVING_QUOTATION_ITEM');
-            this.$refs.newItemDescription.focus();
+            //this.$refs.newItemDescription.focus();
           })
           .catch(error => {
             alert(error.response.data.message);

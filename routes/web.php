@@ -181,7 +181,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('material-requests/{material_request_id}/items/store', 'MaterialRequestItemsController@store');
     Route::delete('material-requests/{material_request_id}/items/{id}', 'MaterialRequestItemsController@destroy');
 
-    // Quotations items.e
+    // Quotations items.
     Route::get('quotations/{quotation_id}/items', 'QuotationItemsController@index');
     Route::post('quotations/{quotation_id}/items/store', 'QuotationItemsController@store');
     Route::delete('quotations/{quotation_id}/items/{id}', 'QuotationItemsController@delete');
@@ -295,6 +295,9 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     // Projects.
     Route::post('projects', 'Api\ProjectsController@store')->name('api.projects.store');
 
+    // Material requests
+    Route::get('material-requests/approved-items', 'Api\MaterialRequestsController@indexWithApprovedItems')->name('api.material-requests.index-approved-items');
+
     Route::prefix('search')->group(function() {
         Route::get('items', 'Api\ItemController@search');
         Route::get('item-templates', 'Api\ItemTemplateController@search')->name('api.search.item-templates');
@@ -309,5 +312,6 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
         Route::get('billing-addresses', 'Api\AddressesController@searchBillingAddresses')->name('api.search.billing-addresses');
         Route::get('saved-requisitions', 'Api\PurchaseRequisitionsController@searchSaved')->name('api.search-saved-requisitions');
         Route::get('projects', 'Api\ProjectsController@search')->name('api.search.projects');
+        Route::get('material-requests-items', 'Api\MaterialRequestItemsController@search')->name('api.material-requests-items.search');
     });
 });

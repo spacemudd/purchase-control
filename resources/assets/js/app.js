@@ -256,6 +256,7 @@ Vue.component('projects-create-modal-form', require('./components/ProjectsCreate
 // @see https://stackoverflow.com/questions/49517519/failed-to-mount-component-template-or-render-function-not-defined-vue-dynamic
 Vue.component('material-request-items-container', require('./components/MaterialRequestItemsContainer/MaterialRequestItemsContainer.vue').default);
 Vue.component('quotations-items-container', require('./components/QuotationItemsContainer/QuotationItemsContainer.vue').default);
+Vue.component('select-material-request-items', require('./components/SelectMaterialRequestItem/SelectMaterialRequestItem.vue').default);
 
 /**
  * API/App settings
@@ -319,6 +320,8 @@ const app = new Vue({
         'masked-input': MaskedInput,
     },
     mounted() {
+
+        /**
         console.log('')
         console.log('')
         console.log('')
@@ -327,6 +330,7 @@ const app = new Vue({
         console.log('')
         console.log('')
         console.log('')
+         **/
 
         /**
          * Set vue's lang value depending on the <html lang="?"> value

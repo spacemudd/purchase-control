@@ -34,6 +34,7 @@
     "webpack-obfuscator": "^0.12.3"
   },
   "dependencies": {
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@fortawesome/fontawesome": "^1.1.5",
     "buefy": "^0.6.5",
     "bulma": "^0.6.0",
@@ -45,6 +46,7 @@
     "instantclick": "^3.1.0-2",
     "less": "^3.9.0",
     "less-loader": "^4.0.5",
+    "loadsh": "0.0.4",
     "notifyjs": "^3.0.0",
     "spinkit": "^1.2.5",
     "v-click-outside": "^1.0.2",

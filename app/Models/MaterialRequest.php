@@ -118,4 +118,14 @@ class MaterialRequest extends Model
     {
         return $q->where('status', self::PENDING);
     }
+
+    /**
+     *
+     * @param $q
+     * @return mixed
+     */
+    public function scopeApproved($q)
+    {
+        return $q->where('status', self::APPROVED);
+    }
 }

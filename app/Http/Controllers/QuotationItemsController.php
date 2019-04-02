@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MaterialRequestItem;
 use App\Models\Quotation;
 use App\Models\QuotationItem;
 use Brick\Math\RoundingMode;
@@ -34,7 +35,7 @@ class QuotationItemsController extends Controller
     {
         $request->validate([
            'quotation_id' => 'required|exists:quotations,id',
-           'description' => 'required|string|max:255',
+           'material_request_item_id' => 'required|exists:material_request_items,id',
            'qty' => 'required|numeric',
            'unit_price' => 'required|numeric',
         ]);
@@ -42,6 +43,7 @@ class QuotationItemsController extends Controller
         $request = $request->except('_token');
 
         $request['vendor_id'] = Quotation::where('id', $request['quotation_id'])->first()->vendor_id;
+        $request['description'] = MaterialRequestItem::find($request['material_request_item_id'])->description;
 
         $totalPriceExVat = Money::of($request['unit_price'], 'SAR', new CustomContext(2), RoundingMode::HALF_UP)
             ->multipliedBy($request['qty'], RoundingMode::HALF_UP);
