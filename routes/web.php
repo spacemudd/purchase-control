@@ -38,6 +38,9 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::resource('quotations', 'QuotationsController');
         Route::post('quotations/{id}/save', 'QuotationsController@save')->name('quotations.save');
 
+        // QSuppliers
+        Route::resource('q-suppliers', 'QSuppliersController');
+
         // Purchase Requisitions.
         Route::get('purchase-requisitions/{id}/pdf', 'PurchaseRequisitionsController@pdf')->name('purchase-requisitions.pdf');
         Route::post('purchase-requisitions/{id}/save', 'PurchaseRequisitionsController@save')->name('purchase-requisitions.save');
@@ -298,6 +301,10 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
 
     // Material requests
     Route::get('material-requests/approved-items', 'Api\MaterialRequestsController@indexWithApprovedItems')->name('api.material-requests.index-approved-items');
+
+    // QSuppliers
+    Route::get('q-suppliers', 'Api\QSuppliersController@index');
+    Route::get('q-suppliers/{id}/quotations', 'Api\QSuppliersController@showWithQuotations');
 
     Route::prefix('search')->group(function() {
         Route::get('items', 'Api\ItemController@search');

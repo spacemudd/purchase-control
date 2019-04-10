@@ -113,7 +113,7 @@ Vue.component('simple-search-show', require('./components/SimpleSearchShow/Simpl
 // Vue.component('asset-templates-status-barchart', require('./components/AssetTemplates/StatusBarchart/Graph.vue'));
 Vue.component('new-resource-sidebar', require('./components/Sidebar/NewResourceSidebar/NewResourceSidebar.vue').default);
 Vue.component('simple-search', require('./components/SimpleSearch/ReturnIdRevamp/ReturnIdRevamp.vue'));
-Vue.component('loading-screen', require('./components/LoadingAnimations/SvgBrand/SvgBrand.vue'));
+Vue.component('loading-screen', require('./components/LoadingAnimations/SvgBrand/SvgBrand.vue').default);
 // Vue.component('asset-show', require('./components/Assets/show/show.vue'));
 Vue.component('settings-sidebar-menu', require('./components/Sidebar/SettingsSidebarMenu/Settings.vue').default);
 // Vue.component('new-issuance', require('./components/AssetIssuances/NewIssuanceModal/NewModal.vue'));
@@ -257,7 +257,7 @@ Vue.component('projects-create-modal-form', require('./components/ProjectsCreate
 Vue.component('material-request-items-container', require('./components/MaterialRequestItemsContainer/MaterialRequestItemsContainer.vue').default);
 Vue.component('quotations-items-container', require('./components/QuotationItemsContainer/QuotationItemsContainer.vue').default);
 Vue.component('select-material-request-items', require('./components/SelectMaterialRequestItem/SelectMaterialRequestItem.vue').default);
-
+Vue.component('manage-quotation-suppliers-page', require('./components/ManageQuotationSuppliersPage/ManageQuotationSuppliersPage').default);
 /**
  * API/App settings
  */

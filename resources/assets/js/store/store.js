@@ -31,6 +31,8 @@ import PurchaseOrderItem from './modules/PurchaseOrderItem/state';
 
 import ItemCatalog from './modules/ItemCatalog/state';
 
+import QSuppliers from './modules/QSupplier/state';
+
 export const store = new Vuex.Store({
     plugins: [VuexLoading.Store],
     modules: {
@@ -70,6 +72,7 @@ export const store = new Vuex.Store({
         'PurchaseRequisitionItem': {namespaced:true, ...PurchaseRequisitionItem},
         'PurchaseOrderItem': {namespaced:true, ...PurchaseOrderItem},
         'itemCatalog': {namespaced:true, ...ItemCatalog},
+        'QSuppliers': {namespaced:true, ...QSuppliers},
     },
     getters: helpers,
 });

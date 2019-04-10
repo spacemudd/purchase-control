@@ -70,4 +70,9 @@ class Vendor extends Model implements AuditableContract
 	{
 	    return $this->belongsToMany(Manufacturer::class);
 	}
+
+	public function quotations()
+	{
+	    return $this->hasMany(Quotation::class);
+	}
 }
