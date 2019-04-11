@@ -20,7 +20,7 @@ class CreateQuotationItemsTable extends Migration
             $table->integer('vendor_id')->unsigned();
             $table->foreign('vendor_id')->references('id')->on('vendors');
             $table->integer('material_request_item_id')->unsigned()->nullable();
-            $table->foreign('material_request_item_id')->references('id')->on('material_requests_items');
+            $table->foreign('material_request_item_id')->references('id')->on('material_request_items');
             $table->string('description');
             $table->integer('qty')->default(1);
             $table->integer('unit_price');

@@ -72,7 +72,7 @@ Vue.component('manufacturers', require('./components/Manufacturers/Browse/Browse
 Vue.component('new-manufacturer', require('./components/Manufacturers/CreateModal/Modal.vue').default);
 // Vue.component('assets', require('./components/Assets/index/index.vue'));
 
-Vue.component('vendors', require('./components/vendors/Browse/Browse.vue'));
+Vue.component('vendors', require('./components/vendors/Browse/Browse.vue').default);
 Vue.component('new-vendor', require('./components/vendors/CreateModal/Modal.vue').default);
 Vue.component('vendor-manufacturers-card', require('./components/VendorManufacturersCard/VendorManufacturersCard'));
 

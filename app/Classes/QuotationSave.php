@@ -3,6 +3,7 @@
 namespace App\Classes;
 
 use App\Models\Quotation;
+use Illuminate\Support\Facades\DB;
 
 class QuotationSave
 {
@@ -32,13 +33,23 @@ class QuotationSave
      */
     public function save()
     {
-        $this->canSaved();
-        $this->exceptionOnNoItems();
+        //$this->canSaved();
+        //$this->exceptionOnNoItems();
 
-        $this->quotation->status = Quotation::SAVED;
-        $this->quotation->saved_at = now();
-        $this->quotation->saved_by_id = auth()->user()->id;
-        $this->quotation->save();
+        DB::beginTransaction();
+            $this->quotation->status = Quotation::SAVED;
+            $this->quotation->saved_at = now();
+            $this->quotation->saved_by_id = auth()->user()->id;
+            $this->quotation->save();
+            // Credit the supplier.
+            $journal = $this->quotation->vendor->journal;
+            if (!$journal) {
+                $this->quotation->vendor->initJournal('SAR');
+                $this->quotation->vendor->refresh();
+            }
+            $transaction = $this->quotation->vendor->journal->creditDollars($this->quotation->items()->sum('total_price_inc_vat'));
+            $transaction->referencesObject($this->quotation);
+        DB::commit();
 
         return $this->quotation;
     }

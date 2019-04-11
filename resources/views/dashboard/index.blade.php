@@ -76,7 +76,7 @@
 
 	<div class="columns" style="margin-top: 1rem;">
 		<div class="column is-3">
-			<a class="button is-warning is-fullwidth" style="min-height: 3rem;">
+			<a class="button is-warning is-fullwidth" style="min-height: 3rem;" href="{{ route('material-requests.create') }}">
 				<span class="icon"><i class="fa fa-shopping-cart"></i></span>
 				<span>New Material Request</span>
 			</a>

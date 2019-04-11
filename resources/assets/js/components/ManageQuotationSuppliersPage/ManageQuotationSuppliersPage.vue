@@ -29,7 +29,7 @@
                 <b>Cost Centers</b>
             </div>
             <div class="column is-6 has-text-right" style="font-size:14px;">
-                Credit: <b>0</b>
+                Credit: <b>{{ suppliersBalance }}</b>
             </div>
         </div>
 
@@ -57,6 +57,7 @@
         quotations: [],
         suppliersAvailable: [],
         selectedSupplier: null,
+        suppliersBalance: null,
         checkedRows: [],
         quotationColumns: [
           {
@@ -82,10 +83,10 @@
     },
     computed: {
       checkedRowsTotalAmount() {
-        var formatter = new Intl.NumberFormat('en-SA', {
-          style: 'currency',
-          currency: 'SAR',
-        });
+        // var formatter = new Intl.NumberFormat('en-SA', {
+        //   style: 'currency',
+        //   currency: 'SAR',
+        // });
 
         // total starts at 0
         return this.checkedRows.reduce((total, checkedRow) => {
@@ -109,6 +110,7 @@
         this.selectedSupplier = supplier;
         this.quotations = [];
         this.checkedRows = [];
+        this.getSupplierBalance(supplier);
         this.$startLoading('GETTING_Q_SUPPLIER_QUOTES');
         axios.get(this.apiUrl()+'/q-suppliers/'+supplier.id+'/quotations')
           .then(response => {
@@ -120,6 +122,19 @@
           .finally(() => {
             this.$endLoading('GETTING_Q_SUPPLIER_QUOTES');
           })
+      },
+      getSupplierBalance(supplier) {
+        this.$startLoading('GETTING_Q_SUPPLIER_BALANCE');
+        axios.get(this.apiUrl()+'/q-suppliers/'+supplier.id+'/balance')
+          .then(response => {
+            this.suppliersBalance = response.data.balance;
+          })
+          .catch(error => {
+            throw error;
+          })
+          .finally(() => {
+            this.$endLoading('GETTING_Q_SUPPLIER_BALANCE');
+        })
       }
     }
   }

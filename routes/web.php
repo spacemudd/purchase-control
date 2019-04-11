@@ -305,6 +305,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     // QSuppliers
     Route::get('q-suppliers', 'Api\QSuppliersController@index');
     Route::get('q-suppliers/{id}/quotations', 'Api\QSuppliersController@showWithQuotations');
+    Route::get('q-suppliers/{id}/balance', 'Api\QSuppliersController@balance');
 
     Route::prefix('search')->group(function() {
         Route::get('items', 'Api\ItemController@search');

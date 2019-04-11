@@ -16,10 +16,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
+use Scottlaurent\Accounting\ModelTraits\AccountingJournal;
 
 class Vendor extends Model implements AuditableContract
 {
-    use Auditable, SoftDeletes;
+    use Auditable, SoftDeletes, AccountingJournal;
 
 	protected $fillable = [
 	    'name',
