@@ -49,6 +49,9 @@ class QuotationSave
             }
             $transaction = $this->quotation->vendor->journal->creditDollars($this->quotation->items()->sum('total_price_inc_vat'));
             $transaction->referencesObject($this->quotation);
+
+            // TODO: Add item to the stock control. (Also create table)
+            // TODO: Table: `Stock`
         DB::commit();
 
         return $this->quotation;

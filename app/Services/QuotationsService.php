@@ -8,7 +8,9 @@ use App\Models\Quotation;
 class QuotationsService
 {
     /**
-     * Marks a material request as approved.
+     * TODO: Should mark a material request as approved.
+     *
+     * Create a new supplier quotation.
      *
      * @param $id
      * @return \App\Models\Quotation
