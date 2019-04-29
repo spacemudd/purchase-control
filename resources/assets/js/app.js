@@ -258,6 +258,10 @@ Vue.component('material-request-items-container', require('./components/Material
 Vue.component('quotations-items-container', require('./components/QuotationItemsContainer/QuotationItemsContainer.vue').default);
 Vue.component('select-material-request-items', require('./components/SelectMaterialRequestItem/SelectMaterialRequestItem.vue').default);
 Vue.component('manage-quotation-suppliers-page', require('./components/ManageQuotationSuppliersPage/ManageQuotationSuppliersPage').default);
+
+// Job orders
+Vue.component('job-order-form', require('./components/JobOrders/Form.vue').default);
+
 /**
  * API/App settings
  */
