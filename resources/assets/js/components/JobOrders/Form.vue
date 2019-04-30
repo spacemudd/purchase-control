@@ -1,4 +1,4 @@
-<template>
+e<template>
     <section>
         <form class="form" method="post" style="margin-top:2rem" @submit.prevent="submitOrder">
                 <div class="columns">
@@ -10,14 +10,25 @@
                             </b-datepicker>
                         </b-field>
 
-                        <b-field label="Cost center">
-                            <b-autocomplete
-                                v-model="name"
-                                :data="filteredDataArray"
-                                placeholder="Cost center"
-                                @select="option => selectedEmployee = option">
+                        <b-field label="Cost Center">
+                            <!-- If selected. -->
+                            <b-autocomplete v-if="!selectedCostCenter"
+                                            v-model="costCenterSearchCode"
+                                            field="code"
+                                            :data="filteredCostCenters"
+                                            @select="option => selectedCostCenter = option"
+                                            :loading="$isLoading('FETCHING_COST_CENTERS')"
+                                            required>
                                 <template slot="empty">No results found</template>
                             </b-autocomplete>
+                            <!-- When selected -->
+                            <input v-else
+                                   type="text"
+                                   class="input"
+                                   :value="selectedCostCenter.code + ' - ' + selectedCostCenter.description"
+                                   @click="emptyCostCenter"
+                                   required
+                                   readonly>
                         </b-field>
 
                         <b-field label="Ext">
@@ -49,21 +60,30 @@
 
                     <div class="column">
                         <b-field label="Employee">
-                            <b-autocomplete
-                                v-model="name"
-                                :data="filteredDataArray"
-                                placeholder="Employee"
-                                @select="option => selectedEmployee = option">
+                            <!-- If selected. -->
+                            <b-autocomplete v-if="!selectedEmployee"
+                                            v-model="employeeSearchCode"
+                                            field="code"
+                                            :data="filteredEmployees"
+                                            @select="option => selectedEmployee = option"
+                                            :loading="$isLoading('FETCHING_EMPLOYEES')">
                                 <template slot="empty">No results found</template>
                             </b-autocomplete>
+                            <!-- When selected -->
+                            <input v-else
+                                   type="text"
+                                   class="input"
+                                   :value="selectedEmployee.code + ' - ' + selectedEmployee.name"
+                                   @click="emptyEmployee"
+                                   readonly>
                         </b-field>
 
                         <b-field label="Location">
                             <b-autocomplete
-                                v-model="name"
-                                :data="filteredDataArray"
+                                v-model="location"
+                                :data="filteredLocations"
                                 placeholder="Location"
-                                @select="option => selectedEmployee = option">
+                                @select="option => selectedLocation = option">
                                 <template slot="empty">No results found</template>
                             </b-autocomplete>
                         </b-field>
@@ -165,6 +185,7 @@
                 ],
                 name: '',
                 ext: '',
+                location: '',
                 requested_through: 'email',
                 job_description: '',
                 time_start: new Date(),
@@ -172,20 +193,82 @@
                 material_used: '',
                 remark: '',
                 status: 'pending',
-                selectedEmployee: null
+                selectedEmployee: null,
+
+                costCenters: [],
+                costCenterSearchCode: '',
+                selectedCostCenter: null,
+
+                employees: [],
+                employeeSearchCode: '',
+                selectedEmployee: null,
+
+                locations: [],
+                locationSearchCode: '',
+                selectedLocation: null,
             }
         },
          computed: {
-            filteredDataArray() {
-                return this.data.filter((option) => {
-                    return option
+             filteredLocations() {
+                return this.locations.filter((option) => {
+                    return option.name
                         .toString()
                         .toLowerCase()
                         .indexOf(this.name.toLowerCase()) >= 0
                 })
-            }
+            },
+             filteredEmployees() {
+                 return this.employees.filter((option) => {
+                     return option.code
+                         .toString()
+                         .toLowerCase()
+                         .indexOf(this.employeeSearchCode.toLowerCase()) >= 0
+                 })
+             },
+             filteredCostCenters() {
+                 return this.costCenters.filter((option) => {
+                     return option.code
+                         .toString()
+                         .toLowerCase()
+                         .indexOf(this.costCenterSearchCode.toLowerCase()) >= 0
+                 })q
+             },
+         },
+        mounted() {
+            this.loadCostCenters();
+            this.loadEmployees();
+            this.loadLocations();
         },
         methods: {
+            loadEmployees() {
+                this.$startLoading('FETCHING_EMPLOYEES');
+                axios.get(this.apiUrl() + '/employees').then(response => {
+                    this.employees = response.data;
+                    this.$endLoading('FETCHING_EMPLOYEES');
+                })
+            },
+            loadCostCenters() {
+                this.$startLoading('FETCHING_COST_CENTRES');
+                axios.get(this.apiUrl() + '/departments').then(response => {
+                    this.costCenters = response.data;
+                    this.$endLoading('FETCHING_COST_CENTRES');
+                })
+            },
+            loadLocations() {
+                this.$startLoading('FETCHING_LOCATIONS');
+                axios.get(this.apiUrl() + '/locations').then(response => {
+                    this.locations = response.data;
+                    this.$endLoading('FETCHING_LOCATIONS');
+                })
+            },
+            emptyCostCenter() {
+                this.selectedCostCenter = null;
+                this.costCenterSearchCode = '';
+            },
+            emptyEmployee() {
+                this.selectedEmployee = null;
+                this.employeeSearchCode = '';
+            },
              submitOrder() {
                 console.log(this.$data)
             }
