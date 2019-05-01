@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => $jobOrder->job_order_number])
+@extends('layouts.app', ['title' => $jobOrder->job_order_number.' - Job orders'])
 
 @section('header')
     <nav class="breadcrumb" aria-label="breadcrumbs">
@@ -171,14 +171,14 @@
     </div>
 </div>
 
-<div class="columns">
-    <div class="column is-8 is-offset-2">
-        <div class="box">
-            <material-request-items-container
-                    :can-edit="{{ $jobOrder->can_edit ? 'true' : 'false' }}"
-                    :material-request-id.number="{{ $jobOrder->id }}">
-            </material-request-items-container>
-        </div>
-    </div>
-</div>
+{{--<div class="columns">--}}
+    {{--<div class="column is-8 is-offset-2">--}}
+        {{--<div class="box">--}}
+            {{--<material-request-items-container--}}
+                    {{--:can-edit="{{ $jobOrder->can_edit ? 'true' : 'false' }}"--}}
+                    {{--:material-request-id.number="{{ $jobOrder->id }}">--}}
+            {{--</material-request-items-container>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+{{--</div>--}}
 @endsection

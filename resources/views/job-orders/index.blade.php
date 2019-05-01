@@ -58,12 +58,20 @@
                             <td>{{ $jobOrder->requested_throught_type }}</td>
                             <td>{{ $jobOrder->status }}</td>
                             <td class="has-text-centered">
-                                <a href="{{ route('job-orders.show', $jobOrder) }}"
-                                   class="button is-small is-warning"
-                                   style="height:20px;">
-                                        <span class="icon"><i class="fa fa-eye"></i></span>
-                                        <span>View</span>
-                                </a>
+                                <div class="buttons">
+                                    <a href="{{ route('job-orders.show', $jobOrder) }}"
+                                       class="button is-small"
+                                       style="height:20px;">
+                                        <span class="icon"><i class="fa fa-print"></i></span>
+                                        <span>Print</span>
+                                    </a>
+                                    <a href="{{ route('job-orders.show', $jobOrder) }}"
+                                       class="button is-small is-warning"
+                                       style="height:20px;">
+                                            <span class="icon"><i class="fa fa-eye"></i></span>
+                                            <span>View</span>
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
