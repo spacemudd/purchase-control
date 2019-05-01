@@ -68,4 +68,13 @@ class JobOrderService
 
         return $jobOrder->technicians()->sync($techinians);
     }
+
+    /**
+     *
+     * @param $id Job order id.
+     */
+    public function streamPdf($id)
+    {
+
+    }
 }

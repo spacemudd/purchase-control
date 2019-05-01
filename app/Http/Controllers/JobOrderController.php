@@ -95,4 +95,14 @@ class JobOrderController extends Controller
     {
         //
     }
+
+    /**
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function streamPdf($id)
+    {
+        return $this->service->streamPdf($id);
+    }
 }
