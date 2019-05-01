@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class JobOrder extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'job_order_number',
         'employee_id',

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\JobOrder;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class JobOrderService
@@ -58,6 +59,13 @@ class JobOrderService
      */
     public function addTechniciansTo(JobOrder $jobOrder, $techinians)
     {
+        foreach ($techinians as &$tech) {
+            unset($tech['employee']);
+
+            if($tech['time_start']) $tech['time_start'] = Carbon::parse($tech['time_start']);
+            if($tech['time_end']) $tech['time_end'] = Carbon::parse($tech['time_end']);
+        }
+
         return $jobOrder->technicians()->sync($techinians);
     }
 }

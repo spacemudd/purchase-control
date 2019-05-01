@@ -12,11 +12,11 @@ e<template>
 
                         <b-field label="Cost Center">
                             <!-- If selected. -->
-                            <b-autocomplete v-if="!selectedCostCenter"
+                            <b-autocomplete v-if="!cost_center"
                                             v-model="costCenterSearchCode"
                                             field="code"
                                             :data="filteredCostCenters"
-                                            @select="option => selectedCostCenter = option"
+                                            @select="option => cost_center = option"
                                             :loading="$isLoading('FETCHING_COST_CENTERS')"
                                             required>
                                 <template slot="empty">No results found</template>
@@ -25,7 +25,7 @@ e<template>
                             <input v-else
                                    type="text"
                                    class="input"
-                                   :value="selectedCostCenter.code + ' - ' + selectedCostCenter.description"
+                                   :value="cost_center.code + ' - ' + cost_center.description"
                                    @click="emptyCostCenter"
                                    required
                                    readonly>
@@ -61,11 +61,11 @@ e<template>
                     <div class="column">
                         <b-field label="Employee">
                             <!-- If selected. -->
-                            <b-autocomplete v-if="!selectedEmployee"
+                            <b-autocomplete v-if="!employee"
                                             v-model="employeeSearchCode"
                                             field="code"
                                             :data="filteredEmployees"
-                                            @select="option => selectedEmployee = option"
+                                            @select="option => employee = option"
                                             :loading="$isLoading('FETCHING_EMPLOYEES')">
                                 <template slot="empty">No results found</template>
                             </b-autocomplete>
@@ -73,7 +73,7 @@ e<template>
                             <input v-else
                                    type="text"
                                    class="input"
-                                   :value="selectedEmployee.code + ' - ' + selectedEmployee.name"
+                                   :value="employee.code + ' - ' + employee.name"
                                    @click="emptyEmployee"
                                    readonly>
                         </b-field>
@@ -81,11 +81,11 @@ e<template>
 
                         <b-field label="Location">
                             <!-- If selected. -->
-                            <b-autocomplete v-if="!selectedLocation"
+                            <b-autocomplete v-if="!location"
                                             v-model="locationSearchCode"
                                             field="name"
                                             :data="filteredLocations"
-                                            @select="option => selectedLocation = option"
+                                            @select="option => location = option"
                                             :loading="$isLoading('FETCHING_LOCATIONS')">
                                 <template slot="empty">No results found</template>
                             </b-autocomplete>
@@ -93,26 +93,26 @@ e<template>
                             <input v-else
                                    type="text"
                                    class="input"
-                                   :value="selectedLocation.name"
+                                   :value="location.name"
                                    @click="emptyLocation"
                                    readonly>
                         </b-field>
 
                         <b-field label="Requested Through">
                             <div class="block">
-                                <b-radio v-model="requested_through"
+                                <b-radio v-model="requested_through_type"
                                     native-value="email">
                                     Email
                                 </b-radio>
-                                <b-radio v-model="requested_through"
+                                <b-radio v-model="requested_through_type"
                                     native-value="phone_call">
                                     Phone Call
                                 </b-radio>
-                                <b-radio v-model="requested_through"
+                                <b-radio v-model="requested_through_type"
                                     native-value="breakdown">
                                     Breakdown
                                 </b-radio>
-                                <b-radio v-model="requested_through"
+                                <b-radio v-model="requested_through_type"
                                     native-value="ppm">
                                     PPM
                                 </b-radio>
@@ -211,7 +211,9 @@ e<template>
 
                 <div class="columns is-centered">
                     <div class="column">
-                        <button type="submit" class="button is-primary">Create job order</button>
+                        <button type="submit"
+                                :class="{'is-loading': $isLoading('SAVING_JOB_ORDER')}"
+                                class="button is-primary">Create job order</button>
                     </div>
                 </div>
             </form>
@@ -227,32 +229,29 @@ e<template>
                 name: '',
                 ext: '',
                 location: '',
-                requested_through: 'email',
+                cost_center: '',
+                requested_through_type: 'email',
                 job_description: '',
                 time_start: new Date(),
                 time_end: new Date(),
                 material_used: '',
                 remark: '',
                 status: 'pending',
-                selectedEmployee: null,
+                employee: null,
 
                 costCenters: [],
                 costCenterSearchCode: '',
-                selectedCostCenter: null,
 
                 employees: [],
                 employeeSearchCode: '',
-                selectedEmployee: null,
 
                 locations: [],
                 locationSearchCode: '',
-                selectedLocation: null,
 
                 isAddingTechnician: true,
                 technicianFormSearchCode: '',
                 technicianForm: {
                     employee: '',
-                    employee_id: '',
                     time_start: null,
                     time_end: null,
                 }
@@ -312,27 +311,45 @@ e<template>
                 })
             },
             emptyCostCenter() {
-                this.selectedCostCenter = null;
+                this.cost_center = null;
                 this.costCenterSearchCode = '';
             },
             emptyEmployee() {
-                this.selectedEmployee = null;
+                this.employee = null;
                 this.employeeSearchCode = '';
             },
             emptyLocation() {
-                this.selectedLocation = null;
+                this.location = null;
                 this.locationSearchCode = '';
             },
-             submitOrder() {
-                console.log(this.$data)
+            submitOrder() {
+                this.$startLoading('SAVING_JOB_ORDER');
+                let data = this.$data;
+                data.location_id = this.location.id;
+                data.employee_id = this.employee.id;
+                data.cost_center_id = this.cost_center.id;
+
+                axios.post(this.baseUrl()+'/job-orders', data)
+                    .then(response => {
+                        this.$toast.open({
+                            message: 'Success!',
+                        });
+                        window.location.href = this.baseUrl()+'/job-orders';
+                    })
+                    .catch(e => {
+                        throw e;
+                    }).finally(() => {
+                    this.$endLoading('SAVING_JOB_ORDER');
+                })
             },
             addTechnician() {
                 if (!this.technicianForm.employee) {
                     alert('Please select an employee');
                     return false;
                 }
-
-                this.technicians.push(this.technicianForm);
+                let technician = this.technicianForm;
+                technician.technician_id = technician.employee.id;
+                this.technicians.push(technician);
 
                 setTimeout(() => {
                     this.clearTechnicianForm();
@@ -342,7 +359,7 @@ e<template>
                 this.technicianFormSearchCode = '';
                 let technicianForm = {
                     employee: '',
-                    employee_id: '',
+                    technician_id: '',
                     time_start: null,
                     time_end: null,
                 }

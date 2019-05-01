@@ -19,8 +19,8 @@ class CreateJobOrderTechnicianTable extends Migration
             $table->dateTime('time_start')->nullable();
             $table->dateTime('time_end')->nullable();
 
-            $table->foreign('job_order_id')->references('id')->on('job_orders');
-            $table->foreign('technician_id')->references('id')->on('employees');
+            $table->foreign('job_order_id')->references('id')->on('job_orders')->onDelete('cascade');
+            $table->foreign('technician_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 

@@ -28,6 +28,7 @@ class CreateJobOrdersTable extends Migration
             $table->dateTime('time_end');
             $table->unsignedInteger('location_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('employee_id')->references('id')->on('employees');
             $table->foreign('cost_center_id')->references('id')->on('departments');
