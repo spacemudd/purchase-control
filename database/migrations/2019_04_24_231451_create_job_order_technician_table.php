@@ -16,6 +16,8 @@ class CreateJobOrderTechnicianTable extends Migration
         Schema::create('job_order_technician', function (Blueprint $table) {
             $table->unsignedInteger('job_order_id');
             $table->unsignedInteger('technician_id');
+            $table->dateTime('time_start');
+            $table->dateTime('time_end');
 
             $table->foreign('job_order_id')->references('id')->on('job_orders');
             $table->foreign('technician_id')->references('id')->on('employees');

@@ -43,7 +43,7 @@ e<template>
                             <b-input v-model="remark" maxlength="200" type="textarea"></b-input>
                         </b-field>
 
-                        <b-field label="Requested Through">
+                        <b-field label="Status">
                             <div class="block">
                                 <b-radio v-model="status"
                                     native-value="completed">
