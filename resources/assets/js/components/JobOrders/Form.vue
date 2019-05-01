@@ -143,7 +143,67 @@ e<template>
                         </b-field>
 
                         <b-field label="Technicians">
-                            <b-table bordered :data="technicians" :columns="columns"></b-table>
+                            <table class="table is-narrow is-size-7 is-fullwidth">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Employee</th>
+                                        <th>Time start</th>
+                                        <th>Time end</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(tech, index) in technicians">
+                                    <td>{{ ++index }}</td>
+                                    <td>{{ tech.employee.code+' '+tech.employee.name }}</td>
+                                    <td>{{ tech.time_start }}</td>
+                                    <td>{{ tech.time_end }}</td>
+                                </tr>
+                                <tr v-if="isAddingTechnician">
+                                    <td></td>
+                                    <td @keyup.enter="addTechnician">
+                                        <input v-if="technicianForm.employee"
+                                               type="text"
+                                               class="input is-small"
+                                               :value="technicianForm.employee.code + ' - ' + technicianForm.employee.name"
+                                               @click="emptyEmployee"
+                                               readonly>
+                                        <b-autocomplete v-else
+                                                        v-model="technicianFormSearchCode"
+                                                        field="code"
+                                                        :data="filteredEmployees"
+                                                        @select="option => technicianForm.employee = option"
+                                                        size="is-small"
+                                                        :loading="$isLoading('FETCHING_EMPLOYEES')">
+                                            <template slot="empty">No results found</template>
+                                        </b-autocomplete>
+                                    </td>
+                                    <td>
+                                        <b-timepicker
+                                                v-model="technicianForm.time_start"
+                                                placeholder="Select start time"
+                                                hour-format="24"
+                                                size="is-small">
+                                        </b-timepicker>
+                                    </td>
+                                    <td>
+                                        <b-timepicker
+                                                v-model="technicianForm.time_end"
+                                                placeholder="Select end time"
+                                                hour-format="24"
+                                                size="is-small">
+                                        </b-timepicker>
+                                    </td>
+                                    <td class="has-text-centered">
+                                        <button class="button is-primary is-small"
+                                                :class="{'is-loading': $isLoading('SAVING_TECHNICIAN')}"
+                                                @click.prevent="addTechnician">
+                                            Add
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </b-field>
 
                     </div>
@@ -163,35 +223,7 @@ e<template>
         data() {
             return {
                 date:  new Date(),
-                data: [
-                    'Angular',
-                    'Angular 2',
-                    'Aurelia',
-                    'Backbone',
-                    'Ember',
-                    'jQuery',
-                    'Meteor',
-                    'Node.js',
-                    'Polymer',
-                    'React',
-                    'RxJS',
-                    'Vue.js'
-                ],
-                technicians: [
-                    { 'id': 1, 'name': 'Jesse'}
-                ],
-                columns: [
-                    {
-                        field: 'id',
-                        label: 'ID',
-                        width: '40',
-                        numeric: true
-                    },
-                    {
-                        field: 'name',
-                        label: 'Name',
-                    }
-                ],
+                technicians: [],
                 name: '',
                 ext: '',
                 location: '',
@@ -215,6 +247,15 @@ e<template>
                 locations: [],
                 locationSearchCode: '',
                 selectedLocation: null,
+
+                isAddingTechnician: true,
+                technicianFormSearchCode: '',
+                technicianForm: {
+                    employee: '',
+                    employee_id: '',
+                    time_start: null,
+                    time_end: null,
+                }
             }
         },
          computed: {
@@ -284,6 +325,28 @@ e<template>
             },
              submitOrder() {
                 console.log(this.$data)
+            },
+            addTechnician() {
+                if (!this.technicianForm.employee) {
+                    alert('Please select an employee');
+                    return false;
+                }
+
+                this.technicians.push(this.technicianForm);
+
+                setTimeout(() => {
+                    this.clearTechnicianForm();
+                }, 200);
+            },
+            clearTechnicianForm() {
+                this.technicianFormSearchCode = '';
+                let technicianForm = {
+                    employee: '',
+                    employee_id: '',
+                    time_start: null,
+                    time_end: null,
+                }
+                this.technicianForm = technicianForm;
             }
         }
     }
