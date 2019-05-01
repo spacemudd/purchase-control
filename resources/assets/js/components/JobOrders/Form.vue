@@ -78,16 +78,25 @@ e<template>
                                    readonly>
                         </b-field>
 
+
                         <b-field label="Location">
-                            <b-autocomplete
-                                v-model="location"
-                                :data="filteredLocations"
-                                placeholder="Location"
-                                @select="option => selectedLocation = option">
+                            <!-- If selected. -->
+                            <b-autocomplete v-if="!selectedLocation"
+                                            v-model="locationSearchCode"
+                                            field="name"
+                                            :data="filteredLocations"
+                                            @select="option => selectedLocation = option"
+                                            :loading="$isLoading('FETCHING_LOCATIONS')">
                                 <template slot="empty">No results found</template>
                             </b-autocomplete>
+                            <!-- When selected -->
+                            <input v-else
+                                   type="text"
+                                   class="input"
+                                   :value="selectedLocation.name"
+                                   @click="emptyLocation"
+                                   readonly>
                         </b-field>
-
 
                         <b-field label="Requested Through">
                             <div class="block">
@@ -214,7 +223,7 @@ e<template>
                     return option.name
                         .toString()
                         .toLowerCase()
-                        .indexOf(this.name.toLowerCase()) >= 0
+                        .indexOf(this.locationSearchCode.toLowerCase()) >= 0
                 })
             },
              filteredEmployees() {
@@ -231,7 +240,7 @@ e<template>
                          .toString()
                          .toLowerCase()
                          .indexOf(this.costCenterSearchCode.toLowerCase()) >= 0
-                 })q
+                 })
              },
          },
         mounted() {
@@ -268,6 +277,10 @@ e<template>
             emptyEmployee() {
                 this.selectedEmployee = null;
                 this.employeeSearchCode = '';
+            },
+            emptyLocation() {
+                this.selectedLocation = null;
+                this.locationSearchCode = '';
             },
              submitOrder() {
                 console.log(this.$data)
