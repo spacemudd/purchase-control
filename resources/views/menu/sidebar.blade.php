@@ -114,10 +114,10 @@
                                     </sidebar-links-group>
 
                                     {{-- TODO: Job Orders --}}
-                                    <sidebar-links-group selected="{{ (request()->route()->getName() === 'q-suppliers.index') }}"
+                                    <sidebar-links-group selected="{{ (request()->route()->getName() === 'job-orders.index') }}"
                                                          icon="paper-plane-o"
                                                          title="{{ __('words.job-orders') }}"
-                                                         link="{{ route('q-suppliers.index') }}">
+                                                         link="{{ route('job-orders.index') }}">
                                     </sidebar-links-group>
 
                                     @can('view-item-templates')

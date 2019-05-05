@@ -1,19 +1,19 @@
 <?php
 
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-Route::get('/', function() { return redirect()->route('login'); });
+Route::get('/', function () {
+    return redirect()->route('login');
+});
 
-Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', 'localizationRedirect', 'localeViewPath'])->group(function() {
-
+Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', 'localizationRedirect', 'localeViewPath'])->group(function () {
     Route::get('accept/{token}', 'InvitesController@accept')->name('invite.accept');
     Route::post('accept', 'InvitesController@processAccept')->name('invite.process-accept');
 
-	Route::middleware(['auth'])->group(function() {
-
+    Route::middleware(['auth'])->group(function () {
         Route::get('/', 'DashboardController@index')->name('dashboard.index');
 
-        Route::name('profile.')->prefix('profile')->group(function() {
-            Route::name('inbox.')->prefix('inbox')->group(function() {
+        Route::name('profile.')->prefix('profile')->group(function () {
+            Route::name('inbox.')->prefix('inbox')->group(function () {
                 Route::get('messages/{id}', 'Front\MessagesController@show')->name('messages.show');
             });
         });
@@ -27,6 +27,9 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
 
         // Locations
         Route::resource('locations', 'LocationsController');
+
+        // Job Orders
+        Route::resource('job-orders', 'JobOrderController');
 
         // Material requests
         Route::get('material-requests/excel', 'MaterialRequestsController@allExcel')->name('material-requests.all-excel');
@@ -55,7 +58,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::resource('items', 'ItemController');
 
         // Purchase orders
-        Route::name('purchase-orders.')->prefix('purchase-orders')->group(function() {
+        Route::name('purchase-orders.')->prefix('purchase-orders')->group(function () {
             Route::get('draft', 'PurchaseOrderController@draft')->name('draft');
             Route::get('committed', 'PurchaseOrderController@committed')->name('committed');
             Route::get('void', 'PurchaseOrderController@void')->name('void');
@@ -110,7 +113,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::get('approvers/{id}/edit', 'ApproversController@edit')->name('approvers.edit');
         Route::put('approvers/{id}', 'ApproversController@update')->name('approvers.update');
 
-        Route::prefix('settings')->group(function() {
+        Route::prefix('settings')->group(function () {
             // Addresses.
             Route::resource('addresses', 'AddressesController');
 
@@ -120,26 +123,26 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         });
 
         Route::get('search', 'SearchController@index')->name('search.index');
-	});
+    });
 
 
-	/**
-	 * Authentication routes
-	 */
-	Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-	Route::post('login', 'Auth\LoginController@login');
+    /**
+     * Authentication routes
+     */
+    Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+    Route::post('login', 'Auth\LoginController@login');
 
-	 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-	 Route::post('register', 'Auth\RegisterController@register');
+    Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+    Route::post('register', 'Auth\RegisterController@register');
 
-	// Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkPurchase RequisitionForm')->name('password.request');
-	// Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-	// Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-	// Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+    // Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkPurchase RequisitionForm')->name('password.request');
+    // Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    // Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+    // Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 });
 
 
-Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function() {
+Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function () {
 
     //Route::get('/', function() {
     //    $response = ['message' => 'Hello! - API version ' . env('APP_API', '1')];
@@ -152,7 +155,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('media/download', 'Api\MediaController@download');
     Route::delete('media/{id}', 'Api\MediaController@delete');
 
-    Route::prefix('profile')->group(function() {
+    Route::prefix('profile')->group(function () {
         Route::get('inbox', 'Api\ProfileController@inbox');
         Route::get('inbox/get-unread-messages-counts', 'Api\ProfileController@unreadMessagesCounts');
         Route::get('inbox/clear-unread-messages-counts', 'Api\ProfileController@clearUnreadMessagesCounts');
@@ -171,6 +174,8 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::get('departments', 'Api\DepartmentController@index');
     Route::post('departments/show', 'Api\DepartmentController@show');
     Route::post('departments', 'Api\DepartmentController@store');
+
+    Route::get('locations', 'Api\LocationsController@index');
 
     // Employees.
     Route::get('employees/paginated/{per_page}', 'Api\EmployeeController@paginatedIndex');
@@ -307,7 +312,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::get('q-suppliers/{id}/quotations', 'Api\QSuppliersController@showWithQuotations');
     Route::get('q-suppliers/{id}/balance', 'Api\QSuppliersController@balance');
 
-    Route::prefix('search')->group(function() {
+    Route::prefix('search')->group(function () {
         Route::get('items', 'Api\ItemController@search');
         Route::get('item-templates', 'Api\ItemTemplateController@search')->name('api.search.item-templates');
         Route::get('purchase-orders', 'Api\PurchaseOrderController@search');
