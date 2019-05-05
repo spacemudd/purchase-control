@@ -2,7 +2,7 @@
 const apiVersion = '1';
 
 // if(process.env.NODE_ENV === 'production') {
-//      var envUrl = window.location.origin + '/PMS';
+//    var envUrl = window.location.origin + '/PMS';
 // } else {
    var envUrl = window.location.origin;
 // }

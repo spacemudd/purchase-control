@@ -22,6 +22,7 @@ import Department from './modules/Department/state';
 import Vendor from './modules/Vendor/state';
 import Manufacturer from './modules/Manufacturer/state';
 import FileUpload from './modules/FileUpload/state';
+import Project from './modules/Project/state';
 
 import PurchaseRequisition from './modules/PurchaseRequisition/state';
 import PurchaseRequisitionItem from './modules/PurchaseRequisitionItem/state';
@@ -29,6 +30,8 @@ import PurchaseRequisitionItem from './modules/PurchaseRequisitionItem/state';
 import PurchaseOrderItem from './modules/PurchaseOrderItem/state';
 
 import ItemCatalog from './modules/ItemCatalog/state';
+
+import QSuppliers from './modules/QSupplier/state';
 
 export const store = new Vuex.Store({
     plugins: [VuexLoading.Store],
@@ -53,6 +56,10 @@ export const store = new Vuex.Store({
             namespaced: true,
             ...Vendor
         },
+        'Project': {
+            namespaced: true,
+            ...Project,
+        },
         'Manufacturer': {
             namespaced: true,
             ...Manufacturer
@@ -65,6 +72,7 @@ export const store = new Vuex.Store({
         'PurchaseRequisitionItem': {namespaced:true, ...PurchaseRequisitionItem},
         'PurchaseOrderItem': {namespaced:true, ...PurchaseOrderItem},
         'itemCatalog': {namespaced:true, ...ItemCatalog},
+        'QSuppliers': {namespaced:true, ...QSuppliers},
     },
     getters: helpers,
 });

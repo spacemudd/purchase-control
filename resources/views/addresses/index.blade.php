@@ -31,7 +31,7 @@
 
 	<div class="columns">
 		<div class="column is-12">
-			<table class="table is-fullwidth">
+			<table class="table is-fullwidth is-size-7">
 			<thead>
 			<tr>
 				<th>Location</th>
@@ -46,15 +46,28 @@
 				<tbody>
 				@foreach($addresses as $address)
 						<tr>
-							<td>{!! nl2br(e($address->location)) !!}</td>
-							<td>{{ $address->department }}</td>
-							<td>{{ $address->contact_name }}</td>
-							<td>{{ $address->phone }}</td>
-							<td>{{ $address->email }}</td>
-							<td>{{ $address->type_human }}</td>
+							<td style="width:200px;">{!! nl2br(e($address->location)) !!}</td>
+							<td style="width:200px;">{{ $address->department }}</td>
+							<td style="width:200px;">{{ $address->contact_name }}</td>
+							<td style="width:200px;">{{ $address->phone }}</td>
+							<td style="width:200px;">{{ $address->email }}</td>
+							<td>
+								<span class="icon">
+									<i class="fa fa-{{ (int)$address->type===\App\Models\Address::SHIPPING ? 'truck' : 'map-marker' }}"></i>
+								</span>
+								{{ $address->type_human }}
+							</td>
 							<td class="has-text-right">
-								<a href="{{ route('addresses.show', ['id' => $address->id]) }}" class="button is-small">Show</a>
-								<a href="{{ route('addresses.edit', ['id' => $address->id]) }}" class="button is-warning is-small">Edit</a>
+								<a href="{{ route('addresses.show', ['id' => $address->id]) }}" class="button is-small">
+									<span class="icon">
+										<i class="fa fa-eye"></i>
+									</span>
+								</a>
+								<a href="{{ route('addresses.edit', ['id' => $address->id]) }}" class="button is-outlined is-small">
+									<span class="icon">
+										<i class="fa fa-pencil"></i>
+									</span>
+								</a>
 							</td>
 						</tr>
 				@endforeach

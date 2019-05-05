@@ -18,6 +18,7 @@
         "doctrine/dbal": "^2.6",
         "fideloper/proxy": "~4.0",
         "fx3costa/laravelchartjs": "^2.3",
+        "jakub-klapka/laravel-windows-auth": "^1.0",
         "kalnoy/nestedset": "^4.3",
         "laravel/framework": "5.6.*",
         "laravel/passport": "^5.0",

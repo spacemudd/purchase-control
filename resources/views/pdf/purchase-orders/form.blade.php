@@ -55,50 +55,69 @@
 
 {{-- Shipment and Billing addresses --}}
 <div class="row">
-    <div class="col-2-sm">
-        <table class="pure-table pure-table-bordered tight-table" style="width:100%;margin-top:20px;">
+    <div class="col-12-sm" style="margin-top:-10px;">
+        <table class="pure-table pure-table-bordered tight-table" style="border-bottom:0;width:100%;margin-top:20px;line-height:1px;">
             <tbody>
-                <tr><td>Location</td></tr>
-                <tr><td>Department</td></tr>
-                <tr><td>Contact name</td></tr>
-                <tr><td>Phone</td></tr>
-                <tr><td>Email</td></tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-3-sm">
-        <table class="pure-table pure-table-bordered tight-table" style="width:100%;">
-            <tbody>
-            <tr><td><strong>Ship To</strong></td></tr>
-            <tr><td>{{ optional($data->shipping_address_json)->location }}&nbsp;</td></tr>
-            <tr><td>{{ optional($data->shipping_address_json)->department }}&nbsp;</td></tr>
-            <tr><td>{{ optional($data->shipping_address_json)->contact_name }}&nbsp;</td></tr>
-            <tr><td>{{ optional($data->shipping_address_json)->phone }}&nbsp;</td></tr>
-            <tr><td>{{ optional($data->shipping_address_json)->email }}&nbsp;</td></tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-3-sm">
-        <table class="pure-table pure-table-bordered tight-table" style="width:100%;">
-            <tbody>
-            <tr><td><strong>Bill To</strong></td></tr>
-            <tr><td>{{ optional($data->billing_address_json)->location }}&nbsp;</td></tr>
-            <tr><td>{{ optional($data->billing_address_json)->department }}&nbsp;</td></tr>
-            <tr><td>{{ optional($data->billing_address_json)->contact_name }}&nbsp;</td></tr>
-            <tr><td>{{ optional($data->billing_address_json)->phone }}&nbsp;</td></tr>
-            <tr><td>{{ optional($data->billing_address_json)->email }}&nbsp;</td></tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-4-sm">
-        <table class="pure-table pure-table-bordered tight-table" style="width:100%;">
-            <tbody>
-            <tr><td><strong>Project Code</strong></td></tr>
-            <tr style="color:white;"><td style="color:white;">.</td></tr>
-            <tr style="color:white;"><td style="color:white;">.</td></tr>
-            <tr style="color:white;"><td style="color:white;">.</td></tr>
-            <tr style="color:white;"><td style="color:white;">.</td></tr>
-            <tr style="color:white;"><td style="color:white;">.</td></tr>
+                <tr>
+                    <td style="border:1px solid white;border-bottom:1px solid #cbcbcb;"></td>
+                    <td style="border-top:1px solid white;border-bottom:1px solid white;"></td>
+                    <td style="border-bottom:1px solid #cbcbcb;width:250px;">
+                        <b>Ship To</b>
+                    </td>
+                    <td style="border-top:1px solid white;border-bottom:1px solid white;"></td>
+                    <td style="border-bottom:1px solid #cbcbcb;width:250px;">
+                        <b>Bill To</b>
+                    </td>
+                    <td style="border-top:1px solid white;border-bottom:1px solid white;"></td>
+                    <td style="border-bottom:1px solid #cbcbcb;width:250px;">
+                        <b>Project Code</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:90px;">Location</td>
+                    <td style="border-bottom:0px;"></td>
+                    <td>{{ optional($data->shipping_address_json)->location }}</td>
+                    <td style="border-bottom:0px;"></td>
+                    <td>{{ optional($data->billing_address_json)->location }}</td>
+                    <td style="border-bottom:0px;"></td>
+                    <td rowspan="5"
+                        style="font-size:12px;vertical-align:top;">
+                        {!! $data->project->location !!}<br/>
+                        <b>Cost Center:</b> {{ $data->project->cost_center->code }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Department</td>
+                    <td style="border-bottom:0px;"/>
+                    <td>{{ optional($data->shipping_address_json)->department }}</td>
+                    <td style="border-bottom:0px;"></td>
+                    <td>{{ optional($data->billing_address_json)->department }}</td>
+                    <td style="border-bottom:0px;"></td>
+                </tr>
+                <tr>
+                    <td>Contact name</td>
+                    <td style="border-bottom:0px;"/>
+                    <td>{{ optional($data->shipping_address_json)->contact_name }}</td>
+                    <td style="border-bottom:0px;"></td>
+                    <td>{{ optional($data->billing_address_json)->contact_name }}</td>
+                    <td style="border-bottom:0px;"></td>
+                </tr>
+                <tr>
+                    <td>Phone</td>
+                    <td style="border-bottom:0px;"/>
+                    <td>{{ optional($data->shipping_address_json)->phone }}</td>
+                    <td style="border-bottom:0px;"></td>
+                    <td>{{ optional($data->billing_address_json)->phone }}</td>
+                    <td style="border-bottom:0px;"></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td style="border-bottom:0px;"/>
+                    <td>{{ optional($data->shipping_address_json)->email }}</td>
+                    <td style="border-bottom:0px;"></td>
+                    <td>{{ optional($data->billing_address_json)->email }}</td>
+                    <td style="border-bottom:0px;"></td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -106,8 +125,11 @@
 
 @if($data->delivery_date)
 <div class="row">
-    <div class="col-12-sm">
-        <p>Reference to your Quotation, you are authorized to provide / supply the following not later than <u>{{ optional($data->delivery_date)->format('d-m-Y') }}</u>.</p>
+    <div class="col-12-sm" style="margin-top:-10px;">
+        <p style="font-size:12px;">Reference to your {!! $data->quote_reference_number ? '<u>Quote Ref. No. '.$data->quote_reference_number.'</u>' : 'Quotation' !!}
+            {!! $data->quote_date_string ? ' dated <u>'.$data->quote_date_string.'</u>' : '' !!},
+            you are authorized to provide / supply the following not later than
+            <u>{{ $data->delivery_date->format('d-m-Y') }}</u> or at your earliest.</p>
     </div>
 </div>
 @endif
@@ -116,14 +138,17 @@
 @endcomponent
 
 <div style="page-break-inside: avoid !important;">
+    <div class="row">
+        <div class="col-12-sm" style="margin-top:-10px;">
+            {{-- Terms --}}
+            @component('pdf.purchase-orders.terms', ['data' => $data])
+            @endcomponent
 
-    {{-- Terms --}}
-    @component('pdf.purchase-orders.terms', ['data' => $data])
-    @endcomponent
-
-    {{-- Signatures block --}}
-    @component('pdf.purchase-orders.signatures-block', ['data' => $data])
-    @endcomponent
+            {{-- Signatures block --}}
+            @component('pdf.purchase-orders.signatures-block', ['data' => $data])
+            @endcomponent
+        </div>
+    </div>
 
     {{-- Footer --}}
     {{--

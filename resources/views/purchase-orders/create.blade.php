@@ -88,7 +88,7 @@
 				<div class="field">
 					<label for="supplier_id" class="label">Charged Cost Center</label>
 
-					<div class="control">
+					<div class="control">9
 						<select-department name="cost_center_id"
 										   url="{{ route('api.search.department') }}">
 						</select-department>
@@ -125,6 +125,34 @@
 						@if ($errors->has('supplier_id'))
 							<span class="help is-danger">
 								{{ $errors->first('supplier_id') }}
+							</span>
+						@endif
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{{-- Project --}}
+		<div class="columns">
+			<div class="column is-3">
+				<p class="title is-5">Project</p>
+			</div>
+			<div class="column is-4">
+				<div class="field">
+					<label for="project_id" class="label">Project Code</label>
+
+					<div class="control">
+						<select-projects name="project_id"
+										url="{{ route('api.search.projects') }}">
+						</select-projects>
+
+						<button type="button" class="is-small button is-text" @click="$store.commit('Project/setNewModal', true)">
+							New
+						</button>
+
+						@if ($errors->has('project_id'))
+							<span class="help is-danger">
+								{{ $errors->first('project_id') }}
 							</span>
 						@endif
 					</div>

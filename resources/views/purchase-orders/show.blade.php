@@ -120,6 +120,7 @@
 															:highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
 															placeholder="PURCHASE ORDER DATE"
 															url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+															:can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
 											></datetime-token>
 										</td>
 									</tr>
@@ -131,6 +132,7 @@
 																 :highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
 																 placeholder="SUPPLIER ID"
 																 url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+																 :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
 											></edit-supplier-token>
 										</td>
 									</tr>
@@ -139,10 +141,12 @@
 										<td>
 											<delivery-date-token :id.number="{{ $purchase_order->id }}"
 																 name="delivery_date"
+																 display_name="delivery_date_string"
 																 value="{{ $purchase_order->delivery_date_string }}"
 																 :highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
 																 placeholder="DELIVERY DATE DATE"
 																 url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+																 :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
 											></delivery-date-token>
 										</td>
 									</tr>
@@ -177,6 +181,12 @@
 											></address-field-token>
 										</td>
 									</tr>
+									<tr>
+										<td><strong>Project Code</strong></td>
+										<td>
+											{{ optional($purchase_order->project)->display_name }}
+										</td>
+									</tr>
 									</tbody>
 								</table>
 							</div>
@@ -209,6 +219,33 @@
 											@if($purchase_order->isApproved)
 												<span class="circle is-success"></span>
 											@endif
+										</td>
+									</tr>
+									<tr>
+										<td><strong>Quote Ref. No.</strong></td>
+										<td>
+											<string-token :id.number="{{ $purchase_order->id }}"
+														  name="quote_reference_number"
+														  value="{{ $purchase_order->quote_reference_number }}"
+														  :highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+														  placeholder="QUOTE REFERENCE NUMBER"
+														  url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+														  :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+											></string-token>
+										</td>
+									</tr>
+									<tr>
+										<td><strong>Quote Date</strong></td>
+										<td>
+											<datetime-token :id.number="{{ $purchase_order->id }}"
+															name="quote_date"
+															display-name="quote_date_string"
+															value="{{ $purchase_order->quote_date_string }}"
+															:highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+															placeholder="QUOTE DATE"
+															url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+															:can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+											></datetime-token>
 										</td>
 									</tr>
 									<tr>

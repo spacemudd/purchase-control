@@ -348,4 +348,6 @@
         'show-users' => 'عرض المستخدمين',
         'stock-code' => 'رقم الصنف',
         'archive' => 'ارشيف',
+        'job-orders' => 'طلبات عمل',
+        'cost-approvers' => 'الموافقين',
 	];

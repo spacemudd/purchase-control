@@ -86,7 +86,7 @@
 
     a.dropdown-item:hover, .dropdown .dropdown-menu .has-link a:hover
         background-color: unset
-        width: 50px
+        //width: 50px
 
     .tag:not(body)
         font-size: 12px

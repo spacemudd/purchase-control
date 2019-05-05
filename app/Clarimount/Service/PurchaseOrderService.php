@@ -277,6 +277,7 @@ class PurchaseOrderService
             'shipping_address_id' => 'nullable|exists:addresses,id',
             'billing_address_id' => 'nullable|exists:addresses,id',
             'currency' => 'nullable|string|max:255',
+            'project_id' => 'nullable',
         ]);
 
 		return $validator;
@@ -365,12 +366,12 @@ class PurchaseOrderService
         // $pdf->setOption('margin-top', $marginTopDb ? $marginTopDb->value : 55);
         $pdf->setOption('margin-left', 5);
         $pdf->setOption('margin-right', 5);
-        $pdf->setOption('margin-top', 35);
+        $pdf->setOption('margin-top', 40);
         $pdf->setOption('margin-bottom', 10);
         $pdf->setOption('disable-smart-shrinking', true);
         $pdf->setOption('zoom', 0.78);
         $pdf->setOption('header-html', $this->generateHeaderTempFile($data));
-        $pdf->setOption('footer-html', resource_path('views/pdf/footer.html'));
+        // $pdf->setOption('footer-html', resource_path('views/pdf/footer.html'));
 
         return $pdf->loadView('pdf.purchase-orders.form', compact('data'));
     }

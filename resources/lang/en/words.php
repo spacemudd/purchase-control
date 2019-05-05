@@ -392,4 +392,6 @@
         'new-approver' => 'New Approver',
         'addresses' => 'Addresses',
         'item-catalog' => 'Item Catalog',
+        'job-orders' => 'Job Orders',
+        'cost-approvers' => 'Cost approvers',
 	];

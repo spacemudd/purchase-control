@@ -7,7 +7,7 @@
         	<th>Item</th>
             <th class="has-text-right">Quantity</th>
             <th class="has-text-right">Price</th>
-            <th class="has-text-right">Discount</th>
+            <!--<th class="has-text-right">Discount</th>-->
             <th class="has-text-right">Tax</th>
             <th class="has-text-right">Subtotal</th>
             <th></th>
@@ -36,7 +36,7 @@
                             </template>
                             <template slot="option" slot-scope="option">
                                 <div class="d-center">
-                                    {{ option.code }}
+                                    {{ option.code }} - {{ option.description }}
                                 </div>
                             </template>
                             <template slot="selected-option" slot-scope="option">
@@ -52,12 +52,12 @@
                     <td style="width:100px">
                         <b-input class="has-text-right" type="number" v-model.number="item.unit_price"></b-input>
                     </td>
-                    <td style="width:100px">
-                        <span v-for="discount in item.discounts">
-                            <!-- if flat -->
-                            <b-input class="has-text-right" type="number" v-model.number="discount.amount"></b-input>
-                        </span>
-                    </td>
+                    <!--<td style="width:100px">-->
+                        <!--<span v-for="discount in item.discounts">-->
+                            <!--&lt;!&ndash; if flat &ndash;&gt;-->
+                            <!--<b-input class="has-text-right" type="number" v-model.number="discount.amount"></b-input>-->
+                        <!--</span>-->
+                    <!--</td>-->
                     <td style="width:170px">
                         <v-select multiple :options="taxesOptions" label="display_name" v-model="item.taxes" @input="option => itemTaxesEdit(option, item)">
                             <template slot="no-options">
@@ -78,7 +78,7 @@
                     <td style="width:90px" class="has-text-right is-size-7">
                         <template v-if="item.unit_price">{{ formatPrice(item.unit_price * item.qty, item.discounts) }}</template>
                     </td>
-                    <td style="width:20px;" class="align-middle has-text-centered">
+                    <td style="width:20px;" class="aPurchaseOrderItemControllerlign-middle has-text-centered">
                         <button class="button is-text has-icon"
                                 v-if="items.length > 1"
                                 @click="removeItem(index)">
@@ -196,6 +196,9 @@
             axios.get(this.apiUrl() + `/purchase-orders/${this.poId}/items`)
               .then(response => {
                   this.items = response.data;
+                  if(!this.items.length) {
+                    this.items.push([{item_catalog: '', description: '', qty: 1, unit_price: 0, discounts: [{'amount': null}], taxes: []}]);
+                  }
               })
           },
           getTaxesOptions() {

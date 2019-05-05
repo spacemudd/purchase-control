@@ -54,7 +54,7 @@
                         <div class="logo">
                             <div class="logo-image">
                                 <img src="{{ asset('img/brand/sidebar_logo.svg') }}">
-                                <div style="height:90px;display: inline;">Purchase Department</div>
+                                <div style="height:90px;display: inline;">Maintenance Department</div>
                             </div>
                         </div>
                         <div class="content-wrapper">
@@ -87,14 +87,38 @@
                                                          {{--link="{{ route('purchase-requisitions.index') }}">--}}
                                     {{--</sidebar-links-group>--}}
 
+                                    <sidebar-links-group selected="{{ (request()->route()->getName() === 'requests.index') }}"
+                                                         icon="shopping-cart"
+                                                         title="Material Requests"
+                                                         link="{{ route('material-requests.index') }}">
+                                    </sidebar-links-group>
+
+                                    <sidebar-links-group selected="{{ (request()->route()->getName() === 'quotations.index') }}"
+                                                         icon="quote-right"
+                                                         title="Quotations"
+                                                         link="{{ route('quotations.index') }}">
+                                    </sidebar-links-group>
 
                                     @can('view-purchase-orders')
-                                        <sidebar-links-group selected="{{ (request()->route()->getName() === 'purchase-orders.index') }}"
-                                                             icon="shopping-cart"
-                                                             title="{{ __('words.purchase-orders') }}"
-                                                             link="{{ route('purchase-orders.index') }}">
+                                        <sidebar-links-group selected="{{ (request()->route()->getName() === 'q-suppliers.index') }}"
+                                                             icon="truck"
+                                                             title="{{ __('words.suppliers') }}"
+                                                             link="{{ route('q-suppliers.index') }}">
                                         </sidebar-links-group>
                                     @endcan
+
+                                    <sidebar-links-group selected="{{ (request()->route()->getName() === '.index') }}"
+                                                         icon="shopping-cart"
+                                                         title="{{ __('words.purchase-orders') }}"
+                                                         link="{{ route('purchase-orders.index') }}">
+                                    </sidebar-links-group>
+
+                                    {{-- TODO: Job Orders --}}
+                                    <sidebar-links-group selected="{{ (request()->route()->getName() === 'job-orders.index') }}"
+                                                         icon="paper-plane-o"
+                                                         title="{{ __('words.job-orders') }}"
+                                                         link="{{ route('job-orders.index') }}">
+                                    </sidebar-links-group>
 
                                     @can('view-item-templates')
                                         <sidebar-links-group selected="{{ (request()->route()->getName() === 'item-templates.index') }}"
@@ -127,12 +151,7 @@
                                     </sidebar-links-group>
                                     @endcan
 
-                                    @can('view-vendor')
-                                    <sidebar-links-group link="{{ route('vendors.index') }}"
-                                                         icon="truck"
-                                                         title="{{ __('words.suppliers') }}">
-                                    </sidebar-links-group>
-                                    @endcan
+
 
                                     @can('view-manufacturers')
                                         <sidebar-links-group link="{{ route('manufacturers.index') }}"
@@ -144,6 +163,11 @@
                                     <sidebar-links-group icon="cog"
                                                          title="{{ __('words.settings') }}">
 
+                                        <sidebar-links-group link="{{ route('vendors.index') }}"
+                                                             icon="pencil"
+                                                             title="{{ __('words.cost-approvers') }}">
+                                        </sidebar-links-group>
+
                                         {{--@can('view-categories')--}}
                                             {{--<sidebar-links-group link="{{ route('categories.index') }}"--}}
                                                                  {{--icon="bookmark" title="{{ __('words.categories') }}">--}}
@@ -154,13 +178,19 @@
                                                                  {{--icon="address-book" title="Approvers">--}}
                                             {{--</sidebar-links-group>--}}
                                         {{--@endcan--}}
+                                        @can('view-vendor')
+                                            <sidebar-links-group link="{{ route('vendors.index') }}"
+                                                                 icon="truck"
+                                                                 title="{{ __('words.suppliers') }}">
+                                            </sidebar-links-group>
+                                        @endcan
 
-                                        @can('view-sales-taxes')
+                                        {{--@can('view-sales-taxes')--}}
                                             <sidebar-links-group link="{{ route('sales-taxes.index') }}"
                                                                  icon="balance-scale"
                                                                  title="Sales Taxes">
                                             </sidebar-links-group>
-                                        @endcan
+                                        {{--@endcan--}}
 
                                         <sidebar-links-group link="{{ route('purchasing-terms.index') }}"
                                                              icon="tree" title="PO Terms">

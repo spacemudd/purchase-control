@@ -15,7 +15,6 @@ use App\Model\PurchaseTerm;
 use App\Traits\HasFiles;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Log;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
@@ -71,12 +70,16 @@ class PurchaseOrder extends Model implements AuditableContract
         'requested_for_employee_id',
         'requested_by_employee_id',
         'cost_center_id',
+        'quote_reference_number',
+        'quote_date',
+        'project_id',
     ];
 
-    protected $dates = ['date', 'delivery_date'];
+    protected $dates = ['date', 'delivery_date', 'quote_date'];
 
     protected $appends = ['date_human', 'delivery_date_human', 'link', 'date_string', 'delivery_date_string', 'status_name',
         'other_terms',
+        'quote_date_string',
         ];
 
     protected $casts = [
@@ -114,6 +117,11 @@ class PurchaseOrder extends Model implements AuditableContract
     public function created_by()
     {
         return $this->belongsTo(User::class, 'created_by_id');
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 
     public function getStatusNameAttribute()
@@ -218,6 +226,13 @@ class PurchaseOrder extends Model implements AuditableContract
     {
         if($this->date) {
             return $this->date->toDateString();
+        }
+    }
+
+    public function getQuoteDateStringAttribute()
+    {
+        if($this->quote_date) {
+            return $this->quote_date->toDateString();
         }
     }
 
